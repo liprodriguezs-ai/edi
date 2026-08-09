@@ -51,7 +51,7 @@ Enfoque: **servicio único + llamadas explícitas**; envío mediante **Job en co
 | **owner-transferred** | Nueva: `Modules/Email/resources/views/owner-transferred.blade.php` (o .html según convención) | `$user`, `$emailBaseUrl` | Mensaje: "Ahora eres titular de la cuenta"; mismo estilo que welcome-owner. |
 
 **Asuntos y textos:**
-- welcome-owner: asunto tipo "Bienvenido a Kivo7" / "Tu cuenta está lista".
+- welcome-owner: asunto tipo "Bienvenido a EDI" / "Tu cuenta está lista".
 - owner-transferred: asunto "Ahora eres titular de la cuenta".
 - Claves en `Modules/Email/lang/es/email.php` (ej. `welcome_owner.subject`, `owner_transferred.subject`, etc.) y referenciar en vistas para i18n.
 

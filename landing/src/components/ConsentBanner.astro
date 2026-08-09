@@ -1,7 +1,7 @@
 ---
 // Banner de consentimiento de cookies. Trabaja con el Consent Mode v2 default
 // que setea BaseHead: solo se muestra si el visitante no eligió todavía
-// (localStorage 'kivo7-consent'). Aceptar → GA analytics_storage granted +
+// (localStorage 'edi-consent'). Aceptar → GA analytics_storage granted +
 // Meta Pixel consent grant; Rechazar → ambos denied/revoke.
 ---
 
@@ -41,7 +41,7 @@
 </div>
 
 <script>
-  const KEY = 'kivo7-consent';
+  const KEY = 'edi-consent';
   const banner = document.getElementById('consent-banner');
 
   if (banner) {

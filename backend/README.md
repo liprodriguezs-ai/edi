@@ -1,7 +1,7 @@
-# Kivo7 / Residia — Backend (API)
+# EDI / Residia — Backend (API)
 
-API multi-tenant de **Kivo7** (Residia): plataforma SaaS para administrar
-clústeres residenciales (fraccionamientos y condominios) en México — cobranza,
+API multi-tenant de **EDI** (Residia): plataforma SaaS para administrar
+organizaciónes residenciales (fraccionamientos y organizaciones) en México — cobranza,
 tesorería, mesa directiva, accesos, proyectos comunitarios y más.
 
 ## Stack

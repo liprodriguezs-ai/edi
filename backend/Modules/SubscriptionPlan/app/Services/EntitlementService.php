@@ -20,7 +20,7 @@ use Stancl\Tenancy\Database\TenantScope;
  * Projects a tenant's ACTIVE billing entitlements (tenant_entitlement rows) onto
  * the access tables the rest of the platform reads:
  *
- *   - system_tenant  (which parent systems the cluster sees in the menu)
+ *   - system_tenant  (which parent systems the organization sees in the menu)
  *   - module_tenant  (per-module opt-out flags consumed by VerifyModuleEnabled)
  *   - setting         (per-tenant config rows of revoked modules are purged)
  *
@@ -102,7 +102,7 @@ class EntitlementService
             // trial, legacy) must NEVER overwrite an ACTIVE stripe entitlement: the
             // grant() upsert is keyed by (tenant_id, billable_module_id), so it would
             // flip source→non-stripe and NULL the stripe_subscription_id while Stripe
-            // keeps charging the cluster — the platform would lose the billing link.
+            // keeps charging the organization — the platform would lose the billing link.
             // Leave the live stripe row intact and return it unchanged; the operator
             // must cancel the Stripe subscription first (which expires the row, after
             // which a free grant is allowed). A stripe→stripe grant (renewal/reconcile)
@@ -155,7 +155,7 @@ class EntitlementService
      * Whether the tenant has EVER held any entitlement of any source, including
      * expired and soft-deleted rows (withTrashed). D1 — the single-Stripe-trial
      * lock: MultiItemSubscriptionService only grants a checkout trial when this
-     * is false, so a cluster cannot re-trial by cancelling and re-subscribing.
+     * is false, so a organization cannot re-trial by cancelling and re-subscribing.
      * withTrashed() is required because reconcileSubscriptionEntitlements
      * soft-deletes the rows of a removed subscription item — a plain exists()
      * would miss that history and re-enable the trial.
@@ -194,7 +194,7 @@ class EntitlementService
             : null;
 
         if ($plan === null) {
-            throw new InvalidArgumentException('El condominio no tiene un plan asignado para iniciar una prueba.');
+            throw new InvalidArgumentException('El organización no tiene un plan asignado para iniciar una prueba.');
         }
 
         $module = BillableModule::query()
@@ -226,7 +226,7 @@ class EntitlementService
             ->exists();
 
         if ($alreadyActive) {
-            throw new InvalidArgumentException('Este módulo ya está activo en tu condominio.');
+            throw new InvalidArgumentException('Este módulo ya está activo en tu organización.');
         }
 
         // (c) One trial per module per tenant (expired trials are kept, not deleted).
@@ -251,7 +251,7 @@ class EntitlementService
                 ->exists();
 
             if (! $baseActive) {
-                throw new InvalidArgumentException('El condominio debe tener su plan activo antes de iniciar una prueba.');
+                throw new InvalidArgumentException('El organización debe tener su plan activo antes de iniciar una prueba.');
             }
         }
 
@@ -392,7 +392,7 @@ class EntitlementService
 
     /**
      * Soft-delete the per-tenant Setting rows that belong to modules NOT in the
-     * granted set, so a downgraded cluster stops carrying config for features it
+     * granted set, so a downgraded organization stops carrying config for features it
      * no longer has. Operates on the EXPLICIT tenant (bypassing TenantScope) so it
      * is safe to run for any tenant regardless of the ambient request context.
      *

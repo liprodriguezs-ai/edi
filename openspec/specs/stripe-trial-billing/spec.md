@@ -23,7 +23,7 @@ When the first invoice is paid at trial end, entitlement expiry MUST advance to 
 
 #### Scenario: First charge succeeds
 
-- GIVEN a `trialing` cluster reaching `trial_end` with a chargeable card
+- GIVEN a `trialing` organization reaching `trial_end` with a chargeable card
 - WHEN Stripe reports the first invoice as paid
 - THEN `expires_at` advances to the new period end AND access continues uninterrupted
 

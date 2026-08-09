@@ -67,7 +67,7 @@ const NotificationPreferencesPage = lazy(() =>
 const UserListPage = lazy(() =>
   import('@/modules/user/UserListPage').then((m) => ({ default: m.UserListPage }))
 )
-// Catálogos Kivo7
+// Catálogos EDI
 // Paquetería — módulo principal + catálogos
 // Incidencias — módulo principal + catálogos
 // Housing

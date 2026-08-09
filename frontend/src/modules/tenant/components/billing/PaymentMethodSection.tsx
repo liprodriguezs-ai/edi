@@ -22,7 +22,7 @@ const METHOD_OPTIONS: MethodOption[] = [
     value: 'card',
     label: 'Tarjeta (Stripe)',
     icon: <CreditCard className="h-4 w-4" aria-hidden />,
-    description: 'Cobro automático recurrente con Stripe. El condominio paga en línea sin tu intervención.',
+    description: 'Cobro automático recurrente con Stripe. El organización paga en línea sin tu intervención.',
   },
   {
     value: 'transfer',
@@ -44,7 +44,7 @@ interface PaymentMethodSectionProps {
 }
 
 /**
- * Elige cómo cobra el clúster. El cambio de TARJETA a un método manual cancela la
+ * Elige cómo cobra el organización. El cambio de TARJETA a un método manual cancela la
  * suscripción de Stripe, por eso ese caso pasa por un diálogo que pide elegir
  * cuándo cancelar. Los demás cambios se aplican directo.
  */
@@ -86,7 +86,7 @@ export function PaymentMethodSection({ currentMethod, changePaymentMethod }: Pay
         Método de pago
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        Define cómo cobra el condominio su suscripción. Con tarjeta el cobro es automático; con
+        Define cómo cobra el organización su suscripción. Con tarjeta el cobro es automático; con
         transferencia o efectivo los pagos son manuales y los registras tú.
       </p>
 
@@ -94,7 +94,7 @@ export function PaymentMethodSection({ currentMethod, changePaymentMethod }: Pay
         value={currentMethod}
         onValueChange={handleSelect}
         className="mt-4 gap-3 sm:grid-cols-3"
-        aria-label="Método de pago del condominio"
+        aria-label="Método de pago del organización"
       >
         {METHOD_OPTIONS.map((option) => {
           const inputId = `billing-method-${option.value}`

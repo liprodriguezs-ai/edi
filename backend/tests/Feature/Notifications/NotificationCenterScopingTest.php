@@ -49,7 +49,7 @@ final class NotificationCenterScopingTest extends TestCase
         $this->tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
                 'id' => (string) Str::uuid(),
-                'name' => 'Center Scoping Cluster',
+                'name' => 'Center Scoping Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
             [TenantCreated::class],

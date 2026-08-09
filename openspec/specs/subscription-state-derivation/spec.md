@@ -19,7 +19,7 @@ The gate MUST answer `is_blocked` exclusively from `tenant_entitlement`. It MUST
 
 #### Scenario: Blocked branch runs strictly fewer queries
 
-- GIVEN an authenticated request from a BLOCKED cluster to a non-allowlisted route
+- GIVEN an authenticated request from a BLOCKED organization to a non-allowlisted route
 - WHEN the gate resolves `is_blocked` with `DB::listen` capturing queries
 - THEN it runs strictly fewer queries than today's blocked branch (one entitlement query instead of two or three)
 
@@ -29,13 +29,13 @@ The narrative MUST be built by composing the gate result plus at most one Cashie
 
 #### Scenario: is_blocked is the gate's value
 
-- GIVEN any cluster state
+- GIVEN any organization state
 - WHEN both the gate and the narrative are resolved
 - THEN the narrative's `is_blocked` is the gate's computed value, not a re-derivation
 
 ### Requirement: Trial state derives from Stripe
 
-A cluster whose Cashier subscription has `stripe_status='trialing'` MUST report `status='trial'`, `trial_auto_charges=true`, and `trial_ends_at` equal to the subscription's `trial_ends_at` — NOT the entitlement expiry.
+A organization whose Cashier subscription has `stripe_status='trialing'` MUST report `status='trial'`, `trial_auto_charges=true`, and `trial_ends_at` equal to the subscription's `trial_ends_at` — NOT the entitlement expiry.
 
 #### Scenario: Stripe trial reports Stripe's date
 
@@ -45,7 +45,7 @@ A cluster whose Cashier subscription has `stripe_status='trialing'` MUST report 
 
 ### Requirement: Day-31 conversion reports active even with a perpetual entitlement
 
-Once the subscription is no longer trialing (`stripe_status='active'`), the cluster MUST report `status='active'` regardless of entitlement `expires_at` — including NULL (perpetual), the case where the removed marker previously stuck and kept reporting `trial` while charging.
+Once the subscription is no longer trialing (`stripe_status='active'`), the organization MUST report `status='active'` regardless of entitlement `expires_at` — including NULL (perpetual), the case where the removed marker previously stuck and kept reporting `trial` while charging.
 
 #### Scenario: Stuck-marker case now reports active
 
@@ -73,25 +73,25 @@ An active `source=trial` entitlement with NO Cashier subscription row MUST repor
 - WHEN the narrative is resolved
 - THEN `payment_issue=true`
 
-#### Scenario: Stripe-canceled cluster keeps the recovery state (regression pin)
+#### Scenario: Stripe-canceled organization keeps the recovery state (regression pin)
 
-- GIVEN a cluster whose subscription is Stripe-canceled AND whose tenant is still `PENDIENTE_PAGO`
+- GIVEN a organization whose subscription is Stripe-canceled AND whose tenant is still `PENDIENTE_PAGO`
 - WHEN the narrative is resolved
 - THEN `payment_issue=true` (the payment-recovery screen keeps rendering)
 
 #### Scenario: Manual/legacy fallback without Cashier row
 
-- GIVEN a blocked cluster with prior Stripe entitlements, no Cashier row, tenant `PENDIENTE_PAGO`
+- GIVEN a blocked organization with prior Stripe entitlements, no Cashier row, tenant `PENDIENTE_PAGO`
 - WHEN the narrative is resolved
 - THEN `payment_issue=true`
 
 ### Requirement: Entitled-branch payment_issue keeps today's behavior
 
-On the ENTITLED branch (cluster with live access), `tenant.status === PENDIENTE_PAGO` MUST yield `payment_issue=true` unconditionally — regardless of what the Cashier row says. The Stripe dunning statuses (`past_due`, `unpaid`) are an ADDITIONAL true-condition, never a replacement: `handleInvoicePaymentFailed` sets `PENDIENTE_PAGO` without writing any subscription status, and under Stripe retry dunning the subscription can stay `active` for the whole retry window, so replacing the tenant-status signal would blank the "update your card" warning for days.
+On the ENTITLED branch (organization with live access), `tenant.status === PENDIENTE_PAGO` MUST yield `payment_issue=true` unconditionally — regardless of what the Cashier row says. The Stripe dunning statuses (`past_due`, `unpaid`) are an ADDITIONAL true-condition, never a replacement: `handleInvoicePaymentFailed` sets `PENDIENTE_PAGO` without writing any subscription status, and under Stripe retry dunning the subscription can stay `active` for the whole retry window, so replacing the tenant-status signal would blank the "update your card" warning for days.
 
 #### Scenario: Dunning with a still-active subscription keeps the warning
 
-- GIVEN an entitled cluster with tenant `PENDIENTE_PAGO` AND a Cashier row still `stripe_status='active'` (retry window)
+- GIVEN an entitled organization with tenant `PENDIENTE_PAGO` AND a Cashier row still `stripe_status='active'` (retry window)
 - WHEN the narrative is resolved
 - THEN `payment_issue=true`
 

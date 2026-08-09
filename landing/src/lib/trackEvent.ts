@@ -28,10 +28,10 @@ const GA4_EVENT_MAP: Record<TrackEventName, string> = {
 };
 
 /** Misma key que usa ConsentBanner.astro / BaseHead.astro para el gate de consentimiento. */
-const CONSENT_KEY = 'kivo7-consent';
+const CONSENT_KEY = 'edi-consent';
 
 /** Misma key que persiste el script de captura de click-IDs en BaseHead.astro. */
-const CLICK_IDS_KEY = 'kivo7-click-ids';
+const CLICK_IDS_KEY = 'edi-click-ids';
 
 interface StoredClickIds {
   fbclid?: string;

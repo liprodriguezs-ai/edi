@@ -22,7 +22,7 @@ vi.mock('@/shared/api/apiClient', async (importActual) => {
 })
 
 const mockPost = vi.mocked(apiClient.post)
-const CONSENT_KEY = 'kivo7-consent'
+const CONSENT_KEY = 'edi-consent'
 
 function setConsent(value: 'granted' | 'denied'): void {
   localStorage.setItem(CONSENT_KEY, value)

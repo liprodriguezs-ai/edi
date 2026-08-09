@@ -23,7 +23,7 @@ use Tests\Feature\Billing\Concerns\BillingMatrixFixtures;
 use Tests\TestCase;
 
 /**
- * Onboarding flow #2 (integrated) — super-admin ALTA of a cluster WITH its billing
+ * Onboarding flow #2 (integrated) — super-admin ALTA of a organization WITH its billing
  * provisioned in ONE step via POST /api/tenant/provision. Billing v2: grants are
  * PER billable_module under a PLAN (billing_package: basico..premium); the body
  * carries `modules` (with 'base') and an optional `plan_key` (resolved from units
@@ -45,7 +45,7 @@ final class AdminTenantProvisionTest extends TestCase
     {
         parent::setUp();
 
-        // A fresh cluster's tenants:seed seeds ZERO billing rows; suppress it for
+        // A fresh organization's tenants:seed seeds ZERO billing rows; suppress it for
         // speed and isolation in every provision test.
         Event::fake([TenantCreated::class]);
     }
@@ -75,7 +75,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Trial '.Str::random(5),
+                'name' => 'Organization Trial '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_CARD,
                 'provision_mode' => 'trial',
             ])
@@ -87,7 +87,7 @@ final class AdminTenantProvisionTest extends TestCase
         $tenant = Tenant::find($tenantId);
         $this->assertSame(Tenant::PAYMENT_METHOD_CARD, $tenant->payment_method);
         $this->assertSame(Tenant::STATUS_ACTIVO, $tenant->status);
-        // New clusters NEVER rely on the legacy plan column, but DO record their plan.
+        // New organizations NEVER rely on the legacy plan column, but DO record their plan.
         $this->assertNull($tenant->subscription_plan_id);
         $this->assertSame($plan->id, $tenant->billing_package_id);
 
@@ -115,7 +115,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Cortesia '.Str::random(5),
+                'name' => 'Organization Cortesia '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_TRANSFER,
                 'provision_mode' => 'courtesy',
                 'modules' => ['base'],
@@ -147,7 +147,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Manual '.Str::random(5),
+                'name' => 'Organization Manual '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_TRANSFER,
                 'provision_mode' => 'manual_paid',
                 'units' => 20,
@@ -191,7 +191,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Card '.Str::random(5),
+                'name' => 'Organization Card '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_CARD,
                 'provision_mode' => 'card',
             ])
@@ -206,7 +206,7 @@ final class AdminTenantProvisionTest extends TestCase
         $this->assertSame($plan->id, $tenant->billing_package_id);
         $this->assertSame(0, TenantEntitlement::where('tenant_id', $tenantId)->count());
 
-        // No entitlement → the owner must self-checkout; the cluster is blocked.
+        // No entitlement → the owner must self-checkout; the organization is blocked.
         $response->assertJsonPath('data.subscription.is_blocked', true)
             ->assertJsonPath('data.entitlements_created', 0);
     }
@@ -223,7 +223,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Grande '.Str::random(5),
+                'name' => 'Organization Grande '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_TRANSFER,
                 'provision_mode' => 'courtesy',
                 'plan_key' => 'a_medida',
@@ -254,14 +254,14 @@ final class AdminTenantProvisionTest extends TestCase
         ] as $payload) {
             $this->authed($superToken)
                 ->postJson('/api/tenant/provision', array_merge([
-                    'name' => 'Cluster Cobro '.Str::random(5),
+                    'name' => 'Organization Cobro '.Str::random(5),
                     'plan_key' => 'a_medida',
                 ], $payload))
                 ->assertStatus(422)
                 ->assertJsonPath('code', 'contact_sales');
         }
 
-        $this->assertSame(0, Tenant::query()->count(), 'no orphan cluster is created on a rejected provision');
+        $this->assertSame(0, Tenant::query()->count(), 'no orphan organization is created on a rejected provision');
     }
 
     // =========================================================================
@@ -275,7 +275,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Default '.Str::random(5),
+                'name' => 'Organization Default '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_TRANSFER,
                 'provision_mode' => 'courtesy',
             ])
@@ -295,7 +295,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Bad '.Str::random(5),
+                'name' => 'Organization Bad '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_CARD,
                 'provision_mode' => 'manual_paid',
                 'units' => 20,
@@ -305,7 +305,7 @@ final class AdminTenantProvisionTest extends TestCase
             ->assertStatus(422)
             ->assertJsonValidationErrors('payment_method');
 
-        $this->assertSame(0, Tenant::query()->count(), 'no orphan cluster is created on a rejected provision');
+        $this->assertSame(0, Tenant::query()->count(), 'no orphan organization is created on a rejected provision');
     }
 
     public function test_courtesy_without_base_module_is_rejected(): void
@@ -316,7 +316,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $this->authed($superToken)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster NoBase '.Str::random(5),
+                'name' => 'Organization NoBase '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_TRANSFER,
                 'provision_mode' => 'courtesy',
                 'modules' => ['package'],
@@ -332,9 +332,9 @@ final class AdminTenantProvisionTest extends TestCase
      * superAdminToken() below authorizes by TOKEN ABILITY only and never holds
      * the real SLUG_SUPER_ADMIN role, so it could never catch a regression
      * where narrativeFor() applied the actor's role and reported the brand-new
-     * cluster 'exempt' instead of its OWN (genuinely blocked) entitlement state.
+     * organization 'exempt' instead of its OWN (genuinely blocked) entitlement state.
      */
-    public function test_provision_narrative_reflects_the_new_clusters_own_state_even_with_a_real_super_admin_actor(): void
+    public function test_provision_narrative_reflects_the_new_organizations_own_state_even_with_a_real_super_admin_actor(): void
     {
         $realSuperAdmin = User::create([
             'id' => (string) Str::uuid(),
@@ -352,13 +352,13 @@ final class AdminTenantProvisionTest extends TestCase
 
         $response = $this->authed($token)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster RealSuper '.Str::random(5),
+                'name' => 'Organization RealSuper '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_CARD,
                 'provision_mode' => 'card',
             ])
             ->assertStatus(201);
 
-        // 'card' mode grants ZERO entitlements — the cluster is genuinely
+        // 'card' mode grants ZERO entitlements — the organization is genuinely
         // blocked. A regression that short-circuited on the actor's role would
         // report 'exempt' / is_blocked=false here instead.
         $response->assertJsonPath('data.subscription.status', 'none')
@@ -379,7 +379,7 @@ final class AdminTenantProvisionTest extends TestCase
 
         $this->authed($token)
             ->postJson('/api/tenant/provision', [
-                'name' => 'Cluster Denied '.Str::random(5),
+                'name' => 'Organization Denied '.Str::random(5),
                 'payment_method' => Tenant::PAYMENT_METHOD_CARD,
                 'provision_mode' => 'card',
             ])

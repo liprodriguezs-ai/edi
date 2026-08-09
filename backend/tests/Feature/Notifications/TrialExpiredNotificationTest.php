@@ -19,7 +19,7 @@ use Tests\Support\WithTenantSetup;
 use Tests\TestCase;
 
 /**
- * Verifies that billing:expire-manual-entitlements notifies the cluster
+ * Verifies that billing:expire-manual-entitlements notifies the organization
  * administrator when a SOURCE_TRIAL entitlement expires.
  *
  * Uses $connectionsToTransact = [] (no wrapping test transaction) so
@@ -149,7 +149,7 @@ final class TrialExpiredNotificationTest extends TestCase
     public function test_cron_notifies_administrator_when_trial_expires(): void
     {
         // Arrange — tenant with full notification catalog seeded.
-        $tenant = $this->makeTenant('Trial Notify Cluster');
+        $tenant = $this->makeTenant('Trial Notify Organization');
         $this->seedTenant($tenant); // seeds CatalogSeeder (incl. trial_expired) + TenantDatabaseSeeder (incl. TenantNotificationSettingSeeder)
 
         $admin = $this->makeCentralUser('Admin Prueba', 'administrator');
@@ -180,15 +180,15 @@ final class TrialExpiredNotificationTest extends TestCase
     }
 
     // =========================================================================
-    // (b) Expired SOURCE_TRIAL while another entitlement keeps the cluster up →
+    // (b) Expired SOURCE_TRIAL while another entitlement keeps the organization up →
     //     administrator is STILL notified (partial-lapse scenario)
     // =========================================================================
 
-    public function test_administrator_is_notified_even_when_cluster_stays_active(): void
+    public function test_administrator_is_notified_even_when_organization_stays_active(): void
     {
         // Base plan (super_admin_free, perpetual) stays; addon TRIAL lapses.
-        // The cluster remains active, but the admin must still be told the trial ended.
-        $tenant = $this->makeTenant('Partial Lapse Notify Cluster');
+        // The organization remains active, but the admin must still be told the trial ended.
+        $tenant = $this->makeTenant('Partial Lapse Notify Organization');
         $this->seedTenant($tenant);
 
         $admin = $this->makeCentralUser('Admin Partial', 'administrator');
@@ -198,7 +198,7 @@ final class TrialExpiredNotificationTest extends TestCase
         $baseModule = $this->makeBillableModule('base', 'Plan Base');
         $addonModule = $this->makeBillableModule('package', 'Paquetería');
 
-        // Perpetual base entitlement — keeps the cluster active.
+        // Perpetual base entitlement — keeps the organization active.
         TenantEntitlement::create([
             'tenant_id' => $tenant->id,
             'billable_module_id' => $baseModule->id,
@@ -223,7 +223,7 @@ final class TrialExpiredNotificationTest extends TestCase
         $this->travelTo(now()->addDays(15));
         $this->artisan('billing:expire-manual-entitlements')->assertSuccessful();
 
-        // Cluster must stay active (base coverage remains).
+        // Organization must stay active (base coverage remains).
         $this->assertSame(Tenant::STATUS_ACTIVO, $tenant->fresh()->status);
 
         // Administrator must still receive the trial-expired notification.
@@ -238,7 +238,7 @@ final class TrialExpiredNotificationTest extends TestCase
 
     public function test_cron_does_not_notify_for_expired_manual_source(): void
     {
-        $tenant = $this->makeTenant('Manual No Notify Cluster');
+        $tenant = $this->makeTenant('Manual No Notify Organization');
         $this->seedTenant($tenant);
 
         $admin = $this->makeCentralUser('Admin Manual', 'administrator');

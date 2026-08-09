@@ -39,7 +39,7 @@ final class PrivacyTest extends TestCase
         parent::tearDown();
     }
 
-    private function makeTenant(string $name = 'Privacy Cluster'): Tenant
+    private function makeTenant(string $name = 'Privacy Organization'): Tenant
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([

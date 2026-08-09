@@ -10,7 +10,7 @@ use Modules\Tenant\Models\Tenant;
 use Modules\Tenant\Services\TenantProvisioningService;
 
 /**
- * Validates the super-admin ALTA + billing provisioning of a cluster. The
+ * Validates the super-admin ALTA + billing provisioning of a organization. The
  * super-admin gate (create.tenant) lives in the controller constructor; this
  * request only shapes the body.
  *

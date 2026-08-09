@@ -224,7 +224,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * The tenant the user last explicitly selected (multi-cluster support).
+     * The tenant the user last explicitly selected (multi-organization support).
      * Central FK → tenant; no tenant scope needed (user is central).
      */
     public function lastActiveTenant()
@@ -233,7 +233,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
-     * Per-cluster PII profiles (one per tenant the user belongs to).
+     * Per-organization PII profiles (one per tenant the user belongs to).
      */
     public function profiles()
     {

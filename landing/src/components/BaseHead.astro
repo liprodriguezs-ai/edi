@@ -76,7 +76,7 @@ const graph: Record<string, unknown>[] = [
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     description:
-      'Software de administración para fraccionamientos y condominios: cobranza, tesorería, morosidad, mesa directiva, reportes y transparencia.',
+      'Software de administración para organizaciones y organizaciones: cobranza, tesorería, morosidad, mesa directiva, reportes y transparencia.',
     inLanguage: 'es-MX',
     offers: {
       '@type': 'Offer',
@@ -159,7 +159,7 @@ const jsonLd = {
         });
         // Respeta una elección previa para no volver a preguntar.
         try {
-          if (localStorage.getItem('kivo7-consent') === 'granted') {
+          if (localStorage.getItem('edi-consent') === 'granted') {
             gtag('consent', 'update', { analytics_storage: 'granted' });
           }
         } catch (e) {
@@ -176,7 +176,7 @@ const jsonLd = {
     tráfico de dev. Arranca con el consentimiento REVOCADO (Consent Mode de
     Meta): retiene el tracking hasta que el visitante acepte en el
     ConsentBanner. Respeta una elección previa guardada en localStorage
-    ('kivo7-consent'), igual que GA arriba. */}
+    ('edi-consent'), igual que GA arriba. */}
 {
   import.meta.env.PROD && metaPixelId && (
     <Fragment>
@@ -195,7 +195,7 @@ const jsonLd = {
         fbq('track', 'PageView');
         // Respeta una elección previa para no volver a preguntar.
         try {
-          if (localStorage.getItem('kivo7-consent') === 'granted') {
+          if (localStorage.getItem('edi-consent') === 'granted') {
             fbq('consent', 'grant');
           }
         } catch (e) {
@@ -218,11 +218,11 @@ const jsonLd = {
 {/* Captura de click-IDs de campaña (fbclid de Meta Ads, gclid de Google Ads).
     No depende de fbq/gtag ni de gates de entorno: corre siempre para no
     perder la atribución del primer click. Se persisten porque las cookies de
-    este dominio no cruzan al dominio de la app (app.kivo7.com) — se reenvían
+    este dominio no cruzan al dominio de la app (app.edi.example.com) — se reenvían
     como query params recién al hacer click en un CTA hacia la app. */}
 <script>
-  const STORAGE_KEY = 'kivo7-click-ids';
-  const appUrl = import.meta.env.PUBLIC_APP_URL ?? 'https://app.kivo7.com';
+  const STORAGE_KEY = 'edi-click-ids';
+  const appUrl = import.meta.env.PUBLIC_APP_URL ?? 'https://app.edi.example.com';
 
   interface StoredClickIds {
     fbclid?: string;
@@ -256,8 +256,8 @@ const jsonLd = {
 
   // Al hacer click en cualquier CTA que apunte a la app, anexa los click-IDs
   // guardados como query params — así la app los recibe tras el salto
-  // cross-origin (deben ir en la URL: una cookie de kivo7.com no es legible
-  // desde app.kivo7.com).
+  // cross-origin (deben ir en la URL: una cookie de edi.example.com no es legible
+  // desde app.edi.example.com).
   document.addEventListener(
     'click',
     (event) => {

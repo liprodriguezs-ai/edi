@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  * same tenant this middleware initializes — no divergence, no X-Tenant-Id bypass.
  * The header id is ALWAYS validated against the user's own tenants for regular
  * users; platform roles may target any tenant. This middleware additionally
- * persists an explicit header selection (multi-cluster switching), which the
+ * persists an explicit header selection (multi-organization switching), which the
  * pure resolver deliberately does not do.
  */
 class InitializeTenancyFromUser
@@ -44,7 +44,7 @@ class InitializeTenancyFromUser
 
         if ($tenant) {
             // Regular users: persist an explicit X-Tenant-Id pick so the next
-            // request defaults to the same cluster. Platform roles never persist.
+            // request defaults to the same organization. Platform roles never persist.
             if (! $isPlatformRole) {
                 $this->persistActiveTenantSelection($request, $user, $tenant);
             }
@@ -52,7 +52,7 @@ class InitializeTenancyFromUser
             tenancy()->initialize($tenant);
 
             // Only regular users get the main-company guarantee; platform roles
-            // operate cross-tenant and must not mutate the targeted cluster.
+            // operate cross-tenant and must not mutate the targeted organization.
             if (! $isPlatformRole && tenancy()->initialized) {
                 try {
                     app(CompanyService::class)->ensureMainCompanyForTenant(tenancy()->tenant);

@@ -11,7 +11,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 );
 ---
 
-<BaseLayout title={`${blogMeta.title} · Kivo7`} description={blogMeta.description}>
+<BaseLayout title={`${blogMeta.title} · EDI`} description={blogMeta.description}>
   <Nav slot="header" />
 
   <section class="pb-24 pt-[150px]">
@@ -23,7 +23,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
         <h1
           class="font-serif text-[clamp(34px,4.6vw,56px)] font-medium leading-[1.05] tracking-[-0.01em]"
         >
-          Administrar tu condominio, sin misterios.
+          Administrar tu organización, sin misterios.
         </h1>
         <p class="mx-auto mt-6 max-w-[52ch] text-[16.5px] text-ink-soft">{blogMeta.description}</p>
       </header>

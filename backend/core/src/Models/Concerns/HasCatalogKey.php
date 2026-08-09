@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
  *    (jamás insertar un null silencioso); findByKey() para side-effects
  *    opcionales que prefieren omitirse a fallar.
  *  - Las filas de sistema no pueden eliminarse y su key es inmutable, así el
- *    administrador del clúster renombra/recolorea sin romper los flujos.
+ *    administrador del organización renombra/recolorea sin romper los flujos.
  *  - `key` NO viaja al JSON (invisible para la UI); se expone `is_system`
  *    para que el frontend muestre candado y deshabilite el borrado.
  */

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Schema;
  * - Make email NULLABLE with a POSTGRES PARTIAL unique (null emails do not conflict).
  * - Make password NULLABLE (data-only residents have no credentials).
  * - Add auth_active boolean (only users with auth_active=true can log in).
- * - Add last_active_tenant_id uuid nullable FK → tenant (remembers the user's last cluster).
+ * - Add last_active_tenant_id uuid nullable FK → tenant (remembers the user's last organization).
  *
  * onboarding_completed_at was added in a previous migration — do NOT re-add it.
  *
@@ -43,7 +43,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('tenant')
                 ->nullOnDelete()
-                ->comment('FK to the tenant the user last interacted with (used for default cluster selection)');
+                ->comment('FK to the tenant the user last interacted with (used for default organization selection)');
         });
     }
 

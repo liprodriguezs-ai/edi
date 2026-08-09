@@ -10,12 +10,12 @@ use QCH\Core\Models\GlobalObserver;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 /**
- * Per-cluster configuration for a single notification event.
+ * Per-organization configuration for a single notification event.
  *
  * One row exists per (tenant, notification_event) pair, seeded by
- * TenantNotificationSettingSeeder when the cluster is created. The admin
+ * TenantNotificationSettingSeeder when the organization is created. The admin
  * can toggle channels and enable/disable the event from the Notifications
- * tab in the Cluster Configuration page.
+ * tab in the Organization Configuration page.
  *
  * @property string $id
  * @property string $tenant_id

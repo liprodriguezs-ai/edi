@@ -1,5 +1,5 @@
 /**
- * Registro ÚNICO de enlaces a la documentación pública (kivo7.com/docs).
+ * Registro ÚNICO de enlaces a la documentación pública (edi.example.com/docs).
  *
  * Por qué existe este archivo en vez de poner el enlace en cada pantalla:
  * un enlace suelto por pantalla se desactualiza en silencio cuando la
@@ -17,7 +17,7 @@
  */
 
 /** Origen del manual. Configurable por entorno para poder apuntar a un preview. */
-const DOCS_ORIGIN: string = import.meta.env.VITE_DOCS_BASE_URL ?? 'https://kivo7.com'
+const DOCS_ORIGIN: string = import.meta.env.VITE_DOCS_BASE_URL ?? 'https://edi.example.com'
 
 /** Portada del manual — destino de respaldo. */
 export const DOCS_HOME = '/docs'
@@ -32,7 +32,7 @@ export const DOCS_BY_SECTION: Record<string, string> = {
   dashboard: '/docs/empezar/como-se-organiza',
   onboarding: '/docs/empezar/configuracion-inicial',
 
-  // Estructura del condominio
+  // Estructura del organización
   unit: '/docs/estructura/unidades',
   'my-unit': '/docs/estructura/residentes',
   'unit-user': '/docs/estructura/residentes',
@@ -121,7 +121,7 @@ export const DOCS_BY_SECTION: Record<string, string> = {
   // Configuración y cuenta
   configuration: '/docs/configuracion/general',
   company: '/docs/configuracion/general',
-  'cluster-documents': '/docs/cuenta/documentos-del-condominio',
+  'organization-documents': '/docs/cuenta/documentos-del-organización',
   subscription: '/docs/cuenta/cambiar-de-plan',
   'select-plan': '/docs/cuenta/planes-y-precios',
   'billing-package': '/docs/cuenta/planes-y-precios',

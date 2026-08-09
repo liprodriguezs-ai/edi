@@ -28,7 +28,7 @@ const exists = (p) => access(p).then(() => true).catch(() => false);
 async function urlsFromRegistry() {
   const src = await readFile(REGISTRY, 'utf8');
   // Solo los literales de cadena que empiezan con /docs — ignora comentarios
-  // porque estos usan `kivo7.com/docs` sin comilla inicial.
+  // porque estos usan `edi.example.com/docs` sin comilla inicial.
   const found = new Map();
   const re = /^\s*(?:'([^']+)'|"([^"]+)"|([A-Za-z_][\w-]*))\s*:\s*'(\/docs[^']*)'/gm;
   let m;

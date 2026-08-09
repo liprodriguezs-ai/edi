@@ -29,7 +29,7 @@ trait WithTenantSetup
      * Create a tenant without firing TenantCreated (suppresses the auto-seeder
      * so tests control exactly when and what gets seeded).
      */
-    protected function makeTenant(string $name = 'Test Cluster'): Tenant
+    protected function makeTenant(string $name = 'Test Organization'): Tenant
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
@@ -67,8 +67,8 @@ trait WithTenantSetup
      */
     protected function twoTenants(): array
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
         $this->seedTenant($tenantA);
         $this->seedTenant($tenantB);
 

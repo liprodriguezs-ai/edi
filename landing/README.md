@@ -1,13 +1,13 @@
 # Residia — Landing
 
-Landing page de **Residia**, el SaaS de administración de fraccionamientos y
-condominios (cobranza, tesorería, morosidad, mesa directiva, transparencia).
+Landing page de **Residia**, el SaaS de administración de organizacións y
+organizaciones (cobranza, tesorería, morosidad, mesa directiva, transparencia).
 
 Construida a partir del handoff de diseño de Claude Design (variante
 **"Residia — Landing Bento"**, dirección _A · Salvia_) y reproducida de forma
 fiel en Astro + Tailwind, componentizada por sección.
 
-> Nota de marca: el repositorio principal documenta el producto como _Kivo7_;
+> Nota de marca: el repositorio principal documenta el producto como _EDI_;
 > el diseño entregado para esta landing usa la marca **Residia**. La landing
 > respeta el diseño. Si la marca definitiva es otra, se cambia en
 > `src/data/site.ts` (un solo lugar).
@@ -52,15 +52,15 @@ npm run preview    # previsualizar el build de dist/
 
 | Variable | Default | Rol |
 |---|---|---|
-| `PUBLIC_APP_URL` | `https://app.kivo7.com` | URL de la app a donde apuntan los CTAs de "empezar/iniciar" (nav, hero y CTA final). Se consume en `src/data/site.ts`; si no se define, usa el default. |
+| `PUBLIC_APP_URL` | `https://app.edi.example.com` | URL de la app a donde apuntan los CTAs de "empezar/iniciar" (nav, hero y CTA final). Se consume en `src/data/site.ts`; si no se define, usa el default. |
 | `PUBLIC_API_BASE_URL` | `http://localhost:8000/api` | Base de la API pública del backend que consume el **Cotizador** (`src/components/PricingQuoter.astro`): `GET /billing/catalog` y `POST /billing/quote`. Si no se define, usa el default de desarrollo local. |
 
 Crear un `.env` (gitignoreado) en la raíz de `landing/` para sobrescribir, por
 ejemplo en staging:
 
 ```bash
-PUBLIC_APP_URL=https://app.staging.kivo7.com
-PUBLIC_API_BASE_URL=https://api.staging.kivo7.com/api
+PUBLIC_APP_URL=https://app.edi.example.com
+PUBLIC_API_BASE_URL=https://api.edi.example.com/api
 ```
 
 Ver `.env.example` para la lista completa de variables.
@@ -78,7 +78,7 @@ src/
 │   ├── Nav.astro          # nav flotante tipo píldora
 │   ├── Hero.astro         # hero centrado + product shot
 │   ├── AppWindow.astro    # mock del panel (role="img" — ilustrativo)
-│   ├── TrustStrip.astro   # clústeres que confían
+│   ├── TrustStrip.astro   # organizaciónes que confían
 │   ├── SectionHead.astro  # encabezado de sección reutilizable
 │   ├── Bento.astro        # grid bento (6 columnas)
 │   ├── BentoArt.astro     # mini-UIs de cada tarjeta (unión discriminada tipada)

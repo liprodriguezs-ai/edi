@@ -13,7 +13,7 @@ Schedule::command('telescope:prune --hours=72')->daily();
 // §18.6.1 — inactive sessions older than 90 days may be physically removed.
 Schedule::command('sanctum:prune-expired --hours=2160')->daily();
 // Non-stripe grants (trial, manual, super_admin_free) have no Stripe webhook to
-// enforce lapses, so this daily run blocks + recomputes any cluster whose such
+// enforce lapses, so this daily run blocks + recomputes any organization whose such
 // entitlement expired with no remaining active coverage (WU4). Stripe = webhook.
 Schedule::command('billing:expire-manual-entitlements')->daily();
 Schedule::command('media:prune-cache')->dailyAt('00:00');

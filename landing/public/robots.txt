@@ -1,8 +1,8 @@
-# Kivo7 — marketing site
+# EDI — marketing site
 User-agent: *
 Allow: /
 
 # Decide AI crawlers per-bot (a blanket Disallow drops you from their citations).
-# Kivo7 welcomes indexing + AI summaries of the public marketing site.
+# EDI welcomes indexing + AI summaries of the public marketing site.
 
-Sitemap: https://kivo7.com/sitemap-index.xml
+Sitemap: https://edi.example.com/sitemap-index.xml

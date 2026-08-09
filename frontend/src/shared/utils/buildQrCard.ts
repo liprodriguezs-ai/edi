@@ -15,7 +15,7 @@ const SCALE = 2
 const WIDTH = 384
 const PAD = 28
 
-/** Paleta "Kivo7 · v3 Salvia" (index.css). Literal: el canvas no lee CSS vars. */
+/** Paleta "EDI · v3 Salvia" (index.css). Literal: el canvas no lee CSS vars. */
 const COLOR = {
   headerBg: '#21402c',
   headerInk: '#ffffff',

@@ -46,7 +46,7 @@ Route::middleware('throttle:api')->group(function () {
         Route::post('billing/checkout', [BillingCheckoutController::class, 'checkout']);
     });
 
-    // Manual billing for a cluster (super admin): record a transfer/cash payment,
+    // Manual billing for a organization (super admin): record a transfer/cash payment,
     // read the ledger, and switch the payment method. Gate (update.tenant) lives
     // in the controller constructor, mirroring TenantSystemController (authz-02).
     Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive'])->group(function () {
@@ -55,7 +55,7 @@ Route::middleware('throttle:api')->group(function () {
         Route::patch('tenant/{tenantId}/payment-method', [SubscriptionPaymentController::class, 'updatePaymentMethod']);
     });
 
-    // Read aggregate for the super-admin cluster billing screen: payment method,
+    // Read aggregate for the super-admin organization billing screen: payment method,
     // status, entitlements, the full assignable-package catalog (incl. hidden
     // preferential ones) and the manual-payment ledger. Gate (update.tenant)
     // lives in the controller, mirroring SubscriptionPaymentController.
@@ -63,7 +63,7 @@ Route::middleware('throttle:api')->group(function () {
         Route::get('tenant/{tenantId}/billing', [TenantBillingController::class, 'show']);
     });
 
-    // Entitlement administration for a cluster (super admin, Slice 6 / A):
+    // Entitlement administration for a organization (super admin, Slice 6 / A):
     // activate a package free perpetually (#10) and revoke it. Gate
     // (update.tenant) lives in the controller, mirroring SubscriptionPaymentController.
     Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive'])->group(function () {
@@ -72,7 +72,7 @@ Route::middleware('throttle:api')->group(function () {
         Route::post('tenant/{tenantId}/entitlement/revoke', [TenantEntitlementController::class, 'revoke']);
     });
 
-    // Preferential (hidden, is_public=false) package swap for a cluster (super
+    // Preferential (hidden, is_public=false) package swap for a organization (super
     // admin, Slice 6 / B): preview the proration (card) or next-cycle notice
     // (manual), then apply. Proration is computed server-side by Stripe at apply time.
     Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive'])->group(function () {

@@ -28,7 +28,7 @@ use Tests\TestCase;
  * subscription_plan_id.
  *
  * The entitlement-based checkout grants PER-MODULE entitlements + flips the tenant
- * to ACTIVO but never sets subscription_plan_id. A cluster that paid through the
+ * to ACTIVO but never sets subscription_plan_id. A organization that paid through the
  * new checkout must NOT stay blocked at login just because it has no plan id.
  *
  * getSubscriptionState is invoked directly via reflection so the test isolates the
@@ -68,7 +68,7 @@ final class SubscriptionStateAccessTest extends TestCase
 
     public function test_tenant_with_active_entitlement_and_no_plan_id_is_not_blocked(): void
     {
-        // A cluster that paid through the entitlement checkout: ACTIVE per-module
+        // A organization that paid through the entitlement checkout: ACTIVE per-module
         // entitlement, NO legacy subscription_plan_id. The tenant status is left
         // non-active so the ENTITLEMENT is the sole reason it must not be blocked.
         $tenant = $this->makeTenant(['status' => Tenant::STATUS_PENDIENTE_PAGO]);
@@ -95,7 +95,7 @@ final class SubscriptionStateAccessTest extends TestCase
 
     public function test_session_state_flags_a_payment_issue_without_blocking_access(): void
     {
-        // F-26 — during Stripe dunning (past_due) the webhook flips the cluster to
+        // F-26 — during Stripe dunning (past_due) the webhook flips the organization to
         // pendiente_pago while the entitlement is still live. Access is untouched,
         // but the session must carry a discriminator so the owner can be told
         // "tu pago falló, actualiza tu tarjeta" BEFORE the hard block.
@@ -123,7 +123,7 @@ final class SubscriptionStateAccessTest extends TestCase
         $this->assertTrue($state['payment_issue']);
     }
 
-    public function test_session_state_reports_no_payment_issue_for_a_healthy_cluster(): void
+    public function test_session_state_reports_no_payment_issue_for_a_healthy_organization(): void
     {
         $tenant = $this->makeTenant(['status' => Tenant::STATUS_ACTIVO]);
         $user = $this->makeUser();
@@ -329,7 +329,7 @@ final class SubscriptionStateAccessTest extends TestCase
     public function test_day31_conversion_with_perpetual_entitlement_reports_active_without_countdown(): void
     {
         // The "stuck marker" case this refactor fixes: once Stripe is no longer
-        // trialing, the cluster must report 'active' regardless of the
+        // trialing, the organization must report 'active' regardless of the
         // entitlement's own expires_at — including NULL (perpetual).
         $tenant = $this->makeTenant(['status' => Tenant::STATUS_ACTIVO]);
         $plan = $this->makePlan('esencial');
@@ -396,7 +396,7 @@ final class SubscriptionStateAccessTest extends TestCase
 
     public function test_a_member_session_also_reports_trial_during_the_owners_stripe_trial(): void
     {
-        // The trial-vs-active distinction is a fact about the CLUSTER's access,
+        // The trial-vs-active distinction is a fact about the ORGANIZATION's access,
         // not about who is asking — the owner's live Stripe trial must be
         // visible in a MEMBER's session too, never isOwner-gated.
         $tenant = $this->makeTenant(['status' => Tenant::STATUS_ACTIVO]);

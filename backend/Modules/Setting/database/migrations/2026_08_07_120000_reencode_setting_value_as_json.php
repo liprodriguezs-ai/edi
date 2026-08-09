@@ -108,7 +108,7 @@ return new class extends Migration
      * `getPackageSettings()` renders blank, but `getDelinquencySettings()` does
      * `?->resolved_value ?? $default` — it substitutes a hard-coded default that
      * LOOKS like a saved value, and the next "Guardar" persists that default over
-     * the cluster's real customization. A 200 response, no error, data gone.
+     * the organization's real customization. A 200 response, no error, data gone.
      *
      * Production runs `php artisan migrate --force` on deploy, so nobody gets to
      * inspect the data first. Failing the deploy is therefore the SAFE outcome:
@@ -159,7 +159,7 @@ return new class extends Migration
         throw new RuntimeException(
             'setting-value-native-json: aborted before writing anything — '.
             array_sum($offenders).' setting row(s) hold bytes that disagree with their declared type ('.$detail.'). '.
-            'Migrating around them would leave those settings reading as null, which silently replaces cluster '.
+            'Migrating around them would leave those settings reading as null, which silently replaces organization '.
             'customizations with code defaults. Offending rows include: '.implode('; ', $samples).'.'
         );
     }

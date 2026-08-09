@@ -20,11 +20,11 @@ use Tests\Feature\Billing\Concerns\BillingMatrixFixtures;
 use Tests\TestCase;
 
 /**
- * Onboarding flow #2 — super-admin ALTA of a brand-new cluster + its billing:
+ * Onboarding flow #2 — super-admin ALTA of a brand-new organization + its billing:
  *
  *   POST /api/tenant                      (Orion default store, no billing logic)
  *     -> GET /api/tenant/{id}/billing     (initial aggregate must be coherent)
- *       -> POST .../subscription-payment  (manual paid module for the new cluster)
+ *       -> POST .../subscription-payment  (manual paid module for the new organization)
  *
  * Billing v2: the billing aggregate is PER-MODULE and the manual payment lines
  * carry {module_key, plan_key, amount, interval}. Network-free, central-connection
@@ -64,7 +64,7 @@ final class AdminTenantOnboardingBillingTest extends TestCase
         Event::fake([TenantCreated::class]);
 
         $create = $this->authed($superToken)->postJson('/api/tenant', [
-            'name' => 'Nuevo Cluster '.Str::random(5),
+            'name' => 'Nuevo Organization '.Str::random(5),
             'status' => Tenant::STATUS_ACTIVO,
         ]);
 
@@ -72,7 +72,7 @@ final class AdminTenantOnboardingBillingTest extends TestCase
         $tenantId = $create->json('data.id');
         $this->assertNotEmpty($tenantId);
 
-        // A just-created cluster: payment_method defaults to card, born ACTIVO, and
+        // A just-created organization: payment_method defaults to card, born ACTIVO, and
         // carries NO billing entitlements at all (none seeded on alta).
         $tenant = Tenant::find($tenantId);
         $this->assertSame(Tenant::PAYMENT_METHOD_CARD, $tenant->payment_method);
@@ -80,7 +80,7 @@ final class AdminTenantOnboardingBillingTest extends TestCase
         $this->assertSame(0, TenantEntitlement::where('tenant_id', $tenantId)->count());
 
         // Seed a plan + base module so available_modules is non-empty (catalog exists),
-        // but the cluster still has no entitlements.
+        // but the organization still has no entitlements.
         $this->seedPlanMatrix();
 
         $billing = $this->authed($superToken)
@@ -104,7 +104,7 @@ final class AdminTenantOnboardingBillingTest extends TestCase
     }
 
     // =========================================================================
-    // manual PAID plan for a fresh cluster: refused on card, works off card
+    // manual PAID plan for a fresh organization: refused on card, works off card
     // =========================================================================
 
     public function test_admin_manual_paid_plan_for_fresh_tenant_needs_method_switch_then_succeeds(): void
@@ -114,7 +114,7 @@ final class AdminTenantOnboardingBillingTest extends TestCase
 
         Event::fake([TenantCreated::class]);
         $tenantId = $this->authed($superToken)
-            ->postJson('/api/tenant', ['name' => 'Cluster Manual '.Str::random(5), 'status' => Tenant::STATUS_ACTIVO])
+            ->postJson('/api/tenant', ['name' => 'Organization Manual '.Str::random(5), 'status' => Tenant::STATUS_ACTIVO])
             ->assertStatus(201)
             ->json('data.id');
 
@@ -125,20 +125,20 @@ final class AdminTenantOnboardingBillingTest extends TestCase
             ],
         ];
 
-        // (A) On a card cluster the manual payment is REFUSED (card is Stripe's
+        // (A) On a card organization the manual payment is REFUSED (card is Stripe's
         // domain; a manual grant would clobber a Stripe entitlement). 422.
         $refused = $this->authed($superToken)
             ->postJson("/api/tenant/{$tenantId}/subscription-payment", $manualBody)
             ->assertStatus(422);
         $this->assertStringContainsStringIgnoringCase('tarjeta', (string) $refused->json('message'));
 
-        // (B) The admin first switches the cluster OFF card.
+        // (B) The admin first switches the organization OFF card.
         $this->authed($superToken)
             ->patchJson("/api/tenant/{$tenantId}/payment-method", ['payment_method' => Tenant::PAYMENT_METHOD_TRANSFER])
             ->assertStatus(200)
             ->assertJsonPath('data.payment_method', Tenant::PAYMENT_METHOD_TRANSFER);
 
-        // (C) Now the SAME request bootstraps a PAID plan onto the fresh cluster:
+        // (C) Now the SAME request bootstraps a PAID plan onto the fresh organization:
         // a source=MANUAL entitlement is created for the module it never "contracted".
         $recorded = $this->authed($superToken)
             ->postJson("/api/tenant/{$tenantId}/subscription-payment", $manualBody)
@@ -150,7 +150,7 @@ final class AdminTenantOnboardingBillingTest extends TestCase
             ->where('billable_module_id', $base->id)
             ->first();
 
-        $this->assertNotNull($entitlement, 'a fresh cluster CAN be granted a paid manual entitlement');
+        $this->assertNotNull($entitlement, 'a fresh organization CAN be granted a paid manual entitlement');
         $this->assertSame(TenantEntitlement::SOURCE_MANUAL, $entitlement->source);
         $this->assertSame($plan->id, $entitlement->billing_package_id);
         $this->assertSame(PlanModulePrice::INTERVAL_MONTH, $entitlement->interval);

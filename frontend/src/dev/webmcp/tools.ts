@@ -1,7 +1,7 @@
 /**
- * Catálogo de tools WebMCP que Kivo7 expone en desarrollo.
+ * Catálogo de tools WebMCP que EDI expone en desarrollo.
  *
- * Empezamos con tools READ-ONLY y seguras. Las tools que muten datos del clúster
+ * Empezamos con tools READ-ONLY y seguras. Las tools que muten datos del organización
  * se agregan después, con gating por rol, y SIEMPRE corren en el contexto de
  * sesión autenticada de la página (heredan Sanctum + tenant scope + permisos).
  */
@@ -21,13 +21,13 @@ const EMPTY_INPUT = { type: 'object', properties: {}, additionalProperties: fals
 const whoamiTool: WebMcpToolDescriptor = {
   name: 'whoami',
   description:
-    'Devuelve el usuario, roles, tenant y estado de suscripción de la sesión actual en Kivo7. Solo lectura.',
+    'Devuelve el usuario, roles, tenant y estado de suscripción de la sesión actual en EDI. Solo lectura.',
   inputSchema: EMPTY_INPUT,
   async execute() {
     const { profile, isAuthenticated, token } = sessionStore.getState()
 
     if (!profile) {
-      return textResult({ authenticated: false, message: 'No hay sesión iniciada en Kivo7.' })
+      return textResult({ authenticated: false, message: 'No hay sesión iniciada en EDI.' })
     }
 
     return textResult({
@@ -60,7 +60,7 @@ export function buildListCapabilitiesTool(
   return {
     name: 'list_capabilities',
     description:
-      'Lista las tools WebMCP que Kivo7 expone, con nombre, descripción y schema de entrada. Úsala para descubrir qué acciones están disponibles.',
+      'Lista las tools WebMCP que EDI expone, con nombre, descripción y schema de entrada. Úsala para descubrir qué acciones están disponibles.',
     inputSchema: EMPTY_INPUT,
     async execute() {
       return textResult({

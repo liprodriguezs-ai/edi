@@ -57,7 +57,7 @@ final class NotificationPreferenceTest extends TestCase
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
                 'id' => (string) Str::uuid(),
-                'name' => 'Quiet Hours Cluster',
+                'name' => 'Quiet Hours Organization',
                 'status' => Tenant::STATUS_ACTIVO,
                 'timezone' => $timezone,
             ]),

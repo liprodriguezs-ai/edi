@@ -7,8 +7,8 @@ import { ApiError } from '@/shared/api/apiClient'
  */
 const BILLING_ERROR_MESSAGES: Record<string, string> = {
   contact_sales: 'Este volumen necesita un plan a la medida. Contacta al equipo de ventas para continuar.',
-  not_account_owner: 'Solo el propietario de la cuenta del condominio puede realizar esta acción.',
-  already_subscribed: 'El condominio ya tiene una suscripción activa para este paquete.',
+  not_account_owner: 'Solo el propietario de la cuenta del organización puede realizar esta acción.',
+  already_subscribed: 'El organización ya tiene una suscripción activa para este paquete.',
 }
 
 /**

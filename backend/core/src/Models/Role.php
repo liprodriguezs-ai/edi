@@ -54,7 +54,7 @@ class Role extends BaseModel
     public const SLUG_LAWYER = 'lawyer';
 
     // -------------------------------------------------------------------------
-    // Kivo7 residential complex roles (new — distinct UUIDs)
+    // EDI residential complex roles (new — distinct UUIDs)
     // -------------------------------------------------------------------------
 
     public const ADMINISTRATOR = '1a2b3c4d-0001-0000-0000-000000000001';
@@ -98,12 +98,12 @@ class Role extends BaseModel
     public const SLUG_RENTER = 'renter';
 
     /**
-     * Operational roles of a cluster: the ones an owner/administrator may hand out.
+     * Operational roles of a organization: the ones an owner/administrator may hand out.
      * Deliberately EXCLUDES admin.super and account.owner (platform / account tier).
      *
      * @var list<string>
      */
-    public const CLUSTER_SLUGS = [
+    public const ORGANIZATION_SLUGS = [
         self::SLUG_ADMINISTRATOR,
         self::SLUG_PRESIDENT,
         self::SLUG_TREASURER,
@@ -148,13 +148,13 @@ class Role extends BaseModel
      * SECURITY BOUNDARY. The role to assign arrives from the request body
      * (`role` / `role_id`) on POST /api/user and PUT /api/user/{id}. Without
      * this check any holder of create.user / update.user — notably the
-     * `administrator` role a cluster hires — could mint a platform super admin
-     * with cross-tenant access to every cluster.
+     * `administrator` role a organization hires — could mint a platform super admin
+     * with cross-tenant access to every organization.
      *
      * Tiers (mirrors the catalogue AngularController::selects already exposes):
      *  - admin.super    → everything
-     *  - account.owner  → cluster roles + another account owner
-     *  - administrator  → cluster roles only (never owner, never super admin)
+     *  - account.owner  → organization roles + another account owner
+     *  - administrator  → organization roles only (never owner, never super admin)
      *  - anyone else    → residency roles only
      *
      * @return list<string>
@@ -166,15 +166,15 @@ class Role extends BaseModel
         }
 
         if ($actor->hasRole(self::SLUG_SUPER_ADMIN)) {
-            return array_merge([self::SLUG_SUPER_ADMIN, self::SLUG_ACCOUNT_OWNER], self::CLUSTER_SLUGS);
+            return array_merge([self::SLUG_SUPER_ADMIN, self::SLUG_ACCOUNT_OWNER], self::ORGANIZATION_SLUGS);
         }
 
         if ($actor->hasRole(self::SLUG_ACCOUNT_OWNER)) {
-            return array_merge([self::SLUG_ACCOUNT_OWNER], self::CLUSTER_SLUGS);
+            return array_merge([self::SLUG_ACCOUNT_OWNER], self::ORGANIZATION_SLUGS);
         }
 
         if ($actor->hasRole(self::SLUG_ADMINISTRATOR) || $actor->hasRole(self::SLUG_COMPANY_ADMIN)) {
-            return self::CLUSTER_SLUGS;
+            return self::ORGANIZATION_SLUGS;
         }
 
         return self::RESIDENCY_SLUGS;

@@ -16,7 +16,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tenant', function (Blueprint $table) {
-            $table->unsignedTinyInteger('payment_day')->nullable()->after('status')->comment('Day of the month (1–31) on which the cluster expects to process payments.');
+            $table->unsignedTinyInteger('payment_day')->nullable()->after('status')->comment('Day of the month (1–31) on which the organization expects to process payments.');
         });
     }
 };

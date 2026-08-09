@@ -81,7 +81,7 @@ final class AuthFlowTest extends TestCase
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'Juan',
-            'cluster_name' => 'Residencial Las Palmas',
+            'organization_name' => 'Residencial Las Palmas',
             'email' => 'juan@example.com',
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',
@@ -98,19 +98,19 @@ final class AuthFlowTest extends TestCase
     }
 
     /**
-     * The cluster name typed at signup must land verbatim in tenant.name — that
-     * column is the label the whole UI shows as the cluster. It used to be an
+     * The organization name typed at signup must land verbatim in tenant.name — that
+     * column is the label the whole UI shows as the organization. It used to be an
      * auto-generated slug built from the PERSON's name (e.g. "juan-x7Kq"), which
      * surfaced as the condominium's name everywhere.
      */
-    public function test_register_stores_the_submitted_cluster_name_as_the_tenant_name(): void
+    public function test_register_stores_the_submitted_organization_name_as_the_tenant_name(): void
     {
         $this->seedAccountOwnerRole();
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'Juan Pérez',
-            'cluster_name' => '  Residencial Las Palmas  ',
-            'email' => 'cluster.name@example.com',
+            'organization_name' => '  Residencial Las Palmas  ',
+            'email' => 'organization.name@example.com',
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',
         ]);
@@ -123,20 +123,20 @@ final class AuthFlowTest extends TestCase
         $this->assertDatabaseHas('tenant', ['name' => 'Residencial Las Palmas']);
     }
 
-    public function test_register_requires_a_cluster_name(): void
+    public function test_register_requires_a_organization_name(): void
     {
         $this->seedAccountOwnerRole();
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'Juan',
-            'email' => 'no.cluster@example.com',
+            'email' => 'no.organization@example.com',
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',
         ]);
 
         $response->assertStatus(422);
-        $this->assertArrayHasKey('cluster_name', $response->json('errors'));
-        $this->assertDatabaseMissing('user', ['email' => 'no.cluster@example.com']);
+        $this->assertArrayHasKey('organization_name', $response->json('errors'));
+        $this->assertDatabaseMissing('user', ['email' => 'no.organization@example.com']);
     }
 
     // -------------------------------------------------------------------------
@@ -158,7 +158,7 @@ final class AuthFlowTest extends TestCase
         $this->assertNotEmpty($data['access_token']);
         $this->assertIsArray($data['abilities']);
         $this->assertNotEmpty($data['tenant']);
-        // Multi-cluster: all tenants returned.
+        // Multi-organization: all tenants returned.
         $this->assertArrayHasKey('tenants', $data);
         $this->assertIsArray($data['tenants']);
         $this->assertCount(1, $data['tenants']);
@@ -309,15 +309,15 @@ final class AuthFlowTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
-    // Multi-cluster tenant selection
+    // Multi-organization tenant selection
     // -------------------------------------------------------------------------
 
     public function test_x_tenant_id_header_for_valid_tenant_scopes_request_and_persists(): void
     {
         $this->seedAccountOwnerRole();
 
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
 
         $user = User::create(['name' => 'Multi', 'email' => 'multi@example.com', 'password' => Hash::make('secret')]);
         $user->tenants()->attach([$tenantA->id, $tenantB->id]);
@@ -340,7 +340,7 @@ final class AuthFlowTest extends TestCase
     {
         $this->seedAccountOwnerRole();
 
-        $tenantA = $this->makeTenant('Cluster A');
+        $tenantA = $this->makeTenant('Organization A');
         $tenantStranger = $this->makeTenant('Stranger');
 
         $user = User::create(['name' => 'Scoped', 'email' => 'scoped@example.com', 'password' => Hash::make('secret')]);
@@ -365,8 +365,8 @@ final class AuthFlowTest extends TestCase
     {
         $this->seedAccountOwnerRole();
 
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
 
         $user = User::create(['name' => 'Sticky', 'email' => 'sticky@example.com', 'password' => Hash::make('secret')]);
         $user->tenants()->attach([$tenantA->id, $tenantB->id]);

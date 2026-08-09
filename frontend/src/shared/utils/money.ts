@@ -1,5 +1,5 @@
 /**
- * Dinero Kivo7: el backend almacena bigint en MINOR UNITS (centavos) y
+ * Dinero EDI: el backend almacena bigint en MINOR UNITS (centavos) y
  * serializa los casts como { amount: "70000", currency: "MXN", formatted: "$700.00" }.
  * Los formularios ENVÍAN enteros en minor units.
  */

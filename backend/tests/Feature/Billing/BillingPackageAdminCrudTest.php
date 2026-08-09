@@ -68,7 +68,7 @@ final class BillingPackageAdminCrudTest extends TestCase
         $payload = [
             'key' => 'corporativo',
             'name' => 'Corporativo',
-            'description' => 'Plan para grandes condominios.',
+            'description' => 'Plan para grandes organizaciones.',
             'is_public' => true,
             'is_active' => true,
             'sort_order' => 20,

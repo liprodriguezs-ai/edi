@@ -14,7 +14,7 @@ context:
   backend_root: backend/
   frontend_root: frontend/
   landing_root: landing/
-  # Infraestructura heredada de la plantilla, tras la poda del dominio de condominios.
+  # Infraestructura heredada de la plantilla, tras la poda del dominio de la plantilla (administración de organizaciones).
   key_modules: [Audit, Company, Country, Dashboard, Email, Module, Municipality,
     Notification, Reports, Role, Setting, SubscriptionPlan, System, Tenant, Tracking,
     User, UserProfile]

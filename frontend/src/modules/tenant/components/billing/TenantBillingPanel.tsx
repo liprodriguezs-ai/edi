@@ -22,7 +22,7 @@ interface TenantBillingPanelProps {
  * Orden de secciones:
  *   1. ExpirationSection   — vencimientos y estado
  *   2. PaymentMethodSection — método de cobro activo
- *   3. EntitlementsSection  — plan del clúster
+ *   3. EntitlementsSection  — plan del organización
  *   4. ManualPaymentSection — registrar pago (sólo método manual)
  *   5. LedgerSection        — historial de pagos
  */
@@ -61,7 +61,7 @@ export function TenantBillingPanel({ tenantId }: TenantBillingPanelProps) {
       >
         <p className='flex items-center justify-center gap-2 text-sm text-destructive'>
           <AlertCircle className='h-4 w-4' aria-hidden />
-          {resolveBillingError(billing.error, 'No se pudo cargar la facturación del condominio.')}
+          {resolveBillingError(billing.error, 'No se pudo cargar la facturación del organización.')}
         </p>
         <Button type='button' variant='outline' size='sm' onClick={() => void billing.refetch()}>
           Reintentar
@@ -73,13 +73,13 @@ export function TenantBillingPanel({ tenantId }: TenantBillingPanelProps) {
   const summary = billing.data
   const isManualMethod = summary.payment_method !== 'card'
 
-  // ¿El clúster tiene acceso de cortesía vigente? Con un solo plan base ya no hay
+  // ¿El organización tiene acceso de cortesía vigente? Con un solo plan base ya no hay
   // una lista de módulos gratuitos que enumerar: es sí o no.
   const hasCourtesyAccess = summary.entitlements.some(
     (entitlement) => entitlement.source === 'super_admin_free' && isActiveEntitlement(entitlement)
   )
 
-  const planName = summary.plan?.name ?? 'del condominio'
+  const planName = summary.plan?.name ?? 'del organización'
 
   return (
     <div className='space-y-5'>

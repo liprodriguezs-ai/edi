@@ -18,7 +18,7 @@ use Modules\SubscriptionPlan\Services\PlanPricingService;
  * 2026-07 refactor — there is no longer a notion of "sellable modules" facing the
  * user. Paquetería and Amenidades used to be separate billable modules; they are
  * now part of the base module (their platform `module` rows hang off the base
- * pivot), so the price of a cluster depends ONLY on its unit band. The retired
+ * pivot), so the price of a organization depends ONLY on its unit band. The retired
  * rows are cleaned up by the collapse_billable_modules_into_base migration; this
  * seeder simply stops recreating them.
  *
@@ -32,7 +32,7 @@ use Modules\SubscriptionPlan\Services\PlanPricingService;
  *     base module priced for both intervals. Annual = round(monthly * 12 * 0.95)
  *     (5% annual discount).
  *  3. `a_medida`: a public, active plan with NO plan_module_price row. That
- *     absence is what marks it as contact-sales (PlanPricingService), so clusters
+ *     absence is what marks it as contact-sales (PlanPricingService), so organizations
  *     above the highest band are routed to consultative sales instead of being
  *     clamped into premium.
  *
@@ -82,7 +82,7 @@ class PlanModuleMatrixSeeder extends Seeder
 
     /**
      * The platform `module` rows the base billable module grants. Everything the
-     * product ships is here — including the former Paquetería add-on cluster and
+     * product ships is here — including the former Paquetería add-on organization and
      * (once it exists) Amenidades.
      *
      * @var array<int, string>
@@ -185,7 +185,7 @@ class PlanModuleMatrixSeeder extends Seeder
     }
 
     /**
-     * The consultative plan for clusters above the highest published band. It is
+     * The consultative plan for organizations above the highest published band. It is
      * PUBLIC (it must render as a card in the catalog) and ACTIVE, but carries no
      * plan_module_price row — that is precisely what makes it contact-sales, and
      * why quoting or checking out against it is a 422.
@@ -198,7 +198,7 @@ class PlanModuleMatrixSeeder extends Seeder
             ['key' => self::CONTACT_SALES_KEY],
             [
                 'name' => 'A medida',
-                'description' => 'Más de 300 casas: armamos un plan a la medida de tu fraccionamiento.',
+                'description' => 'Más de 300 casas: armamos un plan a la medida de tu organización.',
                 'sort_order' => 15,
                 'is_active' => true,
                 'is_public' => true,

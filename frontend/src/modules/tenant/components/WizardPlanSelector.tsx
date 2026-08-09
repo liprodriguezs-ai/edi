@@ -92,7 +92,7 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
       <div>
         <p className='text-sm font-medium text-foreground'>Plan</p>
         <p className='mt-0.5 text-xs text-muted-foreground'>
-          Elige el plan según cuántas unidades tiene el condominio.
+          Elige el plan según cuántas unidades tiene el organización.
         </p>
         <div className='mt-2 grid gap-2 sm:grid-cols-2'>
           {plans.map((plan) => {

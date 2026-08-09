@@ -44,8 +44,8 @@ class BladeEmailChannel implements NotificationChannelInterface
         // (The template-missing → plain-text fallback in renderContent is NOT an error.)
         $html = $this->renderContent($body, $data);
 
-        $fromAddress = config('mail.from.address', 'noreply@kivo7.com');
-        $fromName = config('mail.from.name', 'Kivo7');
+        $fromAddress = config('mail.from.address', 'noreply@edi.example.com');
+        $fromName = config('mail.from.name', 'EDI');
 
         Mail::html($html, static function ($message) use ($toAddresses, $title, $fromAddress, $fromName): void {
             $message->to($toAddresses)

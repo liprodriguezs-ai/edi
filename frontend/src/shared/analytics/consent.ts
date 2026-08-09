@@ -1,7 +1,7 @@
 /**
  * Gate de consentimiento para analytics en la app autenticada.
  *
- * Reusa la MISMA key que el `ConsentBanner` del landing (`kivo7-consent`), así
+ * Reusa la MISMA key que el `ConsentBanner` del landing (`edi-consent`), así
  * si el visitante ya decidió ahí (o decide después dentro de la app, cuando
  * exista un banner propio), la elección se respeta en ambos lados sin
  * duplicar el flag.
@@ -13,7 +13,7 @@
  * consentimiento implícito. Este helper es intencionalmente simple para que
  * un banner real pueda enchufarse después sin tocar los llamadores.
  */
-const CONSENT_KEY = 'kivo7-consent'
+const CONSENT_KEY = 'edi-consent'
 
 export function hasAnalyticsConsent(): boolean {
   try {

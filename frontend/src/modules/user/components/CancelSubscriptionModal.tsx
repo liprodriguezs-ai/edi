@@ -8,7 +8,7 @@ type CancelStep = 'persuade' | 'confirm'
 interface CancelSubscriptionModalProps {
   isOpen: boolean
   isCanceling: boolean
-  /** Cancellation is always at period end (the cluster keeps access until the paid period ends). */
+  /** Cancellation is always at period end (the organization keeps access until the paid period ends). */
   onCancel: () => void
   onClose: () => void
   planName?: string

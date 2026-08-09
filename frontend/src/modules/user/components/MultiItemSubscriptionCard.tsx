@@ -30,7 +30,7 @@ interface MultiItemSubscriptionCardProps {
 }
 
 /**
- * Vista de la suscripción del clúster: el PLAN contratado con su precio recurrente,
+ * Vista de la suscripción del organización: el PLAN contratado con su precio recurrente,
  * estado, fechas del ciclo y acciones de ciclo de vida (portal / cancelar /
  * reactivar). Ya no hay desglose por módulo: todo va incluido en el plan.
  */
@@ -54,7 +54,7 @@ export function MultiItemSubscriptionCard({
           <div>
             <CardTitle className='text-lg'>Plan actual</CardTitle>
             <CardDescription>
-              {plan ? `Plan ${plan.name}` : 'Suscripción de tu condominio'}
+              {plan ? `Plan ${plan.name}` : 'Suscripción de tu organización'}
             </CardDescription>
           </div>
           <SubscriptionStatusBadge status={status} />

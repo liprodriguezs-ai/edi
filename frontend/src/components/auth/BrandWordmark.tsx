@@ -10,7 +10,7 @@ const TEXT_SIZE = {
 type WordmarkSize = keyof typeof TEXT_SIZE
 
 /**
- * Sello de marca del producto: isotipo Kivo7 + wordmark en serif (Cormorant).
+ * Sello de marca del producto: isotipo EDI + wordmark en serif (Cormorant).
  * El nombre sale de `APP_CONFIG.brandName` (fuente única), así que renombrar la
  * marca no toca este componente. Átomo reutilizado en login, registro y el header
  * de selección de plan. Debe renderizarse dentro del scope `.salvia` para tomar la
@@ -36,7 +36,7 @@ export function BrandWordmark({
         )}
       >
         <img
-          src='/icons/kivo7-mark.svg'
+          src='/icons/edi-mark.svg'
           alt=''
           className={cn('w-auto', tone === 'light' ? 'h-[26px]' : 'h-[32px]')}
         />

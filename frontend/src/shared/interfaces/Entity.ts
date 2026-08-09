@@ -73,10 +73,10 @@ export interface IFormProps<T> {
 }
 
 /**
- * Roles Kivo7 (slugs de Spatie en backend, roles.csv).
+ * Roles EDI (slugs de Spatie en backend, roles.csv).
  * SUPER_ADMIN administra la plataforma; ACCOUNT_OWNER es quien registró el
- * condominio (rol vivo del flujo de registro); el resto son roles operativos
- * dentro del condominio.
+ * organización (rol vivo del flujo de registro); el resto son roles operativos
+ * dentro del organización.
  */
 export enum ERoleUserSlug {
   SUPER_ADMIN = 'admin.super',

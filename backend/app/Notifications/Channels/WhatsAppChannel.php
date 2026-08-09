@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
  *
  * No WhatsApp API provider is configured yet (Twilio / Meta Business API).
  * Until one is wired up, this channel logs a single info-level message and
- * returns without sending anything. Selecting WhatsApp in the cluster's
+ * returns without sending anything. Selecting WhatsApp in the organization's
  * Notifications configuration will not break anything — it simply has no
  * effect until a provider is connected.
  */

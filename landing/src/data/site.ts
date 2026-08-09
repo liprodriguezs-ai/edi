@@ -104,13 +104,13 @@ export interface Cta {
 // ---------------------------------------------------------------- content --
 
 /** Nombre de marca del producto. Fuente única — cámbialo aquí y se propaga a toda la landing. */
-const BRAND = 'Kivo7';
+const BRAND = 'EDI';
 
 /**
  * URL de la app donde aterrizan los CTAs de "empezar/iniciar".
  * Configurable por entorno (`PUBLIC_APP_URL`); fallback a producción.
  */
-const APP_URL: string = import.meta.env.PUBLIC_APP_URL ?? 'https://app.kivo7.com';
+const APP_URL: string = import.meta.env.PUBLIC_APP_URL ?? 'https://app.edi.example.com';
 
 /** Host sin esquema — se muestra en el mock del navegador (AppWindow). Derivado de APP_URL para no duplicar. */
 const APP_HOST = APP_URL.replace(/^https?:\/\//, '');
@@ -118,8 +118,8 @@ const APP_HOST = APP_URL.replace(/^https?:\/\//, '');
 export const meta: SiteMeta = {
   name: BRAND,
   shortTitle: BRAND,
-  title: `${BRAND} — Plataforma integral para fraccionamientos modernos`,
-  description: `${BRAND}: plataforma integral para administrar fraccionamientos y condominios en México. Cobranza, tesorería y transparencia en un solo lugar. Deja el Excel.`,
+  title: `${BRAND} — Plataforma integral para organizaciones modernos`,
+  description: `${BRAND}: plataforma integral para administrar organizaciones y organizaciones en México. Cobranza, tesorería y transparencia en un solo lugar. Deja el Excel.`,
   // Dominio del producto (infraestructura). Derivado de APP_URL / PUBLIC_APP_URL.
   appHost: APP_HOST,
   sameAs: [],
@@ -137,12 +137,12 @@ export const nav: NavLink[] = [
 export const navCta: NavLink = { href: APP_URL, label: 'Pruébalo gratis 30 días' };
 
 export const hero: Hero = {
-  badge: 'Plataforma integral para fraccionamientos modernos',
-  titleLead: 'La administración de tu fraccionamiento,',
+  badge: 'Plataforma integral para organizaciones modernos',
+  titleLead: 'La administración de tu organización,',
   titleEm: 'en orden.',
   ledeLead:
     'Cobranza al día, tesorería que cuadra y una comunidad que confía en los números.',
-  ledeStrong: 'Tu condominio deja el Excel en una semana.',
+  ledeStrong: 'Tu organización deja el Excel en una semana.',
   ctaPrimary: { href: APP_URL, label: 'Pruébalo gratis 30 días' },
   ctaSecondary: { href: '#plataforma', label: 'Ver la plataforma' },
   proofs: [
@@ -176,7 +176,7 @@ export const bento: BentoCard[] = [
     span: 3,
     image: cobranzaImg,
     imageAlt:
-      'Tablero de cobranza de Kivo7: tasa de cobro, antigüedad de cartera y las unidades con mayor saldo pendiente.',
+      'Tablero de cobranza de EDI: tasa de cobro, antigüedad de cartera y las unidades con mayor saldo pendiente.',
   },
   {
     tag: 'Tesorería',
@@ -186,7 +186,7 @@ export const bento: BentoCard[] = [
     delay: 1,
     image: tesoreriaImg,
     imageAlt:
-      'Tablero de tesorería de Kivo7: evolución del saldo y entradas contra salidas de los últimos doce meses.',
+      'Tablero de tesorería de EDI: evolución del saldo y entradas contra salidas de los últimos doce meses.',
   },
   {
     tag: 'Morosidad',
@@ -195,7 +195,7 @@ export const bento: BentoCard[] = [
     span: 2,
     image: morosidadImg,
     imageAlt:
-      'Control de morosidad de Kivo7: unidades con adeudo vencido, su antigüedad y el monto pendiente de cada una.',
+      'Control de morosidad de EDI: unidades con adeudo vencido, su antigüedad y el monto pendiente de cada una.',
   },
   {
     tag: 'Transparencia',
@@ -206,7 +206,7 @@ export const bento: BentoCard[] = [
     id: 'transparencia',
     image: transparenciaImg,
     imageAlt:
-      'Estado de resultados de Kivo7: ingresos, egresos y utilidad neta mensual de los últimos doce meses.',
+      'Estado de resultados de EDI: ingresos, egresos y utilidad neta mensual de los últimos doce meses.',
   },
   {
     tag: 'Mesa directiva',
@@ -216,7 +216,7 @@ export const bento: BentoCard[] = [
     delay: 2,
     image: mesaImg,
     imageAlt:
-      'Mesa directiva en Kivo7: periodo vigente con presidente, tesorero, secretario, vocal y comité de vigilancia.',
+      'Mesa directiva en EDI: periodo vigente con presidente, tesorero, secretario, vocal y comité de vigilancia.',
   },
   {
     tag: 'Reportes',
@@ -225,7 +225,7 @@ export const bento: BentoCard[] = [
     span: 4,
     image: reportesImg,
     imageAlt:
-      'Centro de reportes de Kivo7: morosidad, estado de resultados, flujo de efectivo y más, exportables a PDF y Excel.',
+      'Centro de reportes de EDI: morosidad, estado de resultados, flujo de efectivo y más, exportables a PDF y Excel.',
   },
   {
     tag: 'Residentes',
@@ -235,7 +235,7 @@ export const bento: BentoCard[] = [
     delay: 1,
     image: residentesImg,
     imageAlt:
-      'Estado de cuenta del residente en Kivo7: cada cargo mensual con lo esperado, lo pagado y su estado al corriente.',
+      'Estado de cuenta del residente en EDI: cada cargo mensual con lo esperado, lo pagado y su estado al corriente.',
   },
 ];
 
@@ -244,7 +244,7 @@ export const results: ResultStat[] = [
     value: 98,
     unit: '%',
     captionStrong: 'de cobranza al corriente',
-    caption: `en condominios con 6+ meses en ${BRAND}.`,
+    caption: `en organizaciones con 6+ meses en ${BRAND}.`,
   },
   {
     value: 12,
@@ -286,7 +286,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote:
-      'Antes el dinero del condominio era un misterio. Hoy cualquier vecino ve en qué se gasta cada peso, y eso bajó la tensión en las asambleas.',
+      'Antes el dinero del organización era un misterio. Hoy cualquier vecino ve en qué se gasta cada peso, y eso bajó la tensión en las asambleas.',
     name: 'Ricardo Beltrán',
     role: 'Presidente · Residencial Niebla, 88 unidades',
   },
@@ -303,7 +303,7 @@ export const cta: Cta = {
   titleLead: 'Tu comunidad,',
   titleEm: 'más organizada y segura.',
   bodyLead:
-    'Alta guiada: damos de alta tu condominio, migramos tus saldos y capacitamos a la mesa.',
+    'Alta guiada: damos de alta tu organización, migramos tus saldos y capacitamos a la mesa.',
   bodyStrong: 'En una semana, el Excel es historia.',
   primary: { href: APP_URL, label: 'Pruébalo gratis 30 días' },
   proofs: [
@@ -359,17 +359,17 @@ export interface HowStep {
 }
 export const howItWorks: { eyebrow: string; title: string; lede: string; steps: HowStep[] } = {
   eyebrow: 'Cómo funciona',
-  title: 'Tu condominio deja el Excel en una semana.',
+  title: 'Tu organización deja el Excel en una semana.',
   lede: 'Tres pasos. Sin migraciones eternas ni curva de aprendizaje.',
   steps: [
-    { n: '01', title: 'Creas el condominio', body: 'Alta y configuración guiada de tu fraccionamiento o condominio en minutos.' },
+    { n: '01', title: 'Creas el organización', body: 'Alta y configuración guiada de tu organización o organización en minutos.' },
     { n: '02', title: 'Cargas unidades y residentes', body: 'Torres, secciones y unidades. Vinculas a cada propietario o inquilino.' },
     { n: '03', title: 'Cobras y reportas solo', body: 'Generas cargos, registras pagos con FIFO y el estado de cuenta se arma solo.' },
   ],
 };
 
 /**
- * Planes por banda de unidades. El precio depende SOLO del tamaño del clúster:
+ * Planes por banda de unidades. El precio depende SOLO del tamaño del organización:
  * todo el producto (incluidas paquetería y amenidades) va dentro del plan base,
  * no hay módulos vendibles por separado. Esencial / Avanzado / Premium con
  * precios REALES del infográfico; Básico / Inicial (1–50 casas) con precios
@@ -401,7 +401,7 @@ export interface PricingTier {
   blurb?: string;
 }
 /** Correo de venta consultiva. Debe coincidir con `contact.email` del catálogo. */
-const CONTACT_EMAIL = 'hola@kivo7.com';
+const CONTACT_EMAIL = 'hola@edi.example.com';
 
 export const pricing: {
   eyebrow: string;
@@ -415,7 +415,7 @@ export const pricing: {
   contactEmail: string;
 } = {
   eyebrow: 'Precios',
-  title: 'Elige el plan que mejor se adapta a tu fraccionamiento.',
+  title: 'Elige el plan que mejor se adapta a tu organización.',
   // El precio mostrado es el MENSUAL. El 5% de descuento del pago anual vivía sólo
   // en las notas al pie, donde nadie lo lee: se sube aquí porque es la palanca que
   // adelanta flujo de caja y reduce cancelaciones, y nadie elige lo que no ve.
@@ -493,7 +493,7 @@ export const pricing: {
   ],
   notes: [
     'Precios en MXN con IVA incluido.',
-    'Sin módulos extra: el precio depende sólo del tamaño de tu fraccionamiento.',
+    'Sin módulos extra: el precio depende sólo del tamaño de tu organización.',
     'Contrato anual con opción a pago mensual o anual (5% de descuento en el pago anual).',
     'Implementación y capacitación incluidas.',
   ],
@@ -509,17 +509,17 @@ export const faq: { eyebrow: string; title: string; items: FaqItem[] } = {
   eyebrow: 'Preguntas frecuentes',
   title: 'Lo que todos preguntan.',
   items: [
-    { q: '¿Sirve para fraccionamiento y para condominio?', a: 'Sí. Kivo7 maneja condominios horizontales (casas), verticales (departamentos) y mixtos.' },
+    { q: '¿Sirve para organización y para organización?', a: 'Sí. EDI maneja organizaciones horizontales (casas), verticales (departamentos) y mixtos.' },
     { q: '¿Cómo migro mi Excel?', a: 'Cargas tus unidades y residentes una vez. No necesitas fórmulas: la cobranza y los saldos se calculan automáticamente.' },
     { q: '¿Los vecinos ven su estado de cuenta?', a: 'Sí. Cada residente ve sus cargos, pagos y saldo con total transparencia.' },
     { q: '¿Maneja indiviso (ownership share)?', a: 'Sí. Puedes cobrar montos proporcionales al porcentaje de copropiedad cuando lo necesites.' },
     { q: '¿Qué métodos de pago registra?', a: 'Efectivo, transferencia, depósito y cheque, cada uno con folio y comprobante.' },
-    { q: '¿Es seguro?', a: 'Cada condominio tiene sus datos aislados y auditados. Nadie ve la información de otro.' },
+    { q: '¿Es seguro?', a: 'Cada organización tiene sus datos aislados y auditados. Nadie ve la información de otro.' },
   ],
 };
 
 /** Metadatos del blog (título/descr del listado, base para SEO). */
 export const blogMeta = {
   title: 'Blog',
-  description: `Guías de administración de fraccionamientos y condominios, por ${BRAND}.`,
+  description: `Guías de administración de organizaciones y organizaciones, por ${BRAND}.`,
 };

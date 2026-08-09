@@ -18,7 +18,7 @@ export const ResetPasswordEmail = ({
   resetUrl = 'https://app.example.com/reset-password?token=xxx',
   expiresInMinutes = 60,
 }: ResetPasswordEmailProps) => (
-  <EmailLayout previewText="Restablece tu contraseña de Kivo7">
+  <EmailLayout previewText="Restablece tu contraseña de EDI">
     <Section style={{ paddingTop: '8px', paddingBottom: '8px' }}>
       <Img
         src={`${getEmailAssetsBaseUrl()}/static/banner.jpg`}

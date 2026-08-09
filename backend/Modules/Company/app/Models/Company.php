@@ -60,7 +60,7 @@ class Company extends BaseModel implements HasMedia
     }
 
     /**
-     * Single-file media collection for the cluster's visual identity (§16.3.2).
+     * Single-file media collection for the organization's visual identity (§16.3.2).
      *
      * Uploading a new logo replaces the previous file automatically
      * (singleFile()), so the collection always holds at most one current asset.
@@ -77,7 +77,7 @@ class Company extends BaseModel implements HasMedia
      * Orion resource, and is created/read outside tenant context during
      * onboarding, so we intentionally do NOT auto-stamp/scope every query). But a
      * bare where('main', true) in the shared DB returns the FIRST main company
-     * across ALL tenants — a cross-tenant leak of cluster identity. When tenancy
+     * across ALL tenants — a cross-tenant leak of organization identity. When tenancy
      * is initialized we therefore scope main() by the current tenant_id; outside
      * tenant context (super-admin / onboarding) it stays unscoped.
      */

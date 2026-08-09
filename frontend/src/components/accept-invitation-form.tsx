@@ -51,15 +51,15 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>
 
-/** Resumen de a qué unidad/clúster se está uniendo la persona (solo invitación de residente). */
+/** Resumen de a qué unidad/organización se está uniendo la persona (solo invitación de residente). */
 function InvitationSummary({ info }: { info: VerifyInvitationTokenResponse }) {
-  if (!info.cluster_name && !info.unit_label) return null
+  if (!info.organization_name && !info.unit_label) return null
   return (
     <dl className="grid grid-cols-1 gap-1 rounded-[10px] border border-border bg-muted/40 px-4 py-3 text-sm">
-      {info.cluster_name && (
+      {info.organization_name && (
         <div className="flex justify-between gap-3">
-          <dt className="text-muted-foreground">Condominio</dt>
-          <dd className="font-medium text-right">{info.cluster_name}</dd>
+          <dt className="text-muted-foreground">Organización</dt>
+          <dd className="font-medium text-right">{info.organization_name}</dd>
         </div>
       )}
       {info.unit_label && (
@@ -96,14 +96,14 @@ function NewAccountForm({
 }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false)
-  const isResident = Boolean(info.cluster_name || info.unit_label)
+  const isResident = Boolean(info.organization_name || info.unit_label)
 
   return (
     <form name="accept-invitation" onSubmit={onSubmit} autoComplete="on" className="space-y-6">
       <FieldGroup>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">
-            {isResident && info.cluster_name ? `Te invitaron a ${info.cluster_name}` : 'Completar mi cuenta'}
+            {isResident && info.organization_name ? `Te invitaron a ${info.organization_name}` : 'Completar mi cuenta'}
           </h1>
           <p className="text-muted-foreground text-balance">
             {isResident && info.unit_label
@@ -243,7 +243,7 @@ function ExistingAccountForm({
             Tu correo <span className="font-medium text-foreground">{info.email}</span> ya tiene una
             cuenta. Inicia sesión para unirte
             {info.unit_label ? ` a ${info.unit_label}` : ''}
-            {info.cluster_name ? ` en ${info.cluster_name}` : ''}.
+            {info.organization_name ? ` en ${info.organization_name}` : ''}.
           </p>
         </div>
 

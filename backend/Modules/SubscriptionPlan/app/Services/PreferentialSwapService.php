@@ -13,16 +13,16 @@ use Modules\Tenant\Models\Tenant;
 /**
  * Preferential ("variante oculta") PLAN swap for super-admins (billing v2).
  *
- * A super-admin moves a cluster from its current plan to a PREFERENTIAL plan (a
+ * A super-admin moves a organization from its current plan to a PREFERENTIAL plan (a
  * billing_package with is_public=false: same modules, a negotiated cheaper price
  * in plan_module_price that never appears in the public catalog/quoter). Every one
- * of the cluster's ACTIVE per-module entitlements is re-pointed to the preferential
+ * of the organization's ACTIVE per-module entitlements is re-pointed to the preferential
  * plan (source + expiry + interval preserved), and tenant.billing_package_id is
  * updated.
  *
  * Two billing realities:
  *  - CARD (active Stripe subscription): preview() asks Stripe for the upcoming
- *    invoice of swapping the cluster's module lines to the preferential plan's
+ *    invoice of swapping the organization's module lines to the preferential plan's
  *    prices and reads back the proration_date for the estimate shown to the user;
  *    apply() swaps the lines and lets Stripe compute the proration at now — the
  *    client is NEVER trusted for the proration_date — then re-points the local
@@ -35,10 +35,10 @@ use Modules\Tenant\Models\Tenant;
  *
  * DELIBERATE EXEMPTION (plan-downgrade-guard, REQ-03/REQ-08): unit-band fit is
  * NOT checked anywhere in this service. Both `ConfigurationController::
- * changeBillingPlan` (cluster-admin self-serve) AND `PreferentialSwapController::
+ * changeBillingPlan` (organization-admin self-serve) AND `PreferentialSwapController::
  * swap` (super-admin preferential swap) funnel into applyCard()/applyManual()
  * here — a guard placed in this service would silently block the super admin
- * too. The cluster-admin surface enforces the guard itself, in
+ * too. The organization-admin surface enforces the guard itself, in
  * `ConfigurationController` (via `UnitLimitService::assertPlanFits()`), BEFORE
  * calling into this service; the super-admin preferential swap is exempt by
  * explicit user decision (the preferential swap is a deliberate commercial
@@ -60,7 +60,7 @@ class PreferentialSwapService
      * Stripe chose for the estimate shown to the user (apply() lets Stripe
      * re-compute the proration at now — it does not pin this date).
      *
-     * @param  array<int, string>  $moduleKeys  the cluster's contracted module keys
+     * @param  array<int, string>  $moduleKeys  the organization's contracted module keys
      * @return array{manual: false, proration_date: int|null, amount_due: int, currency: string, lines: array<int, array{description: string|null, amount: int}>}
      */
     public function previewCard(Subscription $subscription, BillingPackage $toPlan, array $moduleKeys, string $interval): array
@@ -203,7 +203,7 @@ class PreferentialSwapService
             }
 
             if ($last === null) {
-                throw new InvalidArgumentException('El condominio no tiene entitlements activas para cambiar de plan.');
+                throw new InvalidArgumentException('El organización no tiene entitlements activas para cambiar de plan.');
             }
 
             $tenant->update(['billing_package_id' => $toPlan->id]);

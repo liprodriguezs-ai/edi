@@ -33,8 +33,8 @@ export function getGaClientId(): string | undefined {
   return parts.length >= 4 ? parts.slice(-2).join('.') : undefined
 }
 
-const PURCHASE_INTENT_KEY = 'kivo7-purchase-intent'
-const PURCHASE_TRACKED_KEY = 'kivo7-purchase-tracked'
+const PURCHASE_INTENT_KEY = 'edi-purchase-intent'
+const PURCHASE_TRACKED_KEY = 'edi-purchase-tracked'
 
 export interface PurchaseIntent {
   eventId: string

@@ -2,7 +2,7 @@
   "name": "residia-landing",
   "type": "module",
   "version": "0.1.0",
-  "description": "Landing de Residia — gestión de unidades habitacionales (fraccionamientos y condominios)",
+  "description": "Landing de Residia — gestión de unidades habitacionales (organizacións y organizaciones)",
   "engines": {
     "node": ">=22.12.0"
   },

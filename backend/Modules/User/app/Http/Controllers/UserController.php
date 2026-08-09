@@ -136,8 +136,8 @@ class UserController extends Controller
 
     private function applyRoleVisibilityFilter(Builder $query): void
     {
-        // Kivo7: la visibilidad la gobiernan el permiso read.user (ruta) y el
-        // UserTenantScope (cada actor del clúster solo ve usuarios de SU tenant;
+        // EDI: la visibilidad la gobiernan el permiso read.user (ruta) y el
+        // UserTenantScope (cada actor del organización solo ve usuarios de SU tenant;
         // el super admin no tiene tenant y ve todo). El filtro CRM por roles
         // RH/COMPANY_ADMIN dejaba listas vacías para account.owner — eliminado.
     }
@@ -432,7 +432,7 @@ class UserController extends Controller
      * self-service must NOT be able to anonymize a neighbour). Self-anonymization
      * is rejected, and a tenant can never be left without an account owner.
      * The target resolves through UserTenantScope, so a member of another
-     * cluster is a plain 404.
+     * organization is a plain 404.
      */
     public function anonymize(HttpRequest $request, string $id): JsonResponse
     {
@@ -462,7 +462,7 @@ class UserController extends Controller
 
         if ($userService->isLastAccountOwnerOfAnyTenant($target)) {
             return response()->json([
-                'message' => 'No se puede anonimizar al último propietario de cuenta del condominio.',
+                'message' => 'No se puede anonimizar al último propietario de cuenta del organización.',
             ], 422);
         }
 

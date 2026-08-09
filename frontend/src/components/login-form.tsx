@@ -50,7 +50,7 @@ export function LoginForm() {
     <AuthSplitLayout
       brand={
         <AuthBrandPanel
-          headline="La administración de tu condominio, en orden."
+          headline="La administración de tu organización, en orden."
           subtext="Cobranza, tesorería y transparencia en un solo lugar. Bienvenido de vuelta."
           quote="Dejé tres libretas y dos hojas de Excel. Hoy la asamblea ve el reporte y nadie pregunta a dónde se fue el dinero."
           author="Alberto González"
@@ -64,7 +64,7 @@ export function LoginForm() {
       <h1 className="text-[27px] font-semibold tracking-[-0.02em] text-foreground">
         Inicia sesión
       </h1>
-      <p className="mt-1.5 text-sm text-[var(--ink-3)]">Entra a administrar tu condominio.</p>
+      <p className="mt-1.5 text-sm text-[var(--ink-3)]">Entra a administrar tu organización.</p>
 
       <form name="login" onSubmit={handleLoginSubmit} autoComplete="on" className="mt-7">
         <FieldGroup className="gap-4">

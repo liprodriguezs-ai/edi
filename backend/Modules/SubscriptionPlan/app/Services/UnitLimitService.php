@@ -24,7 +24,7 @@ use RuntimeException;
  *   Enforced ONLY at the billing-plan change/preview endpoints (REQ-08) —
  *   deliberately NOT here as a
  *   tenancy-wide choke point, because `PreferentialSwapService` (the shared
- *   apply engine both the cluster-admin AND the super-admin preferential swap
+ *   apply engine both the organization-admin AND the super-admin preferential swap
  *   call into) must stay exempt for the super-admin actor. See
  *   PreferentialSwapService's class docblock for the bypass rationale.
  *

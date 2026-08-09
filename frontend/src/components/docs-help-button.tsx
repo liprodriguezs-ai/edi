@@ -20,7 +20,7 @@ export function DocsHelpButton() {
 
   // El texto dice a dónde va. Sin página propia, se anuncia como el manual
   // completo para no prometer una guía específica que no existe.
-  const label = hasDedicatedDocs(pathname) ? 'Ayuda de esta pantalla' : 'Manual de Kivo7'
+  const label = hasDedicatedDocs(pathname) ? 'Ayuda de esta pantalla' : 'Manual de EDI'
 
   return (
     <Tooltip>

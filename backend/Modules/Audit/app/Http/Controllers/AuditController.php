@@ -19,7 +19,7 @@ class AuditController extends Controller
     /**
      * §18.2 / findings global-01, reports-02 — the audits table is central
      * (no TenantScope), so without this filter any account owner could read
-     * every cluster's trail. Tenant members only see their own tenant's rows;
+     * every organization's trail. Tenant members only see their own tenant's rows;
      * the platform super admin (wildcard token) may read across tenants.
      */
     protected function buildFetchQuery(Request $request, array $requestedRelations): Builder

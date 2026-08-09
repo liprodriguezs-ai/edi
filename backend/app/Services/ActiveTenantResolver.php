@@ -17,7 +17,7 @@ use QCH\Core\Models\Role;
  * SubscriptionStateService) MUST resolve the request's tenant through this class,
  * so the tenant that gets ENFORCED is ALWAYS the exact same tenant the request
  * ends up OPERATING on. Any divergence here reopens the X-Tenant-Id enforcement
- * bypass: a user who belongs to both an ACTIVE cluster A and a BLOCKED cluster B
+ * bypass: a user who belongs to both an ACTIVE organization A and a BLOCKED organization B
  * could get enforcement evaluated against A (via last_active) while the controller
  * serves B (via the X-Tenant-Id header).
  *

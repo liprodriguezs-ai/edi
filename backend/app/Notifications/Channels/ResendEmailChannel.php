@@ -31,8 +31,8 @@ class ResendEmailChannel implements NotificationChannelInterface
             return;
         }
 
-        $fromAddress = config('mail.from.address', 'noreply@kivo7.com');
-        $fromName = config('mail.from.name', 'Kivo7');
+        $fromAddress = config('mail.from.address', 'noreply@edi.example.com');
+        $fromName = config('mail.from.name', 'EDI');
 
         // Errors PROPAGATE on purpose: this runs inside DeliverChannelMessageJob, so a
         // send failure must surface for the job to retry ($tries) — not be swallowed.

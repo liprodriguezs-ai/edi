@@ -2,11 +2,11 @@ import { useOnboardingChecklist } from '@/modules/onboarding/hooks/useOnboarding
 import { Navigate, Outlet } from 'react-router-dom'
 
 /**
- * Keeps the dashboard hidden until the cluster setup is finished.
+ * Keeps the dashboard hidden until the organization setup is finished.
  *
  * Onboarding lives on its own page (`/onboarding`): while an administrator
  * still has required steps pending, any attempt to reach the dashboard is
- * redirected there. Non-admin roles and completed clusters pass through.
+ * redirected there. Non-admin roles and completed organizations pass through.
  */
 export function OnboardingGuard() {
   const { checklist, isLoading, isAdmin, isComplete } = useOnboardingChecklist()

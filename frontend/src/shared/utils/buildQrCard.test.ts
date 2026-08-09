@@ -45,7 +45,7 @@ const qrCanvas = document.createElement('canvas')
 
 const baseOptions = {
   qrCanvas,
-  brand: 'Kivo7',
+  brand: 'EDI',
   heading: 'QR de acceso',
   code: 'ABC123',
   note: 'Muestra este código en la caseta.',
@@ -70,7 +70,7 @@ describe('buildQrCardCanvas', () => {
 
     expect(canvas).not.toBeNull()
     const printed = captured.texts.join(' | ')
-    expect(printed).toContain('KIVO7')
+    expect(printed).toContain('EDI')
     expect(printed).toContain('QR de acceso')
     expect(printed).toContain('Juan Pérez')
     expect(printed).toContain('ABC123')

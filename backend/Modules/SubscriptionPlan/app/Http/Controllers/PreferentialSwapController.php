@@ -21,7 +21,7 @@ use Modules\Tenant\Models\Tenant;
  *                                                   next-cycle notice (manual)
  *   - POST tenant/{id}/preferential-swap           perform the swap
  *
- * The HTTP layer resolves the target preferential plan, the cluster's contracted
+ * The HTTP layer resolves the target preferential plan, the organization's contracted
  * modules + interval (from its active entitlements) and the billing reality (CARD
  * via the account owner's Stripe subscription, else MANUAL), then delegates ALL
  * billing logic to PreferentialSwapService. Domain failures surface as 422.
@@ -105,9 +105,9 @@ class PreferentialSwapController extends Controller
     }
 
     /**
-     * Resolve the swap context: the target preferential plan, the cluster's
+     * Resolve the swap context: the target preferential plan, the organization's
      * contracted module keys + interval (from its active entitlements), and (for a
-     * CARD cluster) the active Stripe subscription to swap.
+     * CARD organization) the active Stripe subscription to swap.
      *
      * @return array{to: BillingPackage, module_keys: array<int, string>, interval: string, subscription: Subscription|null}
      *
@@ -139,7 +139,7 @@ class PreferentialSwapController extends Controller
             ->all();
 
         if ($moduleKeys === []) {
-            throw new InvalidArgumentException('El condominio no tiene entitlements activas para cambiar de plan.');
+            throw new InvalidArgumentException('El organización no tiene entitlements activas para cambiar de plan.');
         }
 
         $interval = $entitlements->pluck('interval')->filter()->first() ?: PlanModulePrice::INTERVAL_MONTH;
@@ -151,7 +151,7 @@ class PreferentialSwapController extends Controller
 
             if ($subscription === null) {
                 throw new InvalidArgumentException(
-                    'El condominio paga con tarjeta pero no se pudo resolver una suscripción Stripe activa (owner ausente o ambiguo).'
+                    'El organización paga con tarjeta pero no se pudo resolver una suscripción Stripe activa (owner ausente o ambiguo).'
                 );
             }
         }
@@ -165,7 +165,7 @@ class PreferentialSwapController extends Controller
     }
 
     /**
-     * The active Stripe subscription of the cluster's single account owner, or null.
+     * The active Stripe subscription of the organization's single account owner, or null.
      */
     private function activeSubscriptionForTenant(Tenant $tenant): ?Subscription
     {

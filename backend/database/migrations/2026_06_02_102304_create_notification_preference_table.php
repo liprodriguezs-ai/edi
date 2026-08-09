@@ -9,7 +9,7 @@ use QCH\Core\Models\BaseModel;
  * notification_preference (CENTRAL — no tenant_id, one row per user):
  *
  * Holds each user's notification delivery preferences. Preferences belong to the
- * USER (not the cluster), so the table is central — exactly one row per user.
+ * USER (not the organization), so the table is central — exactly one row per user.
  *
  * `channels` is a JSON map of category => { push:bool, email:bool, sms:bool }.
  * A missing channel in the map (or a missing row entirely) means "enabled" — so the

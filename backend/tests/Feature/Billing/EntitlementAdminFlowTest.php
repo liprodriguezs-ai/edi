@@ -192,13 +192,13 @@ final class EntitlementAdminFlowTest extends TestCase
         );
     }
 
-    public function test_revoke_removes_a_courtesy_base_and_leaves_the_cluster_without_access(): void
+    public function test_revoke_removes_a_courtesy_base_and_leaves_the_organization_without_access(): void
     {
         // F-03: with a SINGLE billable module (`base`) plus the unique index on
-        // (tenant_id, billable_module_id), a cluster holds at most ONE entitlement.
+        // (tenant_id, billable_module_id), a organization holds at most ONE entitlement.
         // The old "never strip the last active base" guard therefore fired ALWAYS and
         // a courtesy granted by mistake could not be withdrawn by any product path.
-        // Revoking must succeed and leave the cluster with no active entitlement —
+        // Revoking must succeed and leave the organization with no active entitlement —
         // i.e. blocked, which is exactly what the operator asked for.
         $tenant = $this->makeTenant();
         $super = $this->makeUser();
@@ -234,7 +234,7 @@ final class EntitlementAdminFlowTest extends TestCase
         $this->assertSame(
             0,
             TenantEntitlement::query()->where('tenant_id', $tenant->id)->active()->count(),
-            'the cluster ends with no active entitlement (blocked)',
+            'the organization ends with no active entitlement (blocked)',
         );
     }
 

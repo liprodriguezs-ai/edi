@@ -33,7 +33,7 @@ class OnboardingController extends Controller
 
         try {
             $user = $request->user('sanctum');
-            // The central User has no `tenant_id` column — its active cluster is
+            // The central User has no `tenant_id` column — its active organization is
             // last_active_tenant_id (tenant membership is many-to-many via user_tenant).
             if ($user && ! empty($user->last_active_tenant_id)) {
                 $tenantId = $user->last_active_tenant_id;

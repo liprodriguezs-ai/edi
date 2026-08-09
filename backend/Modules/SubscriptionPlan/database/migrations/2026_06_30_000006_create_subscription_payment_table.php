@@ -13,7 +13,7 @@ return new class extends Migration
             $table->comment('Central ledger of subscription payments for a tenant (manual transfer/cash recorded by super-admin, or stripe invoices); each row extends/anchors the tenant entitlement period it paid for. Central (no tenant scope of its own) like tenant_entitlement/billing_package.');
             BaseModel::columns($table, false);
 
-            $table->uuid('tenant_id')->comment('FK to tenant — the cluster this payment belongs to');
+            $table->uuid('tenant_id')->comment('FK to tenant — the organization this payment belongs to');
             $table->uuid('billable_module_id')->nullable()->comment('FK to billable_module — the module this payment paid for (null if the module was later removed)');
             $table->uuid('billing_package_id')->nullable()->comment('FK to billing_package — the PLAN this payment paid under (null if the plan was later removed)');
             $table->uuid('tenant_entitlement_id')->nullable()->comment('FK to tenant_entitlement — the entitlement row this payment extended/anchored (null if later removed)');

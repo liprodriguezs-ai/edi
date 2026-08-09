@@ -49,7 +49,7 @@ final class RegisterTrackingTest extends TestCase
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'Ana',
-            'cluster_name' => 'Condominio Ana',
+            'organization_name' => 'Organización Ana',
             'email' => 'ana.tracking@example.com',
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',
@@ -71,7 +71,7 @@ final class RegisterTrackingTest extends TestCase
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'Caro',
-            'cluster_name' => 'Condominio Caro',
+            'organization_name' => 'Organización Caro',
             'email' => 'caro.tracking@example.com',
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',
@@ -90,7 +90,7 @@ final class RegisterTrackingTest extends TestCase
 
         $response = $this->postJson('/api/auth/register', [
             'name' => 'Beto',
-            'cluster_name' => 'Condominio Beto',
+            'organization_name' => 'Organización Beto',
             'email' => 'beto.tracking@example.com',
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',

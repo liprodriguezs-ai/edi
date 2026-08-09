@@ -103,7 +103,7 @@ describe('ChangeBillingPlanModal — información para decidir', () => {
     expect(screen.getByText('$450')).toBeInTheDocument()
   })
 
-  it('muestra de dónde parte el condominio: plan vigente, su banda y su precio', async () => {
+  it('muestra de dónde parte el organización: plan vigente, su banda y su precio', async () => {
     renderModal()
 
     await waitFor(() => {
@@ -125,7 +125,7 @@ describe('ChangeBillingPlanModal — información para decidir', () => {
     expect(screen.getByText(/te toca el plan/i)).toBeInTheDocument()
   })
 
-  it('no recomienda nada ni alarma cuando el condominio aún no tiene unidades', async () => {
+  it('no recomienda nada ni alarma cuando el organización aún no tiene unidades', async () => {
     renderModal(0)
 
     await waitFor(() => {
@@ -160,7 +160,7 @@ describe('ChangeBillingPlanModal — plan-downgrade-guard warning panel', () => 
       new_price: 45000,
       unit_limit_warning: {
         message:
-          'Tu condominio tiene 6 unidades activas y el plan Small admite hasta 5. El plan que se ajusta es Current.',
+          'Tu organización tiene 6 unidades activas y el plan Small admite hasta 5. El plan que se ajusta es Current.',
         plan_name: 'Small',
         unit_limit: 5,
         active_units: 6,

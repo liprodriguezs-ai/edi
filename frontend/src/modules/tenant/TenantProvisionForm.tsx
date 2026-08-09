@@ -142,7 +142,7 @@ export const TenantProvisionForm = ({
       if (!planSelection || !planSelection.planKey) {
         toast.error(
           'Selecciona un plan',
-          'Espera a que cargue el catálogo y elige el plan del condominio.'
+          'Espera a que cargue el catálogo y elige el plan del organización.'
         )
         return
       }
@@ -150,7 +150,7 @@ export const TenantProvisionForm = ({
       if (planSelection.isContactSales && values.provision_mode !== 'courtesy') {
         toast.error(
           'Plan sin precio de lista',
-          'El plan a medida se cotiza con el equipo comercial. Da de alta el condominio como cortesía y registra el cobro después.'
+          'El plan a medida se cotiza con el equipo comercial. Da de alta el organización como cortesía y registra el cobro después.'
         )
         return
       }
@@ -164,13 +164,13 @@ export const TenantProvisionForm = ({
     try {
       putSaving(true)
       const tenant = await TenantResource.provision(payload)
-      toast.success('Condominio creado', 'La facturación quedó provisionada.')
+      toast.success('Organización creado', 'La facturación quedó provisionada.')
       onSuccess?.(tenant)
     } catch (error) {
       const message =
         error instanceof ApiError
           ? formatApiErrorMessage(error)
-          : { title: 'Error', description: 'No se pudo crear el condominio.' }
+          : { title: 'Error', description: 'No se pudo crear el organización.' }
       toast.error(message.title, message.description)
     } finally {
       putSaving(false)
@@ -183,7 +183,7 @@ export const TenantProvisionForm = ({
         <RequiredFieldsLegend />
 
         <FieldSet>
-          <FieldLegend>Datos del condominio</FieldLegend>
+          <FieldLegend>Datos del organización</FieldLegend>
           <FieldDescription>Información básica del espacio de trabajo</FieldDescription>
           <FieldGroup>
             <Field>
@@ -192,7 +192,7 @@ export const TenantProvisionForm = ({
               </FieldLabel>
               <Input
                 id='tenant-name'
-                placeholder='Ingresa el nombre del condominio'
+                placeholder='Ingresa el nombre del organización'
                 {...register('name')}
                 disabled={isSaving}
               />
@@ -203,7 +203,7 @@ export const TenantProvisionForm = ({
 
         <FieldSet>
           <FieldLegend>Modo de provisión</FieldLegend>
-          <FieldDescription>Define cómo arranca la facturación del condominio</FieldDescription>
+          <FieldDescription>Define cómo arranca la facturación del organización</FieldDescription>
           <Controller
             name='provision_mode'
             control={control}
@@ -250,7 +250,7 @@ export const TenantProvisionForm = ({
         {(provisionMode === 'card' || provisionMode === 'manual_paid') && (
           <FieldSet>
             <FieldLegend>Método de pago</FieldLegend>
-            <FieldDescription>Cómo pagará el condominio su suscripción</FieldDescription>
+            <FieldDescription>Cómo pagará el organización su suscripción</FieldDescription>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor='tenant-payment-method' required>
@@ -286,7 +286,7 @@ export const TenantProvisionForm = ({
 
         {needsPlan && (
           <FieldSet>
-            <FieldLegend>Plan del condominio</FieldLegend>
+            <FieldLegend>Plan del organización</FieldLegend>
             <FieldDescription>
               {provisionMode === 'manual_paid'
                 ? 'Elige unidades y plan; el monto a registrar lo calcula el sistema.'
@@ -302,7 +302,7 @@ export const TenantProvisionForm = ({
                 className='rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800/50 dark:bg-amber-900/20 dark:text-amber-200'
               >
                 El plan a medida no tiene precio de lista, así que no se puede registrar un pago. Da
-                de alta el condominio como cortesía y registra el cobro cuando el equipo comercial
+                de alta el organización como cortesía y registra el cobro cuando el equipo comercial
                 cierre el precio.
               </p>
             )}

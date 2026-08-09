@@ -26,8 +26,8 @@ class MenuController extends Controller
 
         $abilities = $user->getPermissionsViaRoles()->pluck('name')->toArray();
 
-        // Build the menu from the user's ACTIVE cluster, not an arbitrary first pick.
-        // A multi-cluster user who selected B (via X-Tenant-Id / last_active_tenant_id)
+        // Build the menu from the user's ACTIVE organization, not an arbitrary first pick.
+        // A multi-organization user who selected B (via X-Tenant-Id / last_active_tenant_id)
         // had the menu computed from A — wrong enabled systems and per-tenant disabled
         // modules. Prefer the tenancy-initialized tenant ONLY when the user is actually a
         // member of it; otherwise fall back to their first membership. Super admins have

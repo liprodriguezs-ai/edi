@@ -15,7 +15,7 @@ interface TenantBillingModalProps {
 }
 
 /**
- * Pantalla del super-admin para administrar la facturación de un clúster: método
+ * Pantalla del super-admin para administrar la facturación de un organización: método
  * de pago, pagos manuales, vencimiento, plan y el historial de cobros.
  *
  * Monta el panel (y dispara la lectura de datos) sólo cuando está abierto, así no
@@ -32,7 +32,7 @@ export function TenantBillingModal({ isOpen, tenant, onClose }: TenantBillingMod
         <DialogHeader className='shrink-0 border-b border-border px-6 py-4 text-left'>
           <DialogTitle>Facturación · {tenant.name}</DialogTitle>
           <DialogDescription>
-            Administra cómo cobra el condominio, registra pagos y controla su plan contratado.
+            Administra cómo cobra el organización, registra pagos y controla su plan contratado.
           </DialogDescription>
         </DialogHeader>
 

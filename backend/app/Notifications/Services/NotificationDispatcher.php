@@ -166,7 +166,7 @@ class NotificationDispatcher
      * Resolve the user ids that hold ANY of the given Spatie roles (guard 'api')
      * AND belong to the given tenant (user_tenant pivot). This is the canonical,
      * tenant-safe role fan-out resolver: Spatie roles are GLOBAL in this project,
-     * so resolving recipients by role alone leaks across clusters.
+     * so resolving recipients by role alone leaks across organizations.
      *
      * Unknown role names are ignored (Spatie's role() scope throws otherwise).
      *

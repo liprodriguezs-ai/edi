@@ -49,7 +49,7 @@ generated artifacts. The flow:
    `_components/LaravelBlade`) renders the fallback in preview and emits `{{ $userName }}` in the
    Blade build; for links use a literal `href={'{{ $acceptUrl }}'}`.
 3. **There is NO Blade `@if` in this flow.** So the **Mailable must pass NON-NULL values** —
-   provide defaults in `->with([...])` (e.g. `$ctx['cluster_name'] ?? 'tu condominio'`), otherwise
+   provide defaults in `->with([...])` (e.g. `$ctx['cluster_name'] ?? 'tu organización'`), otherwise
    an empty variable leaves a visible gap in the rendered email.
 4. **Compile:** from `frontend/`, run `pnpm copy-emails`. It runs `BLADE_OUTPUT=true email export`,
    copies the HTML to `backend/Modules/Email/resources/views/*.blade.php`, and static assets to

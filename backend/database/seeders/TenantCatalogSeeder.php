@@ -18,7 +18,7 @@ use Illuminate\Database\Seeder;
  * centrales y los siembra CatalogSeeder una sola vez.
  *
  * ESTADO: vacío a propósito. La plantilla traía 12 catálogos del dominio de
- * condominios (tipos de unidad, puestos de empleado, categorías de cargo…) que
+ * organizaciones (tipos de unidad, puestos de empleado, categorías de cargo…) que
  * se borraron junto con sus módulos. Los catálogos EDI —parentesco del cuidador,
  * escolaridad, ocupación, zonas corporales, movimientos de masaje, especialidades
  * de referencia— se agregan a CATALOGS a medida que se construyen sus módulos.

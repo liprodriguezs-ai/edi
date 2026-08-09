@@ -6,7 +6,7 @@ interface CatalogPillProps {
 }
 
 /**
- * Pill para filas de catálogos tenant-scoped: usa el color que el condominio
+ * Pill para filas de catálogos tenant-scoped: usa el color que el organización
  * configuró en la fila (nunca un mapeo por UUID — los ids varían por tenant).
  */
 export const CatalogPill = ({ name, color }: CatalogPillProps) => {

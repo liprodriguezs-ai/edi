@@ -17,10 +17,10 @@ export interface LoginRequest {
 export interface RegisterRequest {
   name: string
   /**
-   * Nombre del condominio que se está dando de alta. Va tal cual a `tenant.name`,
-   * que es la etiqueta que la app muestra como el clúster en todos lados.
+   * Nombre del organización que se está dando de alta. Va tal cual a `tenant.name`,
+   * que es la etiqueta que la app muestra como el organización en todos lados.
    */
-  cluster_name: string
+  organization_name: string
   email: string
   password: string
   password_confirmation: string
@@ -201,7 +201,7 @@ export interface VerifyInvitationTokenResponse {
   /** True when the email already has a usable account: the person logs in to join. */
   account_exists?: boolean
   /** Resident-invitation context, present only for unit invitations. */
-  cluster_name?: string
+  organization_name?: string
   unit_label?: string
   relationship_name?: string
   inviter_name?: string

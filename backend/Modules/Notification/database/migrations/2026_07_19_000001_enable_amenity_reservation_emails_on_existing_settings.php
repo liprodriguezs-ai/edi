@@ -69,7 +69,7 @@ return new class extends Migration
     /**
      * Restores the pre-change off-state on exactly the same 5 events. Does
      * NOT delete any notification_setting rows backfilled by up() — those
-     * rows represent real per-cluster settings for events that existed all
+     * rows represent real per-organization settings for events that existed all
      * along (the amenity_reservation.* events themselves are not new), so
      * removing them on rollback would drop legitimate configuration for
      * unrelated channels (push/whatsapp) and board-role recipients.

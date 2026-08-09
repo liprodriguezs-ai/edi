@@ -28,7 +28,7 @@ use Modules\Tenant\Models\Tenant;
  * Stripe-sourced entitlements are DELIBERATELY excluded from this trigger — a card
  * subscription that fails renewal flips to past_due and the Stripe webhook expires
  * the row + recomputes. This cron NEVER expires or recomputes stripe rows (the
- * webhook owns them) and never blocks a card cluster.
+ * webhook owns them) and never blocks a card organization.
  *
  * The ONE thing it does for Stripe is a status-only reconciliation pass
  * (reconcileOrphanStripeStatuses): a lapsed stripe entitlement with no remaining
@@ -44,13 +44,13 @@ use Modules\Tenant\Models\Tenant;
  * For each candidate (a tenant with an expired non-stripe entitlement), access is
  * ALWAYS recomputed: recompute() reads only the still-active rows (scopeActive), so
  * the lapsed entitlement's granted modules turn OFF — EVEN WHEN another entitlement
- * keeps the cluster up. This closes the partial-lapse gap: an addon trial expiring
+ * keeps the organization up. This closes the partial-lapse gap: an addon trial expiring
  * while the base stays active must switch the addon's module_tenant.enabled to false
  * (it stayed stale=true before, because the old code skipped recompute whenever any
  * entitlement was still active). recompute() never mutates entitlement rows, so
  * active stripe grants are untouched, and it is idempotent.
  *
- * The cluster is BLOCKED (STATUS_BLOQUEADO) only when NO entitlement of ANY source
+ * The organization is BLOCKED (STATUS_BLOQUEADO) only when NO entitlement of ANY source
  * remains active — a still-active stripe/manual/other grant keeps it up. This aligns
  * with EntitlementService::recompute, which reads every active row regardless of
  * source.
@@ -63,7 +63,7 @@ class ExpireManualEntitlementsCommand extends Command
 {
     protected $signature = 'billing:expire-manual-entitlements';
 
-    protected $description = 'Daily: block clusters whose non-stripe entitlement (trial, manual or super_admin_free) has expired with no remaining active coverage, and recompute their access. Stripe is policed by its webhook.';
+    protected $description = 'Daily: block organizations whose non-stripe entitlement (trial, manual or super_admin_free) has expired with no remaining active coverage, and recompute their access. Stripe is policed by its webhook.';
 
     /**
      * Non-stripe sources this cron polices. Stripe is excluded — its lifecycle is
@@ -83,8 +83,8 @@ class ExpireManualEntitlementsCommand extends Command
 
         // Only tenants carrying an EXPIRED non-stripe entitlement are candidates.
         // A lone expired stripe row is NOT a trigger (webhook territory). Scoping
-        // by tenant id keeps the sweep off clusters that never had such a grant.
-        // #4 — get() (not chunk/cursor) is fine at the current cluster count;
+        // by tenant id keeps the sweep off organizations that never had such a grant.
+        // #4 — get() (not chunk/cursor) is fine at the current organization count;
         // revisit with chunkById() if the candidate set grows large.
         $candidateTenantIds = TenantEntitlement::query()
             ->whereIn('source', self::NON_STRIPE_SOURCES)
@@ -111,7 +111,7 @@ class ExpireManualEntitlementsCommand extends Command
             // idempotent (rerunning yields the same access state).
             $entitlementService->recompute($tenant);
 
-            // Notify the cluster administrator(s) ONCE per expired SOURCE_TRIAL
+            // Notify the organization administrator(s) ONCE per expired SOURCE_TRIAL
             // entitlement. Expired trial rows are kept by design (never deleted), so
             // without a marker the daily sweep re-selected the same rows and re-sent
             // "tu prueba de {módulo} venció" every run, forever. trial_expiry_notified_at
@@ -162,9 +162,9 @@ class ExpireManualEntitlementsCommand extends Command
                 $expiredTrial->forceFill(['trial_expiry_notified_at' => $now])->save();
             }
 
-            // Block the cluster ONLY when NO entitlement of ANY source remains active
+            // Block the organization ONLY when NO entitlement of ANY source remains active
             // (none with a null or still-future expiry). A still-active
-            // stripe/manual/other grant keeps the cluster up — card clusters WITH a
+            // stripe/manual/other grant keeps the organization up — card organizations WITH a
             // live Stripe subscription are Stripe's job. Checked AFTER recompute; since
             // recompute() does not touch entitlement rows, the result is the same
             // either way — the ordering just keeps "turn off stale modules, then decide
@@ -175,7 +175,7 @@ class ExpireManualEntitlementsCommand extends Command
                 ->exists();
 
             if ($hasAnyActiveEntitlement) {
-                $this->info("[{$label}] Entitlement no-stripe vencido: módulos del entitlement vencido apagados; el clúster sigue activo por otra cobertura.");
+                $this->info("[{$label}] Entitlement no-stripe vencido: módulos del entitlement vencido apagados; el organización sigue activo por otra cobertura.");
 
                 continue;
             }
@@ -184,7 +184,7 @@ class ExpireManualEntitlementsCommand extends Command
                 $tenant->update(['status' => Tenant::STATUS_BLOQUEADO]);
             }
 
-            $this->info("[{$label}] Entitlement no-stripe vencido: clúster bloqueado y accesos recalculados.");
+            $this->info("[{$label}] Entitlement no-stripe vencido: organización bloqueado y accesos recalculados.");
         }
 
         $this->reconcileOrphanStripeStatuses($now);
@@ -203,12 +203,12 @@ class ExpireManualEntitlementsCommand extends Command
      * tenant.status stayed 'activo' forever, so every super-admin panel and report
      * read a lie.
      *
-     * Deliberately NARROW, because this is the one path that touches card clusters:
+     * Deliberately NARROW, because this is the one path that touches card organizations:
      *   - Only tenants with NO active entitlement of ANY source are candidates — a
      *     live stripe/manual/courtesy grant is never touched (invariant).
      *   - Status moves to PENDIENTE_PAGO, never BLOQUEADO: Stripe may still recover
      *     the invoice, and blocking is `subscription.deleted`'s call.
-     *   - recompute() is NOT called. It purges the cluster's module Settings, which
+     *   - recompute() is NOT called. It purges the organization's module Settings, which
      *     is irreversible; doing that on a recoverable dunning window would destroy
      *     real configuration for a customer who is about to pay. The stale
      *     module_tenant rows grant nothing on their own (EnsureSubscriptionActive

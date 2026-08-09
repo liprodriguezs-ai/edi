@@ -38,7 +38,7 @@ export const CompleteAccountEmail = ({
   name = 'Usuario',
   completeUrl = 'https://app.example.com/complete-account',
 }: CompleteAccountEmailProps) => (
-  <EmailLayout previewText="¡Estás a un paso! Completa tu cuenta de Kivo7">
+  <EmailLayout previewText="¡Estás a un paso! Completa tu cuenta de EDI">
     <Section style={{ paddingTop: '32px', paddingBottom: '16px' }}>
       <Text
         className="m-0 text-center"

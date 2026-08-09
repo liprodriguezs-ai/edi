@@ -22,7 +22,7 @@ use Tests\TestCase;
 /**
  * CROSS-TENANT ISOLATION for the billing engine. Every billing write targets an
  * EXPLICIT tenant — recompute(), recordManual(), and the expiry cron must NEVER
- * bleed into a sibling cluster that shares the same central billing catalog.
+ * bleed into a sibling organization that shares the same central billing catalog.
  *
  * Two tenants A and B share ONE plan + base module (the central catalog is
  * global); their entitlements, ledger rows, access projection and status are

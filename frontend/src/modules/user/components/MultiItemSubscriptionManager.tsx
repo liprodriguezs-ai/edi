@@ -20,7 +20,7 @@ interface MultiItemSubscriptionManagerProps {
   isResuming: boolean
   /** Refresca la pantalla tras aplicar un cambio (recarga silenciosa + sesión). */
   onApplied: () => void | Promise<void>
-  /** Unidades activas del clúster: es lo que decide qué banda de plan le toca. */
+  /** Unidades activas del organización: es lo que decide qué banda de plan le toca. */
   unitCount: number
   /**
    * ¿Puede el usuario MODIFICAR la facturación? Sólo el dueño de la cuenta. Con

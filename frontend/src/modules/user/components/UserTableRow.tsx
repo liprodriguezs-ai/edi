@@ -30,7 +30,7 @@ function UserIdentityCell({ user, fullName }: { user: IUser; fullName: string })
   )
 }
 
-/** Columna extra de condominio, solo visible para super admin. */
+/** Columna extra de organización, solo visible para super admin. */
 function SuperAdminTenantCells({ user }: { user: IUser }) {
   const tenants = user.tenants ?? []
   if (tenants.length === 0) {

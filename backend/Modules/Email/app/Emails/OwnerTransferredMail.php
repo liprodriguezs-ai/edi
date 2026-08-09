@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * OwnerTransferredMail — sent when an additional owner is added to a cluster that
+ * OwnerTransferredMail — sent when an additional owner is added to a organization that
  * already has users (ownership transfer / co-owner). System email: always
  * delivered via SystemMailer.
  *
@@ -30,7 +30,7 @@ class OwnerTransferredMail extends Mailable implements ShouldQueue
         $emailBaseUrl = config('email.assets_url')
             ?? rtrim(config('app.url'), '/').'/email';
 
-        return $this->subject('Eres titular de una cuenta en Kivo7')
+        return $this->subject('Eres titular de una cuenta en EDI')
             ->view('email::owner-transferred')
             ->with([
                 'user' => $this->user,

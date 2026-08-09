@@ -113,14 +113,14 @@ describe('enlaces de contacto', () => {
   })
 
   it('arma el mailto cuando hay email', () => {
-    expect(contactMailtoHref(catalog({ email: 'hola@kivo7.com', whatsapp: null }))).toContain(
-      'mailto:hola@kivo7.com'
+    expect(contactMailtoHref(catalog({ email: 'hola@edi.example.com', whatsapp: null }))).toContain(
+      'mailto:hola@edi.example.com'
     )
   })
 
   it('devuelve null sin datos de contacto', () => {
     expect(contactMailtoHref(catalog(undefined))).toBeNull()
-    expect(contactWhatsappHref(catalog({ email: 'hola@kivo7.com', whatsapp: null }))).toBeNull()
+    expect(contactWhatsappHref(catalog({ email: 'hola@edi.example.com', whatsapp: null }))).toBeNull()
     expect(contactWhatsappHref(null)).toBeNull()
   })
 

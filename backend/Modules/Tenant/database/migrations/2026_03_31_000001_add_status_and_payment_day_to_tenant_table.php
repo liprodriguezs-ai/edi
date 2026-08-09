@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tenant', function (Blueprint $table) {
-            $table->string('status')->default('activo')->after('name')->comment('Cluster account status: active, pending_payment, or blocked.');
-            $table->unsignedTinyInteger('payment_day')->nullable()->after('status')->comment('Day of the month (1–31) on which the cluster expects to process payments.');
+            $table->string('status')->default('activo')->after('name')->comment('Organization account status: active, pending_payment, or blocked.');
+            $table->unsignedTinyInteger('payment_day')->nullable()->after('status')->comment('Day of the month (1–31) on which the organization expects to process payments.');
         });
     }
 

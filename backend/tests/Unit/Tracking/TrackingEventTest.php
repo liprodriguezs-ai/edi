@@ -34,7 +34,7 @@ final class TrackingEventTest extends TestCase
             'name' => 'Purchase',
             'event_id' => 'evt-123',
             'event_time' => 1700000000,
-            'source_url' => 'https://kivo7.com/pricing',
+            'source_url' => 'https://edi.example.com/pricing',
             'action_source' => 'system_generated',
             'params' => ['value' => 199.0, 'currency' => 'MXN'],
             'user_data' => ['email' => 'a@b.com'],
@@ -42,7 +42,7 @@ final class TrackingEventTest extends TestCase
 
         $this->assertSame('evt-123', $event->eventId);
         $this->assertSame(1700000000, $event->eventTime);
-        $this->assertSame('https://kivo7.com/pricing', $event->sourceUrl);
+        $this->assertSame('https://edi.example.com/pricing', $event->sourceUrl);
         $this->assertSame('system_generated', $event->actionSource);
         $this->assertSame(['value' => 199.0, 'currency' => 'MXN'], $event->params);
     }

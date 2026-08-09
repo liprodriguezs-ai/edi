@@ -50,7 +50,7 @@ final class NotificationCenterBulkTest extends TestCase
         $this->tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
                 'id' => (string) Str::uuid(),
-                'name' => 'Bulk Center Cluster',
+                'name' => 'Bulk Center Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
             [TenantCreated::class],

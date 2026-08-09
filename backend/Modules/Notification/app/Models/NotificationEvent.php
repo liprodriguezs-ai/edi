@@ -9,10 +9,10 @@ use QCH\Core\Models\CentralCatalogModel;
 use QCH\Core\Models\GlobalObserver;
 
 /**
- * Central catalog of all notifiable events in Kivo7.
+ * Central catalog of all notifiable events in EDI.
  *
  * Rows are seeded once by CatalogSeeder::seedNotificationEvents() and
- * are read-only for tenant/cluster roles. Code references events by the
+ * are read-only for tenant/organization roles. Code references events by the
  * stable UUID constants (e.g. NotificationEvent::PAYMENT_DUE_REMINDER).
  *
  * @property string $id
@@ -66,7 +66,7 @@ class NotificationEvent extends CentralCatalogModel
     /** Notification to the board when a new board period is opened. */
     public const NEW_BOARD = 'df9acafb-2e3b-4c4d-845f-7a8b9c0d1e2f';
 
-    /** Notification sent to the cluster administrator(s) when a module trial expires. */
+    /** Notification sent to the organization administrator(s) when a module trial expires. */
     public const TRIAL_EXPIRED = '2f3a4b5c-6d7e-4f8a-9b0c-1d2e3f4a5b6c';
 
     /** Reminder to a resident that their unit has a pending contribution on a voluntary project. */
@@ -170,7 +170,7 @@ class NotificationEvent extends CentralCatalogModel
     // ── Relationships ─────────────────────────────────────────────────────────
 
     /**
-     * Per-cluster notification settings for this event.
+     * Per-organization notification settings for this event.
      *
      * WARNING — TenantScope is not applied here because NotificationEvent is a
      * central model (no BelongsToTenant). The HasMany crosses into the tenant-scoped

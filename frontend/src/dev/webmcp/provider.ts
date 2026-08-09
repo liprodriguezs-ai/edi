@@ -1,6 +1,6 @@
 /* eslint-disable no-console -- módulo de diagnóstico dev: el anuncio por consola es intencional */
 /**
- * Provider WebMCP dev-only de Kivo7.
+ * Provider WebMCP dev-only de EDI.
  *
  * Registra el catálogo de tools en `navigator.modelContext` (API nativa de
  * Chrome 149 con el flag `enable-webmcp-testing`, o el polyfill @mcp-b/global),

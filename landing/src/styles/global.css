@@ -5,7 +5,7 @@
 @source not "../content/docs";
 
 /* =========================================================================
-   KIVO7 — Design tokens (Dirección A · Salvia)
+   EDI — Design tokens (Dirección A · Salvia)
    Tokens live in @theme so Tailwind generates utilities (bg-paper, text-ink,
    font-serif, rounded-card, shadow-card …) AND exposes them as CSS variables
    for the handful of scoped styles that need raw values.

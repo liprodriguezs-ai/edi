@@ -17,7 +17,7 @@ use Modules\SubscriptionPlan\Services\SubscriptionPaymentService;
 use Modules\Tenant\Models\Tenant;
 
 /**
- * Super-admin ALTA of a brand-new cluster WITH its billing provisioned, in one
+ * Super-admin ALTA of a brand-new organization WITH its billing provisioned, in one
  * server-authored step (billing v2, per-module + plan).
  *
  * Access is driven by tenant_entitlement rows (SubscriptionStateService). Every
@@ -26,7 +26,7 @@ use Modules\Tenant\Models\Tenant;
  *
  *   - trial       → a base-module LOCAL, card-free trial (source=trial) lasting
  *                   config('billing.trial_days') days. This is the ONLY producer
- *                   of source=trial for a whole cluster (per-module add-on
+ *                   of source=trial for a whole organization (per-module add-on
  *                   trials are a separate path, EntitlementService::
  *                   startModuleTrial) — self-registration no longer grants one;
  *                   a self-registered owner's trial lives in Stripe Checkout
@@ -36,12 +36,12 @@ use Modules\Tenant\Models\Tenant;
  *   - manual_paid → a real out-of-band payment (transfer/cash) recorded for the
  *                   chosen modules, amounts computed server-side by
  *                   PlanPricingService (source=manual, one billing cycle).
- *   - card        → NO entitlements: the cluster stays blocked until the owner
+ *   - card        → NO entitlements: the organization stays blocked until the owner
  *                   self-checks-out with Stripe.
  *
  * Amounts are ALWAYS computed by PlanPricingService — client-supplied amounts are
  * never trusted. Billing prerequisites (plan, modules, base presence, prices) are
- * resolved BEFORE the tenant is created so bad input never leaves an orphan cluster.
+ * resolved BEFORE the tenant is created so bad input never leaves an orphan organization.
  */
 class TenantProvisioningService
 {
@@ -67,7 +67,7 @@ class TenantProvisioningService
     ) {}
 
     /**
-     * Create the cluster and provision its billing for the chosen mode.
+     * Create the organization and provision its billing for the chosen mode.
      *
      * @param  array<string, mixed>  $data  the validated provision payload
      *
@@ -86,7 +86,7 @@ class TenantProvisioningService
         $interval = $data['interval'] ?? PlanModulePrice::INTERVAL_MONTH;
 
         // Resolve every billing prerequisite BEFORE creating the tenant so invalid
-        // input never leaves an orphan cluster behind.
+        // input never leaves an orphan organization behind.
         $plan = $this->resolvePlan($data['plan_key'] ?? null, $units);
         $baseModule = $this->planPricingService->baseModule();
 
@@ -135,7 +135,7 @@ class TenantProvisioningService
      * Only the real, provided columns are set — timezone/currency/uses_ownership_share
      * are omitted when absent so their DB defaults apply. subscription_plan_id is
      * deliberately NEVER set (access is by entitlements); billing_package_id records
-     * the plan the cluster is on.
+     * the plan the organization is on.
      *
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>

@@ -140,7 +140,7 @@ export const NotificationPreferencesPage = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Preferencias de notificación" description="Elige cómo y cuándo recibir avisos del condominio" />
+      <PageHeader title="Preferencias de notificación" description="Elige cómo y cuándo recibir avisos del organización" />
       <SoundPreferenceCard />
       {isLoading || !preferences ? (
         <p className="py-12 text-center text-sm text-[var(--ink-3)]">Cargando preferencias…</p>

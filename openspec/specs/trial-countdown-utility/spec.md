@@ -14,17 +14,17 @@ The subscription narrative MUST expose the remaining-days count alongside `trial
 
 #### Scenario: Count and date cannot diverge
 
-- GIVEN a trialing cluster whose narrative reports `trial_ends_at = T`
+- GIVEN a trialing organization whose narrative reports `trial_ends_at = T`
 - WHEN the narrative is resolved
 - THEN its days-left count is computed from `T` itself
 
 ### Requirement: One product-wide definition — calendar days
 
-"Days left" MUST mean whole CALENDAR days in the app timezone (difference between today's start-of-day and the end date's start-of-day), clamped at 0. `presentTrials.days_left` MUST agree with the narrative's count for the same cluster at the same moment.
+"Days left" MUST mean whole CALENDAR days in the app timezone (difference between today's start-of-day and the end date's start-of-day), clamped at 0. `presentTrials.days_left` MUST agree with the narrative's count for the same organization at the same moment.
 
 #### Scenario: presentTrials and narrative agree
 
-- GIVEN a cluster on trial
+- GIVEN a organization on trial
 - WHEN both `presentTrials.days_left` and the narrative's count are resolved at the same moment
 - THEN they are equal
 

@@ -10,7 +10,7 @@ use Modules\Tenant\Models\Tenant;
 class CompanyService
 {
     /**
-     * Publicly renderable URL for the cluster logo, or null when there is none.
+     * Publicly renderable URL for the organization logo, or null when there is none.
      *
      * The media library's url_generator (TenantAwareUrlGenerator) points at
      * `/api/media/{id}/download`, which sits behind auth:sanctum. A browser
@@ -39,7 +39,7 @@ class CompanyService
     }
 
     /**
-     * Cluster logo URL resolved from the tenant's main company.
+     * Organization logo URL resolved from the tenant's main company.
      */
     public function logoUrlForTenant(?Tenant $tenant): ?string
     {
@@ -89,7 +89,7 @@ class CompanyService
         }
 
         // company.slug carries a GLOBAL unique constraint (shared DB), and two
-        // tenants can legitimately share a name ("Test Fraccionamiento"). Suffix
+        // tenants can legitimately share a name ("Test Organización"). Suffix
         // the slug with a short, stable fragment of the tenant key so each
         // tenant's auto-created main company has a globally unique slug.
         $tenantKey = (string) $tenant->getTenantKey();

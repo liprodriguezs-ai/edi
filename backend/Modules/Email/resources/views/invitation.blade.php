@@ -59,7 +59,7 @@
                                 <tr>
                                   <td align="left" valign="middle">
                                     <img
-                                      alt="Kivo7"
+                                      alt="EDI"
                                       height="40"
                                       src="{{ $emailBaseUrl }}/static/logo.png"
                                       style="display:block;outline:none;border:none;text-decoration:none;max-height:40px;width:auto;object-fit:contain"
@@ -68,7 +68,7 @@
                                   <td align="right" valign="middle">
                                     <span
                                       style="font-size:13px;font-weight:500;color:#64748b;letter-spacing:0.02em"
-                                      >Kivo7</span
+                                      >EDI</span
                                     >
                                   </td>
                                 </tr>
@@ -179,7 +179,7 @@
                               style="font-size:13px;line-height:24px;margin:0;margin-bottom:8px;color:#475569;margin-top:0;margin-left:0;margin-right:0">
                               ©
                               <!-- -->2026<!-- -->
-                              <!-- -->Kivo7<!-- -->
+                              <!-- -->EDI<!-- -->
                               •<!-- -->
                               <!-- -->Todos los derechos reservados
                             </p>

@@ -129,7 +129,7 @@ export function planForUnitCount(plans: IBillingPlan[], units: number): IBilling
 export function contactMailtoHref(catalog: IPlanCatalog | null): string | null {
   const email = catalog?.contact?.email
   if (!email) return null
-  const subject = encodeURIComponent('Quiero un plan a medida para mi condominio')
+  const subject = encodeURIComponent('Quiero un plan a medida para mi organización')
   return `mailto:${email}?subject=${subject}`
 }
 
@@ -139,6 +139,6 @@ export function contactWhatsappHref(catalog: IPlanCatalog | null): string | null
   if (!whatsapp) return null
   const digits = whatsapp.replace(/\D/g, '')
   if (digits.length === 0) return null
-  const text = encodeURIComponent('Hola, quiero cotizar un plan a medida para mi condominio.')
+  const text = encodeURIComponent('Hola, quiero cotizar un plan a medida para mi organización.')
   return `https://wa.me/${digits}?text=${text}`
 }

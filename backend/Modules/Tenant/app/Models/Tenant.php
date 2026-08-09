@@ -145,7 +145,7 @@ class Tenant extends BaseTenant implements AuditableContract, TenantWithDatabase
     }
 
     /**
-     * Billing v2 plan (billing_package: basico..premium) the cluster is on.
+     * Billing v2 plan (billing_package: basico..premium) the organization is on.
      */
     public function billing_package()
     {

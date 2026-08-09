@@ -13,14 +13,14 @@ use Modules\Tenant\Http\Requests\TenantProvisionRequest;
 use Modules\Tenant\Services\TenantProvisioningService;
 
 /**
- * Super-admin ALTA of a cluster WITH its billing provisioned in one step:
+ * Super-admin ALTA of a organization WITH its billing provisioned in one step:
  *   - POST tenant/provision
  *
  * Custom (non-Orion) controller: it owns its constructor and does NOT call
  * parent::__construct() (no $model / CRUD machinery). The super-admin gate uses
  * create.tenant (the ability Orion's tenant store uses), so the same operator who
- * can create a cluster can provision it. No initializeTenancy: a super-admin
- * creates ANOTHER cluster; every billing write targets the new tenant explicitly.
+ * can create a organization can provision it. No initializeTenancy: a super-admin
+ * creates ANOTHER organization; every billing write targets the new tenant explicitly.
  */
 class TenantProvisioningController extends Controller
 {
@@ -59,7 +59,7 @@ class TenantProvisioningController extends Controller
         $tenant->load(['payment_type', 'billing_package', 'owners']);
 
         return response()->json([
-            'message' => 'Condominio creado y facturación provisionada.',
+            'message' => 'Organización creado y facturación provisionada.',
             'data' => [
                 'tenant' => $tenant,
                 'subscription' => $this->subscriptionStateService->narrativeFor($actor, $tenant),

@@ -61,8 +61,8 @@ final class ActiveTenantResolverTest extends TestCase
 
     public function test_x_tenant_id_header_is_honored_when_user_is_a_member(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
         $user = $this->makeUser($tenantA);
         $user->tenants()->attach($tenantB->id);
 
@@ -80,8 +80,8 @@ final class ActiveTenantResolverTest extends TestCase
      */
     public function test_x_tenant_id_header_of_non_member_tenant_is_not_honored(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $foreignTenant = $this->makeTenant('Foreign Cluster');
+        $tenantA = $this->makeTenant('Organization A');
+        $foreignTenant = $this->makeTenant('Foreign Organization');
         $user = $this->makeUser($tenantA);
         // $user is intentionally NOT attached to $foreignTenant.
 
@@ -93,9 +93,9 @@ final class ActiveTenantResolverTest extends TestCase
 
     public function test_header_member_tenant_wins_over_last_active(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
-        $tenantC = $this->makeTenant('Cluster C');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
+        $tenantC = $this->makeTenant('Organization C');
         $user = $this->makeUser($tenantA);
         $user->tenants()->attach([$tenantB->id, $tenantC->id]);
         $user->withoutEvents(function () use ($user, $tenantB): void {
@@ -110,8 +110,8 @@ final class ActiveTenantResolverTest extends TestCase
 
     public function test_last_active_tenant_is_honored_when_member_and_no_header(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
         $user = $this->makeUser($tenantA);
         $user->tenants()->attach($tenantB->id);
         $user->withoutEvents(function () use ($user, $tenantB): void {
@@ -126,8 +126,8 @@ final class ActiveTenantResolverTest extends TestCase
 
     public function test_last_active_of_non_member_falls_through_to_first_membership(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $foreignTenant = $this->makeTenant('Foreign Cluster');
+        $tenantA = $this->makeTenant('Organization A');
+        $foreignTenant = $this->makeTenant('Foreign Organization');
         $user = $this->makeUser($tenantA);
         // last_active points at a tenant the user is NOT (or no longer) a member of.
         $user->withoutEvents(function () use ($user, $foreignTenant): void {
@@ -142,7 +142,7 @@ final class ActiveTenantResolverTest extends TestCase
 
     public function test_user_with_no_tenant_membership_resolves_to_null(): void
     {
-        $tenant = $this->makeTenant('Unrelated Cluster');
+        $tenant = $this->makeTenant('Unrelated Organization');
         $user = $this->makeUser($tenant);
         $user->tenants()->detach($tenant->id);
 
@@ -158,8 +158,8 @@ final class ActiveTenantResolverTest extends TestCase
      */
     public function test_resolving_by_x_tenant_id_issues_a_single_membership_query(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
         $user = $this->makeUser($tenantA);
         $user->tenants()->attach($tenantB->id);
 

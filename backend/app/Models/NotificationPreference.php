@@ -14,7 +14,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * NotificationPreference — a user's notification delivery preferences.
  *
  * Central model (no tenant scope, one row per user): preferences belong to the USER,
- * not the cluster.
+ * not the organization.
  *
  * `channels` is a JSON map of category => ['push'=>bool, 'email'=>bool, 'sms'=>bool].
  * A missing category or missing channel key means ENABLED, so the default behavior
@@ -80,7 +80,7 @@ class NotificationPreference extends BaseModel
      * Whether the current time falls within the user's quiet-hours window.
      * Supports windows that cross midnight (e.g. 22:00 → 07:00).
      *
-     * Quiet hours are wall-clock times in the user's cluster (§17.3), so "now" is
+     * Quiet hours are wall-clock times in the user's organization (§17.3), so "now" is
      * evaluated in the current tenant's timezone, falling back to the app timezone.
      */
     public function isWithinQuietHours(?string $now = null): bool

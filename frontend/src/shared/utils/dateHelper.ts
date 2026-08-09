@@ -53,7 +53,7 @@ export const displayFormatDate = (
 /**
  * Devuelve la fecha de HOY en formato yyyy-MM-dd usando el reloj LOCAL del
  * navegador (getFullYear/getMonth/getDate) — NUNCA `toISOString()`. Los
- * tenants de Kivo7 corren en America/Mexico_City (UTC-6): `toISOString()`
+ * tenants de EDI corren en America/Mexico_City (UTC-6): `toISOString()`
  * serializa en UTC, así que a partir de ~18:00 hora local el día ya cambió a
  * "mañana" en UTC y el default de fecha queda un día adelantado.
  */

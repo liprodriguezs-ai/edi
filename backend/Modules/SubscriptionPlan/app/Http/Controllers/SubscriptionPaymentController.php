@@ -19,9 +19,9 @@ use Modules\SubscriptionPlan\Services\SubscriptionPaymentService;
 use Modules\Tenant\Models\Tenant;
 
 /**
- * Super-admin manual-billing endpoints for a cluster:
+ * Super-admin manual-billing endpoints for a organization:
  *   - POST   tenant/{id}/subscription-payment   record a manual (transfer/cash) payment
- *   - GET    tenant/{id}/subscription-payment   the cluster's payment ledger
+ *   - GET    tenant/{id}/subscription-payment   the organization's payment ledger
  *   - PATCH  tenant/{id}/payment-method         switch card↔transfer/cash
  *
  * Custom (non-Orion) controller: it defines its own constructor and does NOT
@@ -46,7 +46,7 @@ class SubscriptionPaymentController extends Controller
     }
 
     /**
-     * Ledger of a cluster's subscription payments, newest first.
+     * Ledger of a organization's subscription payments, newest first.
      */
     public function index(string $tenantId): JsonResponse
     {
@@ -65,7 +65,7 @@ class SubscriptionPaymentController extends Controller
     /**
      * Record ONE manual (transfer/cash) payment that covers SEVERAL contracted
      * packages: each package gets its own ledger row and one interval of
-     * entitlement extension; courtesy packages are excluded and a blocked cluster
+     * entitlement extension; courtesy packages are excluded and a blocked organization
      * is reactivated. Returns every ledger row created.
      */
     public function store(SubscriptionPaymentStoreRequest $request, string $tenantId): JsonResponse
@@ -136,7 +136,7 @@ class SubscriptionPaymentController extends Controller
     }
 
     /**
-     * Switch a cluster's payment method. Moving off card cancels its active
+     * Switch a organization's payment method. Moving off card cancels its active
      * Stripe subscription (at period end by default, immediately when
      * cancel_mode=now). The change is audited by the tenant model update.
      */
@@ -157,17 +157,17 @@ class SubscriptionPaymentController extends Controller
                 $subscription = $owner->subscription('default');
             } elseif ($this->tenantHasActiveSubscription($tenant)) {
                 // FIX #5 — owner is ambiguous (0 or 2+ account owners) yet an active
-                // Stripe subscription exists among the cluster's users. We cannot
+                // Stripe subscription exists among the organization's users. We cannot
                 // pick which owner's subscription to cancel, so completing the switch
-                // would leave Stripe billing the cluster after it "moved" to manual.
+                // would leave Stripe billing the organization after it "moved" to manual.
                 // Refuse instead of silently orphaning the charge.
-                Log::warning('No se pudo resolver la suscripción Stripe del clúster para cancelarla: account owner ambiguo.', [
+                Log::warning('No se pudo resolver la suscripción Stripe del organización para cancelarla: account owner ambiguo.', [
                     'tenant_id' => $tenant->id,
                     'target_payment_method' => $validated['payment_method'],
                 ]);
 
                 return response()->json([
-                    'message' => 'No se puede resolver la suscripción Stripe del condominio para cancelarla; resuelve el owner de la cuenta primero.',
+                    'message' => 'No se puede resolver la suscripción Stripe del organización para cancelarla; resuelve el owner de la cuenta primero.',
                 ], 422);
             }
         }

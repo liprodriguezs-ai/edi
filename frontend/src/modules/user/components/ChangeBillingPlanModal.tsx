@@ -25,7 +25,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 interface ChangeBillingPlanModalProps {
   isOpen: boolean
-  /** Clave del plan actual del clúster: se excluye del selector de destino. */
+  /** Clave del plan actual del organización: se excluye del selector de destino. */
   currentPlanKey: string
   /**
    * Intervalo contratado. Los precios se muestran EN ESTE intervalo: cambiar de
@@ -33,7 +33,7 @@ interface ChangeBillingPlanModalProps {
    * en mensual a alguien que paga anual sería mostrarle un número que no va a pagar.
    */
   currentInterval: BillingInterval
-  /** Unidades activas del clúster: es lo que decide qué banda le toca. */
+  /** Unidades activas del organización: es lo que decide qué banda le toca. */
   unitCount: number
   onClose: () => void
   /** Refresca la pantalla tras aplicar el cambio con éxito. */
@@ -138,7 +138,7 @@ export function ChangeBillingPlanModal({
   const contactWhatsapp = contactWhatsappHref(catalog)
   const currency = catalog?.currency ?? 'MXN'
   const isManual = preview?.manual === true
-  // plan-downgrade-guard: presente cuando las unidades activas del clúster no caben
+  // plan-downgrade-guard: presente cuando las unidades activas del organización no caben
   // en el plan destino. El apply-422 ya cubre el caso (el hook muestra el mensaje del
   // backend), este panel sólo lo anticipa antes de confirmar y bloquea el botón.
   const unitLimitWarning = preview?.unit_limit_warning
@@ -218,7 +218,7 @@ export function ChangeBillingPlanModal({
         {!isLoadingCatalog && !catalogError && contactSalesPlan && (
           <div className='rounded-lg border border-border bg-muted/30 p-4'>
             <p className='text-sm font-medium text-foreground'>
-              ¿Tu condominio creció más de lo que cubren estos planes?
+              ¿Tu organización creció más de lo que cubren estos planes?
             </p>
             <p className='mt-1 text-sm text-muted-foreground'>
               Armamos un plan {contactSalesPlan.name.toLowerCase()} con un precio hecho para ti.
@@ -291,7 +291,7 @@ export function ChangeBillingPlanModal({
                   </p>
                 )}
                 <p className='text-xs text-muted-foreground'>
-                  Como el condominio paga de forma manual, no se cobra nada ahora: el ajuste se refleja
+                  Como el organización paga de forma manual, no se cobra nada ahora: el ajuste se refleja
                   en el siguiente pago.
                 </p>
               </div>

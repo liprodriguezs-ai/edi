@@ -9,7 +9,7 @@ import { PageHeader } from '@/shared/components/atoms/PageHeader'
  *
  * ESTADO: placeholder. La plantilla mostraba dos paneles según permisos —el del
  * tesorero (cobranza/tesorería) y el del residente (estado de cuenta, avisos,
- * reservaciones)—, ambos atados al dominio de condominios. Los paneles de EDI
+ * reservaciones)—, ambos atados al dominio de la plantilla (administración de organizaciones). Los paneles de EDI
  * (tamizajes del mes, resultados por semáforo, áreas afectadas, seguimientos
  * vencidos) se construyen en su propio change de SDD.
  */

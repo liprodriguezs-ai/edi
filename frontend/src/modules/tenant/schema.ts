@@ -60,7 +60,7 @@ export type TenantFormValues = z.infer<typeof tenantFormSchema>
  *  - courtesy    → acceso gratuito y permanente a los paquetes elegidos (cortesía).
  *  - manual_paid → se registra un pago manual (transferencia/efectivo) de los
  *                  paquetes elegidos; el monto lo calcula el backend.
- *  - card        → el dueño paga con tarjeta (Stripe) más tarde; el clúster queda
+ *  - card        → el dueño paga con tarjeta (Stripe) más tarde; el organización queda
  *                  bloqueado hasta que complete el pago.
  */
 export type TenantProvisionMode = 'trial' | 'courtesy' | 'manual_paid' | 'card'
@@ -72,12 +72,12 @@ export const PROVISION_MODE_CONFIG: Record<
   trial: {
     label: 'Prueba de 30 días',
     description:
-      'El condominio arranca con el plan activo durante 30 días sin costo. Al vencer, el dueño deberá pagar para no quedar bloqueado.',
+      'El organización arranca con el plan activo durante 30 días sin costo. Al vencer, el dueño deberá pagar para no quedar bloqueado.',
   },
   courtesy: {
     label: 'Cortesía (gratis)',
     description:
-      'Otorga acceso gratuito y permanente al plan que elijas. No se cobra nada y no vence. Úsalo para condominios exentos.',
+      'Otorga acceso gratuito y permanente al plan que elijas. No se cobra nada y no vence. Úsalo para organizaciones exentos.',
   },
   manual_paid: {
     label: 'Pago manual registrado',
@@ -87,7 +87,7 @@ export const PROVISION_MODE_CONFIG: Record<
   card: {
     label: 'Tarjeta (el dueño paga)',
     description:
-      'No se activa nada ahora. El condominio queda bloqueado hasta que el dueño complete el pago con tarjeta (Stripe) desde su cuenta.',
+      'No se activa nada ahora. El organización queda bloqueado hasta que el dueño complete el pago con tarjeta (Stripe) desde su cuenta.',
   },
 }
 

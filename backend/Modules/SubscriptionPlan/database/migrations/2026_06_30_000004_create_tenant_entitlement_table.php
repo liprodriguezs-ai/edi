@@ -13,7 +13,7 @@ return new class extends Migration
             $table->comment('Central projection of what each tenant is entitled to — ONE row PER GRANTED billable_module, carrying the plan (billing_package) it was granted under and the source. The EntitlementService reads these rows to recompute system_tenant/module_tenant. Central (no tenant scope of its own) like billing_package/subscription_plan');
             BaseModel::columns($table, false);
 
-            $table->uuid('tenant_id')->comment('FK to tenant — the cluster this entitlement belongs to');
+            $table->uuid('tenant_id')->comment('FK to tenant — the organization this entitlement belongs to');
             $table->uuid('billable_module_id')->comment('FK to billable_module — the sellable module granted to the tenant (the unit of entitlement)');
             $table->uuid('billing_package_id')->comment('FK to billing_package — the PLAN under which this module was granted (basico..premium)');
             $table->string('source')->comment('Origin of the entitlement: stripe (paid subscription) | super_admin_free (manual grant) | trial | legacy_plan (backfilled from subscription_plan_id)');

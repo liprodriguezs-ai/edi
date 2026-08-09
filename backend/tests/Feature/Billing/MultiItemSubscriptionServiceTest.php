@@ -88,7 +88,7 @@ final class MultiItemSubscriptionServiceTest extends TestCase
         // F-10 belt-and-braces: withMetadata() only reaches
         // subscription_data.metadata, so the Checkout SESSION must carry its own copy
         // — otherwise checkout.session.completed arrives with metadata: [] and the
-        // paying cluster cannot be resolved.
+        // paying organization cannot be resolved.
         $this->seedMatrix();
         $tenant = $this->makeTenant();
 

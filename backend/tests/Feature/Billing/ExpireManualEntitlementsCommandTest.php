@@ -14,10 +14,10 @@ use Tests\TestCase;
 /**
  * Coverage for the billing:expire-manual-entitlements daily cron (per-module).
  *
- * The cron blocks a cluster once its non-stripe entitlement (trial / manual /
+ * The cron blocks a organization once its non-stripe entitlement (trial / manual /
  * super_admin_free) lapses AND no coverage of any source remains, and it ALWAYS
  * recomputes access so a lapsed module's module_tenant.enabled flips off — even
- * when another entitlement keeps the cluster up (partial lapse). It NEVER treats a
+ * when another entitlement keeps the organization up (partial lapse). It NEVER treats a
  * stripe row as a trigger (webhook territory). Expiration is driven with travelTo()
  * so a future-dated, active entitlement is the same row that later trips the cron.
  *
@@ -99,7 +99,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
 
     public function test_does_not_block_when_manual_entitlement_lapsed_but_another_source_is_active(): void
     {
-        // A manual entitlement lapsing must NOT block the cluster while ANY other
+        // A manual entitlement lapsing must NOT block the organization while ANY other
         // source (here stripe, on a different module) remains active.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_TRANSFER]);
 
@@ -136,7 +136,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
     public function test_partial_lapse_disables_only_the_expired_addons_module_and_keeps_the_base(): void
     {
         // Base (super_admin_free, perpetual) stays; an addon TRIAL lapses → the addon
-        // module flips OFF, the base stays ON, and the cluster is NOT blocked.
+        // module flips OFF, the base stays ON, and the organization is NOT blocked.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_CARD]);
 
         $system = System::factory()->create();
@@ -167,7 +167,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
 
         $this->assertFalse($this->moduleEnabled($tenant, $addonModuleRow), 'expired addon module must be disabled');
         $this->assertTrue($this->moduleEnabled($tenant, $baseModuleRow), 'active base module must stay enabled');
-        $this->assertSame(Tenant::STATUS_ACTIVO, $tenant->fresh()->status, 'cluster must stay active while base coverage remains');
+        $this->assertSame(Tenant::STATUS_ACTIVO, $tenant->fresh()->status, 'organization must stay active while base coverage remains');
     }
 
     public function test_does_not_touch_a_card_tenant_with_an_active_stripe_entitlement(): void
@@ -195,7 +195,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
 
     public function test_blocks_a_card_tenant_whose_trial_expired_and_disables_modules(): void
     {
-        // A card cluster that took the onboarding trial (source=trial) and never
+        // A card organization that took the onboarding trial (source=trial) and never
         // subscribed to Stripe has NO webhook — the cron must block + recompute it.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_CARD]);
 
@@ -284,7 +284,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
         //
         // The cron reconciles the STATUS ONLY: pendiente_pago (Stripe may still
         // recover), never bloqueado (that is customer.subscription.deleted's call),
-        // and never recompute() — which PURGES the cluster's module settings and
+        // and never recompute() — which PURGES the organization's module settings and
         // would destroy real configuration during a recoverable dunning window.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_CARD]);
 
@@ -312,7 +312,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
 
     public function test_does_not_reconcile_a_tenant_whose_stripe_entitlement_is_still_active(): void
     {
-        // The sacred guarantee: a card cluster with a LIVE entitlement is never
+        // The sacred guarantee: a card organization with a LIVE entitlement is never
         // touched by this cron, in any way.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_CARD]);
 
@@ -337,7 +337,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
     public function test_does_not_reconcile_a_stripe_lapse_covered_by_another_active_grant(): void
     {
         // An expired stripe row next to a live courtesy/manual grant is NOT a
-        // payment problem — the cluster is covered, status must stay activo.
+        // payment problem — the organization is covered, status must stay activo.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_CARD]);
 
         $plan = $this->makePlan('esencial');
@@ -468,7 +468,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
             'expires_at' => now()->addDays(14),
         ]);
 
-        // Day 15: the trial has lapsed, but the cluster pays for the module — the SAME
+        // Day 15: the trial has lapsed, but the organization pays for the module — the SAME
         // row upserts to source=manual with a fresh future expiry.
         $this->travelTo(now()->addDays(15));
         $paid = $this->grantModule($tenant, $module, $plan, TenantEntitlement::SOURCE_MANUAL, [
@@ -488,7 +488,7 @@ final class ExpireManualEntitlementsCommandTest extends TestCase
     public function test_marks_and_blocks_a_freshly_lapsed_trial_in_a_single_run(): void
     {
         // Existing behavior intact: a freshly lapsed trial with no other coverage is
-        // marked once, the cluster is blocked, and its modules are disabled — proving
+        // marked once, the organization is blocked, and its modules are disabled — proving
         // the notify-loop rewrite did not break the block / recompute decision.
         $tenant = $this->makeTenant(['payment_method' => Tenant::PAYMENT_METHOD_CARD]);
 

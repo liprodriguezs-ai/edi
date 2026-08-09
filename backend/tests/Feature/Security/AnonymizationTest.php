@@ -24,7 +24,7 @@ use Tests\TestCase;
  * Admin-only: wipes the central PII (placeholder name, null email/phone), purges
  * the CURRENT tenant's user_profile, revokes every token and disables auth —
  * while PRESERVING the user row (same UUID) so the ledger and history keep their
- * referential integrity. Residents get 403, the last account owner of a cluster
+ * referential integrity. Residents get 403, the last account owner of a organization
  * can never be anonymized, and self-anonymization is rejected.
  */
 final class AnonymizationTest extends TestCase
@@ -43,7 +43,7 @@ final class AnonymizationTest extends TestCase
         parent::tearDown();
     }
 
-    private function makeTenant(string $name = 'RTBF Cluster'): Tenant
+    private function makeTenant(string $name = 'RTBF Organization'): Tenant
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
@@ -252,8 +252,8 @@ final class AnonymizationTest extends TestCase
 
     public function test_member_of_another_tenant_resolves_to_404(): void
     {
-        $tenantA = $this->makeTenant('RTBF Cluster A');
-        $tenantB = $this->makeTenant('RTBF Cluster B');
+        $tenantA = $this->makeTenant('RTBF Organization A');
+        $tenantB = $this->makeTenant('RTBF Organization B');
         $admin = $this->makeUser($tenantA, Role::SLUG_ADMINISTRATOR);
         $foreign = $this->makeUser($tenantB, Role::SLUG_RESIDENT);
 

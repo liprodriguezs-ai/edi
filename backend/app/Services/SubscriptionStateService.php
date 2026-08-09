@@ -23,7 +23,7 @@ use Stripe\Subscription as StripeApiSubscription;
 // enforced is always the tenant the request operates on.
 
 /**
- * Single source of truth for a cluster's access state, split into a CHEAP gate
+ * Single source of truth for a organization's access state, split into a CHEAP gate
  * (hot path, `tenant_entitlement` only) and a rich narrative (allowlisted
  * routes only, gate + at most one Cashier subscription read).
  *
@@ -34,7 +34,7 @@ use Stripe\Subscription as StripeApiSubscription;
  *   - narrativeFor(User, ?Tenant): array — TENANT-scoped, NO role
  *     short-circuit (successor of the old forTenant()). Consumers:
  *     AuthController and TenantProvisioningController — the latter passes the
- *     super-admin actor precisely to DESCRIBE the new cluster, so an
+ *     super-admin actor precisely to DESCRIBE the new organization, so an
  *     actor-aware narrative would wrongly report 'exempt' for it.
  *
  * Both share ONE private computation — tenantGate() — for `is_blocked`, so the
@@ -276,7 +276,7 @@ class SubscriptionStateService
      */
     private function blockedNarrative(SubscriptionGate $gate, Tenant $tenant): array
     {
-        // Distinguish a cluster whose entitlements all EXPIRED (e.g. a lapsed
+        // Distinguish a organization whose entitlements all EXPIRED (e.g. a lapsed
         // trial) from one that never had any.
         $everHadEntitlement = TenantEntitlement::query()
             ->where('tenant_id', $tenant->id)
@@ -284,7 +284,7 @@ class SubscriptionStateService
 
         $subscription = $this->ownerSubscription($tenant);
 
-        // D8 — hard-blocked is NOT always the same story: a cluster that never
+        // D8 — hard-blocked is NOT always the same story: a organization that never
         // chose a plan, one whose subscription was CANCELLED (webhook sets
         // BLOQUEADO), and one whose day-31 auto-charge FAILED (webhook leaves
         // it PENDIENTE_PAGO, entitlement simply expires at trial_end with no
@@ -293,7 +293,7 @@ class SubscriptionStateService
         //
         // "No live payment signal" ≡ stripe_status ∉ LIVE ∪ DUNNING — one rule
         // covering canceled, incomplete, incomplete_expired, paused, AND the
-        // absent row, so a Stripe-canceled cluster still hits the fallback
+        // absent row, so a Stripe-canceled organization still hits the fallback
         // exactly like one with no Cashier row at all.
         $paymentIssue = ($subscription !== null && in_array($subscription->stripe_status, StripeSubscriptionStatuses::DUNNING, true))
             || (! StripeSubscriptionStatuses::providesPaymentSignal($subscription?->stripe_status)
@@ -309,8 +309,8 @@ class SubscriptionStateService
     }
 
     /**
-     * Whether the cluster EVER held a Stripe-sourced entitlement (active or
-     * not) — the signal that a blocked cluster with no live Stripe payment
+     * Whether the organization EVER held a Stripe-sourced entitlement (active or
+     * not) — the signal that a blocked organization with no live Stripe payment
      * signal genuinely had a card behind it once (D8 guard), as opposed to one
      * that never chose a plan at all.
      */

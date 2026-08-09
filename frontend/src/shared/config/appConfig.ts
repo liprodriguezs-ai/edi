@@ -9,7 +9,7 @@ export const APP_CONFIG = {
   pageSize: Number.isFinite(resolvedPageSize) && resolvedPageSize > 0 ? resolvedPageSize : 20,
   recaptchaSiteKey: (import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '') as string,
   /** Nombre de marca del producto. Fuente única — cambialo acá (o vía VITE_BRAND_NAME). */
-  brandName: (import.meta.env.VITE_BRAND_NAME ?? 'Kivo7') as string,
+  brandName: (import.meta.env.VITE_BRAND_NAME ?? 'EDI') as string,
   /** Versión visible de la app (se muestra en el pie del sidebar). */
   appVersion: (import.meta.env.VITE_APP_VERSION ?? '1.0.0') as string,
 } as const

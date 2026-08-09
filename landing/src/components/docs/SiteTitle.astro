@@ -2,7 +2,7 @@
 /**
  * Override de `SiteTitle` de Starlight.
  *
- * Sustituye el título de texto plano por la marca Kivo7 + una etiqueta "Docs",
+ * Sustituye el título de texto plano por la marca EDI + una etiqueta "Docs",
  * y hace que el logotipo sea la liga de regreso al sitio (el lugar donde todo
  * el mundo la busca). Sin esto, /docs se sentiría un sitio ajeno.
  */
@@ -10,7 +10,7 @@ import { meta } from '@/data/site';
 ---
 
 <a href="/" class="k7-title" aria-label={`${meta.name} — ir al sitio`}>
-  <img src="/kivo7-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
+  <img src="/edi-mark.svg" alt="" width="24" height="24" aria-hidden="true" />
   <span class="k7-word">{meta.name}</span>
   <span class="k7-chip">Docs</span>
 </a>

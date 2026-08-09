@@ -22,12 +22,12 @@ const PLAN_SOURCE_COPY: Record<string, { badge: string; description: string }> =
   manual: {
     badge: 'Pago fuera de línea',
     description:
-      'Tu plan está activo y se cobra por transferencia o efectivo. El equipo de Kivo7 registra cada pago; no necesitas pagar con tarjeta aquí.',
+      'Tu plan está activo y se cobra por transferencia o efectivo. El equipo de EDI registra cada pago; no necesitas pagar con tarjeta aquí.',
   },
   super_admin_free: {
     badge: 'Cortesía',
     description:
-      'Tu condominio tiene acceso de cortesía, sin costo y sin vencimiento. No hay nada que pagar.',
+      'Tu organización tiene acceso de cortesía, sin costo y sin vencimiento. No hay nada que pagar.',
   },
   trial: {
     badge: 'Prueba',
@@ -36,20 +36,20 @@ const PLAN_SOURCE_COPY: Record<string, { badge: string; description: string }> =
   },
   legacy_plan: {
     badge: 'Plan asignado',
-    description: 'Tu plan fue asignado por el equipo de Kivo7 y está activo.',
+    description: 'Tu plan fue asignado por el equipo de EDI y está activo.',
   },
 }
 
 const GENERIC_PLAN_SOURCE = {
   badge: 'Plan activo',
   description:
-    'Tu plan está activo y no se cobra con tarjeta desde esta pantalla. Si necesitas cambiarlo, contacta al equipo de Kivo7.',
+    'Tu plan está activo y no se cobra con tarjeta desde esta pantalla. Si necesitas cambiarlo, contacta al equipo de EDI.',
 }
 
 /**
  * Plan vigente que NO viene de una suscripción de Stripe (pago manual, cortesía,
  * prueba). No hay autogestión: se informa el plan, su fuente y su vencimiento, y NO
- * se ofrece contratar por tarjeta como si el clúster no tuviera nada.
+ * se ofrece contratar por tarjeta como si el organización no tuviera nada.
  */
 function NonStripePlanCard({
   plan,
@@ -95,7 +95,7 @@ function NonStripePlanCard({
 function ReadOnlyBillingNote() {
   return (
     <Callout icon={Info}>
-      Puedes consultar la suscripción del condominio, pero sólo el propietario de la cuenta puede
+      Puedes consultar la suscripción del organización, pero sólo el propietario de la cuenta puede
       modificar la facturación (cambiar de plan o de intervalo, abrir el portal de pago y cancelar o
       reactivar).
     </Callout>
@@ -105,7 +105,7 @@ function ReadOnlyBillingNote() {
 export function SubscriptionPage() {
   // Modificar la facturación es exclusivo del dueño de la cuenta (gate del backend).
   // VER la suscripción está abierto a quien tenga `manage.subscription` — un tesorero
-  // debe poder consultar qué paga el clúster sin poder tocarlo.
+  // debe poder consultar qué paga el organización sin poder tocarlo.
   const isOwner = useRoles(ERoleUserSlug.ACCOUNT_OWNER) === true
   const canViewBilling = usePermissions('manage.subscription')
   const navigate = useNavigate()
@@ -126,7 +126,7 @@ export function SubscriptionPage() {
 
   const headerSubtitle = isOwner
     ? 'Gestiona tu plan y facturación'
-    : 'Consulta el plan y la facturación del condominio'
+    : 'Consulta el plan y la facturación del organización'
 
   const handleCancelConfirm = useCallback(async () => {
     const ok = await handleCancel()
@@ -141,7 +141,7 @@ export function SubscriptionPage() {
         </div>
         <h2 className='text-xl font-semibold'>Acceso restringido</h2>
         <p className='mt-2 max-w-md text-muted-foreground'>
-          No tienes permiso para consultar la suscripción del condominio. Contacta al administrador de
+          No tienes permiso para consultar la suscripción del organización. Contacta al administrador de
           tu organización.
         </p>
       </div>
@@ -181,7 +181,7 @@ export function SubscriptionPage() {
   const multiItem = details?.multiItem ?? null
   const currentPlan = details?.currentPlan ?? null
 
-  // Sin suscripción de Stripe no hay autogestión posible, PERO el clúster igual
+  // Sin suscripción de Stripe no hay autogestión posible, PERO el organización igual
   // puede tener plan por pago manual, cortesía o prueba: en ese caso se muestra el
   // plan y su fuente, sin invitar a contratar de nuevo con tarjeta.
   if (!multiItem) {
@@ -206,7 +206,7 @@ export function SubscriptionPage() {
               <p className='mt-1 mb-6 text-sm text-muted-foreground'>
                 {isOwner
                   ? 'Aún no tienes un plan asignado. Selecciona uno para comenzar.'
-                  : 'El condominio aún no tiene un plan asignado.'}
+                  : 'El organización aún no tiene un plan asignado.'}
               </p>
               {isOwner && (
                 <Button onClick={() => navigate('/select-plan')}>Seleccionar un plan</Button>

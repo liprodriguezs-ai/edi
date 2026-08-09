@@ -15,7 +15,7 @@ use Stripe\Subscription;
  *
  * Three NAMED sets answer two DIFFERENT questions, deliberately kept apart so
  * neither is reused for the other by accident:
- *   - LIVE: "is this cluster already paying / may it manage its subscription?"
+ *   - LIVE: "is this organization already paying / may it manage its subscription?"
  *   - DUNNING: "is a charge failing RIGHT NOW?"
  *   - PAYMENT_SIGNAL (LIVE ∪ DUNNING, always derived — never re-listed):
  *     "does Stripe still speak for this subscription's payment state at all?"

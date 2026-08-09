@@ -321,7 +321,7 @@ function CatalogFormSheet<T extends IEntity & { name?: string }, V extends Field
  * CRUD genérico para catálogos (tablas name/order/is_active y similares).
  * Listado + búsqueda + paginación + modal de alta/edición + borrado con confirmación.
  * Los botones de escritura se ocultan solos si el usuario no tiene el permiso
- * (los catálogos centrales son read-only para roles del condominio).
+ * (los catálogos centrales son read-only para roles del organización).
  */
 export function CatalogCrudModule<T extends IEntity & { name?: string }, V extends FieldValues>(
   config: CatalogCrudModuleProps<T, V>

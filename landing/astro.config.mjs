@@ -5,7 +5,7 @@ import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
 
 // Canonical production origin. Update if the marketing site ships on another host.
-const SITE = 'https://kivo7.com';
+const SITE = 'https://edi.example.com';
 
 /**
  * Grupo de la barra lateral de /docs poblado desde una carpeta de contenido.
@@ -36,7 +36,7 @@ export default defineConfig({
       title: 'Documentación',
       titleDelimiter: '·',
       description:
-        'Manual de uso de Kivo7: cobranza, tesorería, accesos, paquetería y todo lo que necesitas para administrar tu fraccionamiento.',
+        'Manual de uso de EDI: cobranza, tesorería, accesos, paquetería y todo lo que necesitas para administrar tu fraccionamiento.',
 
       // Una sola raíz en español: sin prefijo /es en las URLs y <html lang="es-MX">.
       defaultLocale: 'root',
@@ -78,7 +78,7 @@ export default defineConfig({
       // `sidebar.order` del frontmatter de cada página.
       sidebar: [
         group('Primeros pasos', 'empezar', false),
-        group('Estructura del condominio', 'estructura'),
+        group('Estructura del organización', 'estructura'),
         group('Cobranza', 'cobranza'),
         group('Tesorería', 'tesoreria'),
         group('Mesa directiva y personal', 'mesa-y-personal'),
@@ -89,7 +89,7 @@ export default defineConfig({
         group('Proyectos comunitarios', 'proyectos'),
         group('Incidencias', 'incidencias'),
         group('Reportes y tableros', 'reportes'),
-        group('Configuración del condominio', 'configuracion'),
+        group('Configuración del organización', 'configuracion'),
         group('Tu cuenta y suscripción', 'cuenta'),
         group('Roles y permisos', 'roles'),
         group('Ayuda', 'ayuda'),

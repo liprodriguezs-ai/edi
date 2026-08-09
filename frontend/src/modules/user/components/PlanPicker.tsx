@@ -32,13 +32,13 @@ export function PlanPicker({
   unitCount,
   onSelect,
 }: {
-  /** Plan vigente del clúster, para que el dueño sepa contra qué compara. */
+  /** Plan vigente del organización, para que el dueño sepa contra qué compara. */
   currentPlan: IBillingPlan | null
   /** Planes a los que puede cambiar (con precio de lista, sin el actual). */
   availablePlans: IBillingPlan[]
   /** Todos los cotizables, incluido el actual: base para las funciones comunes. */
   allBillablePlans: IBillingPlan[]
-  /** Plan cuya banda cubre las unidades del clúster, si alguno lo hace. */
+  /** Plan cuya banda cubre las unidades del organización, si alguno lo hace. */
   fittingPlan: IBillingPlan | null
   selectedPlanKey: string
   interval: BillingInterval
@@ -55,7 +55,7 @@ export function PlanPicker({
     <>
       {/* Punto de partida. Sin esto el dueño elige a ciegas: no sabe cuántas
           unidades cubre lo que ya paga ni contra qué está comparando. */}
-      <ClusterContext
+      <OrganizationContext
         currentPlan={currentPlan}
         interval={interval}
         currency={currency}
@@ -103,7 +103,7 @@ function periodLabelFor(interval: BillingInterval): string {
  * decir cuántas unidades cubre el plan vigente ni contra qué se compara. Elegir
  * plan sin este dato es adivinar.
  */
-function ClusterContext({
+function OrganizationContext({
   currentPlan,
   interval,
   currency,
@@ -140,7 +140,7 @@ function ClusterContext({
         )}
       </div>
 
-      {/* Un clúster recién creado tiene 0 unidades: ahí NO hay nada que recomendar,
+      {/* Un organización recién creado tiene 0 unidades: ahí NO hay nada que recomendar,
           y mandarlo a venta consultiva (la rama de "ninguna banda cubre ese número")
           sería alarmarlo por estar empezando. */}
       <p className='mt-3 border-t border-border pt-3 text-[12.5px] text-foreground'>
@@ -151,7 +151,7 @@ function ClusterContext({
           </span>
         ) : (
           <>
-            Tu condominio tiene{' '}
+            Tu organización tiene{' '}
             <strong className='tabular-nums'>
               {unitCount} {unitCount === 1 ? 'unidad' : 'unidades'}
             </strong>

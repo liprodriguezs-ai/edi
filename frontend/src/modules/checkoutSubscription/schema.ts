@@ -6,7 +6,7 @@ import { z } from 'zod'
  * El precio depende SOLO de la banda de unidades del PLAN: ya no se venden módulos
  * por separado — todo lo que existe va incluido en el plan base. La banda es un
  * atributo del plan (se muestra en su tarjeta), no un dato que el usuario capture;
- * para clústeres por encima de `max_billable_units` existe el plan `a_medida`
+ * para organizaciones por encima de `max_billable_units` existe el plan `a_medida`
  * (venta consultiva, `is_contact_sales`), elegible en la grilla. El CÁLCULO es
  * autoridad del backend; el frontend nunca calcula montos. Los montos llegan en
  * MINOR UNITS (centavos) → dividir entre 100 para pesos (usar `formatPrice`).
@@ -187,7 +187,7 @@ export interface IPlanCheckoutRequest extends IPlanQuoteRequest {
 /**
  * Suscripción MULTI-ITEM del dueño (un módulo base + N módulos en UNA sola
  * suscripción de Stripe). Es lo que devuelve GET /config/subscription en
- * `data.multi_item` cuando el clúster factura por plan×módulo. Los montos llegan en
+ * `data.multi_item` cuando el organización factura por plan×módulo. Los montos llegan en
  * MINOR UNITS (centavos); el backend es la autoridad del cálculo, el frontend nunca
  * lo recalcula.
  */
@@ -212,11 +212,11 @@ export const multiItemSubscriptionSchema = z.object({
 })
 
 /**
- * Plan VIGENTE del clúster tal como lo reporta `GET /config/subscription` en
+ * Plan VIGENTE del organización tal como lo reporta `GET /config/subscription` en
  * `current_plan`, INDEPENDIENTEMENTE de la fuente del acceso: Stripe, pago manual,
  * cortesía del super-admin o prueba.
  *
- * El bloque `multi_item` sólo describe suscripciones de Stripe, así que un clúster
+ * El bloque `multi_item` sólo describe suscripciones de Stripe, así que un organización
  * que paga por transferencia o tiene cortesía llega con `multi_item: null`. Sin este
  * bloque la pantalla lo trataba como "sin plan" y lo invitaba a contratar de nuevo.
  *

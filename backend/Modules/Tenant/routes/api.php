@@ -21,7 +21,7 @@ Route::middleware('throttle:api')->group(function () {
     Orion::resource('tenant', TenantController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
 
     Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive'])->group(function () {
-        // Super-admin ALTA of a cluster + its billing in one step (trial / courtesy
+        // Super-admin ALTA of a organization + its billing in one step (trial / courtesy
         // / manual paid / card). Gate (create.tenant) lives in the controller. No
         // initializeTenancy: writes target the NEW tenant explicitly.
         Route::post('tenant/provision', [TenantProvisioningController::class, 'store']);

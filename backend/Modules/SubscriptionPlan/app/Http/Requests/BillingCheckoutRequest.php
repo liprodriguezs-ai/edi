@@ -51,7 +51,7 @@ class BillingCheckoutRequest extends FormRequest
     {
         return function (string $attribute, mixed $value, Closure $fail): void {
             if (! is_array($value) || ! in_array('base', $value, true)) {
-                $fail('La selección enviada no corresponde al plan del condominio.');
+                $fail('La selección enviada no corresponde al plan del organización.');
             }
         };
     }

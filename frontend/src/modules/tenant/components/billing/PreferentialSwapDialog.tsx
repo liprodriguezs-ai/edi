@@ -136,7 +136,7 @@ export function PreferentialSwapDialog({
               </p>
             )}
             <p className="text-xs text-muted-foreground">
-              Como el condominio paga de forma manual, no se cobra nada ahora: el ajuste se refleja en
+              Como el organización paga de forma manual, no se cobra nada ahora: el ajuste se refleja en
               el siguiente pago.
             </p>
           </div>

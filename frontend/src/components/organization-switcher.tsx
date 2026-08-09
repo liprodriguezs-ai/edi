@@ -49,7 +49,7 @@ function SwitcherShell({
       )}
       <span className='min-w-0 flex-1 leading-tight'>
         <span className='block text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[var(--nav-lbl)]'>
-          Condominio
+          Organización
         </span>
         <b className='block truncate text-[13.5px] font-semibold text-white'>{name}</b>
       </span>
@@ -61,11 +61,11 @@ function SwitcherShell({
 }
 
 /**
- * Switcher de condominio del sidebar (diseño v3).
- * - Usuarios del condominio: chip informativo con su condominio.
+ * Switcher de organización del sidebar (diseño v3).
+ * - Usuarios del organización: chip informativo con su organización.
  * - Super admin: selector cross-tenant (manda X-Tenant-Id en cada request).
  */
-export function ClusterSwitcher() {
+export function OrganizationSwitcher() {
   const profileTenant = useStore(sessionStore, (s) => s.profile?.tenant)
   const isSuperAdmin = useRoles(ERoleUserSlug.SUPER_ADMIN)
   const { tenantId, tenantName, setTenant } = useTenantContextStore()
@@ -80,10 +80,10 @@ export function ClusterSwitcher() {
   const currentName =
     (isSuperAdmin ? tenantName : null) ?? profileTenant?.name ?? APP_CONFIG.brandName
 
-  // El logo viene de la sesión, que es la del condominio propio del usuario. Un
-  // super admin parado en OTRO condominio no lo tiene, así que ahí cae a la inicial.
-  const isViewingOwnCluster = !isSuperAdmin || !tenantId || tenantId === profileTenant?.id
-  const currentLogoUrl = isViewingOwnCluster ? profileTenant?.logo_url : null
+  // El logo viene de la sesión, que es la del organización propio del usuario. Un
+  // super admin parado en OTRO organización no lo tiene, así que ahí cae a la inicial.
+  const isViewingOwnOrganization = !isSuperAdmin || !tenantId || tenantId === profileTenant?.id
+  const currentLogoUrl = isViewingOwnOrganization ? profileTenant?.logo_url : null
 
   if (!isSuperAdmin) {
     return (
@@ -95,7 +95,7 @@ export function ClusterSwitcher() {
 
   const handleSelect = (tenant: TenantOption) => {
     setTenant(tenant.id, tenant.name)
-    // El contexto del condominio cambió: todo lo cacheado pertenece al anterior
+    // El contexto del organización cambió: todo lo cacheado pertenece al anterior
     void queryClient.invalidateQueries()
   }
 
@@ -103,7 +103,7 @@ export function ClusterSwitcher() {
     <div className='px-1.5 pb-2'>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button type='button' className='group w-full' aria-label='Cambiar de condominio'>
+          <button type='button' className='group w-full' aria-label='Cambiar de organización'>
             <SwitcherShell name={currentName} logoUrl={currentLogoUrl} interactive />
           </button>
         </DropdownMenuTrigger>
@@ -119,7 +119,7 @@ export function ClusterSwitcher() {
             </DropdownMenuItem>
           ))}
           {tenants.length === 0 && (
-            <p className='px-3 py-2 text-[12.5px] text-[var(--ink-3)]'>Sin condominios.</p>
+            <p className='px-3 py-2 text-[12.5px] text-[var(--ink-3)]'>Sin organizaciones.</p>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

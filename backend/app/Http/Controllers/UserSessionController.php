@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
  *
  * Custom action (laravel-backend-architecture §2.10): authorized by token ability, the target
  * user is resolved AFTER initializeTenancy so UserTenantScope restricts the
- * lookup to the admin's own cluster (super-admin scopes via X-Tenant-Id or
+ * lookup to the admin's own organization (super-admin scopes via X-Tenant-Id or
  * operates unscoped).
  */
 class UserSessionController extends Controller

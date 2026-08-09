@@ -162,7 +162,7 @@ final class PlanPricingTest extends TestCase
 
     public function test_plan_for_units_above_the_highest_band_returns_the_contact_sales_plan(): void
     {
-        // It used to clamp to premium; a cluster past the price list now belongs
+        // It used to clamp to premium; a organization past the price list now belongs
         // to consultative sales.
         $this->assertSame('a_medida', $this->service()->planForUnits(301)->key);
         $this->assertSame('a_medida', $this->service()->planForUnits(5000)->key);

@@ -20,7 +20,7 @@ return new class extends Migration
         $table = config('audit.drivers.database.table', 'audits');
 
         Schema::connection($connection)->table($table, function (Blueprint $table): void {
-            $table->uuid('tenant_id')->nullable()->after('id')->comment('FK to tenant for scoping audit logs per cluster (null for pre-tenancy rows)');
+            $table->uuid('tenant_id')->nullable()->after('id')->comment('FK to tenant for scoping audit logs per organization (null for pre-tenancy rows)');
             $table->index('tenant_id');
         });
     }

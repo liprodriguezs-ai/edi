@@ -1,6 +1,6 @@
-# Interface Design System — Kivo7 (Collections / SaaS admin)
+# Interface Design System — EDI (Collections / SaaS admin)
 
-> Herramienta de administración de clústeres residenciales. Esto NO es marketing — es software de trabajo.
+> Herramienta de administración de organizaciónes residenciales. Esto NO es marketing — es software de trabajo.
 
 ## Direction & Feel
 **Cockpit de control.** Denso pero ordenado, financiero-confiable. El admin configura reglas de cobro y ve los resultados en una sola superficie ("mejor control", no por partes).

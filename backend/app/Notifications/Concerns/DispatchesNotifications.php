@@ -37,7 +37,7 @@ trait DispatchesNotifications
      * WITHIN the current tenant. Spatie roles are global in this project, so the
      * resolution always intersects the role with tenant membership (user_tenant) via
      * NotificationDispatcher::tenantRoleUserIds() — a 'security' user of another
-     * cluster must never be a recipient here.
+     * organization must never be a recipient here.
      *
      * Callers must run inside a tenant context (initializeTenancy or $tenant->run());
      * without one, NO recipients are resolved — never the whole platform.
@@ -80,7 +80,7 @@ trait DispatchesNotifications
 
         // Only blanket-append global push for ad-hoc callers. When the channel list was
         // derived from NotificationSettingService (per-event config), $augmentPush is
-        // false so the cluster's per-event channel_push=false toggle is honored — the
+        // false so the organization's per-event channel_push=false toggle is honored — the
         // global config must not silently re-enable push the admin turned off.
         if ($augmentPush) {
             $channels = $this->withConfiguredPushChannel($channels);
@@ -142,11 +142,11 @@ trait DispatchesNotifications
     }
 
     /**
-     * Dispatch a notification driven by the cluster's per-event configuration.
+     * Dispatch a notification driven by the organization's per-event configuration.
      *
      * Resolves active state, channel names, and (for board-audience events) board
      * role recipients from NotificationSettingService, then delegates to
-     * notifyUsersFromTemplate. If the event is inactive for the current cluster,
+     * notifyUsersFromTemplate. If the event is inactive for the current organization,
      * returns immediately without recording any in-app rows or dispatching.
      *
      * Pass $preResolved (output of NotificationSettingService::resolve()) to skip the
@@ -160,7 +160,7 @@ trait DispatchesNotifications
      * Collections, where one dispatch covers N periods and therefore needs plural copy
      * with different {tokens} than the single-period template. Without this the plural
      * path would render the singular template and leak its unfilled {due_date} token to
-     * residents. Keep the variant seeded in NotificationTemplateSeeder so clusters can
+     * residents. Keep the variant seeded in NotificationTemplateSeeder so organizations can
      * customize it like any other template.
      *
      * @param  array<int, string>  $recipientUserIds
@@ -219,7 +219,7 @@ trait DispatchesNotifications
      * final delivery in the dispatcher.
      *
      * NOT applied to the per-event path (notifyEvent → augmentPush=false): there the
-     * cluster's per-event channel_push toggle is authoritative, so the global config
+     * organization's per-event channel_push toggle is authoritative, so the global config
      * must not re-enable push the admin disabled for that event.
      *
      * @param  string[]  $channels

@@ -196,7 +196,7 @@ final class CashierTimestampTimezoneTest extends TestCase
     }
 
     /**
-     * The cluster's account owner, carrying the Stripe customer id (precedent:
+     * The organization's account owner, carrying the Stripe customer id (precedent:
      * StripeWebhookEntitlementTest::makeStripeOwner()).
      */
     private function makeStripeOwner(Tenant $tenant, string $stripeCustomerId): User

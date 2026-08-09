@@ -37,8 +37,8 @@ class AngularController extends Controller
 
     public function __construct()
     {
-        // Roles operativos del clúster (asignables dentro del tenant).
-        $clusterRoles = [
+        // Roles operativos del organización (asignables dentro del tenant).
+        $organizationRoles = [
             Role::ADMINISTRATOR,
             Role::PRESIDENT,
             Role::TREASURER,
@@ -52,16 +52,16 @@ class AngularController extends Controller
         ];
 
         $this->filterEspecial = [
-            'Role' => function ($model, $params) use ($clusterRoles) {
+            'Role' => function ($model, $params) use ($organizationRoles) {
                 $user = auth()->user();
 
                 if ($user->hasRole(Role::SLUG_SUPER_ADMIN)) {
-                    return $model->whereIn('uuid', array_merge([Role::SUPER_ADMIN, Role::ACCOUNT_OWNER], $clusterRoles));
+                    return $model->whereIn('uuid', array_merge([Role::SUPER_ADMIN, Role::ACCOUNT_OWNER], $organizationRoles));
                 }
 
-                // El dueño de la cuenta y el administrador gestionan los roles del clúster.
+                // El dueño de la cuenta y el administrador gestionan los roles del organización.
                 if ($user->hasRole(Role::SLUG_ACCOUNT_OWNER) || $user->hasRole(Role::SLUG_ADMINISTRATOR)) {
-                    return $model->whereIn('uuid', $clusterRoles);
+                    return $model->whereIn('uuid', $organizationRoles);
                 }
 
                 // El resto solo puede referenciar roles de residencia (p.ej. alta de unit_user).

@@ -12,7 +12,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  * Central projection of a tenant's billing entitlement (which billing package
- * the cluster is allowed to use and why). No tenant_id scope of its own — like
+ * the organization is allowed to use and why). No tenant_id scope of its own — like
  * billing_package / subscription_plan it lives on the central connection and is
  * keyed by an explicit tenant_id column.
  *

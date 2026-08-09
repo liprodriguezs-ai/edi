@@ -44,12 +44,12 @@ class AuthController extends Controller
         $conn = config('database.default', 'central');
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
-            // Human-readable name of the residential cluster being registered.
+            // Human-readable name of the residential organization being registered.
             // It lands verbatim in tenant.name, which is what the UI shows as the
-            // cluster label everywhere (site header, cluster switcher, resident
+            // organization label everywhere (site header, organization switcher, resident
             // home) and what CompanyService::ensureMainCompanyForTenant later
             // copies into the main company on the first authenticated request.
-            'cluster_name' => 'required|string|max:255',
+            'organization_name' => 'required|string|max:255',
             'email' => 'required|email|unique:'.$conn.'.user,email',
             'password' => 'required|confirmed|min:8',
             'tenant_id' => 'nullable',
@@ -83,9 +83,9 @@ class AuthController extends Controller
                 'birthdate' => $validated['birthdate'] ?? null,
             ]);
 
-            // The cluster is named by the person registering it. tenant.name is a
+            // The organization is named by the person registering it. tenant.name is a
             // display label, not an identifier: it carries no unique constraint,
-            // so two clusters may legitimately share a name ("Villas del Sol").
+            // so two organizations may legitimately share a name ("Villas del Sol").
             // Slug collisions are handled downstream where a slug is actually
             // required (CompanyService suffixes company.slug with the tenant key).
             //
@@ -97,7 +97,7 @@ class AuthController extends Controller
             // reads this as status='none', is_blocked=true — the same "never
             // chose a plan" state /select-plan already renders.
             $tenant = Tenant::create([
-                'name' => trim($validated['cluster_name']),
+                'name' => trim($validated['organization_name']),
                 'status' => Tenant::STATUS_PENDIENTE_PAGO,
             ]);
 
@@ -184,7 +184,7 @@ class AuthController extends Controller
             }
             $tenant = $tenant ?? $user->tenants()->with(['payment_type', 'billing_package'])->first();
 
-            // Return all tenants the user belongs to for multi-cluster UX.
+            // Return all tenants the user belongs to for multi-organization UX.
             $allTenants = $user->tenants()->with(['billing_package'])->get();
 
             $response = response()->json([
@@ -213,11 +213,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Active-tenant payload plus the cluster logo the sidebar renders.
+     * Active-tenant payload plus the organization logo the sidebar renders.
      *
      * Only the ACTIVE tenant is enriched: the `tenants` list would cost one
      * extra media lookup per row, and nothing renders a logo for the inactive
-     * clusters.
+     * organizations.
      *
      * @return array<string, mixed>|null
      */
@@ -254,7 +254,7 @@ class AuthController extends Controller
         }
         $tenant = $tenant ?? $user->tenants()->with(['payment_type', 'billing_package'])->first();
 
-        // All tenants for multi-cluster UX.
+        // All tenants for multi-organization UX.
         $allTenants = $user->tenants()->with(['billing_package'])->get();
 
         return response()->json([
@@ -294,7 +294,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Resolve the cluster's access state. Thin delegate to SubscriptionStateService
+     * Resolve the organization's access state. Thin delegate to SubscriptionStateService
      * — the SINGLE source of truth shared with the EnsureSubscriptionActive
      * middleware, so what the auth responses report and what the API enforces can
      * never drift. See SubscriptionStateService for the full decision logic.

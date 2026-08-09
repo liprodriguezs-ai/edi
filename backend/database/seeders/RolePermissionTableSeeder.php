@@ -20,7 +20,7 @@ class RolePermissionTableSeeder extends Seeder
         }
 
         // Central fixed-enum catalogs (UUID-keyed, BaseModel::columns($table, false),
-        // shared across ALL tenants). Mutating one row would hit every cluster at
+        // shared across ALL tenants). Mutating one row would hit every organization at
         // once (e.g. soft-deleting ChargeStatus::OVERDUE breaks ChargeStatusService
         // platform-wide), so write verbs are platform-exclusive and tenant roles
         // keep read access only (findings global-02, housing-05, collections-06,
@@ -69,7 +69,7 @@ class RolePermissionTableSeeder extends Seeder
 
         // Base permission catalog consumed ONLY by the super-admin grant below
         // (exclusives + this list). Tenant roles receive their permissions via the
-        // whereNotIn queries / the Kivo7 role sets, so entries here that also
+        // whereNotIn queries / the EDI role sets, so entries here that also
         // appear in $permissionsOnlySuperAdmin stay platform-exclusive.
         $commonPermissions = [
             'read.user', 'update.user', 'delete.user', 'create.user', 'restore.user', 'report.user',
@@ -222,7 +222,7 @@ class RolePermissionTableSeeder extends Seeder
         }
 
         // RH: RRHH operational — no billing, audit, roles, email, company, tenants, or users.
-        $this->seedKivo7RolePermissions($permissionsOnlySuperAdmin);
+        $this->seedEDIRolePermissions($permissionsOnlySuperAdmin);
     }
 
     /**
@@ -240,7 +240,7 @@ class RolePermissionTableSeeder extends Seeder
      *
      * @param  string[]  $superAdminExclusives  Permissions the platform reserves for the super admin.
      */
-    private function seedKivo7RolePermissions(array $superAdminExclusives): void
+    private function seedEDIRolePermissions(array $superAdminExclusives): void
     {
         $permissionIds = DB::table('permissions')
             ->whereNotIn('name', $superAdminExclusives)

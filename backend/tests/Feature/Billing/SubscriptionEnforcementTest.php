@@ -19,10 +19,10 @@ use Tests\Support\WithTenantSetup;
 use Tests\TestCase;
 
 /**
- * Slice 1b — server-side enforcement of the cluster's `is_blocked` state.
+ * Slice 1b — server-side enforcement of the organization's `is_blocked` state.
  *
  * The EnsureSubscriptionActive middleware (appended to the `api` group) turns
- * is_blocked into a real 403 boundary on cluster-data endpoints, while keeping the
+ * is_blocked into a real 403 boundary on organization-data endpoints, while keeping the
  * auth + pay-flow reachable so the owner can recover. Enforcement is fail-secure
  * ON in prod but OFF in the suite (phpunit.xml), so this test flips it ON.
  *
@@ -64,7 +64,7 @@ final class SubscriptionEnforcementTest extends TestCase
 
     public function test_blocked_tenant_is_denied_on_a_data_endpoint(): void
     {
-        [$tenant, $token] = $this->clusterWithWildcardToken();
+        [$tenant, $token] = $this->organizationWithWildcardToken();
         // No entitlement granted → getSubscriptionState reports blocked.
 
         $this->tenantRequest($token, $tenant)
@@ -75,7 +75,7 @@ final class SubscriptionEnforcementTest extends TestCase
 
     public function test_tenant_with_active_entitlement_reaches_a_data_endpoint(): void
     {
-        [$tenant, $token] = $this->clusterWithWildcardToken();
+        [$tenant, $token] = $this->organizationWithWildcardToken();
         $this->grantEntitlement($tenant, TenantEntitlement::SOURCE_SUPER_ADMIN_FREE, null);
 
         $this->tenantRequest($token, $tenant)
@@ -91,7 +91,7 @@ final class SubscriptionEnforcementTest extends TestCase
      */
     public function test_gate_query_count_on_entitled_request_never_exceeds_pre_change_and_never_touches_subscriptions(): void
     {
-        [$tenant, $token] = $this->clusterWithWildcardToken();
+        [$tenant, $token] = $this->organizationWithWildcardToken();
         $this->grantEntitlement($tenant, TenantEntitlement::SOURCE_SUPER_ADMIN_FREE, null);
 
         [$entitlementQueries, $subscriptionQueries] = $this->captureGateQueries(
@@ -110,7 +110,7 @@ final class SubscriptionEnforcementTest extends TestCase
      */
     public function test_blocked_branch_runs_strictly_fewer_queries_than_pre_change(): void
     {
-        [$tenant, $token] = $this->clusterWithWildcardToken();
+        [$tenant, $token] = $this->organizationWithWildcardToken();
         // No entitlement granted → blocked.
 
         [$entitlementQueries, $subscriptionQueries] = $this->captureGateQueries(
@@ -153,7 +153,7 @@ final class SubscriptionEnforcementTest extends TestCase
 
     public function test_trial_tenant_reaches_a_data_endpoint(): void
     {
-        [$tenant, $token] = $this->clusterWithWildcardToken();
+        [$tenant, $token] = $this->organizationWithWildcardToken();
         $this->grantEntitlement($tenant, TenantEntitlement::SOURCE_TRIAL, now()->addDays(7));
 
         $this->tenantRequest($token, $tenant)
@@ -163,7 +163,7 @@ final class SubscriptionEnforcementTest extends TestCase
 
     public function test_blocked_tenant_can_still_reach_the_pay_flow(): void
     {
-        [$tenant, $token] = $this->clusterWithWildcardToken();
+        [$tenant, $token] = $this->organizationWithWildcardToken();
         // Blocked (no entitlement) — yet the owner MUST still be able to pay.
 
         $subscription = $this->tenantRequest($token, $tenant)
@@ -177,7 +177,7 @@ final class SubscriptionEnforcementTest extends TestCase
             ->assertStatus(200);
 
         // The tracking beacon (Facebook CAPI / GA4 MP) must ALSO stay reachable —
-        // otherwise an authenticated user of a blocked cluster gets 403 firing
+        // otherwise an authenticated user of a blocked organization gets 403 firing
         // InitiateCheckout/Purchase on their way to paying (the exact traffic this
         // gate must never obstruct).
         $tracking = $this->tenantRequest($token, $tenant)
@@ -193,8 +193,8 @@ final class SubscriptionEnforcementTest extends TestCase
     {
         config(['billing.enforce_subscription' => false]);
 
-        [$tenant, $token] = $this->clusterWithWildcardToken();
-        // Blocked cluster, but the kill-switch is off → the gate no-ops.
+        [$tenant, $token] = $this->organizationWithWildcardToken();
+        // Blocked organization, but the kill-switch is off → the gate no-ops.
 
         $this->tenantRequest($token, $tenant)
             ->getJson(self::DATA_ENDPOINT)
@@ -215,7 +215,7 @@ final class SubscriptionEnforcementTest extends TestCase
         $superAdmin->assignRole(Role::SLUG_SUPER_ADMIN);
         $this->assertFalse($state->gateFor($superAdmin)->isBlocked);
 
-        // A user with no tenant membership is not a cluster user → never blocked.
+        // A user with no tenant membership is not a organization user → never blocked.
         $tenantless = $this->makeCentralUser();
         $this->assertFalse($state->gateFor($tenantless)->isBlocked);
     }
@@ -223,20 +223,20 @@ final class SubscriptionEnforcementTest extends TestCase
     /**
      * A1 regression — enforcement must evaluate the tenant the request actually
      * operates on (X-Tenant-Id), NOT the user's last_active tenant. A user who
-     * belongs to an ACTIVE cluster A and a BLOCKED cluster B must be denied when
+     * belongs to an ACTIVE organization A and a BLOCKED organization B must be denied when
      * addressing B, even though last_active points at A.
      */
     public function test_enforcement_honors_x_tenant_id_for_multi_membership_user(): void
     {
-        $tenantActive = $this->makeTenant('Active Cluster A');
-        $tenantBlocked = $this->makeTenant('Blocked Cluster B');
+        $tenantActive = $this->makeTenant('Active Organization A');
+        $tenantBlocked = $this->makeTenant('Blocked Organization B');
         $this->seedTenant($tenantActive);
         $this->seedTenant($tenantBlocked);
 
         // A is active; B is intentionally left without any entitlement (blocked).
         $this->grantEntitlement($tenantActive, TenantEntitlement::SOURCE_SUPER_ADMIN_FREE, null);
 
-        // A user who is a member of BOTH clusters, with last_active pinned to A.
+        // A user who is a member of BOTH organizations, with last_active pinned to A.
         $user = $this->makeUser($tenantActive);
         $user->tenants()->attach($tenantBlocked->id);
         $user->withoutEvents(function () use ($user, $tenantActive): void {
@@ -244,23 +244,23 @@ final class SubscriptionEnforcementTest extends TestCase
         });
         $token = $user->createToken('multi', ['*'])->plainTextToken;
 
-        // Addressing the BLOCKED cluster B must be denied, despite last_active = A.
+        // Addressing the BLOCKED organization B must be denied, despite last_active = A.
         $this->tenantRequest($token, $tenantBlocked)
             ->getJson(self::DATA_ENDPOINT)
             ->assertStatus(403)
             ->assertJsonPath('code', 'SUBSCRIPTION_INACTIVE');
 
-        // Addressing the ACTIVE cluster A still succeeds.
+        // Addressing the ACTIVE organization A still succeeds.
         $this->tenantRequest($token, $tenantActive)
             ->getJson(self::DATA_ENDPOINT)
             ->assertStatus(200);
     }
 
     /**
-     * Super admin is exempt from cluster blocking AND can operate cross-tenant:
-     * even against a BLOCKED cluster (via X-Tenant-Id) it reaches the data endpoint.
+     * Super admin is exempt from organization blocking AND can operate cross-tenant:
+     * even against a BLOCKED organization (via X-Tenant-Id) it reaches the data endpoint.
      */
-    public function test_super_admin_operates_cross_tenant_on_a_blocked_cluster(): void
+    public function test_super_admin_operates_cross_tenant_on_a_blocked_organization(): void
     {
         $tenant = $this->makeTenant('Blocked For SuperAdmin');
         $this->seedTenant($tenant);
@@ -289,8 +289,8 @@ final class SubscriptionEnforcementTest extends TestCase
         // Asserted on gateFor(), NOT narrativeFor(): 'exempt' is an ACTOR-aware
         // verdict and lives only in the gate. narrativeFor() has no role
         // short-circuit on purpose (TenantProvisioningController passes the
-        // super-admin actor to describe a NEW cluster, where reporting 'exempt'
-        // would be a lie about the cluster) — see the SubscriptionStateService
+        // super-admin actor to describe a NEW organization, where reporting 'exempt'
+        // would be a lie about the organization) — see the SubscriptionStateService
         // docblock.
         $gate = app(SubscriptionStateService::class)->gateFor($superAdmin, $tenant->fresh());
         $this->assertSame('exempt', $gate->status);
@@ -326,14 +326,14 @@ final class SubscriptionEnforcementTest extends TestCase
     // =========================================================================
 
     /**
-     * A fully-seeded cluster + a wildcard-token user (isolates the test to the
+     * A fully-seeded organization + a wildcard-token user (isolates the test to the
      * subscription gate, not permission checks).
      *
      * @return array{0: Tenant, 1: string}
      */
-    private function clusterWithWildcardToken(): array
+    private function organizationWithWildcardToken(): array
     {
-        $tenant = $this->makeTenant('Enforcement Cluster');
+        $tenant = $this->makeTenant('Enforcement Organization');
         $this->seedTenant($tenant);
 
         $user = $this->makeUser($tenant);

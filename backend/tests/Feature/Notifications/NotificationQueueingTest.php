@@ -88,7 +88,7 @@ final class NotificationQueueingTest extends TestCase
         $tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
                 'id' => (string) Str::uuid(),
-                'name' => 'Queue Cluster',
+                'name' => 'Queue Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
             [TenantCreated::class],

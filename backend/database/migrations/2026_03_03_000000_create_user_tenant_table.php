@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('user_tenant', function (Blueprint $table) {
             $table->foreignUuid('user_id')->references('id')->on('user')->cascadeOnDelete()->comment('FK to user');
-            $table->foreignUuid('tenant_id')->references('id')->on('tenant')->cascadeOnDelete()->comment('FK to tenant (cluster)');
+            $table->foreignUuid('tenant_id')->references('id')->on('tenant')->cascadeOnDelete()->comment('FK to tenant (organization)');
             $table->timestamps();
 
             $table->primary(['user_id', 'tenant_id']);

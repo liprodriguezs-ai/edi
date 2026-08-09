@@ -9,7 +9,7 @@ use Modules\SubscriptionPlan\Models\TenantEntitlement;
 
 /**
  * The CHEAP access decision: exactly what EnsureSubscriptionActive needs to
- * turn a cluster's state into a 403 boundary, computed from `tenant_entitlement`
+ * turn a organization's state into a 403 boundary, computed from `tenant_entitlement`
  * alone — never Cashier's `subscriptions` table, never an owner lookup.
  *
  * `final readonly`: the gate itself cannot be mutated after construction. This

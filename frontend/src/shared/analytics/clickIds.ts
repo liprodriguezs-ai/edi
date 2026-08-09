@@ -10,7 +10,7 @@
  * parte — `trackEvent.ts` ya la lee directo (`readCookie('_fbc')`), así que
  * duplicar la captura acá sería redundante.
  */
-const GCLID_KEY = 'kivo7-gclid'
+const GCLID_KEY = 'edi-gclid'
 
 /** Lee un valor de localStorage sin tirar si el storage está bloqueado. */
 function readStored(key: string): string | null {

@@ -238,7 +238,7 @@ final class SessionSecurityTest extends TestCase
     {
         [$admin] = $this->makeUserWithTenant('isolated-admin@example.com');
 
-        $strangerTenant = $this->makeTenant('Other Cluster');
+        $strangerTenant = $this->makeTenant('Other Organization');
         $stranger = $this->makeUserInTenant($strangerTenant);
         $stranger->createToken('auth_token', ['*'], now()->addHour());
 

@@ -80,7 +80,7 @@ function MemberBlockedView() {
           </h1>
 
           <p className='mt-4 text-muted-foreground leading-relaxed'>
-            El propietario de la cuenta necesita actualizar la suscripción del condominio. En cuanto
+            El propietario de la cuenta necesita actualizar la suscripción del organización. En cuanto
             lo haga, vuelves a entrar con normalidad. Tu información está completa y no se perdió
             nada.
           </p>
@@ -92,9 +92,9 @@ function MemberBlockedView() {
             <Button asChild className='rounded-full'>
               <a
                 href={`mailto:?subject=${encodeURIComponent(
-                  'El acceso a nuestro condominio está en pausa'
+                  'El acceso a nuestro organización está en pausa'
                 )}&body=${encodeURIComponent(
-                  'Hola:\n\nEl acceso a la plataforma del condominio está en pausa porque la suscripción necesita actualizarse. Solo el propietario de la cuenta puede hacerlo, desde Mi suscripción.\n\nGracias.'
+                  'Hola:\n\nEl acceso a la plataforma del organización está en pausa porque la suscripción necesita actualizarse. Solo el propietario de la cuenta puede hacerlo, desde Mi suscripción.\n\nGracias.'
                 )}`}
               >
                 Avisar al propietario
@@ -107,8 +107,8 @@ function MemberBlockedView() {
 
           <p className='mt-6 text-xs text-muted-foreground'>
             ¿Necesitas ayuda? Escríbenos a{' '}
-            <a href='mailto:hola@kivo7.com' className='underline'>
-              hola@kivo7.com
+            <a href='mailto:hola@edi.example.com' className='underline'>
+              hola@edi.example.com
             </a>
             .
           </p>
@@ -126,7 +126,7 @@ export function SelectPlanPage() {
   const trialEndsAt = subscription?.trial_ends_at ?? null
   const trialDaysLeft = subscription?.trial_days_left ?? null
   const isTrial = status === 'trial'
-  // D8 — solo significativo cuando el clúster está bloqueado: distingue "tu
+  // D8 — solo significativo cuando el organización está bloqueado: distingue "tu
   // tarjeta falló" (estado c) de "nunca elegiste un plan" / "tu prueba terminó".
   const paymentIssue = subscription?.payment_issue ?? false
   // La prueba de Stripe ya trae plan y tarjeta: se cobra sola al vencer y no exige
@@ -206,7 +206,7 @@ function SuccessView() {
             }
           }
           // D7/D2 — StartTrial se dispara ACÁ, no en el registro: recién ahora
-          // sabemos que el checkout realmente arrancó un trial (D1 — un clúster
+          // sabemos que el checkout realmente arrancó un trial (D1 — un organización
           // que ya tuvo una entitlement antes es cobrado de inmediato, sin
           // trial). Un registro abandonado antes de pagar nunca dispara esto.
           if (!trialTrackedRef.current && profile.subscription?.status === 'trial') {
@@ -270,8 +270,8 @@ function SuccessView() {
     )
   }
 
-  // D2/D7 — el checkout de un clúster nuevo SIEMPRE arranca en trial (sin
-  // cargo); "Pago exitoso" sería falso ahí. Un clúster que ya tuvo una
+  // D2/D7 — el checkout de un organización nuevo SIEMPRE arranca en trial (sin
+  // cargo); "Pago exitoso" sería falso ahí. Un organización que ya tuvo una
   // entitlement antes (cancela y recontrata) es cobrado de inmediato — para
   // ese caso el "pago exitoso" original sigue siendo la verdad.
   const isTrialActivation = confirmed && subscription?.status === 'trial'
@@ -335,7 +335,7 @@ function SuccessView() {
 const BLOCKED_COPY = {
   none: {
     title: 'Elige tu plan para empezar',
-    body: 'Tu condominio ya está creado. Elige un plan para activarlo y llevarte 30 días gratis; hoy no pagas nada.',
+    body: 'Tu organización ya está creado. Elige un plan para activarlo y llevarte 30 días gratis; hoy no pagas nada.',
   },
   expired: {
     title: 'Tu prueba terminó',
@@ -343,7 +343,7 @@ const BLOCKED_COPY = {
   },
   payment_failed: {
     title: 'No pudimos procesar tu pago',
-    body: 'Tu banco rechazó el cargo, así que el acceso de tu condominio está en pausa. Actualiza tu tarjeta y se reactiva en cuanto el pago se confirme.',
+    body: 'Tu banco rechazó el cargo, así que el acceso de tu organización está en pausa. Actualiza tu tarjeta y se reactiva en cuanto el pago se confirme.',
   },
 } as const
 
@@ -384,8 +384,8 @@ function PaymentFailedRecovery({ onChangePlan }: { onChangePlan: () => void }) {
       </div>
       <p className='text-xs text-muted-foreground'>
         ¿Tu tarjeta está bien y aun así falla? Escríbenos a{' '}
-        <a href='mailto:hola@kivo7.com' className='underline'>
-          hola@kivo7.com
+        <a href='mailto:hola@edi.example.com' className='underline'>
+          hola@edi.example.com
         </a>
         .
       </p>
@@ -512,10 +512,10 @@ function OwnerPlanView({
 
   const headline = blockedReason ? BLOCKED_COPY[blockedReason] : null
 
-  // Cuando el clúster NO está bloqueado y pide ver planes, la pantalla CAMBIA de
+  // Cuando el organización NO está bloqueado y pide ver planes, la pantalla CAMBIA de
   // vista en vez de crecer hacia abajo. Apilarlas dejaba en pantalla la tarjeta
   // "tu primer cargo · $950 (Esencial)" junto a "Tu cotización · Plan Básico ·
-  // $450": dos precios distintos del mismo condominio, uno real y otro hipotético,
+  // $450": dos precios distintos del mismo organización, uno real y otro hipotético,
   // sin nada que dijera cuál era cuál.
   // `!planPickerIsTheTask` es la condición que lo distingue de "el selector ya venía
   // abierto": en la prueba de CORTESÍA elegir plan es la tarea desde el inicio, así
@@ -526,7 +526,7 @@ function OwnerPlanView({
   const revealPlanBuilder = () => {
     setShowPlans(true)
 
-    // Se preselecciona el plan que el condominio YA tiene. Sin esto el armador
+    // Se preselecciona el plan que el organización YA tiene. Sin esto el armador
     // caía en el primer plan del catálogo y ofrecía "Plan Básico $450" a quien
     // contrató Esencial de $950: parecía una degradación que nadie pidió, y en
     // ningún lado se leía cuál era el plan vigente.
@@ -552,7 +552,7 @@ function OwnerPlanView({
       <header className='flex items-center justify-between border-b border-border bg-card px-6 py-4'>
         <BrandWordmark size='sm' />
         <div className='flex items-center gap-1'>
-          {/* Un clúster en prueba NO está bloqueado: entró por su cuenta y debe
+          {/* Un organización en prueba NO está bloqueado: entró por su cuenta y debe
               poder volver. Antes la única salida era cerrar sesión. */}
           {!blockedReason && (
             <Button variant='ghost' size='sm' onClick={() => navigate('/dashboard')}>
@@ -579,7 +579,7 @@ function OwnerPlanView({
               {isChangingPlan ? (
                 <>
                   Cambia el plan de tu{' '}
-                  <b className='font-semibold text-[var(--green)]'>condominio</b>
+                  <b className='font-semibold text-[var(--green)]'>organización</b>
                 </>
               ) : headline ? (
                 headline.title
@@ -590,14 +590,14 @@ function OwnerPlanView({
               ) : (
                 <>
                   Elige el plan de tu{' '}
-                  <b className='font-semibold text-[var(--green)]'>condominio</b>
+                  <b className='font-semibold text-[var(--green)]'>organización</b>
                 </>
               )}
             </h1>
             <p className='mt-2.5 text-[15px] text-[var(--ink-3)]'>
-              {/* Sin `headline` el clúster NO está bloqueado: está en prueba y entró por
+              {/* Sin `headline` el organización NO está bloqueado: está en prueba y entró por
                   su cuenta. El copy anterior ("Renueva el plan… El acceso de tu equipo
-                  depende de una suscripción activa") era el de un clúster vencido y
+                  depende de una suscripción activa") era el de un organización vencido y
                   alarmaba sin motivo a quien tiene todo en orden. */}
               {isChangingPlan
                 ? 'Tu prueba sigue corriendo. El plan que elijas aplica desde tu primer cargo.'

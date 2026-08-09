@@ -55,7 +55,7 @@ export interface CatalogPageConfig {
 }
 
 /**
- * Fábrica de páginas CRUD para los catálogos autoadministrables del condominio.
+ * Fábrica de páginas CRUD para los catálogos autoadministrables del organización.
  * Una página = una config declarativa; schema/resource/store/columnas se
  * generan aquí (DRY: nada de duplicar 10 módulos idénticos).
  */

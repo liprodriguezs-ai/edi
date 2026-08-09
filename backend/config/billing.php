@@ -59,7 +59,7 @@ return [
     |
     */
 
-    'contact_email' => env('BILLING_CONTACT_EMAIL', 'hola@kivo7.com'),
+    'contact_email' => env('BILLING_CONTACT_EMAIL', 'hola@edi.example.com'),
 
     'contact_whatsapp' => env('BILLING_CONTACT_WHATSAPP'),
 

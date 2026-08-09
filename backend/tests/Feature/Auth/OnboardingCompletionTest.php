@@ -17,7 +17,7 @@ use Tests\TestCase;
 /**
  * Welcome onboarding completion flag (§5.3.5, auth-08).
  *
- * `user.onboarding_completed_at` is the canonical Kivo7 flag for "the user
+ * `user.onboarding_completed_at` is the canonical EDI flag for "the user
  * saw the welcome slides"; it is set once via POST auth/complete-onboarding.
  */
 final class OnboardingCompletionTest extends TestCase

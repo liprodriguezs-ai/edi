@@ -12,8 +12,8 @@
 
 set -uo pipefail
 
-# Silenciarlo por completo: export KIVO7_SKIP_DOCS_DRIFT=1
-if [ "${KIVO7_SKIP_DOCS_DRIFT:-0}" = "1" ]; then
+# Silenciarlo por completo: export EDI_SKIP_DOCS_DRIFT=1
+if [ "${EDI_SKIP_DOCS_DRIFT:-0}" = "1" ]; then
   exit 0
 fi
 
@@ -117,6 +117,6 @@ printf 'Cambiaste código que respalda estas páginas:\n\n%s' "$hits"
 printf '\nSi el cambio altera lo que ve o hace el usuario, lanza @docs-writer\n'
 printf 'para actualizarlas. Si es interno y no cambia nada de cara al usuario,\n'
 printf 'ignora este aviso.\n\n'
-printf '(Para silenciarlo: export KIVO7_SKIP_DOCS_DRIFT=1)\n\n'
+printf '(Para silenciarlo: export EDI_SKIP_DOCS_DRIFT=1)\n\n'
 
 exit 0

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * WelcomeOwnerMail — sent to the FIRST user of a cluster (the account owner) when
+ * WelcomeOwnerMail — sent to the FIRST user of a organization (the account owner) when
  * their account is provisioned. System email: always delivered via SystemMailer.
  *
  * Renders the compiled `email::welcome-owner` Blade view (source:
@@ -29,7 +29,7 @@ class WelcomeOwnerMail extends Mailable implements ShouldQueue
         $emailBaseUrl = config('email.assets_url')
             ?? rtrim(config('app.url'), '/').'/email';
 
-        return $this->subject('Bienvenido a Kivo7')
+        return $this->subject('Bienvenido a EDI')
             ->view('email::welcome-owner')
             ->with([
                 'user' => $this->user,

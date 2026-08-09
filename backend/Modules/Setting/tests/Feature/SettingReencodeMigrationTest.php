@@ -91,7 +91,7 @@ final class SettingReencodeMigrationTest extends TestCase
 
     public function test_migration_is_idempotent(): void
     {
-        $tenant = $this->makeTenant('Migration Idempotency Cluster');
+        $tenant = $this->makeTenant('Migration Idempotency Organization');
 
         $boolId = $this->insertRawSetting($tenant->id, 'legacy.bool', '1', Setting::TYPE_BOOLEAN);
         $stringId = $this->insertRawSetting($tenant->id, 'legacy.string', 'R-2026-000123', Setting::TYPE_STRING);
@@ -122,13 +122,13 @@ final class SettingReencodeMigrationTest extends TestCase
      * runs `php artisan migrate --force` on deploy, so nobody inspects the data
      * first, and a skipped `type=string` row decodes to null afterwards —
      * `getDelinquencySettings()` then substitutes a hard-coded default that looks
-     * like a saved value, and the next save persists it over the cluster's real
+     * like a saved value, and the next save persists it over the organization's real
      * customization. Failing the deploy is the safe outcome: nothing is written,
      * and the operator gets per-type counts instead of a warning nobody reads.
      */
     public function test_type_value_disagreement_aborts_before_writing_anything(): void
     {
-        $tenant = $this->makeTenant('Migration Abort Cluster');
+        $tenant = $this->makeTenant('Migration Abort Organization');
 
         $badId = $this->insertRawSetting($tenant->id, 'legacy.bad.integer', 'not-a-number', Setting::TYPE_INTEGER);
         $goodId = $this->insertRawSetting($tenant->id, 'legacy.good.string', 'R-2026-000123', Setting::TYPE_STRING);
@@ -156,7 +156,7 @@ final class SettingReencodeMigrationTest extends TestCase
 
     public function test_legacy_boolean_spelling_migrates_to_native_true(): void
     {
-        $tenant = $this->makeTenant('Migration Legacy Bool Cluster');
+        $tenant = $this->makeTenant('Migration Legacy Bool Organization');
 
         $one = $this->insertRawSetting($tenant->id, 'legacy.bool.one', '1', Setting::TYPE_BOOLEAN);
         $yes = $this->insertRawSetting($tenant->id, 'legacy.bool.yes', 'yes', Setting::TYPE_BOOLEAN);
@@ -180,7 +180,7 @@ final class SettingReencodeMigrationTest extends TestCase
 
     public function test_bare_string_is_reencoded_and_reads_back_identical(): void
     {
-        $tenant = $this->makeTenant('Migration Bare String Cluster');
+        $tenant = $this->makeTenant('Migration Bare String Organization');
 
         $id = $this->insertRawSetting($tenant->id, 'legacy.receipt', 'R-2026-000123', Setting::TYPE_STRING);
 
@@ -217,7 +217,7 @@ final class SettingReencodeMigrationTest extends TestCase
 
     public function test_down_restores_bare_string_and_leaves_other_types_untouched(): void
     {
-        $tenant = $this->makeTenant('Migration Down Cluster');
+        $tenant = $this->makeTenant('Migration Down Organization');
 
         $stringId = $this->insertRawSetting($tenant->id, 'legacy.receipt.down', 'R-2026-000456', Setting::TYPE_STRING);
         $boolId = $this->insertRawSetting($tenant->id, 'legacy.bool.down', '1', Setting::TYPE_BOOLEAN);

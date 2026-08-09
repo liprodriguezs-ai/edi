@@ -18,9 +18,9 @@ return new class extends Migration
         }
 
         Schema::create('tenant', function (Blueprint $table) {
-            $table->comment('Central (non-tenant-scoped) table representing each residential cluster subscribed to the platform.');
+            $table->comment('Central (non-tenant-scoped) table representing each residential organization subscribed to the platform.');
             BaseModel::columns($table, false);
-            $table->string('name')->nullable()->comment('Display name of the residential cluster.');
+            $table->string('name')->nullable()->comment('Display name of the residential organization.');
         });
     }
 

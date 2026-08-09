@@ -1,5 +1,5 @@
 /**
- * Kivo7 — Email theme
+ * EDI — Email theme
  *
  * Change colors and brand name here. Values are in hex for maximum
  * email client support (no oklch/CSS variables in email).
@@ -9,7 +9,7 @@
 
 export const emailTheme = {
   /** Product name used in header and footer */
-  productName: 'Kivo7',
+  productName: 'EDI',
 
   /** Primary brand (buttons, links, accents). Aligned with app primary ~155 hue. */
   primary: '#0d9488',

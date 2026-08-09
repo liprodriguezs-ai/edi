@@ -1,7 +1,7 @@
 /**
  * Tests for useSession.register — StartTrial analytics timing (D7/D2).
  *
- * Registration no longer grants any local trial (the cluster is born
+ * Registration no longer grants any local trial (the organization is born
  * blocked), so firing StartTrial there would count an abandoned registration
  * as a trial start. CompleteRegistration must still fire (the registration
  * itself did happen); StartTrial now fires only at checkout completion
@@ -50,7 +50,7 @@ describe('useSession.register — StartTrial timing (D7)', () => {
     await act(async () => {
       await result.current.register({
         name: 'Ana',
-        cluster_name: 'Las Palmas',
+        organization_name: 'Las Palmas',
         email: 'ana@test.mx',
         password: 'Secret123',
         password_confirmation: 'Secret123',
@@ -74,7 +74,7 @@ describe('useSession.register — StartTrial timing (D7)', () => {
       act(async () => {
         await result.current.register({
           name: 'Ana',
-          cluster_name: 'Las Palmas',
+          organization_name: 'Las Palmas',
           email: 'ana@test.mx',
           password: 'Secret123',
           password_confirmation: 'Secret123',

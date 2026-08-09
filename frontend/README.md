@@ -1,7 +1,7 @@
-# Kivo7 / Residia — Frontend
+# EDI / Residia — Frontend
 
-SPA de **Kivo7** (Residia): plataforma SaaS multi-tenant para administrar
-clústeres residenciales en México. Consume la API Laravel del directorio
+SPA de **EDI** (Residia): plataforma SaaS multi-tenant para administrar
+organizaciónes residenciales en México. Consume la API Laravel del directorio
 `../backend`.
 
 ## Stack

@@ -42,7 +42,7 @@ final class FacebookConversionsChannelTest extends TestCase
             'name' => 'Purchase',
             'event_id' => 'evt-fb-1',
             'event_time' => 1700000000,
-            'source_url' => 'https://kivo7.com/checkout',
+            'source_url' => 'https://edi.example.com/checkout',
             'action_source' => 'website',
             'params' => ['value' => 199.0, 'currency' => 'MXN'],
             'user_data' => [
@@ -68,7 +68,7 @@ final class FacebookConversionsChannelTest extends TestCase
             $this->assertSame('evt-fb-1', $data['event_id']);
             $this->assertSame(1700000000, $data['event_time']);
             $this->assertSame('website', $data['action_source']);
-            $this->assertSame('https://kivo7.com/checkout', $data['event_source_url']);
+            $this->assertSame('https://edi.example.com/checkout', $data['event_source_url']);
             $this->assertSame([hash('sha256', 'juan@example.com')], $data['user_data']['em']);
             $this->assertSame('fb.1.111.222', $data['user_data']['fbp']);
             $this->assertSame('10.0.0.1', $data['user_data']['client_ip_address']);

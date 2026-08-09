@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::create('company', function (Blueprint $table) {
             BaseModel::columns($table, false);
             $table->string('slug')->unique()->comment('URL-friendly unique identifier for the company.');
-            $table->string('description')->nullable()->comment('Short public description of the company or cluster.');
+            $table->string('description')->nullable()->comment('Short public description of the company or organization.');
             $table->string('name')->comment('Trading or commercial name of the company.');
             $table->string('rfc')->nullable()->comment('Mexican tax ID (RFC) of the company.');
             $table->string('legal_name')->nullable()->comment('Full legal/fiscal name as registered with SAT.');

@@ -100,8 +100,8 @@ describe('groupNavSubItems — sin agrupación (0 o 1 grupo distinto)', () => {
 
   it('devuelve null cuando todos los subItems comparten el mismo group', () => {
     const subItems: NavSubItem[] = [
-      makeSubItem('Torres', 'Fraccionamiento'),
-      makeSubItem('Secciones', 'Fraccionamiento'),
+      makeSubItem('Torres', 'Organización'),
+      makeSubItem('Secciones', 'Organización'),
     ]
 
     expect(groupNavSubItems(subItems)).toBeNull()
@@ -109,7 +109,7 @@ describe('groupNavSubItems — sin agrupación (0 o 1 grupo distinto)', () => {
 
   it('devuelve null cuando solo hay un valor de group distinto mezclado con items sin group', () => {
     const subItems: NavSubItem[] = [
-      makeSubItem('Torres', 'Fraccionamiento'),
+      makeSubItem('Torres', 'Organización'),
       makeSubItem('Secciones'),
     ]
 

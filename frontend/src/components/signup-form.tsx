@@ -18,10 +18,10 @@ import z from 'zod'
 
 const signupSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido'),
-  clusterName: z
+  organizationName: z
     .string()
     .trim()
-    .min(1, 'El nombre del condominio es requerido')
+    .min(1, 'El nombre del organización es requerido')
     .max(255, 'Máximo 255 caracteres'),
   email: z.string().email('Ingresa un email válido'),
   password: z
@@ -45,22 +45,22 @@ export function SignupForm() {
 
   const form = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
-    defaultValues: { name: '', clusterName: '', email: '', password: '' },
+    defaultValues: { name: '', organizationName: '', email: '', password: '' },
   })
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
       const profile = await doRegister({
         name: data.name,
-        cluster_name: data.clusterName,
+        organization_name: data.organizationName,
         email: data.email,
         password: data.password,
         password_confirmation: data.password,
       })
-      // El registro ya no otorga ningún acceso local: el dueño de un clúster
+      // El registro ya no otorga ningún acceso local: el dueño de un organización
       // nuevo (rol account.owner) SIEMPRE va a /select-plan, tenga o no una key
       // de plan válida en la URL — mientras no elija un plan ni registre un
-      // medio de pago el clúster queda bloqueado, así que saltarse este paso
+      // medio de pago el organización queda bloqueado, así que saltarse este paso
       // lo dejaría varado.
       if (profile.roles[0] === ERoleUserSlug.ACCOUNT_OWNER) {
         // La key viaja TAL CUAL: quien decide si existe es el catálogo, ya en
@@ -93,7 +93,7 @@ export function SignupForm() {
       brand={
         <AuthBrandPanel
           headline='Empieza a administrar como profesional.'
-          subtext='Crea tu cuenta y da de alta tu condominio en minutos. Pruébalo 30 días gratis.'
+          subtext='Crea tu cuenta y da de alta tu organización en minutos. Pruébalo 30 días gratis.'
           quote='En una semana dejamos el Excel. La mesa directiva por fin confía en los números.'
           author='Mariana Solís'
           authorMeta='Presidenta · Torre Polanco'
@@ -142,36 +142,36 @@ export function SignupForm() {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor='signup-cluster-name' className={LABEL_CLASS}>
-              Nombre del condominio
+            <FieldLabel htmlFor='signup-organization-name' className={LABEL_CLASS}>
+              Nombre del organización
             </FieldLabel>
             <div className='relative'>
               <Building2 aria-hidden className={ICON_CLASS} />
               <Input
-                id='signup-cluster-name'
+                id='signup-organization-name'
                 type='text'
                 autoComplete='organization'
                 placeholder='Residencial Las Palmas'
                 className={INPUT_CLASS}
-                aria-invalid={!!form.formState.errors.clusterName}
+                aria-invalid={!!form.formState.errors.organizationName}
                 aria-describedby={
-                  form.formState.errors.clusterName
-                    ? 'signup-cluster-name-error'
-                    : 'signup-cluster-name-hint'
+                  form.formState.errors.organizationName
+                    ? 'signup-organization-name-error'
+                    : 'signup-organization-name-hint'
                 }
-                {...form.register('clusterName')}
+                {...form.register('organizationName')}
               />
             </div>
-            {form.formState.errors.clusterName ? (
+            {form.formState.errors.organizationName ? (
               <FieldDescription
-                id='signup-cluster-name-error'
+                id='signup-organization-name-error'
                 className='text-destructive'
                 role='alert'
               >
-                {form.formState.errors.clusterName.message}
+                {form.formState.errors.organizationName.message}
               </FieldDescription>
             ) : (
-              <FieldDescription id='signup-cluster-name-hint'>
+              <FieldDescription id='signup-organization-name-hint'>
                 Así lo verán los residentes. Puedes cambiarlo después.
               </FieldDescription>
             )}
@@ -254,7 +254,7 @@ export function SignupForm() {
           <p className='text-center text-xs leading-relaxed text-[var(--ink-3)]'>
             Al continuar aceptas los{' '}
             <a
-              href='https://kivo7.com/terminos'
+              href='https://edi.example.com/terminos'
               target='_blank'
               rel='noopener noreferrer'
               className='text-[var(--ink-2)] underline underline-offset-2'
@@ -263,7 +263,7 @@ export function SignupForm() {
             </a>{' '}
             y el{' '}
             <a
-              href='https://kivo7.com/privacidad'
+              href='https://edi.example.com/privacidad'
               target='_blank'
               rel='noopener noreferrer'
               className='text-[var(--ink-2)] underline underline-offset-2'

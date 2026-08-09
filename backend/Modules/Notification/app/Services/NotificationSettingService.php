@@ -49,7 +49,7 @@ class NotificationSettingService
 
         // Guard: NotificationSetting is BelongsToTenant. Querying it without an
         // initialized tenant bypasses TenantScope and would expose rows from every
-        // cluster. Return the central event's defaults instead — is_active=true so
+        // organization. Return the central event's defaults instead — is_active=true so
         // the notification is never silently suppressed due to a missing context.
         if (! tenancy()->initialized || ! tenant()) {
             Log::warning('[NotificationSettingService] resolve() called without an initialized tenant — returning event defaults.', [

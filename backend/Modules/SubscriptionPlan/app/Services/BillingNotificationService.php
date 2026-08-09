@@ -24,11 +24,11 @@ final class BillingNotificationService
     use DispatchesNotifications;
 
     /**
-     * Notify the cluster administrator(s) that a module trial has expired.
+     * Notify the organization administrator(s) that a module trial has expired.
      *
      * Sent once per expired trial entitlement, from the
      * billing:expire-manual-entitlements cron. The body prompts the admin to
-     * add the module to the cluster's subscription to avoid losing access.
+     * add the module to the organization's subscription to avoid losing access.
      *
      * Must be called inside a tenant context ($tenant->run()).
      */
@@ -48,7 +48,7 @@ final class BillingNotificationService
             $adminIds,
             $context,
             'Prueba de {module} vencida',
-            'La prueba de {module} venció. Contrata el plan del condominio para no perder el acceso.',
+            'La prueba de {module} venció. Contrata el plan del organización para no perder el acceso.',
             ['category' => NotificationCategory::SYSTEM],
         );
     }

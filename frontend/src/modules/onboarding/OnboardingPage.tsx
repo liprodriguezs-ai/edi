@@ -75,10 +75,10 @@ export function OnboardingPage() {
       {/* Header */}
       <div>
         <h1 className='text-2xl font-semibold tracking-tight text-foreground'>
-          Configura tu condominio
+          Configura tu organización
         </h1>
         <p className='mt-1 text-sm text-muted-foreground'>
-          Completa estos pasos para comenzar a gestionar tu condominio.
+          Completa estos pasos para comenzar a gestionar tu organización.
         </p>
       </div>
 
@@ -110,7 +110,7 @@ export function OnboardingPage() {
         <div className='flex flex-wrap items-center gap-3 rounded-xl border border-[var(--green)]/30 bg-[var(--green)]/5 px-4 py-3 text-sm text-[var(--green)]'>
           <CheckCircle2 className='size-5 shrink-0' aria-hidden />
           <span className='flex-1 font-medium'>
-            ¡Configuración completa! Tu condominio está listo para operar.
+            ¡Configuración completa! Tu organización está listo para operar.
           </span>
           <Link
             to='/dashboard'

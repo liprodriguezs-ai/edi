@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notification_event', function (Blueprint $table): void {
-            $table->comment('Central catalog of all notifiable events in Kivo7 (global, not tenant-scoped). Seeded once by CatalogSeeder; read-only for cluster roles.');
+            $table->comment('Central catalog of all notifiable events in EDI (global, not tenant-scoped). Seeded once by CatalogSeeder; read-only for organization roles.');
             BaseModel::columns($table, false);
             $table->string('key')->unique()->comment('Machine-readable event slug used in code (e.g. payment_due_reminder).');
             $table->string('name')->comment('Human-readable event name shown in the admin notification settings UI.');

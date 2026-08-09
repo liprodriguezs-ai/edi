@@ -9,7 +9,7 @@ use Modules\SubscriptionPlan\Services\PlanPricingService;
 /**
  * Billing refactor (2026-07): collapse the sellable catalog to a SINGLE billable
  * module (`base`). Paquetería and Amenidades stop being sold separately — their
- * platform coverage moves INTO the base module so every cluster keeps (and now
+ * platform coverage moves INTO the base module so every organization keeps (and now
  * gains) access to those systems.
  *
  * Data-only migration — no schema change, therefore no new columns to comment.

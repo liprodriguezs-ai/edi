@@ -30,11 +30,11 @@ const defaultIndex = Math.max(
       <div data-pricing class="reveal mx-auto max-w-[860px]">
         {/* Selector de tamaño */}
         <p class="mb-4 text-center text-[13px] font-medium text-ink-soft">
-          ¿Cuántas casas tiene tu fraccionamiento?
+          ¿Cuántas casas tiene tu organización?
         </p>
         <div
           role="group"
-          aria-label="Tamaño del fraccionamiento"
+          aria-label="Tamaño del organización"
           class="mx-auto flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-full border border-line bg-card p-1.5"
         >
           {
@@ -102,7 +102,7 @@ const defaultIndex = Math.max(
                   ) : (
                     <>
                       <p class="mt-1.5 text-[13.5px] text-[#C9CCC2]">
-                        Para fraccionamientos de {tier.range}
+                        Para organizaciones de {tier.range}
                       </p>
                       <p class="mt-6 flex items-baseline gap-2.5">
                         <span class="font-serif text-[clamp(54px,7vw,82px)] font-medium leading-[0.85] tracking-[-0.01em]">
@@ -187,12 +187,12 @@ const defaultIndex = Math.max(
      * ============================================================= */}
     <div data-pricing-interactive data-default-index={defaultIndex} hidden class="mx-auto max-w-[640px]">
       <p class="mb-4 text-center text-[13px] font-medium text-ink-soft">
-        ¿Cuántas casas tiene tu fraccionamiento?
+        ¿Cuántas casas tiene tu organización?
       </p>
       <div
         data-plan-tabs
         role="group"
-        aria-label="Tamaño del fraccionamiento"
+        aria-label="Tamaño del organización"
         class="mx-auto flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-full border border-line bg-card p-1.5"
       >
       </div>
@@ -473,8 +473,8 @@ const defaultIndex = Math.max(
     type Interval = 'month' | 'year';
 
     const API_BASE = import.meta.env.PUBLIC_API_BASE_URL ?? 'http://localhost:8080/api';
-    const APP_URL = import.meta.env.PUBLIC_APP_URL ?? 'https://app.kivo7.com';
-    const FALLBACK_CONTACT_EMAIL = 'hola@kivo7.com';
+    const APP_URL = import.meta.env.PUBLIC_APP_URL ?? 'https://app.edi.example.com';
+    const FALLBACK_CONTACT_EMAIL = 'hola@edi.example.com';
     const pesos = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 });
 
     async function enhancePricing(): Promise<void> {
@@ -622,7 +622,7 @@ const defaultIndex = Math.max(
         }
 
         const max = plan.suggested_unit_max ?? plan.suggested_unit_min;
-        planRangeEl.textContent = `Para fraccionamientos de ${plan.suggested_unit_min} a ${max} casas`;
+        planRangeEl.textContent = `Para organizaciones de ${plan.suggested_unit_min} a ${max} casas`;
         const registerHref = `${APP_URL}/register?plan=${encodeURIComponent(plan.key)}`;
         ctaEl.href = registerHref;
         ctaEl.textContent = 'Empezar gratis';

@@ -15,10 +15,10 @@ use Modules\SubscriptionPlan\Services\PlanPricingService;
 use Modules\Tenant\Models\Tenant;
 
 /**
- * Super-admin READ aggregate for a cluster's billing screen (billing v2, per
+ * Super-admin READ aggregate for a organization's billing screen (billing v2, per
  * module): GET tenant/{id}/billing.
  *
- * Returns, in one payload, the cluster's payment method + status + current plan,
+ * Returns, in one payload, the organization's payment method + status + current plan,
  * its PER-MODULE entitlements (what it is allowed to use, under which plan, and
  * why), the catalog of assignable modules + plans, and the manual-payment ledger.
  *
@@ -63,7 +63,7 @@ class TenantBillingController extends Controller
     }
 
     /**
-     * The cluster's entitlements (active AND expired) with the module + plan data
+     * The organization's entitlements (active AND expired) with the module + plan data
      * needed to derive a per-module price.
      *
      * @return Collection<int, TenantEntitlement>
@@ -119,7 +119,7 @@ class TenantBillingController extends Controller
 
     /**
      * Suggested manual payment that covers EVERY paid contracted module: one line
-     * per module the cluster pays out-of-band (source NOT courtesy and NOT stripe),
+     * per module the organization pays out-of-band (source NOT courtesy and NOT stripe),
      * each with its plan-derived amount, plus the grand total.
      *
      * @param  Collection<int, TenantEntitlement>  $entitlements
@@ -234,7 +234,7 @@ class TenantBillingController extends Controller
     }
 
     /**
-     * Sum of the cluster's ledger amounts (integer minor units).
+     * Sum of the organization's ledger amounts (integer minor units).
      */
     private function ledgerTotal(Tenant $tenant): int
     {

@@ -15,7 +15,7 @@ export const OwnerTransferredEmail = ({
   name = 'Alex',
   dashboardUrl: _dashboardUrl = 'https://app.example.com/dashboard',
 }: OwnerTransferredEmailProps) => (
-  <EmailLayout previewText="Te han asignado como titular de la cuenta en Kivo7.">
+  <EmailLayout previewText="Te han asignado como titular de la cuenta en EDI.">
     <Section style={{ paddingTop: '8px', paddingBottom: '4px' }}>
       <Img
         src={`${getEmailAssetsBaseUrl()}/static/banner.jpg`}

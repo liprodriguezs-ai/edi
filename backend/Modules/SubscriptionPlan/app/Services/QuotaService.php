@@ -221,7 +221,7 @@ class QuotaService
         // Without it, a call with no tenancy initialized would sail past
         // checkConsumption()'s fail-open (which returns allowed) and reach
         // consume(), where TenantScope::apply() early-returns unscoped: the
-        // increment would land on another cluster's row, or create one with a
+        // increment would land on another organization's row, or create one with a
         // null tenant_id and blow up on the NOT NULL constraint — a fail-CLOSED
         // 500 in a guard this requirement says must fail OPEN.
         if (! tenancy()->initialized) {

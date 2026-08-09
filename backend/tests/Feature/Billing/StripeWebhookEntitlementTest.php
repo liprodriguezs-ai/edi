@@ -309,7 +309,7 @@ final class StripeWebhookEntitlementTest extends TestCase
     {
         // Verified live (F-10): Stripe emits customer.subscription.CREATED — never
         // .updated — on the initial purchase. The handler must be wired so this
-        // event alone can activate the cluster if checkout.session.completed is
+        // event alone can activate the organization if checkout.session.completed is
         // missed or delivered out of order.
         $tenant = $this->makeTenant(['status' => Tenant::STATUS_PENDIENTE_PAGO]);
 
@@ -624,7 +624,7 @@ final class StripeWebhookEntitlementTest extends TestCase
 
     public function test_subscription_deleted_keeps_tenant_active_when_another_entitlement_remains(): void
     {
-        // M2 — deleting ONE subscription must not blanket-block the cluster. Here a
+        // M2 — deleting ONE subscription must not blanket-block the organization. Here a
         // super_admin_free entitlement on a second module keeps coverage.
         $tenant = $this->makeTenant();
 
@@ -911,7 +911,7 @@ final class StripeWebhookEntitlementTest extends TestCase
     }
 
     /**
-     * The cluster's account owner, carrying the Stripe customer id — the anchor of
+     * The organization's account owner, carrying the Stripe customer id — the anchor of
      * the customer → owner → tenant fallback resolution.
      */
     private function makeStripeOwner(Tenant $tenant, string $stripeCustomerId): User

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
  * Dedup marker for the billing:expire-manual-entitlements daily cron. Expired
  * source=trial rows are kept by design (never deleted), so without a marker the
  * sweep re-selected the same rows every run and re-sent "tu prueba de {módulo}
- * venció" to the cluster admins forever. trial_expiry_notified_at is stamped once
+ * venció" to the organization admins forever. trial_expiry_notified_at is stamped once
  * the row has been processed, and the cron's notify select filters on it
  * (whereNull), so each expired trial notifies AT MOST ONCE.
  */

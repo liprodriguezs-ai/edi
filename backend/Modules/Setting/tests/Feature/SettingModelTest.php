@@ -52,7 +52,7 @@ final class SettingModelTest extends TestCase
 
     public function test_boolean_false_round_trips_via_put_value(): void
     {
-        $tenant = $this->makeTenant('Setting Bool False Cluster');
+        $tenant = $this->makeTenant('Setting Bool False Organization');
 
         $tenant->run(function (): void {
             Setting::putValue('amenity_reservations.enabled', false, Setting::TYPE_BOOLEAN);
@@ -63,7 +63,7 @@ final class SettingModelTest extends TestCase
 
     public function test_boolean_true_round_trips_via_put_value(): void
     {
-        $tenant = $this->makeTenant('Setting Bool True Cluster');
+        $tenant = $this->makeTenant('Setting Bool True Organization');
 
         $tenant->run(function (): void {
             Setting::putValue('amenity_reservations.enabled', true, Setting::TYPE_BOOLEAN);
@@ -76,7 +76,7 @@ final class SettingModelTest extends TestCase
 
     public function test_integer_round_trips_via_put_value(): void
     {
-        $tenant = $this->makeTenant('Setting Integer Cluster');
+        $tenant = $this->makeTenant('Setting Integer Organization');
 
         $tenant->run(function (): void {
             Setting::putValue('collections.charge_generation_day', 15, Setting::TYPE_INTEGER);
@@ -89,7 +89,7 @@ final class SettingModelTest extends TestCase
 
     public function test_bare_accented_string_round_trips_via_put_value(): void
     {
-        $tenant = $this->makeTenant('Setting String Cluster');
+        $tenant = $this->makeTenant('Setting String Organization');
 
         $tenant->run(function (): void {
             Setting::putValue('notification.label', 'Notificación de cargos único', Setting::TYPE_STRING);
@@ -105,7 +105,7 @@ final class SettingModelTest extends TestCase
 
     public function test_array_round_trips_via_put_value(): void
     {
-        $tenant = $this->makeTenant('Setting Array Cluster');
+        $tenant = $this->makeTenant('Setting Array Organization');
 
         $tenant->run(function (): void {
             Setting::putValue('collections.reminders', [3, 1, 0], Setting::TYPE_JSON);
@@ -118,7 +118,7 @@ final class SettingModelTest extends TestCase
 
     public function test_boolean_and_integer_round_trip_via_raw_eloquent_create(): void
     {
-        $tenant = $this->makeTenant('Setting Raw Create Cluster');
+        $tenant = $this->makeTenant('Setting Raw Create Organization');
 
         $tenant->run(function (): void {
             Setting::create([
@@ -139,7 +139,7 @@ final class SettingModelTest extends TestCase
 
     public function test_array_round_trips_via_raw_eloquent_create(): void
     {
-        $tenant = $this->makeTenant('Setting Raw Array Cluster');
+        $tenant = $this->makeTenant('Setting Raw Array Organization');
 
         $tenant->run(function (): void {
             Setting::create([
@@ -157,7 +157,7 @@ final class SettingModelTest extends TestCase
 
     public function test_missing_slug_returns_null(): void
     {
-        $tenant = $this->makeTenant('Setting Missing Slug Cluster');
+        $tenant = $this->makeTenant('Setting Missing Slug Organization');
 
         $tenant->run(function (): void {
             $this->assertNull(Setting::getValue('no.such.slug'));
@@ -168,7 +168,7 @@ final class SettingModelTest extends TestCase
 
     public function test_null_boolean_value_resolves_to_false(): void
     {
-        $tenant = $this->makeTenant('Setting Null Boolean Cluster');
+        $tenant = $this->makeTenant('Setting Null Boolean Organization');
 
         $tenant->run(function (): void {
             Setting::create([
@@ -190,7 +190,7 @@ final class SettingModelTest extends TestCase
 
     public function test_legacy_boolean_writer_throws_and_persists_nothing(): void
     {
-        $tenant = $this->makeTenant('Setting Guard Legacy Bool Cluster');
+        $tenant = $this->makeTenant('Setting Guard Legacy Bool Organization');
 
         $tenant->run(function (): void {
             $this->expectException(InvalidArgumentException::class);
@@ -205,7 +205,7 @@ final class SettingModelTest extends TestCase
 
     public function test_legacy_array_writer_throws_and_persists_nothing(): void
     {
-        $tenant = $this->makeTenant('Setting Guard Legacy Array Cluster');
+        $tenant = $this->makeTenant('Setting Guard Legacy Array Organization');
 
         $tenant->run(function (): void {
             $this->expectException(InvalidArgumentException::class);
@@ -220,7 +220,7 @@ final class SettingModelTest extends TestCase
 
     public function test_integer_under_declared_string_type_throws(): void
     {
-        $tenant = $this->makeTenant('Setting Guard Int Under String Cluster');
+        $tenant = $this->makeTenant('Setting Guard Int Under String Organization');
 
         $tenant->run(function (): void {
             $this->expectException(InvalidArgumentException::class);
@@ -236,7 +236,7 @@ final class SettingModelTest extends TestCase
      */
     public function test_string_under_declared_integer_type_throws(): void
     {
-        $tenant = $this->makeTenant('Setting Guard String Under Integer Cluster');
+        $tenant = $this->makeTenant('Setting Guard String Under Integer Organization');
 
         $tenant->run(function (): void {
             $this->expectException(InvalidArgumentException::class);
@@ -247,7 +247,7 @@ final class SettingModelTest extends TestCase
 
     public function test_array_under_declared_boolean_type_throws(): void
     {
-        $tenant = $this->makeTenant('Setting Guard Array Under Boolean Cluster');
+        $tenant = $this->makeTenant('Setting Guard Array Under Boolean Organization');
 
         $tenant->run(function (): void {
             $this->expectException(InvalidArgumentException::class);
@@ -263,7 +263,7 @@ final class SettingModelTest extends TestCase
      */
     public function test_genuine_string_value_never_false_positives_the_guard(): void
     {
-        $tenant = $this->makeTenant('Setting Guard No False Positive Cluster');
+        $tenant = $this->makeTenant('Setting Guard No False Positive Organization');
 
         $tenant->run(function (): void {
             Setting::putValue('guard.genuine.string', 'true', Setting::TYPE_STRING);

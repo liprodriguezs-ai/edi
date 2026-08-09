@@ -102,7 +102,7 @@ function UnitCountShortcut({
  *
  * La grilla de planes es el ÚNICO control: cada tarjeta muestra su banda de unidades
  * ("Ideal para 51–100 unidades"), así que ya no se pregunta el número de unidades por
- * separado. Los clústeres que no caben en ninguna banda eligen la tarjeta "A medida",
+ * separado. Los organizaciones que no caben en ninguna banda eligen la tarjeta "A medida",
  * que reemplaza la cotización por la card "Contáctanos".
  *
  * El cálculo es autoridad del backend (POST /billing/plan-quote); el cobro abre
@@ -112,7 +112,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
   const q = useBillingQuoter()
   const preselectedRef = useRef(false)
 
-  // Preselecciona el plan VIGENTE del condominio cuando el dueño entra a cambiarlo.
+  // Preselecciona el plan VIGENTE del organización cuando el dueño entra a cambiarlo.
   // Se aplica una sola vez y sólo si el plan existe en el catálogo: después de eso
   // manda el usuario, y volver a forzarlo le arrebataría la selección mientras
   // compara opciones.
@@ -373,7 +373,7 @@ function ContactSalesCard({
       </p>
 
       <h2 className='mt-5 text-[clamp(22px,3vw,28px)] font-semibold leading-tight tracking-[-0.01em]'>
-        Tu condominio necesita un plan a medida
+        Tu organización necesita un plan a medida
       </h2>
       <p className='mt-3 text-[13.5px] leading-relaxed text-background/70'>
         Por el número de unidades que administras armamos un precio y un acompañamiento hechos para

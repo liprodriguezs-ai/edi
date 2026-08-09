@@ -20,12 +20,12 @@ use QCH\Core\Models\Role;
 use Throwable;
 
 /**
- * Drives Kivo7 tenant entitlement + status from Stripe webhook events.
+ * Drives EDI tenant entitlement + status from Stripe webhook events.
  *
  * This listener is registered on Cashier's WebhookReceived event (fired for
  * EVERY incoming Stripe event before Cashier's own handlers run). Cashier keeps
  * the local `subscriptions` table in sync on its own; THIS listener owns the
- * cross-cutting cluster concern: flipping `tenant.status` and projecting the
+ * cross-cutting organization concern: flipping `tenant.status` and projecting the
  * tenant's billing entitlements (tenant_entitlement) onto its access tables.
  *
  * ENTITLEMENT MODEL: a multi-item checkout produces a Stripe subscription whose
@@ -347,7 +347,7 @@ class StripeWebhookListener
         // Only restore access if the subscription STILL has an active entitlement
         // after the (monotonic) update. A cancelled subscription has had its
         // entitlements expired to now() by handleSubscriptionDeleted; a late invoice
-        // for that subscription must NOT resurrect the cluster.
+        // for that subscription must NOT resurrect the organization.
         if (! (clone $query)->active()->exists()) {
             return;
         }
@@ -357,10 +357,10 @@ class StripeWebhookListener
     }
 
     /**
-     * Invoice payment failed → the cluster has not paid. Invoice events carry no
+     * Invoice payment failed → the organization has not paid. Invoice events carry no
      * subscription metadata directly, so resolve via subscription_details.metadata
      * when present, otherwise via the Stripe customer → owning user → owned tenant.
-     * Entitlements are LEFT IN PLACE (not deleted) — the cluster keeps access until
+     * Entitlements are LEFT IN PLACE (not deleted) — the organization keeps access until
      * the subscription is actually cancelled/deleted.
      *
      * @param  array<string, mixed>  $payload
@@ -387,7 +387,7 @@ class StripeWebhookListener
     }
 
     /**
-     * Subscription deleted in Stripe → block the cluster. Expire its billing
+     * Subscription deleted in Stripe → block the organization. Expire its billing
      * entitlements (set expires_at=now) and recompute so the projection turns the
      * granted modules off and purges their config. Legacy tenants (no entitlements
      * for this subscription) keep the previous behavior: status only, no recompute.
@@ -418,7 +418,7 @@ class StripeWebhookListener
                 ->update(['expires_at' => now()]);
         }
 
-        // M2 — deleting ONE subscription does not necessarily strip the cluster's
+        // M2 — deleting ONE subscription does not necessarily strip the organization's
         // coverage: it may still hold another active entitlement (a second stripe
         // subscription, a super_admin_free grant, a trial). Derive the status from
         // the single source of truth — does any active entitlement remain — instead
@@ -888,7 +888,7 @@ class StripeWebhookListener
             return null;
         }
 
-        // The Stripe customer/card belongs to the cluster's account owner. Only
+        // The Stripe customer/card belongs to the organization's account owner. Only
         // treat this user as a billing owner when they actually hold that role.
         if (! $user->hasRole(Role::SLUG_ACCOUNT_OWNER)) {
             return null;
@@ -897,7 +897,7 @@ class StripeWebhookListener
         $ownedTenants = $user->tenants()->get();
 
         // Only act when the owner belongs to exactly one tenant — avoid
-        // cross-tenant guesses when a user owns multiple clusters.
+        // cross-tenant guesses when a user owns multiple organizations.
         if ($ownedTenants->count() !== 1) {
             return null;
         }

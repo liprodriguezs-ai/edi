@@ -85,7 +85,7 @@ interface EntitlementsSectionProps {
 }
 
 /**
- * Plan del clúster (billing v2, "todo es base"). Ya no se venden módulos por
+ * Plan del organización (billing v2, "todo es base"). Ya no se venden módulos por
  * separado, así que la lista por módulo colapsa a UNA tarjeta a nivel PLAN: qué plan
  * tiene contratado, de qué fuente (cortesía / Stripe / manual / prueba) y a qué
  * precio. Las acciones (activar gratis / activar prueba / revocar cortesía) se
@@ -121,7 +121,7 @@ export function EntitlementsSection({
     [availableModules]
   )
 
-  // Entitlement ACTIVO que representa el plan del clúster (el más reciente).
+  // Entitlement ACTIVO que representa el plan del organización (el más reciente).
   const activeEntitlement = useMemo(() => {
     if (!planModule) return null
     return (
@@ -191,7 +191,7 @@ export function EntitlementsSection({
       className='rounded-xl border border-border bg-card p-5 sm:p-6'
     >
       <h3 id='billing-entitlements-heading' className='text-base font-semibold text-foreground'>
-        Plan del condominio
+        Plan del organización
       </h3>
       <p className='mt-1 text-sm text-muted-foreground'>
         Todas las funciones de la plataforma van incluidas en el plan. Activar gratis otorga acceso
@@ -272,7 +272,7 @@ export function EntitlementsSection({
               </p>
             ) : (
               <p className='text-xs text-muted-foreground'>
-                El condominio no tiene el plan activo todavía.
+                El organización no tiene el plan activo todavía.
               </p>
             )}
           </div>
@@ -351,7 +351,7 @@ export function EntitlementsSection({
         isOpen={revokeOpen}
         variant='default'
         title='Revocar cortesía'
-        description={`Vas a retirar el acceso gratuito al plan "${planLabel}". El condominio dejará de tener acceso a la plataforma. ¿Deseas continuar?`}
+        description={`Vas a retirar el acceso gratuito al plan "${planLabel}". El organización dejará de tener acceso a la plataforma. ¿Deseas continuar?`}
         confirmLabel='Revocar'
         isLoading={revoke.isPending}
         onConfirm={handleConfirmRevoke}

@@ -18,7 +18,7 @@ return new class extends Migration
             }
 
             $table->uuid('module_id')->comment('FK to module — the specific module being toggled for this tenant.');
-            $table->uuid('tenant_id')->comment('FK to tenant — the cluster whose module access is being configured.');
+            $table->uuid('tenant_id')->comment('FK to tenant — the organization whose module access is being configured.');
             $table->boolean('enabled')->default(true)->comment('Whether this module is currently enabled for the tenant.');
             $table->timestamps();
 

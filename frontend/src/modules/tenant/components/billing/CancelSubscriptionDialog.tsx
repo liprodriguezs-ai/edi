@@ -29,7 +29,7 @@ interface CancelSubscriptionDialogProps {
 }
 
 /**
- * Confirma el paso de Tarjeta (Stripe) a un método manual. Como el clúster tiene
+ * Confirma el paso de Tarjeta (Stripe) a un método manual. Como el organización tiene
  * una suscripción automática activa, hay que decidir CUÁNDO se cancela: al final
  * del ciclo ya pagado, o de inmediato. El texto explica la consecuencia de cada
  * opción para que el super-admin elija con criterio.
@@ -54,7 +54,7 @@ export function CancelSubscriptionDialog({
         <DialogHeader>
           <DialogTitle>Cambiar a {METHOD_LABEL[targetMethod].toLowerCase()}</DialogTitle>
           <DialogDescription>
-            El condominio paga hoy con tarjeta mediante una suscripción automática en Stripe. Al
+            El organización paga hoy con tarjeta mediante una suscripción automática en Stripe. Al
             cambiar a un método manual, esa suscripción se cancela y, a partir de entonces, tú
             registras los pagos manualmente.
           </DialogDescription>
@@ -77,7 +77,7 @@ export function CancelSubscriptionDialog({
               <span className="space-y-0.5">
                 <span className="block text-sm font-medium text-foreground">Al final del ciclo</span>
                 <span className="block text-xs text-muted-foreground">
-                  El condominio conserva el acceso hasta que termine el periodo que ya pagó. No se
+                  El organización conserva el acceso hasta que termine el periodo que ya pagó. No se
                   cobra de nuevo con tarjeta. Recomendado.
                 </span>
               </span>

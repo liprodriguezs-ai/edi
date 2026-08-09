@@ -17,7 +17,7 @@ const blog = defineCollection({
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Equipo Kivo7'),
+    author: z.string().default('Equipo EDI'),
     tags: z.array(z.string()).default([]),
     heroImage: z.string().optional(),
     draft: z.boolean().default(false),

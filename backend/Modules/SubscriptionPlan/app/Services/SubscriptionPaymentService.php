@@ -18,8 +18,8 @@ use Modules\Tenant\Models\Tenant;
 /**
  * Manual (transfer/cash) subscription-payment flow for super-admins.
  *
- * A super-admin records that a cluster paid out-of-band (bank transfer or cash).
- * ONE manual payment covers EVERY paid package the cluster has contracted: the
+ * A super-admin records that a organization paid out-of-band (bank transfer or cash).
+ * ONE manual payment covers EVERY paid package the organization has contracted: the
  * service writes a central ledger row PER package, extends each package's
  * entitlement by one billing interval, and unblocks a previously-blocked tenant
  * — all in ONE transaction so the ledger and the entitlements can never drift.
@@ -33,9 +33,9 @@ use Modules\Tenant\Models\Tenant;
  * worker never anchors a payment to a stale "now".
  *
  * It also owns the payment-method switch (card↔transfer/cash). Moving OFF card
- * cancels the cluster's active Stripe subscription — either at period end
+ * cancels the organization's active Stripe subscription — either at period end
  * ($subscription->cancel()) or immediately ($subscription->cancelNow()) — so a
- * cluster paying manually is no longer also billed by Stripe.
+ * organization paying manually is no longer also billed by Stripe.
  */
 class SubscriptionPaymentService
 {
@@ -51,7 +51,7 @@ class SubscriptionPaymentService
 
     /**
      * Record ONE manual payment that covers SEVERAL contracted packages of a
-     * cluster at once, extending each package's entitlement by one interval.
+     * organization at once, extending each package's entitlement by one interval.
      *
      * Contract — $lines is a list of per-package lines, each its own amount
      * (minor units) and optional interval (the admin edits the amount; the
@@ -65,7 +65,7 @@ class SubscriptionPaymentService
      *   - COURTESY (active source=super_admin_free) → EXCLUDED: skipped, never
      *     charged ($0, perpetual). It is not an error to pass one; it is dropped.
      *   - ACTIVE STRIPE entitlement → REFUSED (FIX #2): the whole payment aborts;
-     *     the operator must move the cluster off card first (cancels Stripe).
+     *     the operator must move the organization off card first (cancels Stripe).
      *   - otherwise → charged: ledger row + entitlement extension.
      *
      * Period anchoring (per package):
@@ -84,7 +84,7 @@ class SubscriptionPaymentService
      * @return Collection<int, SubscriptionPayment> the ledger rows created (one per charged module)
      *
      * @throws InvalidArgumentException on an invalid method, amount, interval,
-     *                                  card cluster / active-stripe module, a
+     *                                  card organization / active-stripe module, a
      *                                  duplicate, an empty line set, or when every
      *                                  line was excluded (nothing to charge)
      */
@@ -121,11 +121,11 @@ class SubscriptionPaymentService
             }
         }
 
-        // A cluster on card is billed by Stripe: a manual payment for ANY module
+        // A organization on card is billed by Stripe: a manual payment for ANY module
         // would clobber its Stripe entitlement on grant. Refuse the whole payment.
         if ($tenant->payment_method === Tenant::PAYMENT_METHOD_CARD) {
             throw new InvalidArgumentException(
-                'El condominio paga con tarjeta. Cambia el método de pago a transferencia/efectivo antes de registrar un pago manual.'
+                'El organización paga con tarjeta. Cambia el método de pago a transferencia/efectivo antes de registrar un pago manual.'
             );
         }
 
@@ -161,7 +161,7 @@ class SubscriptionPaymentService
             // as one-per-grant but with a single projection rebuild.
             $this->entitlementService->recompute($tenant);
 
-            // A manual payment reactivates a blocked cluster.
+            // A manual payment reactivates a blocked organization.
             if ($tenant->status === Tenant::STATUS_BLOQUEADO) {
                 $tenant->update(['status' => Tenant::STATUS_ACTIVO]);
             }
@@ -208,10 +208,10 @@ class SubscriptionPaymentService
         // keyed by (tenant_id, billable_module_id), so recording a manual payment
         // on a module carrying an ACTIVE stripe entitlement would flip its source
         // to manual and null its stripe ids. Refuse: the operator must cancel
-        // Stripe first (switching the cluster off card does this).
+        // Stripe first (switching the organization off card does this).
         if ($isActiveEntitlement && $existing->source === TenantEntitlement::SOURCE_STRIPE) {
             throw new InvalidArgumentException(
-                "El módulo '{$module->key}' tiene una suscripción Stripe activa. Cancela la suscripción (o cambia el método de pago del condominio) antes de registrar un pago manual."
+                "El módulo '{$module->key}' tiene una suscripción Stripe activa. Cancela la suscripción (o cambia el método de pago del organización) antes de registrar un pago manual."
             );
         }
 
@@ -282,7 +282,7 @@ class SubscriptionPaymentService
     }
 
     /**
-     * Switch a cluster's payment method, cancelling its Stripe subscription when
+     * Switch a organization's payment method, cancelling its Stripe subscription when
      * moving OFF card.
      *
      * The cancellation is a Stripe network call, so it runs OUTSIDE any DB

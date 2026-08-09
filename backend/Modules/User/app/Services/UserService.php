@@ -25,7 +25,7 @@ class UserService
 
         // SECURITY: the role comes straight from the request body, so it must be
         // checked against the actor's tier BEFORE anything is written — otherwise
-        // any holder of create.user (the `administrator` role a cluster hires)
+        // any holder of create.user (the `administrator` role a organization hires)
         // could mint a platform super admin. Validating first also guarantees a
         // rejected assignment never leaves a half-created user behind.
         if ($roleNameToAssign !== null && ! Role::canAssignSlug($user, $roleNameToAssign)) {
@@ -102,8 +102,8 @@ class UserService
      * credentials nulled, every token revoked).
      *
      * Scope decision (documented): the user_profile purge targets the CURRENT
-     * tenant only — RTBF requests arrive per cluster, and an admin of cluster A
-     * must not wipe the profile the person still uses in cluster B. The central
+     * tenant only — RTBF requests arrive per organization, and an admin of organization A
+     * must not wipe the profile the person still uses in organization B. The central
      * identity columns (name/email/phone) are global by nature and are wiped.
      */
     public function anonymize(User $target): User
@@ -167,7 +167,7 @@ class UserService
     }
 
     /**
-     * Null the per-cluster PII and soft-delete the profile row of the CURRENT
+     * Null the per-organization PII and soft-delete the profile row of the CURRENT
      * tenant. The columns are nulled BEFORE the soft delete so no PII survives
      * in the retained row ($auditExclude keeps the old values out of audits).
      */

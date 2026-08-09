@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
  * invitations, password resets, ownership welcome & transfer — that MUST always
  * be delivered. Unlike domain notifications, they DELIBERATELY bypass the
  * notification engine (NotificationDispatcher, per-tenant NotificationSetting,
- * per-user NotificationPreference and quiet hours): a cluster toggle or a user
+ * per-user NotificationPreference and quiet hours): a organization toggle or a user
  * preference must NEVER be able to suppress a security or legal email.
  *
  * Transport is the application's default Laravel mailer

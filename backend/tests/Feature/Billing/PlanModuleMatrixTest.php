@@ -35,7 +35,7 @@ final class PlanModuleMatrixTest extends TestCase
 
         // The pivot maps the base billable module to real platform `module` rows
         // by name (Cobros/Avisos/Control de Accesos/Egresos/Proveedores/Cuentas
-        // Bancarias + el clúster de Paquetería), so seed them.
+        // Bancarias + el organización de Paquetería), so seed them.
         $this->seed(ModuleTableSeeder::class);
         $this->seed(PlanModuleMatrixSeeder::class);
     }

@@ -11,31 +11,31 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Turns the cluster's `is_blocked` state into a REAL server-side boundary.
+ * Turns the organization's `is_blocked` state into a REAL server-side boundary.
  *
  * Before this, is_blocked was computed only for the auth responses and enforced
  * client-side (SubscriptionGuard). A lapsed trial still got 200 OK from every API
  * endpoint. This middleware denies (403) any authenticated request from a blocked
- * cluster — EXCEPT the routes the owner needs to recover (auth + pay-flow).
+ * organization — EXCEPT the routes the owner needs to recover (auth + pay-flow).
  *
  * Placement: appended to the `api` middleware group, so EVERY api route is covered
  * with zero per-route holes. It resolves the authenticated user through the sanctum
  * guard itself (rather than depending on the route's auth:sanctum having run) and
- * resolves the cluster + state through SubscriptionStateService — the same source
+ * resolves the organization + state through SubscriptionStateService — the same source
  * of truth AuthController uses — so it needs neither initializeTenancy to have run
  * nor any duplicated logic.
  *
  * Never encircles the owner:
  *   - config('billing.enforce_subscription') = false is a global kill-switch.
  *   - unauthenticated requests pass through (public routes; auth 401s downstream).
- *   - super admin / lawyer are never cluster-blocked (handled in the service).
+ *   - super admin / lawyer are never organization-blocked (handled in the service).
  *   - the ALLOWLIST keeps auth + the entire pay-flow reachable while blocked.
  */
 class EnsureSubscriptionActive
 {
     /**
      * Path patterns (relative to the app root, so including the `api/` prefix) that
-     * a BLOCKED cluster must still reach — otherwise the owner could never pay to
+     * a BLOCKED organization must still reach — otherwise the owner could never pay to
      * unblock. `$request->is()` matches these with `*` wildcards.
      *
      * @var array<int, string>
@@ -94,7 +94,7 @@ class EnsureSubscriptionActive
         // Enforce against the EXACT tenant the request will operate on. The shared
         // resolver honors X-Tenant-Id identically to InitializeTenancyFromUser, so
         // a multi-membership user can no longer point enforcement at an ACTIVE
-        // cluster while the controller serves a BLOCKED one. (A1)
+        // organization while the controller serves a BLOCKED one. (A1)
         $tenant = $this->tenantResolver->resolve($request, $user);
 
         // TODO(infra-cost): the state is recomputed (~3-5 queries) on every

@@ -15,7 +15,7 @@ interface LedgerSectionProps {
 }
 
 /**
- * Historial de pagos registrados del clúster (Stripe + manuales) con el total
+ * Historial de pagos registrados del organización (Stripe + manuales) con el total
  * cobrado. Es de sólo lectura: refleja lo asentado en el ledger del backend.
  */
 export function LedgerSection({ ledger, ledgerTotal }: LedgerSectionProps) {
@@ -29,7 +29,7 @@ export function LedgerSection({ ledger, ledgerTotal }: LedgerSectionProps) {
             Historial de pagos
           </h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Todos los pagos asentados para este condominio.
+            Todos los pagos asentados para este organización.
           </p>
         </div>
         <div className="text-right">
@@ -42,7 +42,7 @@ export function LedgerSection({ ledger, ledgerTotal }: LedgerSectionProps) {
 
       {ledger.length === 0 ? (
         <p className="mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          Aún no hay pagos registrados para este condominio.
+          Aún no hay pagos registrados para este organización.
         </p>
       ) : (
         <div className="mt-4 overflow-x-auto rounded-md border">

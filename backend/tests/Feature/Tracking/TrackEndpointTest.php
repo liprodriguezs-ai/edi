@@ -44,7 +44,7 @@ final class TrackEndpointTest extends TestCase
             'event' => 'Lead',
             'event_id' => '11111111-1111-1111-1111-111111111111',
             'action_source' => 'website',
-            'source_url' => 'https://kivo7.com/pricing',
+            'source_url' => 'https://edi.example.com/pricing',
             'user_data' => ['email' => 'juan@example.com'],
         ]);
 

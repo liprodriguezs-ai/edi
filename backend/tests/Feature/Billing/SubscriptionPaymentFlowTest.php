@@ -508,7 +508,7 @@ final class SubscriptionPaymentFlowTest extends TestCase
 
         // A second tenant's payment must NOT appear in this ledger.
         $otherTenant = $this->makeTenant();
-        $this->service()->recordManual($otherTenant, [$this->line($base, $plan, 50000)], SubscriptionPayment::METHOD_CASH, now(), 'Otro condominio', $super);
+        $this->service()->recordManual($otherTenant, [$this->line($base, $plan, 50000)], SubscriptionPayment::METHOD_CASH, now(), 'Otro organización', $super);
 
         $response = $this->request($this->superAdminToken($super))
             ->getJson("/api/tenant/{$tenant->id}/subscription-payment")
@@ -815,7 +815,7 @@ final class SubscriptionPaymentFlowTest extends TestCase
 
     /**
      * Local override of the trait helper: default to transfer (recording a MANUAL
-     * payment requires the cluster to be off card), and accept status/payment_method.
+     * payment requires the organization to be off card), and accept status/payment_method.
      *
      * @param  array<string, mixed>  $attributes
      */

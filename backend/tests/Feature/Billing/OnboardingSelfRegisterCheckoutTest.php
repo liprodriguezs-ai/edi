@@ -28,7 +28,7 @@ use Tests\Feature\Billing\Concerns\BillingMatrixFixtures;
 use Tests\TestCase;
 
 /**
- * Onboarding flow #1 — AUTO-REGISTER of a brand-new cluster, end to end (billing v2):
+ * Onboarding flow #1 — AUTO-REGISTER of a brand-new organization, end to end (billing v2):
  *
  *   POST /api/auth/register  (public, creates owner + tenant + base-module TRIAL)
  *     -> POST /api/billing/checkout {plan_key, modules, interval} (Stripe faked)
@@ -189,11 +189,11 @@ final class OnboardingSelfRegisterCheckoutTest extends TestCase
         $this->assertSame(Tenant::STATUS_PENDIENTE_PAGO, $tenant->status);
 
         // COHERENCE: register RESPONSE reports the SAME state /me does — a fresh
-        // cluster that never chose a plan, blocked.
+        // organization that never chose a plan, blocked.
         $this->assertSame('none', $register->json('data.subscription.status'));
         $this->assertTrue(
             $register->json('data.subscription.is_blocked'),
-            'a freshly registered cluster is blocked until it picks a plan and pays',
+            'a freshly registered organization is blocked until it picks a plan and pays',
         );
 
         $me = $this->authed($token, $tenantId)->getJson('/api/auth/me')->assertStatus(200);
@@ -211,7 +211,7 @@ final class OnboardingSelfRegisterCheckoutTest extends TestCase
 
         return $this->postJson('/api/auth/register', [
             'name' => 'Owner '.Str::random(5),
-            'cluster_name' => 'Cluster '.Str::random(5),
+            'organization_name' => 'Organization '.Str::random(5),
             'email' => $email,
             'password' => 'secret1234',
             'password_confirmation' => 'secret1234',

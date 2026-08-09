@@ -29,7 +29,7 @@ function isKnownStatus(status: string): status is TenantStatus {
 }
 
 /**
- * Muestra cuándo vence el acceso del clúster (el entitlement que primero expira)
+ * Muestra cuándo vence el acceso del organización (el entitlement que primero expira)
  * y resalta si está bloqueado, explicando cómo se reactiva.
  */
 export function ExpirationSection({ status, entitlements }: ExpirationSectionProps) {
@@ -68,7 +68,7 @@ export function ExpirationSection({ status, entitlements }: ExpirationSectionPro
         >
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
           <span>
-            El condominio está bloqueado por falta de pago. Registra un pago manual o reactiva el
+            El organización está bloqueado por falta de pago. Registra un pago manual o reactiva el
             cobro con tarjeta para restablecer el acceso de los residentes.
           </span>
         </p>

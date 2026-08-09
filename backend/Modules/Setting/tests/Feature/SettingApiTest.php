@@ -32,7 +32,7 @@ final class SettingApiTest extends TestCase
 
     public function test_create_with_native_shaped_value_persists_and_resolves_correctly(): void
     {
-        $tenant = $this->makeTenant('Setting API Create Cluster');
+        $tenant = $this->makeTenant('Setting API Create Organization');
         $this->seedTenant($tenant);
         $user = $this->makeUser($tenant);
         $token = $user->createToken('test', ['*'])->plainTextToken;
@@ -53,7 +53,7 @@ final class SettingApiTest extends TestCase
 
     public function test_create_with_array_value_under_json_type_persists_and_resolves_correctly(): void
     {
-        $tenant = $this->makeTenant('Setting API Create Array Cluster');
+        $tenant = $this->makeTenant('Setting API Create Array Organization');
         $this->seedTenant($tenant);
         $user = $this->makeUser($tenant);
         $token = $user->createToken('test', ['*'])->plainTextToken;
@@ -74,7 +74,7 @@ final class SettingApiTest extends TestCase
 
     public function test_create_with_pre_serialized_value_is_rejected_with_a_422(): void
     {
-        $tenant = $this->makeTenant('Setting API Create Legacy Cluster');
+        $tenant = $this->makeTenant('Setting API Create Legacy Organization');
         $this->seedTenant($tenant);
         $user = $this->makeUser($tenant);
         $token = $user->createToken('test', ['*'])->plainTextToken;
@@ -97,7 +97,7 @@ final class SettingApiTest extends TestCase
 
     public function test_search_filters_and_sorts_by_type(): void
     {
-        $tenant = $this->makeTenant('Setting API Search Cluster');
+        $tenant = $this->makeTenant('Setting API Search Organization');
         $this->seedTenant($tenant);
         $user = $this->makeUser($tenant);
         $token = $user->createToken('test', ['*'])->plainTextToken;

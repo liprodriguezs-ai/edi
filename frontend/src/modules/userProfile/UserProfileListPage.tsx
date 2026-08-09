@@ -8,7 +8,7 @@ import { displayFormatDate } from '@/shared/utils/dateHelper'
 export const UserProfileListPage = () => (
   <CatalogCrudModule<IUserProfile, UserProfileFormValues>
     title="Perfiles de Residente"
-    description="Datos personales por condominio (RFC, CURP, contacto de emergencia)"
+    description="Datos personales por organización (RFC, CURP, contacto de emergencia)"
     newLabel="Nuevo perfil"
     editLabel="Editar perfil"
     searchPlaceholder="Buscar por RFC o CURP…"

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('company', function (Blueprint $table) {
             if (! Schema::hasColumn('company', 'domain')) {
-                $table->string('domain')->nullable()->comment('Custom domain or subdomain associated with the company cluster.');
+                $table->string('domain')->nullable()->comment('Custom domain or subdomain associated with the company organization.');
             }
             // quitamos favicon y logo
             if (Schema::hasColumn('company', 'favicon')) {

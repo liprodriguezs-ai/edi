@@ -104,7 +104,7 @@ export function useNavSections() {
       .filter((section) => section.items.length > 0)
 
     // Menú continuo: los sistemas se fusionan en una sola sección sin labels
-    // ("Fraccionamiento"/"Tesorería"), con los fixed items al inicio. El orden
+    // ("Organización"/"Tesorería"), con los fixed items al inicio. El orden
     // entre sistemas y dentro de cada uno lo da el sort_order del backend.
     const systemItems = dedupedSections.flatMap((section) => section.items)
     return [{ items: [...fixedNavItems, ...systemItems] }]

@@ -47,7 +47,7 @@ Only the resident-initiated visit registration (QR generation) consumes `visitor
 #### Scenario: physical entries after the QR cost nothing
 
 - GIVEN a resident registered a visit (1 consumed)
-- WHEN the visitor enters and exits the cluster three times
+- WHEN the visitor enters and exits the organization three times
 - THEN the tenant's `visitor` consumption is still 1
 
 #### Scenario: guard-initiated visitor consumes nothing

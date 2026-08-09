@@ -1,7 +1,7 @@
-# Guía de estilo — documentación de Kivo7 (`/docs`)
+# Guía de estilo — documentación de EDI (`/docs`)
 
 Este archivo es el contrato de escritura del manual de producto que se publica en
-`kivo7.com/docs`. Lo leen las personas del equipo y el subagente `docs-writer`
+`edi.example.com/docs`. Lo leen las personas del equipo y el subagente `docs-writer`
 antes de tocar cualquier página.
 
 El contenido vive en `src/content/docs/docs/**`. El subdirectorio extra es a
@@ -15,17 +15,17 @@ que `docs/cobranza/pagos.md` se publica en `/docs/cobranza/pagos`.
 
 ## 1. Para quién escribimos
 
-Una persona que administra un condominio en México. Sabe de cuotas, asambleas y
+Una persona que administra un organización en México. Sabe de cuotas, asambleas y
 morosos; no sabe de bases de datos, endpoints ni estados finitos. Puede ser la
 administradora contratada, el tesorero voluntario que da su tiempo los sábados, o
 un vecino que solo quiere ver cuánto debe.
 
-Consecuencia práctica: **el vocabulario es el del condominio, no el del código.**
+Consecuencia práctica: **el vocabulario es el del organización, no el del código.**
 
 | Escribe | Nunca escribas |
 |---|---|
 | cuota, cargo | `charge`, `charge_batch` |
-| condominio, fraccionamiento | `tenant`, clúster |
+| organización, organización | `tenant`, organización |
 | casa, unidad | `unit_id` |
 | folio de recibo | `receipt_number` |
 | indiviso | `ownership_share` |
@@ -48,7 +48,7 @@ Consecuencia práctica: **el vocabulario es el del condominio, no el del código
 
 - **Imperativo en los pasos.** "Selecciona el concepto", no "el concepto deberá
   ser seleccionado" ni "podemos seleccionar el concepto".
-- **Voz activa.** "Kivo7 genera el folio", no "el folio es generado".
+- **Voz activa.** "EDI genera el folio", no "el folio es generado".
 - **Sin minimizar el esfuerzo del lector.** Prohibidas: *simplemente*, *solo
   tienes que*, *es muy fácil*, *basta con*. Si algo fuera fácil, no estaría
   documentado.
@@ -97,13 +97,13 @@ cambio.
 
 ---
 
-## 6. El condominio de ejemplo
+## 6. El organización de ejemplo
 
-Todos los ejemplos usan el mismo condominio ficticio. Así el lector sigue un hilo
+Todos los ejemplos usan el mismo organización ficticio. Así el lector sigue un hilo
 coherente y nunca se filtra información de un cliente real — ni en el texto ni en
 las capturas de pantalla.
 
-- **Residencial Las Palmas** — condominio horizontal, 48 casas, Guadalajara.
+- **Residencial Las Palmas** — organización horizontal, 48 casas, Guadalajara.
 - Secciones: **Sección Norte** y **Sección Sur**. Casas: **Casa 1** a **Casa 48**.
 - Conceptos de cobro: **Cuota de mantenimiento** $1,500.00 MXN mensual,
   **Cuota de vigilancia** $400.00 MXN mensual, **Derrama para portón** (eventual).
@@ -111,7 +111,7 @@ las capturas de pantalla.
   **Ana Salgado** (residente, Casa 12), **Miguel Torres** (vigilante).
 
 No inventes otros nombres ni otros montos. Si necesitas un caso nuevo, extiende
-este condominio y anótalo aquí.
+este organización y anótalo aquí.
 
 ---
 
@@ -167,7 +167,7 @@ sidebar:
   Astro no redimensiona ni transcodifica nada.
 - **Alt text descriptivo obligatorio.** El sitio tiene compromiso de cero
   violaciones de accesibilidad y las capturas son la regresión más frecuente.
-- Solo con datos del condominio de ejemplo. Nunca con datos de un cliente real.
+- Solo con datos del organización de ejemplo. Nunca con datos de un cliente real.
 
 ---
 

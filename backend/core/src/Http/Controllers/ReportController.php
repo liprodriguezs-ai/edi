@@ -33,7 +33,7 @@ class ReportController extends BaseController
     use Helpers;
 
     /**
-     * Kivo7 export targets. Key = _model from the frontend; include key = relation
+     * EDI export targets. Key = _model from the frontend; include key = relation
      * method name (verified per model). Models NOT listed fall through to the
      * legacy resolution below.
      */

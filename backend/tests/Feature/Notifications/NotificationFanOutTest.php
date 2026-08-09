@@ -22,7 +22,7 @@ use Tests\TestCase;
 /**
  * Tenant-scoped role fan-out (cross-tenant leak pattern: access-01 / providers-02 /
  * treasury-01). Spatie roles are GLOBAL in this project, so resolving recipients by
- * role alone notifies the same role across ALL clusters. The canonical contract:
+ * role alone notifies the same role across ALL organizations. The canonical contract:
  *
  *   NotificationDispatcher::tenantRoleUserIds($tenant, $roles)  → membership ∩ role
  *   NotificationDispatcher::toTenantRole($tenant, $roles, ...)  → resolve + dispatch
@@ -132,8 +132,8 @@ final class NotificationFanOutTest extends TestCase
 
     public function test_tenant_role_user_ids_only_returns_members_of_the_given_tenant(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
 
         $guardA = $this->makeMember($tenantA, 'security');
         $guardB = $this->makeMember($tenantB, 'security');
@@ -147,8 +147,8 @@ final class NotificationFanOutTest extends TestCase
 
     public function test_tenant_role_user_ids_accepts_tenant_id_string_and_multiple_roles(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
 
         $treasurerA = $this->makeMember($tenantA, 'treasurer');
         $presidentA = $this->makeMember($tenantA, 'president');
@@ -162,7 +162,7 @@ final class NotificationFanOutTest extends TestCase
 
     public function test_tenant_role_user_ids_with_unknown_role_returns_empty(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
+        $tenantA = $this->makeTenant('Organization A');
         $this->makeMember($tenantA, 'security');
 
         $this->assertSame(
@@ -175,8 +175,8 @@ final class NotificationFanOutTest extends TestCase
     {
         $spy = $this->spyLogChannel();
 
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
 
         $guardA = $this->makeMember($tenantA, 'security');
         $guardB = $this->makeMember($tenantB, 'security');
@@ -198,7 +198,7 @@ final class NotificationFanOutTest extends TestCase
     public function test_to_tenant_role_without_recipients_dispatches_nothing(): void
     {
         $spy = $this->spyLogChannel();
-        $tenantA = $this->makeTenant('Cluster A');
+        $tenantA = $this->makeTenant('Organization A');
 
         $delivered = app(NotificationDispatcher::class)->toTenantRole(
             $tenantA, 'security', 'Título', 'Cuerpo', [], ['log'],
@@ -214,8 +214,8 @@ final class NotificationFanOutTest extends TestCase
 
     public function test_user_ids_with_role_is_scoped_to_the_current_tenant(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
-        $tenantB = $this->makeTenant('Cluster B');
+        $tenantA = $this->makeTenant('Organization A');
+        $tenantB = $this->makeTenant('Organization B');
 
         $guardA = $this->makeMember($tenantA, 'security');
         $guardB = $this->makeMember($tenantB, 'security');
@@ -231,7 +231,7 @@ final class NotificationFanOutTest extends TestCase
 
     public function test_user_ids_with_role_without_tenant_context_resolves_nobody(): void
     {
-        $tenantA = $this->makeTenant('Cluster A');
+        $tenantA = $this->makeTenant('Organization A');
         $this->makeMember($tenantA, 'security');
 
         $this->assertSame(

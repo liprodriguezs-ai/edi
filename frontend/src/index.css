@@ -63,7 +63,7 @@
 }
 
 :root {
-  /* ===== Marca "Kivo7 · v3 Salvia" — tema GLOBAL (sRGB) =====
+  /* ===== Marca "EDI · v3 Salvia" — tema GLOBAL (sRGB) =====
      Aplicada a TODO el app. La paleta editorial del diseño reemplaza
      el tema oklch previo. Modo claro; `.dark` conserva su paleta. */
   --radius: 0.5625rem; /* 9px */
@@ -339,9 +339,9 @@ html [data-sileo-viewport] [data-sileo-toast] {
   text-transform: none !important;
 }
 
-/* Acento de marca Kivo7 para los calendarios schedule-x (ocupación + reservas).
+/* Acento de marca EDI para los calendarios schedule-x (ocupación + reservas).
    El tema por defecto pinta el marcador de "hoy"/nav con `--sx-color-primary`
-   (un morado Material). Lo retargeteamos al verde de Kivo7 en `.sx__calendar-wrapper`
+   (un morado Material). Lo retargeteamos al verde de EDI en `.sx__calendar-wrapper`
    (el nodo más externo de schedule-x) — un ancestro más cercano que el `:root`
    del tema, así gana la cascada sin `!important`. Valores en verde CLARO fijo
    (no `var(--green)`, que se invierte con el modo oscuro de la app): schedule-x

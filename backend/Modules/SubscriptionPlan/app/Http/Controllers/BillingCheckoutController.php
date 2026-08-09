@@ -25,7 +25,7 @@ use Throwable;
  * to the legacy single-plan checkout in ConfigurationController, mirroring its
  * owner-only authorization and already-subscribed (409) guard.
  *
- * The subscription/card ALWAYS belongs to the cluster's account owner, so only
+ * The subscription/card ALWAYS belongs to the organization's account owner, so only
  * the owner may initiate checkout (403 otherwise). PricingService is the
  * server-side authority: client-supplied amounts are ignored, and a unit count
  * beyond the published bands (contact_sales) surfaces as a 422.
@@ -56,7 +56,7 @@ class BillingCheckoutController extends Controller
         if (! $owner) {
             // Owner unresolved (missing or ambiguous) → unprocessable, not forbidden.
             return response()->json([
-                'message' => 'No se encontró el propietario de la cuenta para este condominio.',
+                'message' => 'No se encontró el propietario de la cuenta para este organización.',
                 'code' => 'owner_unresolved',
             ], 422);
         }
@@ -82,7 +82,7 @@ class BillingCheckoutController extends Controller
 
         if (! $lock->get()) {
             return response()->json([
-                'message' => 'Ya hay un pago en proceso para este condominio. Espera unos segundos e intenta de nuevo.',
+                'message' => 'Ya hay un pago en proceso para este organización. Espera unos segundos e intenta de nuevo.',
                 'code' => 'checkout_in_progress',
             ], 409);
         }

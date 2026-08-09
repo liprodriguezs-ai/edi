@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { BrandWordmark } from '@/components/auth/BrandWordmark'
-import { ClusterSwitcher } from '@/components/cluster-switcher'
+import { OrganizationSwitcher } from '@/components/organization-switcher'
 import { NavMain } from '@/components/nav-main'
 import { NavSkeleton } from '@/components/nav-skeleton'
 import { NavUser } from '@/components/nav-user'
@@ -44,7 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             aria-hidden
             className='hidden size-8 flex-none place-items-center rounded-[10px] bg-white group-data-[collapsible=icon]:grid'
           >
-            <img src='/icons/kivo7-mark.svg' alt='' className='h-6 w-auto' />
+            <img src='/icons/edi-mark.svg' alt='' className='h-6 w-auto' />
           </span>
         </div>
 
@@ -61,9 +61,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
 
-        {/* El selector de condominio no aplica en modo ícono: se oculta al colapsar */}
+        {/* El selector de organización no aplica en modo ícono: se oculta al colapsar */}
         <div className='group-data-[collapsible=icon]:hidden'>
-          <ClusterSwitcher />
+          <OrganizationSwitcher />
         </div>
       </SidebarHeader>
 

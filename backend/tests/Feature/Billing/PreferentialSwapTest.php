@@ -23,12 +23,12 @@ use Tests\TestCase;
 
 /**
  * Preferential (hidden, is_public=false) PLAN swap (billing v2). A super-admin
- * moves a cluster's per-module entitlements from its current plan to a hidden
+ * moves a organization's per-module entitlements from its current plan to a hidden
  * preferential plan (cheaper plan_module_price never shown publicly).
  *
  * CARD paths run at the SERVICE level against a Mockery Subscription/Invoice double
  * (no Stripe network). MANUAL paths run at the service level AND through the HTTP
- * endpoints (a transfer cluster never touches Stripe).
+ * endpoints (a transfer organization never touches Stripe).
  *
  * Dropped vs. the legacy suite: the old per-package (billing_package) swap cases —
  * the swap is now plan-level and re-points every active per-module entitlement.
@@ -193,7 +193,7 @@ final class PreferentialSwapTest extends TestCase
     }
 
     // =========================================================================
-    // MANUAL HTTP endpoints (transfer cluster, super-admin gate)
+    // MANUAL HTTP endpoints (transfer organization, super-admin gate)
     // =========================================================================
 
     public function test_http_preview_manual_returns_manual_true(): void

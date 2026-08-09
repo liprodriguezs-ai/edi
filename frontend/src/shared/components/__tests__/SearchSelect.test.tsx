@@ -2,7 +2,7 @@
  * Tests de `autoSelectSingle` en SearchSelect.
  *
  * Se prueban acá y no con Playwright a propósito: el caso depende de que el
- * catálogo traiga EXACTAMENTE una opción, y los catálogos sembrados del cluster
+ * catálogo traiga EXACTAMENTE una opción, y los catálogos sembrados del organization
  * de desarrollo traen varias. Forzar ese estado desde el navegador sería tocar
  * la base; acá es un prop.
  */

@@ -17,7 +17,7 @@ use Tests\Feature\Billing\Concerns\BillingMatrixFixtures;
 use Tests\TestCase;
 
 /**
- * Read aggregate that feeds the super-admin cluster billing screen:
+ * Read aggregate that feeds the super-admin organization billing screen:
  *   - GET tenant/{id}/billing
  *
  * Billing v2: per-module entitlements, each carrying the PLAN it was granted under.

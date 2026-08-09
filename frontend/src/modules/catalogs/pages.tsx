@@ -1,14 +1,14 @@
 import { createCatalogPage } from '@/modules/catalogs/createCatalogPage'
 
 /**
- * Páginas CRUD de los catálogos autoadministrables del condominio (tenant-scoped).
- * Cada condominio ve y edita SOLO sus filas; las filas de sistema (candado) las
+ * Páginas CRUD de los catálogos autoadministrables del organización (tenant-scoped).
+ * Cada organización ve y edita SOLO sus filas; las filas de sistema (candado) las
  * usan flujos automáticos y no pueden eliminarse.
  */
 
 export const EmployeePositionPage = createCatalogPage({
   title: 'Puestos de Empleado',
-  description: 'Puestos del personal de tu condominio (vigilante, jardinero…)',
+  description: 'Puestos del personal de tu organización (vigilante, jardinero…)',
   itemLabel: 'puesto',
   entity: 'employee_position',
 })
@@ -22,14 +22,14 @@ export const PayFrequencyPage = createCatalogPage({
 
 export const EmployeeShiftPage = createCatalogPage({
   title: 'Turnos de Empleado',
-  description: 'Turnos del personal de tu condominio (diurno, nocturno…)',
+  description: 'Turnos del personal de tu organización (diurno, nocturno…)',
   itemLabel: 'turno',
   entity: 'employee_shift',
 })
 
 export const BankAccountPurposePage = createCatalogPage({
   title: 'Propósitos de Cuenta',
-  description: 'Propósitos de las cuentas del condominio (operativa, reserva…)',
+  description: 'Propósitos de las cuentas del organización (operativa, reserva…)',
   itemLabel: 'propósito',
   entity: 'bank_account_purpose',
 })
@@ -51,7 +51,7 @@ export const CommunityProjectCategoryPage = createCatalogPage({
 
 export const ProviderTypePage = createCatalogPage({
   title: 'Tipos de Proveedor',
-  description: 'Tipos de proveedor del condominio (persona física, moral…)',
+  description: 'Tipos de proveedor del organización (persona física, moral…)',
   itemLabel: 'tipo',
   entity: 'provider_type',
 })
@@ -72,7 +72,7 @@ export const VisitorMotivePage = createCatalogPage({
 
 export const AnnouncementTypePage = createCatalogPage({
   title: 'Tipos de Aviso',
-  description: 'Tipos de aviso del condominio (asamblea, mantenimiento…)',
+  description: 'Tipos de aviso del organización (asamblea, mantenimiento…)',
   itemLabel: 'tipo de aviso',
   entity: 'announcement_type',
   withIcon: true,

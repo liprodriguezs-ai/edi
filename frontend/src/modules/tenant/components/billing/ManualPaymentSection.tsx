@@ -29,7 +29,7 @@ import { Controller, useForm } from 'react-hook-form'
 interface ManualPaymentSectionProps {
   /** Pago manual sugerido: líneas a cobrar (hoy siempre una: el plan) + total. */
   manualPayment: IBillingManualPayment
-  /** true si el clúster tiene el plan por cortesía (super_admin_free): no se cobra. */
+  /** true si el organización tiene el plan por cortesía (super_admin_free): no se cobra. */
   hasCourtesyAccess: boolean
   /** Nombre del plan a cobrar, para el resumen. */
   planName: string
@@ -38,7 +38,7 @@ interface ManualPaymentSectionProps {
 
 /**
  * Registra UN pago recibido fuera de Stripe (transferencia o efectivo) que cubre el
- * plan del clúster. Con un solo plan base el desglose colapsa a UNA línea: plan,
+ * plan del organización. Con un solo plan base el desglose colapsa a UNA línea: plan,
  * intervalo y total (derivados de `manualPayment.lines`, que el backend sigue
  * mandando por línea). El admin sólo elige el método, la fecha y notas opcionales.
  *
@@ -110,7 +110,7 @@ export function ManualPaymentSection({
         Registrar un pago manual
       </h3>
       <p className='mt-1 text-sm text-muted-foreground'>
-        Un solo pago (transferencia o efectivo) que cubre el plan del condominio. Esto extiende el
+        Un solo pago (transferencia o efectivo) que cubre el plan del organización. Esto extiende el
         acceso un ciclo y queda guardado en el historial.
       </p>
 
@@ -118,14 +118,14 @@ export function ManualPaymentSection({
       {!hasPayableLines ? (
         <p className='mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground'>
           {hasCourtesyAccess
-            ? 'Este condominio tiene el plan por cortesía: no hay nada que cobrar.'
-            : 'Este condominio no tiene un plan de pago por cobrar (es de cortesía o se cobra por Stripe).'}
+            ? 'Este organización tiene el plan por cortesía: no hay nada que cobrar.'
+            : 'Este organización no tiene un plan de pago por cobrar (es de cortesía o se cobra por Stripe).'}
         </p>
       ) : (
         <form onSubmit={onSubmit} className='mt-4 space-y-5'>
           <RequiredFieldsLegend />
 
-          {/* Resumen read-only: UNA línea (el plan del clúster) + total */}
+          {/* Resumen read-only: UNA línea (el plan del organización) + total */}
           <div className='space-y-3'>
             <p className='text-sm font-medium text-foreground'>Concepto a cobrar</p>
 
@@ -144,7 +144,7 @@ export function ManualPaymentSection({
             {hasCourtesyAccess && (
               <p className='flex items-center gap-2 rounded-lg border border-dashed border-border p-3 text-xs text-muted-foreground'>
                 <Gift className='h-3.5 w-3.5 shrink-0' aria-hidden />
-                El condominio tiene además un acceso de cortesía vigente, que no se cobra.
+                El organización tiene además un acceso de cortesía vigente, que no se cobra.
               </p>
             )}
           </div>

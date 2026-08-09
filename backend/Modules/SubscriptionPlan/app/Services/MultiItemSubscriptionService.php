@@ -17,7 +17,7 @@ use RuntimeException;
  * billable modules on a single Cashier subscription). Billing v2 (S4): the price
  * of a module inside a plan is FIXED (plan_module_price), so every subscription
  * line carries quantity=1 — units NEVER multiply the price. The unit count only
- * informs which plan the cluster is suggested (metadata).
+ * informs which plan the organization is suggested (metadata).
  *
  * WIRED (self-serve management): buildCheckout is reached from
  * BillingCheckoutController; the post-purchase mutator (changeInterval) + the
@@ -40,7 +40,7 @@ class MultiItemSubscriptionService
     ) {}
 
     /**
-     * Start a multi-item Stripe Checkout for the cluster's owner. Every requested
+     * Start a multi-item Stripe Checkout for the organization's owner. Every requested
      * billable module becomes one subscription line with quantity=1; modules with
      * no active/synced Stripe price for (plan, interval) are skipped. The base
      * module is mandatory (validated upstream + priced by the matrix).
@@ -90,7 +90,7 @@ class MultiItemSubscriptionService
         // is why checkout.session.completed used to arrive with metadata: [] — see F-10.
         $builder = $owner->newSubscription('default', $priceIds)->withMetadata($metadata);
 
-        // D1 — ONE Stripe trial per cluster, ever. A tenant that never held any
+        // D1 — ONE Stripe trial per organization, ever. A tenant that never held any
         // entitlement (incl. soft-deleted / expired) gets config('billing.trial_days')
         // days on the house; a cancel-and-rebuy (or any prior grant) is charged
         // immediately. The trial call is made ONLY when trialing — never with a

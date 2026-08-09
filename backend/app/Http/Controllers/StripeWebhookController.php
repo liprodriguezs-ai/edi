@@ -29,7 +29,7 @@ class StripeWebhookController extends CashierWebhookController
      * Fail closed: hard-require the webhook signing secret. If
      * STRIPE_WEBHOOK_SECRET is unset, Cashier silently SKIPS signature
      * verification — anyone could then forge events and drive cross-tenant
-     * status changes (activate/block any cluster). A 500 here makes a
+     * status changes (activate/block any organization). A 500 here makes a
      * misconfiguration loud instead of a silent security hole.
      */
     public function __construct()

@@ -14,7 +14,7 @@
    no entrar en bucle si la recarga no arregla nada (p. ej. el servidor está
    caído de verdad). */
 
-const RELOAD_MARK_KEY = 'kivo7:stale-build-reload-at'
+const RELOAD_MARK_KEY = 'edi:stale-build-reload-at'
 const RELOAD_COOLDOWN_MS = 30_000
 
 /* Mensajes de los navegadores cuando un import dinámico no resuelve a JS.

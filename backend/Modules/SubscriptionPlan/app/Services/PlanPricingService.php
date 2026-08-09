@@ -300,7 +300,7 @@ class PlanPricingService
                 return $match;
             }
 
-            // Above the largest published band: the cluster is out of the
+            // Above the largest published band: the organization is out of the
             // self-serve price list, so it belongs to consultative sales. Only
             // when no such plan exists do we fall back to clamping.
             $largest = $plans->sortByDesc('suggested_unit_max')->first();

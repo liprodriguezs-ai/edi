@@ -15,15 +15,15 @@ use Modules\SubscriptionPlan\Services\PlanPricingService;
 use Modules\Tenant\Models\Tenant;
 
 /**
- * Super-admin entitlement administration for a cluster (Slice 6 / A):
+ * Super-admin entitlement administration for a organization (Slice 6 / A):
  *   - POST tenant/{id}/entitlement/grant-free   grant a package free, perpetually
  *   - POST tenant/{id}/entitlement/revoke       revoke a package's access
  *
- * "Activate free" (#10) gives a cluster a package with source=super_admin_free
+ * "Activate free" (#10) gives a organization a package with source=super_admin_free
  * and expires_at=null — perpetual, never billed, the projector enables the
  * package's modules. "Revoke" expires the entitlement (soft: expires_at=now) and
- * recomputes access, but REFUSES to strip the cluster's last base package (a
- * cluster with no base has no working platform).
+ * recomputes access, but REFUSES to strip the organization's last base package (a
+ * organization with no base has no working platform).
  *
  * Custom (non-Orion) controller: it defines its own constructor and does NOT call
  * parent::__construct(). The super-admin gate mirrors SubscriptionPaymentController
@@ -47,7 +47,7 @@ class TenantEntitlementController extends Controller
     }
 
     /**
-     * Grant a module to the cluster free of charge, perpetually
+     * Grant a module to the organization free of charge, perpetually
      * (source=super_admin_free, expires_at=null), under a plan. recompute() runs
      * inside grant().
      */
@@ -73,13 +73,13 @@ class TenantEntitlementController extends Controller
         );
 
         return response()->json([
-            'message' => 'Acceso gratuito activado para el condominio.',
+            'message' => 'Acceso gratuito activado para el organización.',
             'data' => $entitlement->load(['billable_module:id,key,name', 'billing_package:id,key,name']),
         ], 201);
     }
 
     /**
-     * Start an INTERNAL free trial of a module for the cluster under its CURRENT plan
+     * Start an INTERNAL free trial of a module for the organization under its CURRENT plan
      * (tenant.billing_package_id), source=trial. SUPER-ADMIN ONLY: the owner
      * self-serve counterpart was removed in the 2026-07 collapse, so this is now
      * the sole entry point. Guards live in EntitlementService::startModuleTrial
@@ -101,14 +101,14 @@ class TenantEntitlementController extends Controller
         }
 
         return response()->json([
-            'message' => 'Prueba gratuita activada para el condominio.',
+            'message' => 'Prueba gratuita activada para el organización.',
             'data' => $entitlement->load(['billable_module:id,key,name', 'billing_package:id,key,name']),
         ], 201);
     }
 
     /**
      * Revoke a module: expire the entitlement (soft) and recompute module access.
-     * Refuses to revoke the cluster's only active base module.
+     * Refuses to revoke the organization's only active base module.
      */
     public function revoke(Request $request, string $tenantId): JsonResponse
     {
@@ -126,7 +126,7 @@ class TenantEntitlementController extends Controller
 
         if ($entitlement === null) {
             return response()->json([
-                'message' => 'El condominio no tiene una entitlement para este módulo.',
+                'message' => 'El organización no tiene una entitlement para este módulo.',
             ], 422);
         }
 
@@ -134,22 +134,22 @@ class TenantEntitlementController extends Controller
 
         // BM1 — refuse to revoke an ACTIVE stripe entitlement. Expiring the row here
         // only severs the access projection; it keeps source=stripe and the
-        // stripe_subscription_id, so Stripe keeps charging the cluster and the next
+        // stripe_subscription_id, so Stripe keeps charging the organization and the next
         // invoice.payment_succeeded re-grants it. The operator must cancel the Stripe
         // subscription first (which expires the entitlement), then access drops on
         // its own. Mirrors the recordManual / grant() clobber guard.
         if ($isActive && $entitlement->source === TenantEntitlement::SOURCE_STRIPE) {
             return response()->json([
-                'message' => 'Este módulo tiene una suscripción Stripe activa. Cancela la suscripción en Stripe (o cambia el método de pago del condominio) antes de revocar el acceso; de lo contrario la próxima factura lo reactivaría.',
+                'message' => 'Este módulo tiene una suscripción Stripe activa. Cancela la suscripción en Stripe (o cambia el método de pago del organización) antes de revocar el acceso; de lo contrario la próxima factura lo reactivaría.',
             ], 422);
         }
 
-        // F-03 — the old "never strip the cluster's last active base" guard was
+        // F-03 — the old "never strip the organization's last active base" guard was
         // REMOVED. After the 2026-07 collapse there is a single billable module
         // (`base`) and a unique index on (tenant_id, billable_module_id), so an
-        // entitled cluster ALWAYS has exactly one active base: the guard fired on
+        // entitled organization ALWAYS has exactly one active base: the guard fired on
         // every revoke and made a mistakenly granted courtesy impossible to withdraw.
-        // Leaving the cluster with no active entitlement (= blocked) is precisely the
+        // Leaving the organization with no active entitlement (= blocked) is precisely the
         // operator's intent; recompute() below turns its modules off.
 
         // Expire the entitlement and recompute access in ONE transaction so there is
