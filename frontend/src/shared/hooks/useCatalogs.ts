@@ -7,81 +7,17 @@ import { useCallback, useMemo, useState } from 'react'
 // las resuelve via Str::studly + $mapperSelects (AngularController).
 
 export enum CatalogType {
-  // Plataforma
+  // Plataforma. Cada miembro DEBE tener su entrada en
+  // AngularController::$mapperSelects del backend (la clave viaja literal a
+  // POST /selects vía Str::studly). Un desajuste no rompe el build: deja el
+  // dropdown vacío en silencio.
   COUNTRY = 'country',
   MUNICIPALITY = 'municipality',
   ROLE = 'role',
   COMPANY = 'company',
   PERMISSION = 'permission',
   TENANT_PAYMENT_TYPE = 'tenant_payment_type',
-  SUBSCRIPTION_PLAN = 'subscription_plan',
   USER = 'user',
-  COLLABORATOR = 'collaborator',
-  // Housing
-  TOWER = 'tower',
-  SECTION = 'section',
-  UNIT = 'unit',
-  UNIT_TYPE = 'unit_type',
-  UNIT_STATUS = 'unit_status',
-  UNIT_RELATIONSHIP = 'unit_relationship',
-  UNIT_FEATURE = 'unit_feature',
-  // Mesa directiva y personal
-  BOARD_ROLE = 'board_role',
-  BOARD_PERIOD_STATUS = 'board_period_status',
-  EMPLOYEE_POSITION = 'employee_position',
-  PAY_FREQUENCY = 'pay_frequency',
-  EMPLOYEE_SHIFT = 'employee_shift',
-  // Cobranza
-  CHARGE_CONCEPT = 'charge_concept',
-  CHARGE_POLICY = 'charge_policy',
-  CHARGE_STATUS = 'charge_status',
-  PAYMENT_STATUS = 'payment_status',
-  CHARGE_BATCH_STATUS = 'charge_batch_status',
-  CHARGE_CONCEPT_CATEGORY = 'charge_concept_category',
-  AMOUNT_MODE = 'amount_mode',
-  PERIODICITY = 'periodicity',
-  PAYMENT_METHOD = 'payment_method',
-  SURCHARGE_MODE = 'surcharge_mode',
-  // Tesorería
-  BANK_ACCOUNT = 'bank_account',
-  BANK_ACCOUNT_TYPE = 'bank_account_type',
-  BANK_ACCOUNT_PURPOSE = 'bank_account_purpose',
-  EXPENSE_CATEGORY = 'expense_category',
-  EXPENSE_STATUS = 'expense_status',
-  BENEFICIARY_TYPE = 'beneficiary_type',
-  // Proveedores
-  PROVIDER = 'provider',
-  PROVIDER_TYPE = 'provider_type',
-  PROVIDER_SERVICE_TYPE = 'provider_service_type',
-  // Proyectos comunitarios
-  COMMUNITY_PROJECT_STATUS = 'community_project_status',
-  COMMUNITY_PROJECT_CATEGORY = 'community_project_category',
-  PARTICIPATION_TYPE = 'participation_type',
-  PROJECT_CONTRIBUTION_STATUS = 'project_contribution_status',
-  // Avisos
-  ANNOUNCEMENT_TYPE = 'announcement_type',
-  ANNOUNCEMENT_PRIORITY = 'announcement_priority',
-  ANNOUNCEMENT_STATUS = 'announcement_status',
-  // Chat
-  CHAT_CHANNEL_TYPE = 'chat_channel_type',
-  // Accesos
-  VISITOR_MOTIVE = 'visitor_motive',
-  VISITOR_STATUS = 'visitor_status',
-  QR_TYPE = 'qr_type',
-  ACCESS_ENTRY_TYPE = 'access_entry_type',
-  ACCESS_VERIFICATION = 'access_verification',
-  BLACKLIST_TYPE = 'blacklist_type',
-  // Paquetería
-  PACKAGE_CARRIER = 'package_carrier',
-  PACKAGE_TYPE = 'package_type',
-  PACKAGE_STATUS = 'package_status',
-  // Amenidades
-  RESERVATION_MODE = 'reservation_mode',
-  RESERVATION_STATUS = 'reservation_status',
-  // Incidencias
-  COMPLAINT_CATEGORY = 'complaint_category',
-  COMPLAINT_PRIORITY = 'complaint_priority',
-  COMPLAINT_STATUS = 'complaint_status',
 }
 
 export interface CatalogParams {
