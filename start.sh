@@ -28,17 +28,17 @@ set -uo pipefail
 # Debe coincidir con COMPOSE_PROJECT_NAME en backend/.env. Si no coincide, sail
 # reutiliza los contenedores de OTRO proyecto (ver la validación más abajo).
 #
-# OJO: acá es `kivo7`, no `residia`. Es el nombre histórico y NO conviene
-# cambiarlo a la ligera: los volúmenes de Postgres se llaman `kivo7_sail-pgsql`,
-# así que renombrarlo dejaría la base de desarrollo huérfana.
-PROJECT_NAME="kivo7"
-DB_NAME="residia"
+# Los volúmenes de Postgres se derivan de acá (`edi_sail-pgsql`), así que
+# renombrarlo dejaría la base de desarrollo huérfana.
+PROJECT_NAME="edi"
+DB_NAME="edi"
 
 # valkey/mailpit/rustfs viven en backend/docker/devshared.yaml, compartidos por
 # todos los proyectos. Este repo se cuelga de su red `devshared`.
 USES_SHARED_STACK=true
 
-HAS_SUBMODULES=true
+# Monorepo plano: backend/, frontend/ y landing/ viven en este mismo repo.
+HAS_SUBMODULES=false
 
 # Vacío a propósito: frontend/ no tiene .nvmrc ni `engines`, así que este
 # proyecto no fija versión de Node. Se usa la que esté activa.
@@ -51,7 +51,7 @@ FRONTEND_DEV_CMD="pnpm dev:localhost"
 PORT_VARS="FORWARD_DB_PORT APP_PORT VITE_PORT"
 
 # Se muestra cuando el script crea el .env desde el example.
-ENV_HINTS="COMPOSE_PROJECT_NAME=kivo7 · DB_DATABASE=residia · DB_HOST=pgsql · DB_PORT=5432
+ENV_HINTS="COMPOSE_PROJECT_NAME=edi · DB_DATABASE=edi · DB_HOST=pgsql · DB_PORT=5432
     MAIL_MAILER=smtp · MAIL_HOST=mailpit · MAIL_PORT=1025
     FORWARD_DB_PORT/APP_PORT/VITE_PORT propios, para no chocar con otros proyectos"
 

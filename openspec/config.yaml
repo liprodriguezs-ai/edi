@@ -1,36 +1,53 @@
-project: residia
-initialized: 2026-06-13
+project: edi
+initialized: 2026-08-09
 artifact_store: hybrid
-layout: dual-repo  # backend/ + frontend/ are sibling git repos under residia/
+layout: monorepo  # backend/, frontend/ and landing/ live in this same git repo
 
 context:
   description: >
-    Residia — real-estate CRM. Dual-repo layout: backend (Laravel 13 + Orion, PHP 8.4,
-    PostgreSQL, Stancl single-DB multi-tenancy, modular via nwidart/laravel-modules) and
-    frontend (React 19 + Vite 8 + Tailwind v4 + shadcn + TanStack Query + Zustand).
+    EDI — sistema para la Evaluación del Desarrollo Infantil (tamiz de desarrollo
+    infantil de la Secretaría de Salud de México) y sesiones de estimulación temprana.
+    Monorepo: backend (Laravel 13 + Orion, PHP 8.4, PostgreSQL, Stancl single-DB
+    multi-tenancy, modular via nwidart/laravel-modules), frontend (React 19 + Vite 8 +
+    Tailwind v4 + shadcn + TanStack Query + Zustand) y landing (Astro + Starlight).
+    El tenant es una organización de salud que contiene N centros de salud.
   backend_root: backend/
   frontend_root: frontend/
-  key_modules: [Access, Announcements, Audit, Board, Chat, Collaborator, Collections,
-    Company, Configuration, Country, Dashboard, Email, Housing, Module, Municipality,
-    Notification, Projects, Providers, Reports, Role, Setting, SubscriptionPlan, System,
-    Tenant, Treasury, User, UserProfile]
+  landing_root: landing/
+  # Infraestructura heredada de la plantilla, tras la poda del dominio de condominios.
+  key_modules: [Audit, Company, Country, Dashboard, Email, Module, Municipality,
+    Notification, Reports, Role, Setting, SubscriptionPlan, System, Tenant, Tracking,
+    User, UserProfile]
+  # Módulos de dominio EDI a construir (ver plan de la etapa B).
+  planned_modules: [Clinic, ChildRecord, Instrument, Screening, Stimulation, FollowUp]
   state_management: Zustand createEntityStore
   api_style: Laravel Orion (REST resource controllers)
 
+domain_invariants:
+  - El resultado del tamiz SIEMPRE se calcula en el servidor. Nunca se acepta
+    result_color_id, situation_id ni los contadores desde el cliente.
+  - El instrumento es contenido inmutable versionado. Una prueba aplicada guarda un
+    puntero duro a su instrument_version y sólo se recomputa con las reglas de ESA versión.
+  - Los umbrales de calificación viven en datos (area_scoring_rule, global_scoring_rule),
+    nunca hardcodeados por grupo de edad.
+
 testing:
-  strict_tdd: false  # Standard Mode: tests alongside implementation (confirmed 2026-07-04)
+  strict_tdd: false  # Standard Mode: tests alongside implementation
   backend:
     command: "php artisan test"
     runner: PHPUnit 12
     cwd: backend/
     database: testing (separate DB, env APP_ENV=testing)
+    # Desde el host, apuntando al Postgres en RAM del stack edi:
+    host_command: "DB_HOST=127.0.0.1 DB_PORT=5451 DB_USERNAME=rodriguez DB_PASSWORD=password php artisan test --parallel --processes=10"
     layers:
       unit: true      # tests/Unit/
       feature: true   # tests/Feature/
+      modules: true   # Modules/*/tests/
       e2e: false
-    coverage: false   # not configured in phpunit.xml
+    coverage: false
     linter: "php artisan pint"
-    known_passing: 777
+    known_passing: null  # recontar tras la poda del dominio (etapa A4)
   frontend:
     command: "vitest run"
     runner: Vitest 4
@@ -43,7 +60,8 @@ testing:
     type_check: "tsc -p tsconfig.app.json --noEmit"
     linter: "eslint ."
     formatter: "prettier --write ."
-    coverage: false   # no --coverage flag configured by default
+    coverage: false
+    known_passing: 795  # baseline heredado de la plantilla, antes de la poda
 
 phase_rules:
   proposal: { owner: opus }
