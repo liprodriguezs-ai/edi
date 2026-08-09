@@ -1,0 +1,82 @@
+---
+title: "Tesorero"
+description: "Qué ve y qué puede hacer la tesorería, y por qué hay cosas de dinero que deliberadamente no puede."
+sidebar:
+  order: 5
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+El cargo que mueve el dinero del día a día: registra los pagos que entran y
+captura los gastos que salen.
+
+Kivo7 pide un tesorero nombrado antes de dejar operar con normalidad, porque es
+quien opera la cobranza.
+
+## Qué puede hacer
+
+| Área | Qué puede | Dónde |
+|---|---|---|
+| **Pagos** | Registrar, validar, rechazar y cancelar pagos | [Pagos](/docs/cobranza/pagos) |
+| **Cobranza** | Conceptos, programaciones y emisión de cobros | [Programación de cobros](/docs/cobranza/programacion-de-cobros) |
+| **Morosidad** | Consultar el panel y exportarlo | [Morosidad](/docs/cobranza/morosidad) |
+| **Egresos** | Registrar y editar gastos con su comprobante | [Egresos](/docs/tesoreria/egresos) |
+| **Proveedores** | Crear y editar el directorio | [Proveedores](/docs/tesoreria/proveedores) |
+| **Residentes** | Asociar personas a las casas — ejecuta el cambio de arrendatario | [Residentes](/docs/estructura/residentes) |
+| **Reservaciones** | Validar el pago de una reservación | [Cobro de reservaciones](/docs/amenidades/cobro-de-reservaciones) |
+| **Proyectos** | Crear, activar y registrar aportaciones | [Aportaciones](/docs/proyectos/aportaciones) |
+| **Avisos** | Publicar y gestionar **los suyos** | [Avisos](/docs/comunicacion/avisos) |
+| **Reportes** | Los trece y los cinco tableros | [Catálogo de reportes](/docs/reportes/catalogo-de-reportes) |
+| **Perfiles** | Consultar los perfiles de residente del condominio | [Perfil de residente](/docs/estructura/perfil-de-residente) |
+
+## Lo que NO puede hacer, y por qué
+
+<Aside type="caution">
+Estas cuatro restricciones no son un descuido: son **separación de
+responsabilidades**. Quien recibe el dinero no debería poder decidir por sí solo
+que alguien deje de deberlo, ni deshacer un gasto ya registrado.
+
+| No puede | De quién es |
+|---|---|
+| **Cancelar un cargo** | Administrador y Presidente |
+| **Condonar o descontar deuda** | Administrador y Presidente |
+| **Anular un egreso** | Administrador y Presidente |
+| **Crear o editar cuentas bancarias** | Administrador |
+
+Si en tu condominio el tesorero necesita estas facultades, lo que hay que revisar
+es el reglamento y quién ocupa cada cargo, no los permisos del sistema.
+</Aside>
+
+Tampoco puede: crear casas, invitar residentes, gestionar la mesa directiva, dar
+de alta colaboradores, importar pagos, ni entrar a la auditoría.
+
+## La ventana del mismo día
+
+<Aside type="caution">
+Como no puede anular egresos, **solo puede editar los que capturó hoy**. Al día
+siguiente el sistema responde: *Solo puedes editar egresos capturados hoy. Para
+corregir un egreso anterior, anúlalo y regístralo de nuevo.*
+
+En la práctica: revisa tus capturas el mismo día. Después necesitarás al
+Presidente.
+</Aside>
+
+## Su rutina
+
+<Aside type="tip">
+**Diario o cada tercer día**: revisa la pestaña *Pendientes de validación* en
+[Pagos](/docs/cobranza/pagos). Es lo que más impacto tiene: un pago sin validar
+mantiene a un vecino apareciendo como moroso.
+
+**Semanal**: captura los egresos con su comprobante, mientras los tienes frescos.
+
+**Al cierre de mes**: revisa [morosidad](/docs/cobranza/morosidad), cuadra los
+[saldos de las cuentas](/docs/tesoreria/cuentas-bancarias) contra el banco, y
+genera el [estado de resultados](/docs/reportes/catalogo-de-reportes).
+</Aside>
+
+<LinkCard
+  title="Matriz comparativa"
+  href="/docs/roles/matriz-comparativa"
+  description="Todos los roles lado a lado."
+/>

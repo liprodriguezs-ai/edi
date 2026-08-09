@@ -1,0 +1,51 @@
+---
+description: Componentes UI y diseño
+globs: "**/*.tsx,**/*.ts"
+---
+
+# UI Components & Design System
+
+## Diseño base
+
+- **Colores**: tokens oklch en `index.css` (variables `--primary`, `--background`, `--foreground`, `--destructive`, etc.). Consultar `:root` y `.dark` en `src/index.css` para valores actuales.
+- **Tipografía**: Geist Sans (importada en `index.css`); variables `--font-sans` en `@theme`.
+- **Iconos**: Lucide React (general), Tabler Icons (sidebar y navegación).
+
+## shadcn/ui (`src/components/ui/`)
+
+Añadir componentes con:
+
+```bash
+npx shadcn@latest add <component-name>
+```
+
+Incluye, entre otros: alert-dialog, avatar, badge, button, calendar, card, checkbox, dialog, dropdown-menu, **field** (Field, FieldLabel, FieldGroup, FieldLegend), input, label, pagination, popover, radio-group, select, separator, sheet, sidebar, skeleton, slider, switch, table, textarea, tooltip.
+
+## Componentes compartidos (`shared/components/`)
+
+- **Atoms**: PageHeader, EmptyStateIcon, ProfileIdentity, ObfuscatedText.
+- **Molecules**: ActionButtonGroup, TableLoadingState, TableEmptyState.
+- **Modal**: Radix Dialog; tamaños (sm, md, lg, xl, fullscreen); header, body, footer.
+- **ConfirmDialog**: Radix AlertDialog; `variant="delete"` | `"default"`; `entityName` para mensaje de eliminación; `isLoading`, `onConfirm`, `onCancel`.
+- **SearchList**: búsqueda + filtros colapsables; `paramsSearch`, `onSearch`, `onReset`, `placeholder`.
+- **Pagination**: recibe `pagination: IPagination` (page, pages, total, per_page) y `onPageChanged(page, size?)`.
+- **PermissionGuard**: renderiza children solo si el usuario tiene el permiso indicado.
+
+## Uso típico
+
+- **Tabla**: contenedor `overflow-hidden rounded-md border` + `Table` + `TableHeader`/`TableBody` + `TableRow`/`TableHead`/`TableCell`.
+- **Formularios**: `Field` + `FieldLabel` (o Label) + Input/Select + mensaje de error; `form` con `space-y-6` / `space-y-5`.
+- **Botones**: primario para acciones principales; `variant="outline"` para cancelar; `disabled` cuando `isSaving`/`isLoading`.
+- **ConfirmDialog delete**: `variant="delete"` + `entityName={entityToDelete?.name}` + `isLoading={isDeleting}`.
+
+## Layout
+
+- **DashboardLayout**: SidebarProvider, AppSidebar, SiteHeader, Outlet con contenedor centrado (max-w-7xl).
+- **Responsive**: mobile-first; grids `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`; flex con `flex-wrap` y `gap` donde aplique.
+
+## Accesibilidad
+
+- Labels asociados a inputs (htmlFor / id).
+- Navegación por teclado (Radix lo cubre en modales y diálogos).
+- Modales con foco atrapado; ConfirmDialog con título/descripción claros.
+- Botones solo icono con `aria-label`.

@@ -1,0 +1,14 @@
+<?php
+
+namespace Modules\$STUDLY_NAME$\Entities;
+
+use QCH\Core\Models\BaseModel;
+
+/**
+ * Class Modules\$STUDLY_NAME$\Models\$STUDLY_NAME$.
+ */
+class $STUDLY_NAME$ extends BaseModel
+{
+    protected $table = '$SNAKE_NAME$';
+    protected $fillable = ['name'];
+}

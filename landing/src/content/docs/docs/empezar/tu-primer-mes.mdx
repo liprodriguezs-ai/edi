@@ -1,0 +1,203 @@
+---
+title: "Tu primer mes con Kivo7"
+description: "El recorrido completo del primer ciclo: del alta de las casas al primer cobro emitido, pagado y aplicado."
+sidebar:
+  order: 5
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Esta página es un recorrido guiado, no una referencia. Sigue los pasos en orden y
+al final vas a tener el primer mes cobrado dentro de Kivo7.
+
+Usamos como ejemplo **Residencial Las Palmas**: condominio horizontal, 48 casas,
+cuota de mantenimiento de $1,500.00 MXN al mes. Cambia los datos por los tuyos.
+
+<Aside type="note">
+Antes de empezar necesitas la [configuración inicial](/docs/empezar/configuracion-inicial)
+completa. Si todavía te faltan pasos, resuélvelos primero: lo de abajo los da por
+hechos.
+</Aside>
+
+## Semana 1 — Que el sistema refleje tu condominio
+
+El objetivo de esta semana es que Kivo7 sepa cuántas casas hay y quién vive en
+cada una. Es trabajo de captura y no tiene ciencia, pero es el que sostiene todo
+lo demás.
+
+<Steps>
+
+1. **Crea las secciones o torres.**
+
+   Las Palmas es horizontal, así que en lugar de torres creamos dos secciones:
+   *Sección Norte* y *Sección Sur*.
+   → [Torres y secciones](/docs/estructura/torres-y-secciones)
+
+2. **Da de alta las casas.**
+
+   Nómbralas como las nombra la gente. Si los vecinos dicen "Casa 12", que diga
+   **Casa 12** — no "U-012". Ese nombre aparece en los recibos y en los avisos.
+   → [Unidades](/docs/estructura/unidades)
+
+3. **Asigna a las personas.**
+
+   Por cada casa, vincula al menos al propietario. Marca quién es el
+   **responsable de pago**: es a quien le van a llegar los recordatorios y los
+   recibos.
+   → [Residentes](/docs/estructura/residentes)
+
+4. **Invita a los vecinos.**
+
+   Manda la invitación por correo a quienes quieras que entren desde el primer
+   día. Puedes hacerlo por partes; no necesitas a los 48 para cobrar.
+   → [Invitar residentes](/docs/estructura/invitar-residentes)
+
+</Steps>
+
+<Aside type="tip">
+Si vienes de un Excel, no lo captures a mano dos veces. Da de alta las casas y
+las personas, y guarda el Excel: te va a servir en la semana 3 para subir los
+pagos históricos de golpe.
+</Aside>
+
+## Semana 2 — Definir qué se cobra
+
+<Steps>
+
+1. **Crea el concepto de cobro.**
+
+   Para Las Palmas: clave `MANT_MENSUAL`, nombre **Cuota de mantenimiento**,
+   categoría *Mantenimiento*. Nada más — el concepto solo dice **qué** se cobra.
+   → [Conceptos de cobro](/docs/cobranza/conceptos-de-cobro)
+
+2. **Crea la programación de cobro.**
+
+   Aquí va todo lo demás: alcance **Todo el condominio**, monto fijo de
+   $1,500.00 MXN, periodicidad **Mensual**, vigencia del año, y 5 días de gracia
+   antes de considerar la cuota vencida.
+   → [Programación de cobros](/docs/cobranza/programacion-de-cobros)
+
+3. **Decide si habrá recargos.**
+
+   Si tu reglamento contempla interés moratorio, configúralo ahora. Si no estás
+   seguro, déjalo para después: agregarlo más adelante no rompe nada, pero
+   cobrarlo sin haberlo anunciado sí genera un problema con los vecinos.
+   → [Recargos por mora](/docs/cobranza/recargos-por-mora)
+
+</Steps>
+
+## Semana 3 — Emitir el primer cobro
+
+Es el momento de más nervios y el que conviene hacer con calma.
+
+<Steps>
+
+1. **Genera el lote y previsualízalo.**
+
+   Kivo7 crea un lote en borrador con un cargo por casa. **Todavía no le llega
+   nada a nadie.** Revísalo completo: cuántas casas quedaron, con qué monto,
+   ninguna de más y ninguna de menos.
+   → [Cobros programados](/docs/cobranza/cobros-programados)
+
+2. **Cuadra el total contra tu Excel.**
+
+   48 casas × $1,500.00 = $72,000.00 MXN. Si no cuadra, algo está mal en la lista
+   de casas o en la regla. Corrígelo antes de continuar, no después.
+
+3. **Activa el lote.**
+
+   Ahí sí se emiten los cargos y los vecinos empiezan a ver su adeudo.
+
+4. **Carga los saldos anteriores.**
+
+   Si vienes de otro sistema, sube los pagos históricos con el asistente de
+   importación. Así el estado de cuenta arranca con la realidad, no en ceros.
+   → [Importación de pagos](/docs/cobranza/importacion-de-pagos)
+
+</Steps>
+
+<Aside type="caution">
+**Activar un lote no se deshace con un botón.** Se puede cancelar, pero los
+vecinos ya lo vieron y ya recibieron la notificación. Revisa la previsualización
+dos veces; cancelar un lote emitido cuesta más explicaciones que media hora de
+revisión.
+</Aside>
+
+## Semana 4 — Cobrar y cerrar
+
+<Steps>
+
+1. **Publica un aviso.**
+
+   Explica que a partir de este mes las cuotas se llevan en Kivo7, que cada quien
+   puede ver su estado de cuenta, y cómo reportar su pago. La adopción depende
+   más de este aviso que del sistema.
+   → [Avisos](/docs/comunicacion/avisos)
+
+2. **Registra los pagos que van llegando.**
+
+   Los que te lleguen por transferencia o en efectivo los capturas tú. Los que el
+   vecino reporte desde su aplicación te llegan como **Pendientes de validación**
+   y solo tienes que revisarlos.
+   → [Pagos](/docs/cobranza/pagos)
+
+3. **Revisa la morosidad.**
+
+   Al cerrar el mes, el panel te dice exactamente quién debe, cuánto y desde
+   cuándo. Es la lista con la que se trabaja, no la memoria de nadie.
+   → [Morosidad](/docs/cobranza/morosidad)
+
+4. **Captura los gastos del mes.**
+
+   Cada egreso con su comprobante y su categoría. Es lo que después te da el
+   estado de resultados sin trabajo extra.
+   → [Egresos](/docs/tesoreria/egresos)
+
+5. **Genera el reporte para la mesa.**
+
+   El estado de resultados y el de cobranza salen en PDF. Puedes publicarlos en
+   el tablero para que todos los vecinos los vean.
+   → [Reportes y tableros](/docs/reportes/catalogo-de-reportes)
+
+</Steps>
+
+## Qué esperar de verdad
+
+Para poner expectativas realistas:
+
+- **La captura de las casas es lo más lento.** Un condominio de 50 casas toma
+  una tarde. Uno de 200, varios días. No es difícil, es volumen.
+- **La adopción de los vecinos es gradual.** El primer mes reporta su pago menos
+  de la mitad. Sube cuando ven que su estado de cuenta está al día.
+- **El primer cobro casi siempre trae un ajuste.** Una casa que no debía cobrarse,
+  un monto distinto por un convenio viejo. Es normal; se corrige con un
+  [descuento o una condonación](/docs/cobranza/descuentos-y-condonaciones).
+- **El segundo mes toma una décima parte del tiempo.** Todo el trabajo pesado es
+  del arranque.
+
+## Qué explorar después
+
+Con el ciclo de cobranza andando, esto es lo que más suele aportar:
+
+<CardGrid>
+  <LinkCard
+    title="Control de accesos"
+    href="/docs/accesos/qr-de-visita"
+    description="Visitas con código QR y bitácora. Suele ser lo segundo que más se usa."
+  />
+  <LinkCard
+    title="Paquetería"
+    href="/docs/paqueteria/registrar-paquetes"
+    description="Si la caseta recibe paquetes, esto le quita encima el problema."
+  />
+  <LinkCard
+    title="Amenidades y reservaciones"
+    href="/docs/amenidades/dar-de-alta-una-amenidad"
+    description="El salón y las canchas, con calendario y reglas de uso."
+  />
+  <LinkCard
+    title="Restricciones por morosidad"
+    href="/docs/cobranza/restricciones-por-morosidad"
+    description="Condicionar amenidades y visitas al día. Actívalo solo si el reglamento lo respalda."
+  />
+</CardGrid>

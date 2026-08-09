@@ -1,0 +1,55 @@
+---
+name: amenity-reservations-module-isolation
+description: AmenityReservations module S1 slice — reservation_status central catalog + amenity_reservations.enabled tenant flag, both verified SAFE
+metadata:
+  type: pattern
+---
+
+## S1 scope reviewed (2026-07-06, branch feat/amenity-reservations)
+
+New module, first slice only exposes one central catalog + one tenant kill-switch. Domain resources (amenity, amenity_reservation) land in later slices — re-review those separately when they appear (they will need real `BelongsToTenant` + tenant_id, per-unit/resident scoping analogous to Package/Collections).
+
+### reservation_status — CENTRAL, correct
+- Migration: `BaseModel::columns($table, false)`, no `tenant_id`, table comment explicitly says "Central FSM catalog (global, not tenant-scoped)".
+- Model: `ReservationStatus extends CentralCatalogModel` (not TenantCatalogModel), no `BelongsToTenant`, 7 fixed UUID constants (PENDING_APPROVAL, PENDING_PAYMENT, CONFIRMED, CANCELLED, REJECTED, COMPLETED, NO_SHOW).
+- Seeded once by `CatalogSeeder::seedReservationStatuses()` via the shared `upsertCatalog()` helper — same pattern as ChargeStatus/PackageStatus.
+- Exposed via `/selects` (`AngularController::$mapperSelects['ReservationStatus']`) with no additional scope — correct, since the model itself carries no TenantScope (matches ChargeStatus precedent exactly).
+- Test `CatalogSeederReservationStatusTest::test_reservation_status_table_has_no_tenant_id_column` asserts the schema directly — good rigor, not just happy-path CRUD.
+
+### amenity_reservations.enabled — TENANT flag, correct
+- Plain `Setting` row (Setting has `BelongsToTenant` + `unique(tenant_id, slug)`), slug constant in `AmenityReservationsSettings::ENABLED`.
+- `AmenityReservationsDatabaseSeeder` guards `if (!tenancy()->initialized) return;`, registered inside `TenantDatabaseSeeder`'s per-tenant loop (NOT in CatalogSeeder) — mirrors `collections.*` / `package.*` Setting convention (see [[package-wu3-policies-config]]).
+- Uses `withTrashed()`-lookup + restore-if-trashed instead of `firstOrCreate`, so re-seeding never clobbers an admin-customized value and never collides with the soft-deleted unique index.
+- `AmenityReservationsFlagSeedingTest` explicitly asserts cross-tenant independence (`test_two_tenants_have_independent_flag_values`) and no-overwrite idempotency — genuine isolation test, same bar as Package WU-3/WU-4.
+
+No CRITICAL/WARNING findings in S1. This slice is a template-quality application of the central-catalog + tenant-Setting-flag pattern; future slices (actual amenity/reservation tenant models) should be checked against this baseline for regressions (e.g. don't let a later slice put reservation_status behind BelongsToTenant, or put amenity/reservation tables in CatalogSeeder instead of tenant-scoped).
+
+## S3-S5 scope reviewed (2026-07-06, same branch) — CLEAN, no tenancy findings
+
+New central catalogs: `reservation_mode` (BY_DAY/BY_SLOT), `payment_timing` (PAY_LATER/PAY_UPFRONT) — both `CentralCatalogModel`, `BaseModel::columns($table, false)`, no `BelongsToTenant`, fixed UUID consts, seeded via `CatalogSeeder::seedReservationModes()/seedPaymentTimings()`. Correct.
+
+New tenant-scoped models: `Amenity`, `AmenitySlot`, `AmenityBlackout`, `AmenityReservation` — all `BaseModel::columns($table, true)` + `use BelongsToTenant`. `amenity` has `unique(['tenant_id','name'])`. `amenity_reservation`'s by-day double-booking guard is a partial UNIQUE INDEX `(tenant_id, amenity_id, reservation_date) WHERE holds_slot AND slot_id IS NULL AND deleted_at IS NULL` (raw `DB::statement` in the migration, not `$table->unique()`, because it's a partial index) — correctly includes tenant_id even though amenity_id alone would already be tenant-unique (defensive, matches Collections' `charge_batch_period_unique` style).
+
+Key patterns verified safe:
+- **`AmenityAvailabilityService`** queries `AmenityReservation::query()->where('amenity_id', ...)` with NO explicit tenant filter and NO `withoutGlobalScope` — safe because `TenantScope` (via `BelongsToTenant` on the model) adds it automatically. Explicit cross-tenant test (`test_reservations_from_another_tenant_never_affect_availability`) proves tenant-B occupancy never affects tenant-A availability.
+- **FK validation**: `AmenityCreateRequest`/`AmenityUpdateRequest` scope `bank_account_id` exists-check by `->where('tenant_id', tenant('id'))` (bank_account is Treasury, tenant-scoped) — explicit `test_cross_tenant_bank_account_id_returns_422` test. `amenity_id` exists-checks on Slot/Blackout create requests are likewise tenant-scoped. `reservation_mode_id`/`payment_timing_id` exists-checks are deliberately UNSCOPED (central catalogs, correct).
+- **Route-model-binding trap avoided**: `AmenityController::availability/uploadMedia/deleteMedia` take `string $id` + manual `Amenity::findOrFail($id)` inside the method body — NOT implicit `Amenity $amenity` type-hinted binding. This sidesteps the Package-WU2-style bug (SubstituteBindings running before InitializeTenancyFromUser) since the find happens after all route middleware (incl. `initializeTenancy`) has already run.
+- **Flag middleware ordering**: `EnsureAmenityReservationsEnabled` reads `Setting::getValue()` and is registered in route middleware AFTER `initializeTenancy` (`['auth:sanctum', 'initializeTenancy', 'amenityReservationsEnabled']`) — resolves against the correct tenant. Super-admin/lawyer bypass by role check, mirroring `VerifyModuleEnabled`.
+- `user_id`/`approved_by`/`cancelled_by` on `amenity_reservation` are bare UUID columns, no FK — correct convention for referencing central `User` from a tenant row (stancl-tenancy skill §9). `unit_id` has a real FK to `unit` (tenant-scoped) but no unit-MEMBERSHIP enforcement yet — deliberately deferred to S6 since no reservation-create endpoint/controller exists in this slice (models/migrations/availability-read only).
+- Explicit isolation tests exist per resource: `AmenityDomainModelTest::test_amenity_is_tenant_scoped_and_isolated_between_tenants`, `test_amenity_name_is_unique_per_tenant` + `test_same_amenity_name_is_allowed_across_different_tenants`, `AmenityOrionCrudTest::test_amenity_list_is_isolated_per_tenant`.
+
+Baseline for S6+ (reservation create/FSM service): when it lands, check that unit-membership (unit belongs to the requesting resident) is enforced, and that any raw `DB::table('amenity_reservation')` writes (used today only in the double-booking-index migration TEST, not app code) always include `tenant_id` explicitly since raw inserts bypass `BelongsToTenant`'s auto-stamp.
+
+## S6-S18 scope reviewed (2026-07-10, full create/FSM/earmark/occupancy/surcharge) — SAFE, no P0/P1
+
+Deep tenant-isolation + PII audit of the whole live module. Zero `withoutGlobalScope`/`DB::table`/`DB::select`/`DB::statement` in app code (grep-clean; only in comments + the migration partial index). Every write/read below goes through tenant-scoped Eloquent.
+
+- **Occupancy endpoint (PII-critical) is CLEAN.** `AmenityOccupancyService::forRange()` (byDay/bySlot) selects ONLY `amenity_id, amenity_name, reservation_date, slot_id, start_at, end_at, occupied(COUNT), capacity` — NEVER unit_id/user_id/reservation.id. `AmenityReservation::query()` scoping is auto (BelongsToTenant + `initializeTenancy` middleware); the raw join to `amenity`/`amenity_slot` can only match the amenity referenced by an already-tenant-scoped reservation, so no cross-tenant name leak. Frontend `mapOccupancyEntryToCalendarEvent` derives event id as `amenity_id-date-slot` (no reservation id), title = "amenity — Ocupado (n/m)"; `AmenityOccupancyCalendarPage` deliberately omits onEventClick. `IAmenityOccupancyEntry` type has no PII fields to leak. Controller gates `read.amenity_reservation`.
+- **Resident read-scoping boundary is SERVER-SIDE.** `AmenityReservationController::buildIndexFetchQuery`/`buildShowFetchQuery` add `whereIn('unit_id', ownUnitIds())` for any caller lacking `update.amenity_reservation`/`*` (ScopesToResidentUnits, UnitUser pivot with `end_date IS NULL`). Foreign show → 404. `MyReservationsPage`'s `unit_id in [...]` filter is UX-only (docblock says so; verified the server enforces independently). Admin calendar/list frontend redirect non-managers to `/amenity-occupancy` // `/my-reservations` — defense-in-depth, NOT the boundary.
+- **Earmark resolution strictly Eloquent tenant-scoped.** `AmenityReservationEarmarkHandler::validateSubmission` = `AmenityReservation::with('amenity')->find($data['earmark_id'])`; `resolveApplications` = `AmenityReservation::query()->lockForUpdate()->findOrFail($payment->earmark_id)`. Both apply TenantScope (routes behind `initializeTenancy`). Cross-tenant earmark_id → null → rejected; plus unit_id-match + bank_account_id-match + module-enabled + payable-status guards. Collections `PaymentService` just dispatches via `PaymentEarmarkRegistry->handlerFor(earmark_type)->resolveApplications()` — handler owns resolution. (PaymentService's only `withoutGlobalScope(UserTenantScope)` at :969 is for the CENTRAL User — correct.)
+- **Oversight committee boundary correct.** RolePermissionTableSeeder: `$oversightCommittee` gets `$perms($amenities,$readOnly=['read'])` + `['create.amenity_reservation']` (own-unit reserve) but NOT `update.amenity_reservation`. So: occupancy (read-gated) ✅ accessible; admin index server-scopes them to own units ✅; frontend redirect to /amenity-occupancy ✅. Cannot see foreign units even by URL-bypass.
+- **All models/migrations correct.** Tenant: Amenity/AmenitySlot/AmenityBlackout/AmenityReservation/ReservationSurcharge = `BaseModel::columns($table,true)` + BelongsToTenant. Central: ReservationMode/ReservationStatus/PaymentTiming = CentralCatalogModel, no tenant_id. Unique indexes `amenity_tenant_name_unique` + `amenity_reservation_by_day_unique` both include tenant_id. `charge.amenity_reservation_id` FK added by consumer-adds-column migration. Surcharge charges NEVER carry amenity_reservation_id (that col is exclusive to the reservation's own cost/deposit charges read by the ChargeApplication observer). `user_id`/`approved_by`/`cancelled_by`/`created_by` = bare UUID no FK (central User convention §9).
+- **Cron canonical.** `CancelExpiredReservationsCommand` = `Tenant::all()` + `$tenant->run()` + per-tenant flag check + tenant-scoped Eloquent prefilter; `expire()` re-verifies deadline+status under lock (idempotent). Timezone via `tenant('timezone')`.
+- **FSM transitions** all re-read under `lockForUpdate()` tenant-scoped (`lockReservation`), validate status on the locked copy. Create's `authorizeUnitMembership` enforces unit-membership for non-board (mirrors VisitorController).
+
+ONLY note (P2/informational, NOT a leak): occupancy endpoint is gated by `read.amenity_reservation`, which residents/renters ALSO hold — so residents can call it, not just oversight. Data is anonymized + tenant-scoped + equivalent to what the per-amenity availability endpoint already exposes, so no PII/isolation risk; just broader than the spec's stated "oversight committee" audience.

@@ -1,0 +1,13 @@
+<?php
+return [
+    'rest' => [
+        'store' => '$TITLE_NAME$ registrado correctamente',
+        'storeFail' => 'Error al registrar el $TITLE_NAME$',
+        'update' => '$TITLE_NAME$ actualizado correctamente',
+        'updateFail' => 'Error al actualizar el $TITLE_NAME$',
+        'delete' => '$TITLE_NAME$ eliminado correctamente',
+        'deleteFail' => 'Error al tratar de eliminar el $TITLE_NAME$',
+        'notFound' => '$TITLE_NAME$ no encontrado',
+        'unprocessableEntity' => 'Error al procesar la informacion verifique'
+    ]
+];

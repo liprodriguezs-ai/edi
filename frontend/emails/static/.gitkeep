@@ -1,0 +1,2 @@
+# Put logo.png and banner.jpg here.
+# They are used by email templates and copied to backend public/email/static on `pnpm run copy-emails`.

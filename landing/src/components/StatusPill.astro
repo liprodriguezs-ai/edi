@@ -1,0 +1,34 @@
+---
+import type { FinancialStatus } from '@/data/site';
+
+interface Props {
+  status: FinancialStatus;
+  label: string;
+}
+
+const { status, label } = Astro.props;
+
+// Status is carried by BOTH the dot colour AND the text label — never colour
+// alone (WCAG 1.4.1). Text colours are tuned to clear AA contrast on their tint.
+const tint: Record<FinancialStatus, string> = {
+  ok: 'bg-[#E7EFE7] text-[#3F6648]',
+  warn: 'bg-[#F4ECD9] text-[#785B17]',
+  bad: 'bg-[#F2E3DE] text-[#8C4434]',
+};
+
+const dot: Record<FinancialStatus, string> = {
+  ok: 'bg-ok',
+  warn: 'bg-warn',
+  bad: 'bg-bad',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[11.5px] font-medium',
+    tint[status],
+  ]}
+>
+  <span class:list={['h-1.5 w-1.5 rounded-full', dot[status]]} aria-hidden="true"></span>
+  {label}
+</span>

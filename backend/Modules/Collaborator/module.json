@@ -1,0 +1,11 @@
+{
+    "name": "Collaborator",
+    "alias": "collaborator",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Collaborator\\Providers\\CollaboratorServiceProvider"
+    ],
+    "files": []
+}

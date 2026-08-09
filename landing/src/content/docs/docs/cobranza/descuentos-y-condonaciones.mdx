@@ -1,0 +1,95 @@
+---
+title: "Descuentos y condonaciones"
+description: "Reducir o perdonar parte de un adeudo, con motivo y rastro, sin borrar el cargo."
+sidebar:
+  order: 8
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Un descuento reduce lo que una casa debe por un cargo, sin cancelarlo. Se usa
+cuando hay un acuerdo de por medio: un convenio de pago, una decisión de
+asamblea, un ajuste por un error de cálculo.
+
+La diferencia con [cancelar el cargo](/docs/cobranza/cargos) es que el cargo
+sigue existiendo y sigue siendo cobrable — solo por menos dinero.
+
+## Quién puede usarlo
+
+**Administrador y Presidente.** El Tesorero no, aunque registre los pagos.
+
+<Aside type="note">
+Es una separación deliberada: quien recibe el dinero no debería poder decidir
+unilateralmente que alguien deje de deberlo. Condonar es una decisión de la mesa
+directiva.
+</Aside>
+
+## Aplicar un descuento
+
+<Steps>
+
+1. Entra a **Cargos** y localiza el cargo. Los filtros por unidad y por concepto
+   ayudan.
+
+2. Presiona el botón de descuento del renglón.
+
+3. Captura el **Monto a descontar**. Es en pesos, no en porcentaje.
+
+4. Captura el **Motivo**. Es obligatorio, mínimo 5 caracteres. La pantalla
+   sugiere: *Acuerdo de asamblea, convenio, etc.*
+
+5. Presiona **Aplicar descuento**.
+
+</Steps>
+
+En la lista, bajo el monto esperado, aparece el descuento en verde: `−$X desc.`
+
+## Condonar por completo
+
+Una condonación total es un descuento igual al saldo pendiente. El cargo queda
+saldado sin que haya entrado dinero.
+
+<Aside type="caution">
+**El descuento no puede superar el saldo pendiente del cargo.** Si la casa ya
+pagó parte, solo puedes condonar lo que falta. Kivo7 responde: *La condonación no
+puede superar el saldo pendiente del cargo.*
+</Aside>
+
+## Descuento o cancelación: cuál usar
+
+| Situación | Qué hacer |
+|---|---|
+| El cargo nunca debió emitirse (casa equivocada, concepto que no aplica) | [Cancelar el cargo](/docs/cobranza/cargos) |
+| El cargo es correcto pero se acordó cobrar menos | **Descuento** |
+| Se perdona la deuda por acuerdo de asamblea | **Descuento** por el saldo completo |
+| Hay un convenio para pagar en parcialidades | **Descuento** si se acordó reducir; si no, solo registra los pagos parciales |
+
+La regla mental: **cancelar dice "esto nunca debió existir"; condonar dice "sí
+debía, y decidimos no cobrarlo"**. La diferencia importa cuando alguien revise la
+contabilidad en dos años.
+
+## Por qué el motivo importa
+
+El motivo es obligatorio y queda registrado en la auditoría, con quién lo aplicó
+y cuándo. Es lo que permite contestar en una asamblea por qué la Casa 12 pagó
+menos que las demás.
+
+<Aside type="tip">
+Escribe el motivo pensando en quien lo lea dentro de dos años sin contexto.
+"Acuerdo de asamblea del 14 de marzo de 2026, punto 5" es útil. "Ajuste" no.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Cargos"
+    href="/docs/cobranza/cargos"
+    description="Donde se aplican los descuentos, y cómo se cancela un cargo."
+  />
+  <LinkCard
+    title="Morosidad"
+    href="/docs/cobranza/morosidad"
+    description="Cómo se refleja el descuento en el adeudo."
+  />
+</CardGrid>

@@ -1,0 +1,40 @@
+
+import ListBaseController from '../../../../../../front/src/angular/common/ListBaseController'
+
+class $STUDLY_NAME$ListController extends ListBaseController {
+    constructor($scope, $compile, API, PAGINATION, swalCustomService, customReport, introService, $timeout, $uibModal) {
+        'ngInject'
+        super()
+        this.$scope = $scope
+        this.$timeout = $timeout
+        this.$uibModal = $uibModal
+		this.introService = introService
+		this.IntroOptions = this.introService.options()
+        this.API = API
+        this.customReport = customReport
+        this.wheres = {}
+        this.resource = API.service('$CAMEL_NAME$')
+        this.list = []
+        this.swalCustomService = swalCustomService
+        this.pagination = _.assign(this.pagination, PAGINATION)
+        this.module = '$CAMEL_NAME$'
+    }
+
+    onReport(type) {
+        let params = _.assign({
+            _type: type,
+            _model: '$STUDLY_NAME$',
+            _title: 'Lista de $CAMEL_NAME$',
+            _fileName: 'Listado$CAMEL_NAME$.' + type
+        }, this.wheres);
+
+        this.customReport.generate(params)
+    }
+}
+
+export const $STUDLY_NAME$ListComponent = {
+    template: require('./$KEBAB_NAME$-list.component.html'),
+    controller: $STUDLY_NAME$ListController,
+    controllerAs: 'vm',
+    bindings: { event: '&', subcomponent: '@', datacomponent: '=' }
+}

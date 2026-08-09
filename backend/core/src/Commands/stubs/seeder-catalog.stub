@@ -1,0 +1,23 @@
+<?php
+
+namespace Modules\Catalog\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use JeroenZwart\CsvSeeder\CsvSeeder;
+
+class $MODULE_STUDLY$TableSeeder extends CsvSeeder
+{
+    public function __construct()
+    {
+        $this->filename = realpath(dirname(__FILE__)) . '/csv/$MODULE_SNAKE$.csv';;
+        $this->table = '$MODULE_SNAKE$';
+    }
+
+    /**
+     * Run the database seeds.
+     */
+    public function run()
+    {
+        parent::run();
+    }
+}

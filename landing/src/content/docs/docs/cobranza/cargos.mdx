@@ -1,0 +1,133 @@
+---
+title: "Cargos"
+description: "Qué es un cargo, qué significa cada estado, y cómo se cancela cuando se emitió por error."
+sidebar:
+  order: 6
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Un cargo es lo que **una casa** debe por **un concepto** en **un periodo**. "Casa
+12, cuota de marzo, $1,500.00 MXN."
+
+Es la unidad mínima de la deuda: los pagos se aplican a cargos, la morosidad se
+calcula sobre cargos y el estado de una casa sale de sus cargos.
+
+## De dónde salen
+
+Los cargos **no se crean uno por uno** desde esta pantalla. La propia descripción
+lo dice: *se generan desde Cobros*. Vienen de activar un
+[cobro programado](/docs/cobranza/cobros-programados), o de un
+[cargo directo](/docs/cobranza/cargo-directo) cuando se cobra algo puntual.
+
+## Quién puede usarlo
+
+| Acción | Quién |
+|---|---|
+| Consultar y exportar cargos | Administrador · Tesorero · Presidente · Secretario · Vocal · Comité de Vigilancia |
+| **Cancelar** un cargo | Administrador · Presidente |
+| Aplicar descuentos o condonaciones | Administrador · Presidente |
+| Ver sus propios cargos | Residente · Arrendatario |
+
+<Aside type="note">
+El **Tesorero no puede cancelar cargos ni condonar deuda**, aunque sí registra
+pagos. Perdonar o borrar un adeudo es una decisión de la mesa, no de la caja.
+</Aside>
+
+## Los estados
+
+| Estado | Qué quiere decir |
+|---|---|
+| **Pendiente** | Emitido. Todavía falta para el vencimiento. |
+| **Por vencer** | Se acerca la fecha límite. Es la ventana de aviso. |
+| **Parcial** | Se pagó algo pero no todo, y aún no vence. |
+| **Vencido** | Pasó el vencimiento más los días de gracia sin cubrirse. |
+| **Vencido · parcial** | Está vencido, pero ya tiene algún pago encima. |
+| **Completo** | Cubierto en su totalidad. |
+| **Saldo a favor** | Se pagó de más. |
+| **En convenio** | Reservado para planes de pago. |
+
+Además, un cargo puede aparecer marcado como **Cancelado**. No es un estado del
+ciclo normal: es una bandera que indica que se anuló y quedó fuera del adeudo.
+
+Los estados se recalculan solos: cuando entra un pago y todos los días conforme
+pasa el tiempo. No hay que marcar nada a mano.
+
+## Buscar un cargo
+
+La pantalla trae un buscador por concepto y seis filtros que se despliegan con
+**Mostrar filtros**:
+
+- **Monto esperado** y **Monto pagado**, por rango
+- **Fecha de vencimiento**, con atajos para vencidos y para el mes en curso
+- **Unidad**, **Propietario de cobro** y **Concepto**
+- **Estado**
+
+El botón **Descargar** exporta a Excel lo que estés viendo.
+
+## Cancelar un cargo
+
+Se usa cuando un cargo se emitió por error: una casa que no debía cobrarse, un
+concepto equivocado.
+
+<Steps>
+
+1. En la lista, presiona el botón rojo de cancelar del renglón.
+
+2. Lee el aviso: *El cargo de $X para (la casa) quedará cancelado y fuera del
+   adeudo.*
+
+3. Escribe el **motivo de la cancelación**. Es obligatorio y debe tener **al
+   menos 10 caracteres** — un "error" de cinco letras será rechazado.
+
+4. Presiona **Cancelar cargo**.
+
+</Steps>
+
+El cargo sale del adeudo de la casa y aparece atenuado en la lista.
+
+<Aside type="caution">
+**Un cargo con pagos aplicados no se puede cancelar.** Kivo7 responde: *No se
+puede cancelar un cargo con pagos aplicados. Cancela el pago primero.*
+
+El orden importa: primero se cancela el pago, después el cargo.
+</Aside>
+
+<Aside type="note">
+**Los cargos nunca se eliminan**, solo se cancelan con motivo. Un adeudo que
+desaparece sin rastro es exactamente lo que un condominio no puede permitirse
+frente a una auditoría.
+</Aside>
+
+## Editar un cargo
+
+Se puede muy poco, y a propósito: mientras el cargo **no tenga pagos**, se pueden
+mover las fechas y los días de gracia. Nada más.
+
+Con un pago encima el cargo queda congelado: *No se puede modificar un cargo con
+pagos aplicados. Cancélalo y crea uno nuevo.*
+
+## Lo que ve un residente
+
+Un vecino solo ve **los cargos de sus propias casas**. Los de los demás
+sencillamente no existen para él, ni siquiera con el enlace directo.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Descuentos y condonaciones"
+    href="/docs/cobranza/descuentos-y-condonaciones"
+    description="Reducir un adeudo sin cancelarlo del todo."
+  />
+  <LinkCard
+    title="Pagos"
+    href="/docs/cobranza/pagos"
+    description="El dinero que apaga los cargos."
+  />
+  <LinkCard
+    title="Estado de cuenta por unidad"
+    href="/docs/cobranza/estado-de-cuenta"
+    description="Los cargos de una casa, vistos en conjunto."
+  />
+</CardGrid>

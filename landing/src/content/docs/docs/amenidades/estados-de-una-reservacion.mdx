@@ -1,0 +1,101 @@
+---
+title: "Estados de una reservación"
+description: "Qué significa cada estado, cómo se pasa de uno a otro y cuáles son definitivos."
+sidebar:
+  order: 5
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Una reservación pasa por varios estados según cómo esté configurada la amenidad.
+Entender el mapa evita la mayoría de las dudas.
+
+## Los siete estados
+
+| Estado | Qué quiere decir |
+|---|---|
+| **Pendiente de aprobación** | Alguien de la administración debe autorizarla. |
+| **Pendiente de pago** | Aprobada o directa, pero falta pagar para que quede firme. |
+| **Confirmada** | El horario es suyo. |
+| **Cancelada** | Se dio de baja, por el vecino o por la administración. |
+| **Rechazada** | La administración no la autorizó. |
+| **Completada** | Ya se usó y se cerró. |
+| **No presentado** | El vecino no llegó. |
+
+## Con qué estado nace
+
+Depende solo de la configuración de la amenidad:
+
+1. Si **requiere aprobación** → nace en **Pendiente de aprobación**.
+2. Si no, y **tiene costo** → nace en **Pendiente de pago**.
+3. Si no tiene ni una ni otra → nace **Confirmada** de inmediato.
+
+## El mapa completo
+
+```
+Pendiente de aprobación
+   ├─ aprobar (con costo) ──→ Pendiente de pago
+   ├─ aprobar (sin costo) ──→ Confirmada
+   ├─ rechazar ─────────────→ Rechazada
+   └─ cancelar ─────────────→ Cancelada
+
+Pendiente de pago
+   ├─ se paga el depósito ──→ Confirmada  (+ fecha límite de saldo)
+   ├─ vence el plazo ───────→ Cancelada   (automático)
+   └─ cancelar ─────────────→ Cancelada
+
+Confirmada
+   ├─ completar ────────────→ Completada
+   ├─ no se presentó ───────→ No presentado
+   ├─ se revierte el pago ──→ Pendiente de pago
+   └─ cancelar ─────────────→ Cancelada
+```
+
+<Aside type="note">
+**Cancelada, Rechazada, Completada y No presentado son definitivos.** De ahí no
+sale nada. Si necesitas rehacer una reserva cancelada, hay que crear una nueva.
+</Aside>
+
+## Qué pasa con el horario
+
+- **Rechazada** — el horario queda libre **de inmediato**.
+- **Cancelada** — igual, se libera.
+- **Confirmada** — el horario está tomado.
+- **Pendiente de pago** — el horario está apartado. Por eso importa que el plazo
+  de pago sea corto: una reserva sin pagar bloquea la fecha para los demás.
+
+## Qué pasa con el dinero
+
+Al cancelar o al expirar por falta de pago:
+
+- Los pagos **confirmados se revierten** — se descuentan de la cuenta bancaria.
+- Los pagos **pendientes de validación se rechazan**.
+
+<Aside type="caution">
+Marcar **No presentado** no toca el dinero. El diálogo lo dice: *no afecta el
+saldo ni el depósito*. Si en tu condominio el no-show se penaliza quedándose con
+el anticipo, eso hoy hay que resolverlo por fuera — Kivo7 no lo hace solo.
+</Aside>
+
+## El vencimiento automático
+
+Hay un proceso diario que revisa las reservaciones con saldo vencido y las
+cancela con el motivo **Vencimiento de plazo de pago**, liberando el horario y
+avisándole al vecino.
+
+Es lo que impide que el calendario se llene de reservas fantasma.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Administrar reservaciones"
+    href="/docs/amenidades/administrar-reservaciones"
+    description="Las acciones que mueven una reserva de estado."
+  />
+  <LinkCard
+    title="Costo y depósito"
+    href="/docs/amenidades/costo-y-deposito"
+    description="De dónde salen los plazos de pago."
+  />
+</CardGrid>

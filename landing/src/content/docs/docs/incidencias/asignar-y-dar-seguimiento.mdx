@@ -1,0 +1,125 @@
+---
+title: "Asignar y dar seguimiento"
+description: "Poner un responsable, llevar el caso hasta su cierre y entender la confidencialidad del módulo."
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Una incidencia sin responsable es una queja archivada. Asignar a alguien es lo
+que la convierte en un caso que avanza.
+
+## Asignar un responsable
+
+<Steps>
+
+1. Abre la incidencia y baja a la sección **Asignación**.
+
+2. Busca a la persona en **Buscar responsable…**.
+
+3. Presiona **Asignar** — o **Reasignar** si ya había una.
+
+</Steps>
+
+La persona recibe una notificación de que se le asignó el caso.
+
+## Quién puede ser responsable
+
+Solo usuarios cuyo rol esté marcado en **Roles que gestionan incidencias** en la
+configuración del condominio. Por defecto los seis: Presidente, Tesorero,
+Secretario, Vocal, Comité de Vigilancia y Administrador.
+
+Y con una exclusión importante encima.
+
+## La confidencialidad: cómo funciona de verdad
+
+<Aside type="caution">
+**Quien viva en la unidad señalada queda excluido por completo.** No puede ser
+asignado, no puede gestionar el caso, y **no puede leerlo ni ver su historial** —
+para esa persona la incidencia responde *no encontrada*, aunque sea presidente de
+la mesa.
+
+Es la única confidencialidad real del módulo, y es fuerte.
+</Aside>
+
+<Aside type="caution">
+**No existen notas internas.** Todo lo que escriben los gestores en el
+seguimiento **lo lee el reportante**, y al revés. No hay un espacio privado para
+que la mesa delibere dentro del caso.
+
+Si necesitas discutir algo entre gestores sin que el reportante lo vea, hazlo
+fuera de la incidencia. Es fácil asumir lo contrario dado el énfasis en
+confidencialidad del módulo.
+</Aside>
+
+## El seguimiento
+
+La sección **Seguimiento** es un hilo de mensajes entre el reportante y quien
+atiende. Se puede adjuntar un archivo por mensaje —JPG, PNG, WEBP o PDF, hasta
+10 MB.
+
+Quién puede leerlo:
+
+1. El **reportante**.
+2. El **responsable asignado**.
+3. Cualquier **gestor no excluido** por la unidad señalada.
+
+Nadie más.
+
+### Las notificaciones del hilo
+
+Funcionan por pares: si escribe el reportante, se le avisa al responsable; si
+escribe el responsable o un gestor, se le avisa al reportante. Nunca al propio
+autor.
+
+<Aside type="tip">
+Usa el hilo aunque hables con el vecino por teléfono. Un "ya se habló con la
+Casa 12, quedó en bajar el volumen después de las 10" convierte una llamada en
+evidencia, y es lo que sostiene la decisión si el caso escala.
+</Aside>
+
+## El indicador de antigüedad
+
+Cada incidencia muestra un chip: **N días abierta**, o **Resuelta en N días** una
+vez cerrada.
+
+Cambia de color según la meta de días configurada: **ámbar** al pasar la mitad,
+**rojo** al pasarla.
+
+<Aside type="note">
+Es **solo visual**. No dispara alertas, no escala el caso ni notifica a nadie.
+Sirve para que quien revisa la lista vea de un golpe qué se está enfriando.
+</Aside>
+
+## Agregar evidencia después
+
+<Aside type="caution">
+**No se puede editar una incidencia para agregarle evidencia.** La única forma de
+adjuntar algo después de registrarla es **como archivo de un mensaje del
+seguimiento**.
+
+Es una limitación real del módulo, no un descuido de esta guía.
+</Aside>
+
+## El historial de cambios
+
+Colapsado por defecto, con el enlace **Ver historial**. Muestra cada cambio con
+nombres legibles: *Estado: Registrada → En revisión*.
+
+Mismo control de acceso que el hilo de mensajes.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Estados y conversación"
+    href="/docs/incidencias/estados-y-conversacion"
+    description="El ciclo de vida y qué transiciones se permiten."
+  />
+  <LinkCard
+    title="Configuración de incidencias"
+    href="/docs/configuracion/incidencias"
+    description="Qué roles gestionan y cuál es la meta de días."
+  />
+</CardGrid>

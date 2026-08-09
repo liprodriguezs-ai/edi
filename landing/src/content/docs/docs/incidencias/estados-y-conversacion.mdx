@@ -1,0 +1,101 @@
+---
+title: "Estados y conversación"
+description: "El ciclo de vida de una incidencia, qué transiciones se permiten y cómo se reabre un caso cerrado."
+sidebar:
+  order: 3
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Cuatro estados, y una regla de transición que sorprende.
+
+## Los cuatro estados
+
+| Estado | Qué quiere decir |
+|---|---|
+| **Registrada** | Se levantó el reporte. Nadie lo ha tomado todavía. |
+| **En revisión** | Alguien está atendiendo el caso. |
+| **Resuelta** | Se atendió y se cerró con solución. |
+| **Desestimada** | Se cerró sin proceder: no aplicaba, era falso, o no había materia. |
+
+Estos cuatro vienen sembrados y **no se pueden editar ni agregar**: son parte del
+funcionamiento del módulo.
+
+## Qué transiciones se permiten
+
+| Desde | Puede pasar a |
+|---|---|
+| **Registrada** | En revisión · Resuelta · Desestimada |
+| **En revisión** | Registrada · Resuelta · Desestimada |
+| **Resuelta** | Registrada · En revisión |
+| **Desestimada** | Registrada · En revisión |
+
+<Aside type="caution">
+**No se puede pasar directo de Resuelta a Desestimada, ni al revés.** Hay que
+reabrir primero — mover el caso a Registrada o En revisión — y de ahí cerrarlo
+con el otro desenlace.
+
+Es deliberado: cambiar un "se resolvió" por un "no procedía" sin pasar por
+reapertura borraría el rastro de que hubo un cambio de criterio.
+</Aside>
+
+El selector solo muestra los estados válidos desde el actual, así que no hay
+forma de intentar una transición prohibida por accidente.
+
+## Cambiar el estado
+
+En el detalle, la sección **Cambiar estado**: eliges el nuevo estado en
+**Cambiar estado a…** y presionas **Aplicar**.
+
+Al entrar a Resuelta o Desestimada se sella la fecha de resolución, que alimenta
+el indicador *Resuelta en N días*. Al reabrir, esa fecha se borra.
+
+## Resuelta o Desestimada: cuál usar
+
+Es una distinción que vale la pena cuidar, porque después se leen las
+estadísticas.
+
+| Situación | Estado |
+|---|---|
+| Se habló con el vecino y bajó el volumen | **Resuelta** |
+| Se reparó la fuga | **Resuelta** |
+| El reporte era de otro condominio | **Desestimada** |
+| No había suficiente información y el reportante no respondió | **Desestimada** |
+| Se comprobó que el hecho no ocurrió | **Desestimada** |
+
+<Aside type="tip">
+Antes de desestimar, escribe el porqué en el
+[seguimiento](/docs/incidencias/asignar-y-dar-seguimiento). El estado dice qué
+pasó; el mensaje dice por qué. Un caso desestimado sin explicación es la receta
+para que el vecino lo vuelva a levantar.
+</Aside>
+
+## Reabrir un caso
+
+Basta con cambiar el estado de Resuelta o Desestimada de vuelta a Registrada o
+En revisión. El historial conserva todo el recorrido, así que se puede ver
+cuántas veces se reabrió y quién lo hizo.
+
+## La conversación
+
+El hilo de seguimiento vive independiente del estado: se puede escribir en un
+caso resuelto. Es útil para dejar constancia de que el problema volvió antes de
+decidir si se reabre.
+
+Quién lo ve y cómo funcionan sus notificaciones está en
+[Asignar y dar seguimiento](/docs/incidencias/asignar-y-dar-seguimiento).
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Asignar y dar seguimiento"
+    href="/docs/incidencias/asignar-y-dar-seguimiento"
+    description="El responsable, el hilo y la confidencialidad."
+  />
+  <LinkCard
+    title="Registrar una incidencia"
+    href="/docs/incidencias/registrar-una-incidencia"
+    description="Cómo empieza todo."
+  />
+</CardGrid>

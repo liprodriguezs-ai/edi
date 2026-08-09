@@ -1,0 +1,72 @@
+class $STUDLY_NAME$EditController {
+    constructor(API, $stateParams, PNotify, $scope, swalCustomService, $state, $timeout, $translate) {
+        'ngInject'
+
+        this.$state = $state
+        this.$timeout = $timeout
+        this.$translate = $translate
+        this.$CAMEL_NAME$ = {}
+        this.PNotify = PNotify
+        this.$scope = $scope
+        this.res$STUDLY_NAME$ = API.service('$CAMEL_NAME$')
+        this.stateParams = $stateParams
+        this.edit = true
+        this.saving = false
+        this.swalCustomService = swalCustomService
+    }
+
+    show() {
+         if (this.subcomponent) {
+            this.$CAMEL_NAME$ = _.clone(this.datacomponent['row'])
+            return false;
+         }
+        let promise = this.res$STUDLY_NAME$.one(this.$CAMEL_NAME$['id']).get()
+        promise.then((response) => {
+            this.$CAMEL_NAME$ = response['data']
+            this.$scope.$CAMEL_NAME$Form.$setPristine()
+        }, (response) => {
+            if (response.status === 404) {
+                this.swalCustomService.notFound().then(() => {
+                    this.$state.go('app.$CAMEL_NAME$List', {})
+                })
+            }
+        })
+        return promise
+    }
+
+    onSave(form) {
+        if (!form.validate()) {
+            return false
+        }
+        this.saving = true
+        this.res$STUDLY_NAME$.one(this.$CAMEL_NAME$['id']).customPUT(this.$CAMEL_NAME$)
+            .then((response) => {
+                this.saving = false
+                this.PNotify.success({ 'text' : response['message'], 'title' : this.$translate.instant(['Saved'])['Saved'] + '!' })
+                 if (this.event) {
+                    this.event({
+                        data : {event: 'updateList$STUDLY_NAME$', data: response['data']}
+                    })
+                 } else {
+                    this.$state.go('app.$CAMEL_NAME$List', {})
+                 }
+                form.$setPristine()
+            }, (response, request) => {
+                this.saving = false
+                if (response['status'] === 422) {
+                    form.showErrors(response['data']['error']['errors'])
+                }
+            })
+    }
+
+    $onInit() {
+        this.show()
+    }
+}
+
+export const $STUDLY_NAME$EditComponent = {
+    template: require('./../$KEBAB_NAME$-add/$KEBAB_NAME$-add.component.html'),
+    controller: $STUDLY_NAME$EditController,
+    controllerAs: 'vm',
+    bindings: { event: '&', subcomponent: '@', datacomponent: '=' }
+}

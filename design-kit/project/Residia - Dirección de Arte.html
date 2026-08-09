@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Residia — Dirección de Arte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* document neutral — 60-30-10 at the page level */
+    --paper:#F4F1EA;          /* 60% */
+    --paper-2:#EDE9E0;
+    --ink:#1A1916;            /* 30% */
+    --ink-soft:#56524A;
+    --ink-faint:#8B8579;
+    --line:#D6D0C4;
+    --line-soft:#E2DCD0;
+    --accent:#8A6A3B;        /* 10% — muted brass, document chrome only */
+
+    /* spacing — strict 8px scale */
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:96px; --s8:128px; --s9:184px;
+
+    --sans:'Hanken Grotesk', system-ui, sans-serif;
+    --maxw:1240px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:400;
+    line-height:1.6;
+    font-size:17px;
+  }
+  ::selection{background:var(--ink);color:var(--paper);}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s6);}
+  @media(max-width:760px){.wrap{padding:0 var(--s4);}}
+
+  /* editorial 12-col grid */
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s4);}
+  @media(max-width:760px){.grid{grid-template-columns:1fr;gap:var(--s3);}}
+
+  .eyebrow{
+    font-size:11.5px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .eyebrow .dot{color:var(--accent);}
+
+  a{color:inherit;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .topbar .row{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brandmark{display:flex;align-items:baseline;gap:10px;}
+  .brandmark b{font-family:'Newsreader',serif;font-weight:500;font-size:20px;letter-spacing:.01em;}
+  .brandmark span{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint);}
+  .topnav{display:flex;gap:var(--s4);}
+  .topnav a{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;transition:color .2s;}
+  .topnav a:hover{color:var(--ink);}
+  @media(max-width:760px){.topnav{display:none;}}
+
+  /* ---------- masthead ---------- */
+  .mast{padding-top:var(--s9);padding-bottom:var(--s8);}
+  .mast .kicker{margin-bottom:var(--s4);}
+  .mast h1{
+    font-family:'Bodoni Moda',serif;
+    font-weight:400;
+    font-size:clamp(48px,8.5vw,124px);
+    line-height:.96;
+    letter-spacing:-.01em;
+    grid-column:1 / 11;
+  }
+  .mast h1 em{font-style:italic;}
+  .mast .lede{
+    grid-column:7 / 13;
+    margin-top:var(--s5);
+    font-size:19px;line-height:1.65;color:var(--ink-soft);max-width:46ch;
+  }
+  .mast .meta{
+    grid-column:1 / 5;margin-top:var(--s5);
+    display:flex;flex-direction:column;gap:6px;
+    font-size:12.5px;letter-spacing:.06em;color:var(--ink-faint);
+  }
+  .mast .meta b{color:var(--ink);font-weight:600;}
+  @media(max-width:760px){
+    .mast{padding-top:var(--s7);padding-bottom:var(--s7);}
+    .mast h1,.mast .lede,.mast .meta{grid-column:1 / -1;}
+    .mast .lede{margin-top:var(--s4);}
+  }
+
+  .hr{height:1px;background:var(--line);border:0;}
+
+  /* ---------- section scaffold ---------- */
+  section{padding:var(--s8) 0;}
+  .sec-head{margin-bottom:var(--s6);align-items:end;}
+  .sec-head .num{
+    grid-column:1 / 3;
+    font-family:'Newsreader',serif;font-size:13px;color:var(--accent);letter-spacing:.1em;
+    padding-top:8px;
+  }
+  .sec-head h2{
+    grid-column:3 / 10;
+    font-family:'Cormorant Garamond',serif;font-weight:500;
+    font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-.005em;
+  }
+  .sec-head p{
+    grid-column:3 / 11;margin-top:var(--s3);
+    color:var(--ink-soft);font-size:17px;max-width:60ch;
+  }
+  @media(max-width:760px){
+    section{padding:var(--s7) 0;}
+    .sec-head .num,.sec-head h2,.sec-head p{grid-column:1 / -1;}
+    .sec-head .num{padding-top:0;}
+  }
+
+  /* ---------- principios ---------- */
+  .principle{
+    border-top:1px solid var(--line);
+    padding:var(--s5) 0;
+    align-items:start;
+  }
+  .principle:last-child{border-bottom:1px solid var(--line);}
+  .principle .p-name{grid-column:1 / 5;}
+  .principle .p-name h3{
+    font-family:'Cormorant Garamond',serif;font-weight:600;
+    font-size:25px;line-height:1.1;letter-spacing:0;
+  }
+  .principle .p-name .tag{
+    margin-top:10px;display:inline-block;
+    font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);
+  }
+  .principle .p-dec{grid-column:6 / 13;}
+  .principle .p-dec p{color:var(--ink-soft);font-size:16.5px;}
+  .principle .p-dec p b{color:var(--ink);font-weight:600;}
+  .principle .p-dec .pill{
+    display:inline-block;margin-top:var(--s2);
+    font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--accent);
+  }
+  @media(max-width:760px){
+    .principle .p-name,.principle .p-dec{grid-column:1 / -1;}
+    .principle .p-dec{margin-top:var(--s2);}
+  }
+
+  /* ---------- foundations: spacing + type ---------- */
+  .fcard{grid-column:span 6;}
+  @media(max-width:760px){.fcard{grid-column:1 / -1;}}
+  .fcard h4{
+    font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+    margin-bottom:var(--s4);
+  }
+  .spacing-row{display:flex;align-items:center;gap:var(--s3);margin-bottom:14px;}
+  .spacing-row .bar{height:14px;background:var(--ink);}
+  .spacing-row .lab{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;}
+  .spacing-row .lab b{color:var(--ink);font-weight:600;}
+
+  .type-spec{border-top:1px solid var(--line-soft);padding:var(--s3) 0;}
+  .type-spec:last-child{border-bottom:1px solid var(--line-soft);}
+  .type-spec .meta{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px;}
+  .l1{font-family:'Bodoni Moda',serif;font-size:40px;line-height:1;font-weight:400;}
+  .l2{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;line-height:1.1;}
+  .l3{font-family:var(--sans);font-size:17px;color:var(--ink-soft);line-height:1.6;max-width:52ch;}
+  .l4{font-family:var(--sans);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);}
+
+  /* ---------- direction blocks ---------- */
+  .dir{padding-top:var(--s7);}
+  .dir-head{margin-bottom:var(--s5);align-items:end;}
+  .dir-head .idx{
+    grid-column:1 / 3;font-family:'Newsreader',serif;font-size:13px;color:var(--accent);
+  }
+  .dir-head .title{grid-column:3 / 9;}
+  .dir-head .title .nm{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.6vw,40px);line-height:1.02;
+  }
+  .dir-head .title .sub{margin-top:6px;color:var(--ink-soft);font-size:15px;}
+  .dir-head .swcol{grid-column:10 / 13;display:flex;gap:0;align-self:end;justify-content:flex-end;}
+  .dir-head .swcol .sw{width:34px;height:48px;}
+  .dir-head .swcol .sw span{display:block;font-size:9px;text-align:center;margin-top:6px;letter-spacing:.06em;color:var(--ink-faint);}
+  @media(max-width:760px){
+    .dir-head .idx,.dir-head .title{grid-column:1 / -1;}
+    .dir-head .swcol{grid-column:1 / -1;justify-content:flex-start;margin-top:var(--s3);}
+  }
+
+  /* meta strip under each hero */
+  .dir-notes{margin-top:var(--s4);padding-top:var(--s4);border-top:1px solid var(--line);}
+  .dir-notes .col{grid-column:span 4;}
+  @media(max-width:760px){.dir-notes .col{grid-column:1 / -1;margin-bottom:var(--s3);}}
+  .dir-notes .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+  .dir-notes .v{font-size:15px;color:var(--ink-soft);line-height:1.5;}
+  .dir-notes .v b{color:var(--ink);font-weight:600;}
+
+  /* ===== HERO MOCKUPS (real, per direction) ===== */
+  .hero{
+    position:relative;overflow:hidden;
+    border:1px solid var(--line);
+    aspect-ratio:16/9;min-height:460px;
+  }
+  .hero .browserbar{
+    height:38px;display:flex;align-items:center;gap:7px;padding:0 16px;
+    border-bottom:1px solid;
+  }
+  .hero .browserbar i{width:9px;height:9px;border-radius:50%;display:block;opacity:.5;}
+  .hero .browserbar .u{
+    margin-left:14px;font-family:var(--sans);font-size:11px;letter-spacing:.04em;opacity:.55;
+  }
+  .hero .stage{position:absolute;inset:38px 0 0 0;display:grid;}
+  .hero .pad{padding:clamp(28px,5%,64px);}
+
+  /* hero internal nav */
+  .hnav{display:flex;align-items:center;justify-content:space-between;}
+  .hnav .logo{font-family:'Newsreader',serif;font-size:18px;letter-spacing:.02em;}
+  .hnav .links{display:flex;gap:24px;font-family:var(--sans);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;}
+  .hnav .cta{
+    font-family:var(--sans);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:9px 18px;border:1px solid currentColor;
+  }
+  .heyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.26em;text-transform:uppercase;}
+  .hh{line-height:.98;letter-spacing:-.01em;}
+  .hsub{font-family:var(--sans);font-size:16px;line-height:1.55;}
+  .hbtns{display:flex;align-items:center;gap:18px;}
+  .hbtn{font-family:var(--sans);font-size:12.5px;letter-spacing:.06em;padding:13px 26px;}
+  .hbtn.ghost{padding:13px 4px;}
+  .focal-num{font-variant-numeric:tabular-nums;}
+
+  .placeholder{
+    position:relative;
+    background-image:repeating-linear-gradient(135deg, transparent 0 9px, currentColor 9px 10px);
+    opacity:1;
+  }
+  .placeholder .plabel{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    font-family:var(--sans);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+    padding:5px 10px;white-space:nowrap;
+  }
+
+  /* —— Direction A: Salvia / Calma / Pertenencia —— */
+  .heroA{--bg:#ECEAE4;--fg:#14181A;--ac:#6E7E6A;--soft:#5C5F58;background:var(--bg);color:var(--fg);}
+  .heroA .browserbar{background:#E4E1D9;border-color:#D8D4CA;color:var(--fg);}
+  .heroA .stage{grid-template-columns:1.05fr .95fr;}
+  .heroA .left{display:flex;flex-direction:column;justify-content:space-between;}
+  .heroA .heyebrow{color:var(--ac);}
+  .heroA .hh{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(34px,4.6vw,60px);}
+  .heroA .hh em{font-style:italic;color:var(--ac);}
+  .heroA .hsub{color:var(--soft);max-width:34ch;margin-top:20px;}
+  .heroA .hbtns{margin-top:32px;}
+  .heroA .hbtn.solid{background:var(--fg);color:var(--bg);}
+  .heroA .hbtn.ghost{color:var(--fg);}
+  .heroA .right{position:relative;}
+  .heroA .right .placeholder{position:absolute;inset:0;color:#C9C6BD;background-color:#E3E0D8;}
+  .heroA .right .placeholder .plabel{color:#7C8076;background:#ECEAE4;}
+  .heroA .hnav .cta{border-color:var(--fg);}
+  .heroA .focal{
+    position:absolute;left:-44px;bottom:48px;background:var(--bg);
+    border:1px solid #D5D2C8;padding:20px 26px;max-width:230px;
+  }
+  .heroA .focal .n{font-family:'Cormorant Garamond',serif;font-size:46px;line-height:1;color:var(--fg);}
+  .heroA .focal .c{font-family:var(--sans);font-size:11.5px;color:var(--soft);margin-top:6px;letter-spacing:.02em;}
+
+  /* —— Direction B: Perla & Champaña / Sofisticación / Estatus —— */
+  .heroB{--bg:#F2EFEA;--fg:#1A1714;--ac:#A9854E;--soft:#5A554C;background:var(--bg);color:var(--fg);}
+  .heroB.hero{aspect-ratio:16/10;min-height:600px;}
+  .heroB .pad{padding:clamp(24px,4%,52px);}
+  .heroB .browserbar{background:#EAE6DF;border-color:#DED9CF;color:var(--fg);}
+  .heroB .stage{grid-template-rows:auto 1fr;}
+  .heroB .pad{display:flex;flex-direction:column;}
+  .heroB .center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;}
+  .heroB .heyebrow{color:var(--ac);}
+  .heroB .hh{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(36px,5.2vw,70px);line-height:.98;margin-top:18px;max-width:15ch;}
+  .heroB .hh em{font-style:italic;}
+  .heroB .hsub{color:var(--soft);max-width:40ch;margin-top:20px;}
+  .heroB .hbtns{margin-top:26px;}
+  .heroB .hbtn.solid{background:var(--fg);color:var(--bg);}
+  .heroB .hbtn.ghost{color:var(--fg);text-transform:uppercase;letter-spacing:.14em;font-size:11px;}
+  .heroB .hnav .cta{border-color:var(--ac);color:var(--ac);}
+  .heroB .rule{height:1px;background:#DBD6CB;margin:0;}
+  .heroB .footstrip{display:flex;gap:48px;padding-top:18px;}
+  .heroB .footstrip .it .n{font-family:'Bodoni Moda',serif;font-size:26px;}
+  .heroB .footstrip .it .c{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px;}
+
+  /* —— Direction C: Mármol & Latón / Poder / Control —— */
+  .heroC{--bg:#F4F1EA;--fg:#1C1B19;--ac:#9C7B4E;--soft:#57534A;--panel:#1C1B19;background:var(--bg);color:var(--fg);}
+  .heroC .browserbar{background:#1C1B19;border-color:#1C1B19;color:#D8D2C6;}
+  .heroC .browserbar i{background:#D8D2C6;}
+  .heroC .stage{grid-template-columns:1fr 1fr;}
+  .heroC .left{display:flex;flex-direction:column;justify-content:space-between;}
+  .heroC .hnav .logo{font-family:'Newsreader',serif;}
+  .heroC .heyebrow{color:var(--ac);}
+  .heroC .hh{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(34px,4.8vw,62px);}
+  .heroC .hh em{font-style:italic;color:var(--ac);}
+  .heroC .hsub{color:var(--soft);max-width:32ch;margin-top:20px;}
+  .heroC .hbtns{margin-top:30px;}
+  .heroC .hbtn.solid{background:var(--ac);color:#fff;}
+  .heroC .hbtn.ghost{color:var(--fg);}
+  .heroC .hnav .cta{border-color:var(--fg);}
+  /* dark dashboard peek panel = the single focal isolation */
+  .heroC .panel{background:var(--panel);color:#E7E2D7;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+  .heroC .panel .ph{padding:22px 24px 0;display:flex;justify-content:space-between;align-items:baseline;}
+  .heroC .panel .ph .t{font-family:'Newsreader',serif;font-size:14px;}
+  .heroC .panel .ph .d{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9A9384;}
+  .heroC .panel .big{padding:18px 24px 0;}
+  .heroC .panel .big .n{font-family:'Newsreader',serif;font-size:clamp(36px,5vw,58px);line-height:1;color:#fff;}
+  .heroC .panel .big .n small{color:var(--ac);font-size:.5em;}
+  .heroC .panel .big .c{font-size:11px;letter-spacing:.04em;color:#9A9384;margin-top:8px;}
+  .heroC .panel .bars{margin-top:auto;padding:24px;display:flex;align-items:flex-end;gap:7px;height:120px;}
+  .heroC .panel .bars i{flex:1;background:#34322C;display:block;}
+  .heroC .panel .bars i.on{background:var(--ac);}
+
+  /* ---------- dashboard plan thumbnails ---------- */
+  .plan{align-items:stretch;}
+  .plan .pcard{grid-column:span 4;border:1px solid var(--line);background:#fff;display:flex;flex-direction:column;}
+  .plan .pcard.wide{grid-column:span 8;}
+  @media(max-width:760px){.plan .pcard,.plan .pcard.wide{grid-column:1 / -1;}}
+  .plan .pcard .thumb{aspect-ratio:16/10;background:var(--paper-2);border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+  .plan .pcard .thumb .placeholder{position:absolute;inset:0;color:#DAD4C7;background-color:#ECE8DE;}
+  .plan .pcard .thumb .placeholder .plabel{color:var(--ink-faint);background:var(--paper-2);}
+  .plan .pcard .body{padding:var(--s3) var(--s3) var(--s4);}
+  .plan .pcard .body .ref{font-family:'Newsreader',serif;font-size:12px;color:var(--accent);}
+  .plan .pcard .body h4{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin:6px 0 8px;}
+  .plan .pcard .body p{font-size:14px;color:var(--ink-soft);line-height:1.5;}
+
+  /* ---------- next steps ---------- */
+  .next{border-top:1px solid var(--line);padding-top:var(--s5);}
+  .next ol{list-style:none;counter-reset:n;}
+  .next li{counter-increment:n;border-bottom:1px solid var(--line-soft);padding:var(--s3) 0;display:flex;gap:var(--s4);align-items:baseline;}
+  .next li::before{content:counter(n,decimal-leading-zero);font-family:'Newsreader',serif;color:var(--accent);font-size:14px;min-width:36px;}
+  .next li .t{font-size:16.5px;}
+  .next li .t b{font-weight:600;}
+  .next li .t span{color:var(--ink-soft);}
+
+  footer{padding:var(--s7) 0 var(--s8);}
+  footer .grid{align-items:end;}
+  footer .sig{grid-column:1 / 8;}
+  footer .sig .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(22px,3vw,32px);line-height:1.2;color:var(--ink);max-width:24ch;}
+  footer .sig .by{margin-top:var(--s3);font-size:12px;letter-spacing:.06em;color:var(--ink-faint);}
+  footer .mk{grid-column:10 / 13;text-align:right;font-family:'Newsreader',serif;font-size:18px;color:var(--ink-soft);}
+  @media(max-width:760px){footer .sig,footer .mk{grid-column:1 / -1;}footer .mk{text-align:left;margin-top:var(--s4);}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap row">
+    <div class="brandmark"><b>Residia</b><span>Dirección de Arte</span></div>
+    <nav class="topnav">
+      <a href="#principios">Principios</a>
+      <a href="#fundamentos">Fundamentos</a>
+      <a href="#direcciones">Direcciones</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#siguiente">Siguiente</a>
+    </nav>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="mast wrap">
+  <div class="grid">
+    <div class="kicker eyebrow" style="grid-column:1 / 8;">Administración de clústeres <span class="dot">·</span> Documento de dirección <span class="dot">·</span> v1.0</div>
+    <h1>El orden,<br><em>convertido</em><br>en estatus.</h1>
+    <p class="lede">Tres direcciones visuales para la landing y el dashboard de Residia. Todas comparten una misma gramática de lujo discreto —aire, contraste tipográfico y un único punto focal— y cada decisión está justificada por el principio psicológico que la sostiene.</p>
+    <div class="meta">
+      <div>Base tonal · <b>Clara / galería</b></div>
+      <div>Color · <b>60–30–10, máx. 3 tonos</b></div>
+      <div>Retícula · <b>Escala de 8&nbsp;px</b></div>
+      <div>Tipografía · <b>Serif alto contraste + sans neutra</b></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><hr class="hr"></div>
+
+<!-- PRINCIPIOS -->
+<section id="principios">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="num">01 — Por qué</div>
+      <h2>Cada decisión nace de un principio, no de un gusto.</h2>
+      <p>El brief pide maximizar la <em>fluidez de procesamiento</em> y disparar la percepción de calidad en el nivel reflexivo de Norman. Estos son los siete principios que gobiernan el sistema y la decisión de diseño concreta que produce cada uno.</p>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Fluidez de procesamiento</h3><span class="tag">Percepción de calidad</span></div>
+      <div class="p-dec"><p>Alto contraste tipográfico, alineación estricta y retícula de 8&nbsp;px hacen que el ojo lea <b>sin fricción</b>. El cerebro atribuye esa facilidad de lectura a calidad del producto: lo que se procesa fácil, se percibe como mejor hecho.<span class="pill">→ Todo se alinea a una sola rejilla. Nada “casi”.</span></p></div>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Nivel reflexivo de Norman</h3><span class="tag">Significado aprendido</span></div>
+      <div class="p-dec"><p>El serif de alto contraste y el espacio abundante son <b>señales culturalmente codificadas de lujo</b> —editorial, moda, joyería—. Tras la reacción visceral, la mente reflexiona y concluye: “esto es premium, esto es serio”.<span class="pill">→ Titulares Didone / Garamond, nunca un sans genérico.</span></p></div>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Efecto de aislamiento</h3><span class="tag">Von Restorff</span></div>
+      <div class="p-dec"><p>Un <b>único punto focal</b> —un dato, un CTA— rodeado de calma se vuelve memorable y dirige la acción sin competir con nada. El vacío alrededor es lo que hace que ese elemento exista.<span class="pill">→ Una sola acción primaria por pantalla.</span></p></div>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Ley de Hick</h3><span class="tag">Carga de decisión</span></div>
+      <div class="p-dec"><p>A menos opciones visibles, decisión más rápida y menos ansiedad. La navegación se reduce al mínimo y las acciones secundarias se esconden hasta que se necesitan.<span class="pill">→ Máx. 4–5 ítems de navegación a la vez.</span></p></div>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Gestalt</h3><span class="tag">Proximidad · Alineación · Repetición</span></div>
+      <div class="p-dec"><p>Los grupos se forman con <b>espaciado, no con cajas ni bordes</b>. La proximidad agrupa, la repetición de ritmo crea estructura y la alineación da orden —todo sin ruido visual añadido.<span class="pill">→ Separar con aire antes que con líneas.</span></p></div>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Regla 60 · 30 · 10</h3><span class="tag">Equilibrio cromático</span></div>
+      <div class="p-dec"><p>60&nbsp;% papel, 30&nbsp;% tinta para texto y estructura, 10&nbsp;% acento para el punto focal. Una proporción que se siente <b>resuelta</b> y nunca saturada.<span class="pill">→ El acento solo aparece donde queremos la mirada.</span></p></div>
+    </div>
+
+    <div class="grid principle">
+      <div class="p-name"><h3>Espacio en blanco como estatus</h3><span class="tag">Señal de confianza</span></div>
+      <div class="p-dec"><p>Márgenes amplios comunican que <b>no necesitamos vender a gritos</b>. El vacío es caro: solo las marcas seguras se permiten no llenarlo. Calma = control = lujo.<span class="pill">→ No rellenar. El vacío es contenido.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDAMENTOS -->
+<section id="fundamentos" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="num">02 — Cómo</div>
+      <h2>Fundamentos compartidos por las tres direcciones.</h2>
+      <p>Lo que no cambia entre direcciones: la jerarquía de tres niveles, la escala de espaciado y el sans neutro del cuerpo. La variación vive solo en el serif y el acento.</p>
+    </div>
+
+    <div class="grid">
+      <!-- spacing -->
+      <div class="fcard">
+        <h4>Escala de espaciado · base 8&nbsp;px</h4>
+        <div class="spacing-row"><div class="bar" style="width:8px"></div><div class="lab"><b>8</b> · s1 — interlínea de etiquetas</div></div>
+        <div class="spacing-row"><div class="bar" style="width:16px"></div><div class="lab"><b>16</b> · s2 — entre texto relacionado</div></div>
+        <div class="spacing-row"><div class="bar" style="width:24px"></div><div class="lab"><b>24</b> · s3 — padding de componente</div></div>
+        <div class="spacing-row"><div class="bar" style="width:32px"></div><div class="lab"><b>32</b> · s4 — gutters de rejilla</div></div>
+        <div class="spacing-row"><div class="bar" style="width:48px"></div><div class="lab"><b>48</b> · s5 — entre bloques</div></div>
+        <div class="spacing-row"><div class="bar" style="width:64px"></div><div class="lab"><b>64</b> · s6 — márgenes de sección</div></div>
+        <div class="spacing-row"><div class="bar" style="width:96px"></div><div class="lab"><b>96</b> · s7 — respiración mayor</div></div>
+        <div class="spacing-row"><div class="bar" style="width:128px"></div><div class="lab"><b>128</b> · s8 — aire de estatus</div></div>
+      </div>
+
+      <!-- type hierarchy -->
+      <div class="fcard">
+        <h4>Jerarquía en tres niveles</h4>
+        <div class="type-spec">
+          <div class="meta">Nivel 1 · Titular · Serif alto contraste</div>
+          <div class="l1">Aa — Estado de cuenta</div>
+        </div>
+        <div class="type-spec">
+          <div class="meta">Nivel 2 · Subtítulo · Serif refinado</div>
+          <div class="l2">Aa — Cobranza del mes</div>
+        </div>
+        <div class="type-spec">
+          <div class="meta">Nivel 3 · Cuerpo · Sans neutra</div>
+          <div class="l3">Hanken Grotesk en 17&nbsp;px. Legibilidad pareja, sin personalidad que compita con el titular. Su trabajo es desaparecer y dejar leer.</div>
+        </div>
+        <div class="type-spec">
+          <div class="meta">Micro · Etiqueta · Sans en caja alta</div>
+          <div class="l4">Abril 2026 · Loma Chica · 77 unidades</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECCIONES -->
+<section id="direcciones">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="num">03 — Direcciones</div>
+      <h2>Tres temperamentos del mismo lujo. Para elegir y combinar.</h2>
+      <p>Misma estructura, distinta emoción visceral. A respira calma y pertenencia; B proyecta sofisticación y estatus; C transmite poder y control. Cada hero respeta el efecto de aislamiento: un solo foco rodeado de vacío.</p>
+    </div>
+
+    <!-- DIRECTION A -->
+    <div class="dir">
+      <div class="grid dir-head">
+        <div class="idx">A</div>
+        <div class="title">
+          <div class="nm">Salvia</div>
+          <div class="sub">Calma · Pertenencia — galería serena, serif humanista</div>
+        </div>
+        <div class="swcol">
+          <div class="sw"><div style="height:48px;background:#ECEAE4;border:1px solid #D8D4CA"></div><span>60</span></div>
+          <div class="sw"><div style="height:48px;background:#14181A"></div><span>30</span></div>
+          <div class="sw"><div style="height:48px;background:#6E7E6A"></div><span>10</span></div>
+        </div>
+      </div>
+
+      <div class="hero heroA">
+        <div class="browserbar"><i></i><i></i><i></i><span class="u">residia.mx</span></div>
+        <div class="stage">
+          <div class="left pad">
+            <div class="hnav">
+              <div class="logo">Residia</div>
+              <div class="cta">Solicitar acceso</div>
+            </div>
+            <div>
+              <div class="heyebrow">Administración de clústeres</div>
+              <h2 class="hh" style="margin-top:18px">Vivir en orden<br>es vivir <em>tranquilo.</em></h2>
+              <p class="hsub">El estado de tu fraccionamiento, claro y al día. Sin Excel, sin dudas, sin ruido.</p>
+              <div class="hbtns">
+                <div class="hbtn solid">Conoce Residia</div>
+                <div class="hbtn ghost">Ver demo →</div>
+              </div>
+            </div>
+            <div style="height:8px"></div>
+          </div>
+          <div class="right">
+            <div class="placeholder"><span class="plabel">Fotografía · Arquitectura residencial</span></div>
+            <div class="focal">
+              <div class="n">98%</div>
+              <div class="c">de cuotas al corriente este trimestre en Loma Chica</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid dir-notes">
+        <div class="col"><div class="k">Deseo activado</div><div class="v"><b>Pertenencia.</b> El residente siente que forma parte de una comunidad bien cuidada; el verde salvia evoca calma y permanencia.</div></div>
+        <div class="col"><div class="k">Punto focal aislado</div><div class="v">Un solo dato —<b>98% al corriente</b>— flotando sobre la imagen. Von Restorff: lo que está solo, se recuerda.</div></div>
+        <div class="col"><div class="k">Tipografía</div><div class="v"><b>Cormorant Garamond</b> en cursiva para el acento emocional. Serif humanista = cercanía, no frialdad corporativa.</div></div>
+      </div>
+    </div>
+
+    <!-- DIRECTION B -->
+    <div class="dir">
+      <div class="grid dir-head">
+        <div class="idx">B</div>
+        <div class="title">
+          <div class="nm">Perla &amp; Champaña</div>
+          <div class="sub">Sofisticación · Estatus — editorial Didone, máximo contraste</div>
+        </div>
+        <div class="swcol">
+          <div class="sw"><div style="height:48px;background:#F2EFEA;border:1px solid #DED9CF"></div><span>60</span></div>
+          <div class="sw"><div style="height:48px;background:#1A1714"></div><span>30</span></div>
+          <div class="sw"><div style="height:48px;background:#A9854E"></div><span>10</span></div>
+        </div>
+      </div>
+
+      <div class="hero heroB">
+        <div class="browserbar"><i></i><i></i><i></i><span class="u">residia.mx</span></div>
+        <div class="stage">
+          <div class="pad" style="height:100%">
+            <div class="hnav" style="margin-bottom:auto">
+              <div class="logo" style="font-family:'Bodoni Moda',serif">RESIDIA</div>
+              <div class="links" style="color:#5A554C">
+                <span>Plataforma</span><span>Clústeres</span><span>Transparencia</span>
+              </div>
+              <div class="cta">Acceso</div>
+            </div>
+            <div class="center">
+              <div class="heyebrow">La administración, elevada</div>
+              <h2 class="hh">Tu fraccionamiento merece <em>otra</em> categoría.</h2>
+              <p class="hsub">Cobranza, tesorería y reportes con el nivel de cuidado que esperarías de una marca de lujo. Discreto. Impecable. Tuyo.</p>
+              <div class="hbtns">
+                <div class="hbtn solid">Solicitar una demostración</div>
+                <div class="hbtn ghost">Manifiesto →</div>
+              </div>
+            </div>
+            <div class="rule"></div>
+            <div class="footstrip">
+              <div class="it"><div class="n">77</div><div class="c">unidades</div></div>
+              <div class="it"><div class="n">$231k</div><div class="c">bajo gestión</div></div>
+              <div class="it"><div class="n">0</div><div class="c">hojas de Excel</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid dir-notes">
+        <div class="col"><div class="k">Deseo activado</div><div class="v"><b>Estatus.</b> Composición centrada y simétrica, como una portada de moda. El titular Didone dice “lujo” antes de leerse.</div></div>
+        <div class="col"><div class="k">Punto focal aislado</div><div class="v">El titular gigante en <b>Bodoni Moda</b> ocupa el centro; todo lo demás le cede el espacio. Aislamiento por escala.</div></div>
+        <div class="col"><div class="k">Riesgo controlado</div><div class="v">Es la única dirección centrada —justificado porque el formato editorial lo pide. La tira inferior rompe la simetría para no aburrir.</div></div>
+      </div>
+    </div>
+
+    <!-- DIRECTION C -->
+    <div class="dir">
+      <div class="grid dir-head">
+        <div class="idx">C</div>
+        <div class="title">
+          <div class="nm">Mármol &amp; Latón</div>
+          <div class="sub">Poder · Control — serif contemporáneo, foco en el dato</div>
+        </div>
+        <div class="swcol">
+          <div class="sw"><div style="height:48px;background:#F4F1EA;border:1px solid #DED9CF"></div><span>60</span></div>
+          <div class="sw"><div style="height:48px;background:#1C1B19"></div><span>30</span></div>
+          <div class="sw"><div style="height:48px;background:#9C7B4E"></div><span>10</span></div>
+        </div>
+      </div>
+
+      <div class="hero heroC">
+        <div class="browserbar"><i></i><i></i><i></i><span class="u" style="color:#9A9384">residia.mx</span></div>
+        <div class="stage">
+          <div class="left pad">
+            <div class="hnav">
+              <div class="logo">Residia</div>
+              <div class="cta">Solicitar acceso</div>
+            </div>
+            <div>
+              <div class="heyebrow">Control total del clúster</div>
+              <h2 class="hh" style="margin-top:18px">Cada peso,<br><em>bajo control.</em></h2>
+              <p class="hsub">Ingresos, egresos y morosidad en una sola vista. La autoridad de saber, exactamente, dónde está parado tu fraccionamiento.</p>
+              <div class="hbtns">
+                <div class="hbtn solid">Tomar el control</div>
+                <div class="hbtn ghost">Ver el panel →</div>
+              </div>
+            </div>
+            <div style="height:8px"></div>
+          </div>
+          <div class="panel">
+            <div class="ph"><div class="t">Loma Chica</div><div class="d">Marzo 2026</div></div>
+            <div class="big">
+              <div class="n">+$92,405<small></small></div>
+              <div class="c">NETO DEL PERIODO · 35 DE 77 CON ADEUDO</div>
+            </div>
+            <div class="bars">
+              <i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i>
+              <i style="height:70%"></i><i style="height:62%"></i><i class="on" style="height:88%"></i>
+              <i style="height:50%"></i><i style="height:66%"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid dir-notes">
+        <div class="col"><div class="k">Deseo activado</div><div class="v"><b>Control.</b> Un panel oscuro vive dentro del hero claro: la herramienta de poder, enmarcada. El latón marca el dato que importa.</div></div>
+        <div class="col"><div class="k">Punto focal aislado</div><div class="v">El <b>+$92,405</b> en el panel oscuro es el único elemento de alto contraste invertido. Imposible no mirarlo.</div></div>
+        <div class="col"><div class="k">Tipografía</div><div class="v"><b>Newsreader</b>: serif contemporáneo con carácter editorial pero pensado para datos. Autoridad sin rigidez.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PLAN -->
+<section id="dashboard" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="num">04 — Aplicación</div>
+      <h2>El sistema, llevado al producto.</h2>
+      <p>Las cinco pantallas del análisis funcional que diseñaré a continuación, con la misma gramática: jerarquía de tres niveles, estado por color (verde/ámbar/rojo) integrado con discreción y un solo foco por vista.</p>
+    </div>
+
+    <div class="grid plan">
+      <div class="pcard wide">
+        <div class="thumb"><div class="placeholder"><span class="plabel">Home del tesorero · vista general de cobranza</span></div></div>
+        <div class="body">
+          <div class="ref">Pantalla principal</div>
+          <h4>Home del tesorero</h4>
+          <p>Estado general del clúster: recaudación del mes, saldo de cuentas y el siguiente paso recomendado. Una sola acción primaria, todo lo demás en segundo plano.</p>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="thumb"><div class="placeholder"><span class="plabel">8.6.3 · Morosidad</span></div></div>
+        <div class="body">
+          <div class="ref">§ 8.6.3</div>
+          <h4>Dashboard de morosidad</h4>
+          <p>Adeudos por antigüedad y monto. El rojo aparece solo donde duele, nunca como decoración.</p>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <div class="thumb"><div class="placeholder"><span class="plabel">8.6.2 · Estado de cuenta</span></div></div>
+        <div class="body">
+          <div class="ref">§ 8.6.2</div>
+          <h4>Estado de cuenta de unidad</h4>
+          <p>El histórico de una casa con su estado visual por cargo. La vista que se vuelve PDF para el residente.</p>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="thumb"><div class="placeholder"><span class="plabel">8.4.4 · Detalle de cobro</span></div></div>
+        <div class="body">
+          <div class="ref">§ 8.4.4</div>
+          <h4>Detalle de un cobro</h4>
+          <p>Avance de recaudación de un cobro: completos, parciales y vencidos, unidad por unidad.</p>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="thumb"><div class="placeholder"><span class="plabel">9.5 · Transparencia financiera</span></div></div>
+        <div class="body">
+          <div class="ref">§ 9.5</div>
+          <h4>Transparencia financiera</h4>
+          <p>Ingresos vs. egresos del mes, con desglose por categoría. La cara pública de la confianza.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section id="siguiente">
+  <div class="wrap">
+    <div class="grid sec-head">
+      <div class="num">05 — Siguiente</div>
+      <h2>Qué construyo después de tu visto bueno.</h2>
+    </div>
+    <div class="next">
+      <ol>
+        <li><div class="t"><b>Landings completas, las tres.</b> <span>Hero + secciones de producto, prueba social, precios y cierre — cada dirección como página real y navegable.</span></div></li>
+        <li><div class="t"><b>Dashboard, las cinco pantallas.</b> <span>Prototipo interactivo con navegación entre vistas, en la dirección que elijas (o combinable por Tweaks).</span></div></li>
+        <li><div class="t"><b>Un canvas índice.</b> <span>Todo reunido lado a lado para comparar, enfocar a pantalla completa y mezclar lo mejor de cada dirección.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div class="sig">
+        <div class="q">“El vacío no es ausencia de diseño. Es la decisión más cara que toma una marca segura.”</div>
+        <div class="by">Dirección de arte · Residia · Documento de trabajo — esperando tu dirección</div>
+      </div>
+      <div class="mk">Residia</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

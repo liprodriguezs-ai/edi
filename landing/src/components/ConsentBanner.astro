@@ -1,0 +1,79 @@
+---
+// Banner de consentimiento de cookies. Trabaja con el Consent Mode v2 default
+// que setea BaseHead: solo se muestra si el visitante no eligió todavía
+// (localStorage 'kivo7-consent'). Aceptar → GA analytics_storage granted +
+// Meta Pixel consent grant; Rechazar → ambos denied/revoke.
+---
+
+<div
+  id="consent-banner"
+  hidden
+  role="dialog"
+  aria-label="Aviso de cookies"
+  aria-live="polite"
+  class="fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-4 right-4 z-[150] mx-auto max-w-[460px] rounded-card border border-line bg-card/95 p-5 shadow-card backdrop-blur-md sm:left-auto"
+>
+  <p class="text-[13.5px] leading-relaxed text-ink-soft">
+    Usamos cookies de analítica para entender cómo se usa el sitio y mejorarlo. Puedes aceptarlas o
+    rechazarlas. Más información en nuestro
+    <a
+      href="/privacidad"
+      class="font-semibold text-sage-deep underline underline-offset-2 hover:text-ink"
+      >Aviso de Privacidad</a
+    >.
+  </p>
+  <div class="mt-4 flex gap-3">
+    <button
+      id="consent-accept"
+      type="button"
+      class="inline-flex flex-1 items-center justify-center rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-paper transition-colors hover:bg-sage-deep"
+    >
+      Aceptar
+    </button>
+    <button
+      id="consent-reject"
+      type="button"
+      class="inline-flex flex-1 items-center justify-center rounded-full border border-line px-5 py-2.5 text-[13px] font-semibold text-ink transition-colors hover:border-ink"
+    >
+      Rechazar
+    </button>
+  </div>
+</div>
+
+<script>
+  const KEY = 'kivo7-consent';
+  const banner = document.getElementById('consent-banner');
+
+  if (banner) {
+    // gtag pushes array-form commands onto dataLayer; fbq is Meta Pixel's queue fn.
+    const store = window as unknown as {
+      dataLayer: unknown[];
+      fbq?: (...args: unknown[]) => void;
+    };
+
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch {
+      /* storage bloqueado: mostramos el banner igual */
+    }
+    if (!stored) banner.hidden = false;
+
+    function choose(value: 'granted' | 'denied') {
+      store.dataLayer = store.dataLayer || [];
+      store.dataLayer.push(['consent', 'update', { analytics_storage: value }]);
+      // Meta Pixel — mismo toggle: grant/revoke según la elección del visitante.
+      // fbq puede no existir (dev o sin PUBLIC_META_PIXEL_ID); el optional chaining lo cubre.
+      store.fbq?.('consent', value === 'granted' ? 'grant' : 'revoke');
+      try {
+        localStorage.setItem(KEY, value);
+      } catch {
+        /* no-op */
+      }
+      if (banner) banner.hidden = true;
+    }
+
+    document.getElementById('consent-accept')?.addEventListener('click', () => choose('granted'));
+    document.getElementById('consent-reject')?.addEventListener('click', () => choose('denied'));
+  }
+</script>

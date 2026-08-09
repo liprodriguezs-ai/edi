@@ -1,0 +1,18 @@
+# Single-package repo: pnpm still requires a `packages` field when this file
+# exists, otherwise it fails with "ERROR packages field missing or empty".
+# See https://github.com/pnpm/pnpm/issues/8968
+packages:
+  - .
+
+# pnpm settings (pnpm 11 reads pnpm-specific config from here, not .npmrc)
+engineStrict: true
+saveExact: true
+legacyPeerDeps: true
+ignoreScripts: true
+packageLock: true
+savePrefix: ''
+audit: true
+auditLevel: high
+strictSsl: true
+preferOffline: true
+allowBuilds:

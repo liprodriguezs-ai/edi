@@ -1,0 +1,55 @@
+project: residia
+initialized: 2026-06-13
+artifact_store: hybrid
+layout: dual-repo  # backend/ + frontend/ are sibling git repos under residia/
+
+context:
+  description: >
+    Residia — real-estate CRM. Dual-repo layout: backend (Laravel 13 + Orion, PHP 8.4,
+    PostgreSQL, Stancl single-DB multi-tenancy, modular via nwidart/laravel-modules) and
+    frontend (React 19 + Vite 8 + Tailwind v4 + shadcn + TanStack Query + Zustand).
+  backend_root: backend/
+  frontend_root: frontend/
+  key_modules: [Access, Announcements, Audit, Board, Chat, Collaborator, Collections,
+    Company, Configuration, Country, Dashboard, Email, Housing, Module, Municipality,
+    Notification, Projects, Providers, Reports, Role, Setting, SubscriptionPlan, System,
+    Tenant, Treasury, User, UserProfile]
+  state_management: Zustand createEntityStore
+  api_style: Laravel Orion (REST resource controllers)
+
+testing:
+  strict_tdd: false  # Standard Mode: tests alongside implementation (confirmed 2026-07-04)
+  backend:
+    command: "php artisan test"
+    runner: PHPUnit 12
+    cwd: backend/
+    database: testing (separate DB, env APP_ENV=testing)
+    layers:
+      unit: true      # tests/Unit/
+      feature: true   # tests/Feature/
+      e2e: false
+    coverage: false   # not configured in phpunit.xml
+    linter: "php artisan pint"
+    known_passing: 777
+  frontend:
+    command: "vitest run"
+    runner: Vitest 4
+    cwd: frontend/
+    environment: jsdom
+    layers:
+      unit: true
+      integration: true   # @testing-library/react
+      e2e: false
+    type_check: "tsc -p tsconfig.app.json --noEmit"
+    linter: "eslint ."
+    formatter: "prettier --write ."
+    coverage: false   # no --coverage flag configured by default
+
+phase_rules:
+  proposal: { owner: opus }
+  spec: { owner: sonnet }
+  design: { owner: opus }
+  tasks: { owner: sonnet }
+  apply: { owner: sonnet, tdd: standard }
+  verify: { owner: opus }
+  archive: { owner: haiku }

@@ -1,0 +1,183 @@
+services:
+    laravel.test:
+        build:
+            context: './vendor/laravel/sail/runtimes/8.4'
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+                MYSQL_CLIENT: mariadb-client
+        image: 'sail-8.4/app'
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+        volumes:
+            - '.:/var/www/html'
+            # OPcache for CLI. The project root above is a macOS bind mount and is
+            # ~16x slower than the container filesystem, so without a bytecode cache
+            # every artisan/phpunit process re-compiles the codebase across it.
+            - './docker/opcache-cli.ini:/etc/php/8.4/cli/conf.d/99-zz-opcache.ini'
+            # Bytecode cache lives on an internal volume, never on the bind mount.
+            - 'sail-opcache:/opcache'
+            # Keeps the Xdebug extension out of CLI processes entirely. XDEBUG_MODE=off
+            # above only makes it inactive; the extension still loads. Web/FPM is
+            # deliberately left untouched.
+            - './docker/xdebug-cli-off.ini:/etc/php/8.4/cli/conf.d/20-xdebug.ini'
+        networks:
+            # `sail` es la red privada de este proyecto (Postgres). `devshared` es
+            # la red compartida donde viven valkey/mailpit/rustfs, comunes a todos
+            # los proyectos de ~/code — ver docker/devshared.yaml.
+            - sail
+            - devshared
+        depends_on:
+            # Long form so a test run started right after `sail up` never connects to
+            # a database that is still booting. Only pgsql.test gates on health — it
+            # is the one `artisan test` hits immediately, and RefreshDatabase's first
+            # query happens before Postgres would otherwise be accepting connections.
+            #
+            # valkey/mailpit/rustfs ya no figuran acá: viven en otro proyecto de
+            # compose y `depends_on` no cruza esa frontera. start.sh los levanta.
+            pgsql.test:
+                condition: service_healthy
+            pgsql:
+                condition: service_started
+    pgsql:
+        image: 'postgres:18-alpine'
+        # Docker defaults /dev/shm to 64MB, which RefreshDatabase can exhaust while
+        # dropping ~50 tables with CASCADE. It surfaces as
+        # "SQLSTATE[53100]: could not resize shared memory segment" and looks like a
+        # mass test regression rather than an environment limit.
+        shm_size: 1gb
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        volumes:
+            - 'sail-pgsql:/var/lib/postgresql'
+            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+        networks:
+            - sail
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - '${DB_DATABASE}'
+                - '-U'
+                - '${DB_USERNAME}'
+            retries: 3
+            timeout: 5s
+    # Dedicated Postgres for the test suite, kept separate from the `pgsql` service
+    # above on purpose: the durability settings below trade crash safety for speed,
+    # which is free for a throwaway database but would risk the development data.
+    #
+    # The data directory is a tmpfs, so the whole test database lives in RAM and
+    # never touches disk. This is what `RefreshDatabase` (used by 103 of 111 test
+    # files) and the per-tenant database creation (31 files) hammer on every run.
+    pgsql.test:
+        image: 'postgres:18-alpine'
+        # Same rationale as `pgsql`: RefreshDatabase drops many tables with CASCADE
+        # and exhausts Docker's default 64MB /dev/shm.
+        shm_size: 1gb
+        # PGDATA is /var/lib/postgresql/18/docker on this image; mounting the parent
+        # covers it regardless of the version subdirectory.
+        # size= es un TOPE, no una reserva: la tmpfs solo ocupa RAM conforme se
+        # escribe. 2g alcanzaba para UNA base de tests, pero `--parallel` crea
+        # una por worker (testing_test_1..N) y con `autovacuum=off` el espacio
+        # de los rollbacks nunca se reclama: la suma reventaba el volumen a
+        # media corrida con "No space left on device", matando a Postgres.
+        tmpfs:
+            - /var/lib/postgresql:rw,size=4g
+        command:
+            - postgres
+            # Durability is pointless for a database rebuilt on every run, and these
+            # are the settings that dominate the cost of migrate:fresh.
+            - '-c'
+            - 'fsync=off'
+            - '-c'
+            - 'synchronous_commit=off'
+            - '-c'
+            - 'full_page_writes=off'
+            - '-c'
+            - 'wal_level=minimal'
+            - '-c'
+            - 'max_wal_senders=0'
+            # El WAL DEBE caber holgado en la tmpfs de arriba. `max_wal_size` es el
+            # tamaño que el WAL puede alcanzar ANTES de forzar un checkpoint: con
+            # 4GB sobre un disco de 4GB, Postgres tiene permiso de llenar el disco
+            # entero él solo. Medido 2026-08-08: pg_wal llegó a 2.7G mientras los
+            # datos reales pesaban 450M, y reventó con "No space left on device"
+            # (que se manifiesta como 1600 tests con `Connection refused`, un
+            # síntoma que no se parece a su causa). Subir el `size` de la tmpfs NO
+            # lo arregla — el techo del WAL escala con el disco que le des.
+            # Checkpointear seguido es barato acá: `fsync=off` + RAM.
+            - '-c'
+            - 'checkpoint_timeout=5min'
+            - '-c'
+            - 'max_wal_size=768MB'
+            - '-c'
+            - 'shared_buffers=512MB'
+            - '-c'
+            - 'work_mem=32MB'
+            # Statistics are worthless for a database that is dropped continuously.
+            # (Se probó encenderlo el 2026-08-08 creyendo que el "No space left on
+            # device" era bloat de tuplas muertas: NO lo era — el espacio se lo
+            # comía el WAL, ver `max_wal_size` arriba — y encendido costó 80% de
+            # velocidad: 11:24 → 20:27 en el mismo suite. Déjalo apagado.)
+            - '-c'
+            - 'autovacuum=off'
+        # Publicado al host para que `php artisan test` (que corre en el PHP del
+        # host, NO dentro de Docker) pueda alcanzar ESTA base y no caiga al
+        # servicio `pgsql` de desarrollo, que es durable y vive en disco.
+        # Variable propia — nunca compartir FORWARD_DB_PORT entre dos servicios
+        # de base de datos: ambos intentan bindear el mismo puerto del host y
+        # `sail up` queda a medias con "port is already allocated".
+        ports:
+            - '${FORWARD_TEST_DB_PORT:-5441}:5432'
+        environment:
+            POSTGRES_DB: testing
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        networks:
+            - sail
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - testing
+                - '-U'
+                - '${DB_USERNAME}'
+            retries: 3
+            timeout: 5s
+    # valkey, mailpit y rustfs ya NO se definen acá: son comunes a todos los
+    # proyectos de ~/code y viven una sola vez en docker/devshared.yaml, colgados
+    # de la red `devshared`. Los hostnames no cambian, así que el .env sigue igual.
+    #
+    # ELIMINADOS por no usarse en este proyecto:
+    #   rabbitmq — sin paquete AMQP; config/queue.php ni siquiera define esa conexión.
+    #   soketi   — BROADCAST_CONNECTION=log y nadie lo menciona en el código.
+networks:
+    sail:
+        driver: bridge
+    # Creada por docker/devshared.yaml, no por este proyecto. Si no existe,
+    # `sail up` falla con "network devshared declared as external".
+    devshared:
+        external: true
+volumes:
+    sail-pgsql:
+        driver: local
+    sail-opcache:
+        driver: local

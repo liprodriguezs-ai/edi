@@ -1,0 +1,49 @@
+---
+// Lightbox compartido: un único <dialog> nativo (ESC + foco + backdrop) que
+// cualquier imagen puede abrir. Trigger = cualquier elemento con [data-lightbox]
+// + data-lightbox-src (URL) y data-lightbox-alt. Funciona por delegación de
+// eventos, así sirve para el hero y las tarjetas del bento sin duplicar nada.
+---
+
+<dialog
+  id="lightbox"
+  aria-label="Imagen ampliada"
+  class="m-auto w-[min(1100px,92vw)] rounded-card border border-line bg-card p-0 shadow-[0_40px_120px_-30px_rgba(20,24,26,0.55)]"
+>
+  <div class="relative">
+    <button
+      type="button"
+      data-close-lightbox
+      aria-label="Cerrar"
+      class="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink shadow-card transition-colors hover:bg-white"
+    >
+      <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        ></path>
+      </svg>
+    </button>
+    <img id="lightbox-img" alt="" class="block max-h-[88vh] w-full rounded-card object-contain" />
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+  const img = document.getElementById('lightbox-img') as HTMLImageElement | null;
+
+  if (dialog && img) {
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-lightbox]');
+      if (!trigger) return;
+      const src = trigger.getAttribute('data-lightbox-src');
+      if (!src) return;
+      img.src = src;
+      img.alt = trigger.getAttribute('data-lightbox-alt') ?? '';
+      dialog.showModal();
+    });
+
+    dialog.querySelector('[data-close-lightbox]')?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>

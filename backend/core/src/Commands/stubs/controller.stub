@@ -1,0 +1,13 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use QCH\Core\Http\Controllers\Controller;
+use Modules\$STUDLY_NAME$\Models\$STUDLY_NAME$;
+
+
+class $CLASS$ extends Controller
+{
+    protected $model = $STUDLY_NAME$::class;
+    protected $keyForPermission = '$LOWER_NAME$';
+}

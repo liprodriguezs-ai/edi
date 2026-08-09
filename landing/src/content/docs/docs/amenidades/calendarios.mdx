@@ -1,0 +1,79 @@
+---
+title: "Calendarios de amenidades"
+description: "Los dos calendarios: el de la administración con todo el detalle, y el anónimo que ven los vecinos."
+sidebar:
+  order: 8
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Hay dos calendarios distintos y la diferencia entre ellos es de privacidad, no de
+funciones.
+
+## Calendario de reservaciones
+
+Para quien administra. Muestra **todas** las reservaciones del condominio,
+coloreadas por amenidad, en vista de mes, semana o día.
+
+Cada evento dice **qué casa** y **qué amenidad**, y al hacer clic se abre el
+detalle de la reservación.
+
+Se filtra por amenidad y tiene un botón para pasar a la vista de lista.
+
+<Aside type="note">
+Quien no tenga permiso de gestionar reservaciones **es redirigido
+automáticamente** al calendario de ocupación. No es un error: es la protección
+que impide que un vecino vea quién reservó qué.
+</Aside>
+
+## Calendario de ocupación
+
+Para todos: residentes, arrendatarios y Comité de Vigilancia.
+
+Muestra **qué está ocupado y qué está libre**, sin decir de quién es. La
+descripción de la pantalla lo dice: *vista anónima, sin datos de unidad ni
+residente*.
+
+Qué información contiene realmente cada evento:
+
+- La amenidad y la fecha
+- La franja horaria
+- Cuántos lugares están ocupados de la capacidad total
+
+Y qué **no** contiene: ni la casa, ni la persona, ni el identificador de la
+reservación. Por eso hacer clic en un evento no abre nada — no hay detalle que
+mostrar.
+
+<Aside type="tip">
+Es el calendario que conviene compartir con los vecinos. Contesta la pregunta
+útil —"¿está libre el salón el sábado?"— sin exponer quién lo apartó.
+</Aside>
+
+## Límite de consulta
+
+El calendario de ocupación consulta hasta **62 días** de rango. Suficiente para
+ver dos meses; si necesitas más, hay que avanzar por bloques.
+
+## Cuál usar para qué
+
+| Necesitas | Usa |
+|---|---|
+| Ver si una fecha está libre | Calendario de ocupación |
+| Saber quién reservó el salón el sábado | Calendario de reservaciones |
+| Revisar qué reservas necesitan aprobación | La lista de **Reservaciones**, filtrando por estado |
+| Que un vecino consulte disponibilidad | Calendario de ocupación, o el asistente de reserva |
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Administrar reservaciones"
+    href="/docs/amenidades/administrar-reservaciones"
+    description="La vista de lista, con las acciones."
+  />
+  <LinkCard
+    title="Reservar como residente"
+    href="/docs/amenidades/reservar-como-residente"
+    description="El asistente ya muestra la disponibilidad al elegir fecha."
+  />
+</CardGrid>

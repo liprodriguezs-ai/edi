@@ -1,0 +1,55 @@
+---
+description: Tailwind CSS v4 y convenciones de estilo
+globs: "**/*.tsx,**/*.ts,**/*.css"
+---
+
+# Tailwind CSS v4 & Styling
+
+## Configuración
+
+- **Tailwind v4**: sin `tailwind.config.ts`. Configuración en CSS.
+- **Entrada** (`src/index.css`): `@import "tailwindcss"`, `@import "tw-animate-css"`, `@import "shadcn/tailwind.css"`, fuentes Geist, `@custom-variant dark`, `@theme inline` con variables.
+- **Vite**: plugin `@tailwindcss/vite`.
+
+## Colores
+
+Definidos como variables CSS en `index.css` (`:root` y `.dark`). Uso en clases:
+
+- `bg-background`, `text-foreground`
+- `bg-card`, `text-card-foreground`
+- `bg-muted`, `text-muted-foreground`
+- `text-primary`, `bg-primary`
+- `bg-destructive`, `text-destructive-foreground`
+- `border-border`, `ring-ring`
+
+No hardcodear hex/rgb; usar tokens del diseño.
+
+## Tipografía
+
+- Fuente: Geist Sans (variables en `@theme`).
+- Títulos: `text-3xl font-bold tracking-tight` (o escala similar).
+- Secundario: `text-muted-foreground`, `text-sm font-medium` según jerarquía.
+
+## Layout y espaciado
+
+- Contenedor de página (DashboardLayout): `flex flex-col gap-2 p-4 lg:p-6 max-w-7xl mx-auto`.
+- Listas: `space-y-6` entre bloques; formularios `space-y-6` / `space-y-5`; grupos de campos `space-y-1`.
+- Grids responsivos: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2` (o gap-4).
+- Tablas: contenedor `overflow-hidden rounded-md border`.
+
+## Utilidad cn()
+
+`cn()` en `@/lib/utils` (clsx + tailwind-merge) para combinar clases de forma segura:
+
+```tsx
+<div className={cn('base-class', condition && 'extra-class', className)}>
+```
+
+## Reglas de estilo
+
+1. Usar **tokens de diseño** (bg-primary, text-muted-foreground, etc.), no colores crudos.
+2. **Mobile-first**: clases base; luego `md:`, `lg:`.
+3. **Espaciado consistente**: escala de Tailwind (gap-2, p-4, space-y-6).
+4. **Border radius**: variable `--radius` (y variantes sm/md/lg en theme).
+5. Evitar `@apply`; preferir clases en JSX.
+6. Responsive: que los layouts funcionen en móvil, tablet y desktop.

@@ -1,0 +1,114 @@
+---
+title: "Lista negra"
+description: "Impedir el acceso de una persona o un vehículo, y la trampa de capturarlo mal."
+sidebar:
+  order: 5
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+La lista negra registra a quién no se le permite entrar al condominio: personas
+o vehículos.
+
+## Quién puede usarla
+
+| Acción | Quién |
+|---|---|
+| Agregar y editar entradas | Administrador · Presidente |
+| **Eliminar** una entrada | Administrador |
+| **Consultarla** | Los anteriores · Secretario · **Seguridad** |
+
+<Aside type="note">
+**El vigilante consulta la lista pero no puede modificarla.** Es deliberado:
+bloquear a alguien es una decisión de la mesa o de la administración, no de quien
+está en turno.
+</Aside>
+
+## Agregar una entrada
+
+<Steps>
+
+1. Entra a **Lista Negra** y presiona para crear una entrada.
+
+2. Elige el **Tipo**: **Visitante** o **Vehículo**.
+
+3. Captura el **Valor (nombre o placa)**.
+
+4. Captura el **Motivo**. Es opcional, pero ver el siguiente apartado.
+
+5. Deja **Activa** encendida y guarda.
+
+</Steps>
+
+## La trampa: hay que escribirlo exacto
+
+<Aside type="caution">
+**La coincidencia es por igualdad exacta del texto**, sin importar mayúsculas.
+No busca parecidos.
+
+Eso significa que:
+
+- *Juan Pérez* **no** bloquea a *Juan Perez* (sin acento).
+- *Juan Pérez* **no** bloquea a *Juan Pérez López*.
+- *ABC-123-4* **no** bloquea a *ABC1234*.
+
+Captura el valor **exactamente como se escribe** al registrar una visita o una
+placa. Si hay dudas de ortografía, crea varias entradas con las variantes
+probables.
+</Aside>
+
+Es la limitación más importante del módulo y la razón por la que una lista negra
+mal capturada da falsa seguridad.
+
+## Qué pasa cuando hay coincidencia
+
+**No se bloquea en silencio.** Al intentar el acceso:
+
+1. Se registra la entrada como **Denegada** en la bitácora — queda constancia de
+   que esa persona se presentó.
+2. Se manda una **alerta urgente** al Administrador y al personal de seguridad,
+   con el nombre y el motivo.
+
+<Aside type="tip">
+Que quede el registro denegado es lo valioso. Saber que alguien vetado intentó
+entrar tres veces en una semana es información que se pierde si el sistema
+simplemente dijera "no".
+</Aside>
+
+La revisión corre en las cuatro vías de entrada: escaneo de pase, entrada manual,
+solicitud de autorización y pase personal de residente.
+
+## Escribe siempre el motivo
+
+Aunque el campo sea opcional, una entrada sin motivo es un problema en seis
+meses: nadie recuerda por qué está ahí y nadie se atreve a quitarla.
+
+> *Orden de restricción vigente. Acuerdo de mesa directiva del 14 de marzo de
+> 2026.*
+
+## Desactivar en vez de eliminar
+
+El interruptor **Activa** apaga la entrada sin borrarla. Si la situación se
+resuelve, desactívala: conservas el antecedente por si vuelve a ocurrir.
+
+## Bloquear a un residente es otra cosa
+
+Si necesitas impedirle el acceso a alguien que **vive** en el condominio, no uses
+esta pantalla: usa
+[Bloquear residente](/docs/estructura/bloquear-o-dar-de-baja), que además de
+agregarlo aquí le deshabilita la cuenta.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Bloquear o dar de baja a un residente"
+    href="/docs/estructura/bloquear-o-dar-de-baja"
+    description="Para vecinos, no para visitantes."
+  />
+  <LinkCard
+    title="Caseta"
+    href="/docs/accesos/caseta"
+    description="Donde se aplica la revisión."
+  />
+</CardGrid>

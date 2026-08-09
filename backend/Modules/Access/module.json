@@ -1,0 +1,12 @@
+{
+    "name": "Access",
+    "alias": "access",
+    "description": "Control de Accesos — Module 10",
+    "tenancy": "tenant",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Access\\Providers\\AccessServiceProvider"
+    ],
+    "files": []
+}

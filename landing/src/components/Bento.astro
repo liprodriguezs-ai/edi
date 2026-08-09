@@ -1,0 +1,84 @@
+---
+import { platformHead, bento } from '@/data/site';
+import SectionHead from '@/components/SectionHead.astro';
+import { Image } from 'astro:assets';
+
+// Literal class strings so Tailwind's scanner emits them (no dynamic concat).
+const spanClass: Record<2 | 3 | 4, string> = {
+  2: 'col-span-2 max-[920px]:col-span-1',
+  3: 'col-span-3 max-[920px]:col-span-1',
+  4: 'col-span-4 max-[920px]:col-span-1',
+};
+const delayClass: Record<1 | 2, string> = {
+  1: 'reveal-d1',
+  2: 'reveal-d2',
+};
+---
+
+<section class="pb-32 pt-24" aria-labelledby="plataforma-title">
+  <div class="wrap">
+    <SectionHead
+      eyebrow={platformHead.eyebrow}
+      titleLead={platformHead.titleLead}
+      titleEm={platformHead.titleEm}
+      body={platformHead.body}
+      titleId="plataforma-title"
+      anchorId="plataforma"
+    />
+
+    <div class="grid grid-cols-6 items-start gap-3.5 max-[920px]:grid-cols-2 max-[620px]:grid-cols-1">
+      {
+        bento.map((card) => (
+          <article
+            id={card.id}
+            class:list={[
+              'reveal flex flex-col gap-2 overflow-hidden rounded-card border border-line bg-white p-[26px] shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-[3px] hover:shadow-[0_24px_50px_-28px_rgba(20,24,26,0.3)]',
+              spanClass[card.span],
+              card.delay && delayClass[card.delay],
+            ]}
+          >
+            <p class="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sage-deep">
+              {card.tag}
+            </p>
+            <h3 class="max-w-[18ch] font-serif text-[25px] font-semibold leading-[1.08] tracking-[-0.005em]">
+              {card.title}
+            </h3>
+            {card.body && <p class="max-w-[42ch] text-[14px] text-ink-soft">{card.body}</p>}
+            <div class="mt-auto pt-[18px]">
+              <button
+                type="button"
+                data-lightbox
+                data-lightbox-src={card.image.src}
+                data-lightbox-alt={card.imageAlt}
+                aria-haspopup="dialog"
+                aria-label={`Ampliar: ${card.title}`}
+                class="group/img relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-line-soft shadow-[0_18px_40px_-26px_rgba(20,24,26,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage-deep"
+              >
+                <Image
+                  src={card.image}
+                  alt={card.imageAlt}
+                  class="aspect-[16/10] w-full object-cover object-top"
+                  widths={[440, 760, 1100]}
+                  sizes="(max-width: 620px) 100vw, (max-width: 920px) 50vw, 40vw"
+                />
+                <span
+                  class="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/80 px-2.5 py-1 text-[10px] font-medium text-paper opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/img:opacity-100"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" class="h-3 w-3" aria-hidden="true">
+                    <path
+                      d="M9 4H5a1 1 0 00-1 1v4M15 4h4a1 1 0 011 1v4M9 20H5a1 1 0 01-1-1v-4M15 20h4a1 1 0 001-1v-4"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                  Ampliar
+                </span>
+              </button>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

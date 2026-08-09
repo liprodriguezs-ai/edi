@@ -1,0 +1,38 @@
+---
+description: Contexto de producto y dominio
+alwaysApply: true
+---
+
+# Contexto de producto — CRM y Cumplimiento Laboral
+
+## Qué es el producto
+
+SaaS de **Cumplimiento Laboral** sobre un **CRM multi-company**: gestión de empresas (tenants), usuarios, roles, permisos, colaboradores, expedientes digitales, documentos, plantillas de contrato y generación de contratos. Objetivo: que la empresa esté lista para inspecciones y protegida legalmente.
+
+## Roles
+
+- **MASTER_ADMIN / SUPER_ADMIN**: panel master (tenants, planes).
+- **COMPANY_ADMIN / ACCOUNT_OWNER**: administración de la empresa.
+- **RH**: recursos humanos (colaboradores, expedientes, contratos).
+- **COLLABORATOR**: vista solo lectura de su expediente y documentos.
+
+## Áreas principales
+
+- **Colaboradores**: CRUD, importación Excel, detalle con expediente (documentos con checklist 🟢/🟡/🔴).
+- **Documentos y plantillas**: tipos de documento, plantillas DOCX, variables {{campo}}, mapeo a datos del colaborador.
+- **Contratos**: generación individual o masiva desde datos del colaborador y plantilla; descarga Word/PDF (o simulado).
+- **Tenants (master)**: listado de empresas, wizard de alta, planes, indicador de DB aislada por tenant.
+- **Suscripciones**: planes, cambio de plan, guard de suscripción activa (SubscriptionGuard).
+
+## UX
+
+- **RH/Admin**: desktop-first; tablas, filtros, KPIs.
+- **Colaborador**: mobile-first; cards, acordeones, solo lectura.
+- **Estilo**: Muted Tech (fondos crema/verde tenue), cards con sombra suave, bordes redondeados, badges accesibles (verde/ámbar/rojo).
+- **Accesibilidad**: contraste AA, teclado, ARIA en labels y errores, foco en modales.
+
+## Restricciones técnicas
+
+- Sin landing pública; rutas bajo `/app/*` protegidas.
+- Arquitectura frontend según reglas del proyecto (módulos, shared, alias `@/`).
+- No modificar pantallas ya definidas sin acuerdo; mantener el MVP enfocado.

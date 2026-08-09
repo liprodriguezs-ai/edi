@@ -1,0 +1,11 @@
+{
+    "name": "Package",
+    "alias": "package",
+    "description": "Módulo de paquetería y control de recepción de envíos",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Package\\Providers\\PackageServiceProvider"
+    ],
+    "files": []
+}

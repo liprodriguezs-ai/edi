@@ -1,0 +1,71 @@
+---
+description: Comandos, calidad de código y buenas prácticas
+globs: "**/*.ts,**/*.tsx"
+---
+
+# Development Workflow & Best Practices
+
+## Comandos
+
+| Comando | Uso |
+|---------|-----|
+| `pnpm dev` | Servidor de desarrollo Vite |
+| `pnpm build` | `tsc -b && vite build` |
+| `pnpm lint` | ESLint |
+| `pnpm preview` | Vista previa del build |
+
+## Calidad de código
+
+- **Pre-commit**: Husky + lint-staged (Prettier en archivos staged) + Commitlint (conventional commits).
+- **ESLint**: imports con `@/`; max-lines 500; complexity 15; no-console (sí warn/error); no-shadow; single quotes.
+- **TypeScript**: strict; verbatimModuleSyntax; no unused locals/params.
+
+## Principios
+
+- **Responsabilidad única**: un archivo, un propósito (schema, store, resource, hook, componente).
+- **Composición**: extender mediante useBaseList, useBaseCrud, createEntityStore, createCrudApi en lugar de duplicar lógica.
+- **Nombres claros**: handlers `handle*`, callbacks `on*`, booleanos `is*`/`can*`.
+- **Early returns** en componentes para loading/empty.
+- **Evitar ternarios anidados**: extraer a variables o funciones.
+
+## Performance
+
+- Filas de tabla: `memo` + `checkMemoListProps`.
+- Handlers pasados a hijos: `useCallback` con dependencias correctas.
+- Store: preferir selectores (`useStore(store, s => s.isLoading)`) en lugar de desestructurar todo el store cuando solo se necesitan pocos campos.
+- `useMemo` solo para derivaciones costosas.
+
+## Tamaño de archivos
+
+- Límite recomendado 500 líneas (ESLint warn). Si un archivo crece, extraer subcomponentes o hooks.
+
+## Checklist nuevo módulo
+
+- schema.ts con Zod e interfaz
+- store con createEntityStore
+- resource con basePath correcto
+- hook useEntityList (useBaseList)
+- CompanyTableRow con memo y checkMemoListProps
+- Form con useBaseCrud y validación
+- FormModal con footer (Cancelar + Submit)
+- List (SearchList, tabla, Pagination, modales, ConfirmDialog)
+- ListPage que renderice List
+- Ruta en App.tsx (y PermissionRoute si aplica)
+- Enlace en sidebar según permisos
+
+## Errores
+
+- API: ApiError; 401 → logout; 403 → modal permisos; 422 → payload con errores de validación.
+- Formularios: Zod en cliente; 422 del backend mapeado a errores de campo cuando corresponda.
+- Mensajes al usuario en español cuando sea posible.
+
+## Seguridad
+
+- Token en interceptor; no datos sensibles en URL para búsquedas (POST search).
+- Validación con Zod antes de enviar; PermissionGuard y usePermissions en UI.
+- Evitar dangerouslySetInnerHTML.
+
+## Tests
+
+- Vitest + Testing Library; tests junto al código o en carpeta `__tests__` según convención del equipo.
+- Prioridad: schemas Zod, hooks (useBaseList, useBaseCrud), flujos críticos (login, CRUD).

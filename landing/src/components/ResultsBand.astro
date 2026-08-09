@@ -1,0 +1,25 @@
+---
+import { results } from '@/data/site';
+---
+
+<section id="resultados" class="scroll-mt-24 pb-32">
+  <h2 class="sr-only">Resultados</h2>
+  <div
+    class="reveal mx-auto grid max-w-page grid-cols-3 gap-12 rounded-band bg-ink p-16 text-paper max-[1260px]:mx-8 max-[760px]:grid-cols-1 max-[760px]:p-12"
+  >
+    {
+      results.map((stat) => (
+        <div>
+          <p class="font-serif text-[clamp(48px,5.5vw,76px)] leading-[0.95]">
+            {stat.prefix}
+            <span data-count={stat.value}>{stat.value}</span>
+            {stat.unit && <em class="text-[0.55em] italic text-[#A9B6A2]">{stat.unit}</em>}
+          </p>
+          <p class="mt-3 max-w-[24ch] text-[14px] text-[#B4B3AC]">
+            <b class="font-semibold text-paper">{stat.captionStrong}</b> {stat.caption}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>

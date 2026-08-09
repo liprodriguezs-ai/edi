@@ -1,0 +1,75 @@
+---
+description: Estándares TypeScript y React
+globs: "**/*.ts,**/*.tsx"
+---
+
+# TypeScript & React
+
+## TypeScript
+
+- **Target**: ES2022, **strict**: true
+- **Path alias**: `@/*` → `src/*`
+- **verbatimModuleSyntax**: imports de solo tipo con `import type`
+- **Erasable syntax only**, **noUnusedLocals** / **noUnusedParameters**
+
+```typescript
+import type { ICompany } from '@/modules/company/schema'
+import type { IEntity } from '@/shared/interfaces/Entity'
+import { useCallback, useState } from 'react'
+```
+
+## Estructura de componentes
+
+Orden recomendado: estado/hooks → estado local → permisos → callbacks → early returns → JSX.
+
+- Handlers: prefijo `handle` (`handleCreate`, `handleEdit`, `handleDeleteConfirm`).
+- Callbacks de hooks: prefijo `on` (`onSearch`, `onRemove`, `onPageChanged`).
+- Booleanos: nombres positivos (`isOpen`, `isLoading`, `canEdit`).
+
+## Interfaces compartidas
+
+En `@/shared/interfaces/list.types.ts`:
+
+- **IEntityTableRowProps&lt;T&gt;** — entity, canEdit, canDelete, isLoading, isDeleting, isSaving, onEdit, onDelete, onDetail (opcional).
+- **IEntityFormModalProps&lt;T&gt;** — isOpen, mode, entity, onClose, onSuccess.
+- **checkMemoListProps&lt;T&gt;** — comparación para memo de filas de tabla.
+
+## Hooks de módulo
+
+List: `useBaseList` con store, resource, autoInit, initialSearch (sort, etc.).
+
+Form: `useBaseCrud` con store, resource `{ save: Resource.create, update: Resource.update, delete: Resource.remove }`, mode, entityId, initialData.
+
+## Formularios
+
+React Hook Form + Zod: `useForm` con `zodResolver(schema)` y `defaultValues` derivados de la entidad. Errores de campo con componente de error (p. ej. `text-destructive` o FormInputError si existe).
+
+## Store Zustand
+
+- Entity store: `createEntityStore<T>(name)` — entities, pagination, isLoading, isSaving, isDeleting, operaciones de entidad.
+- Session: store vanilla; en React usar `useStore(sessionStore, selector)`; fuera de React `sessionStore.getState()`.
+
+## Memoización
+
+- Filas de tabla: `memo` con `checkMemoListProps` y `displayName`.
+- Handlers que se pasan como props: `useCallback` con dependencias correctas.
+
+## Organización de imports
+
+React → librerías → `@/components/ui` → `@/shared/components` → módulo → `@/shared` (hooks, enums, interfaces). Siempre `@/`.
+
+## ESLint relevante
+
+- **no-restricted-imports**: prohíbe `../**` y `./**` (usar `@/`).
+- **max-lines**: 500 (warning).
+- **complexity**: 15 (error).
+- **no-console**: error (permitidos warn/error).
+- **quotes**: single.
+- **no-shadow**: error.
+
+## Errores
+
+- API: interceptor devuelve `ApiError(message, status, payload)`.
+- 401: logout y redirect a login.
+- 403: modal de permisos (usePermissionsModal).
+- 422: errores de validación en payload.

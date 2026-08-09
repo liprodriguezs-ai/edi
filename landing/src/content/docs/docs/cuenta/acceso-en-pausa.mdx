@@ -1,0 +1,123 @@
+---
+title: "Cuando el acceso está en pausa"
+description: "Las tres razones por las que Kivo7 deja de dejar entrar a todo el condominio, y cómo se sale de cada una."
+sidebar:
+  order: 4
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Kivo7 pausa el acceso de **todo el condominio** cuando la suscripción no está
+activa. No es un aviso que se pueda posponer: el vigilante deja de registrar
+entradas, el tesorero deja de capturar pagos y los vecinos dejan de ver su
+estado de cuenta.
+
+Los datos no se tocan. Las casas, los cargos, los pagos y la bitácora siguen
+completos; al reactivar, todo vuelve a estar donde estaba.
+
+## Quién lo resuelve
+
+**Solo el Propietario de la cuenta** — quien registró el condominio. Es el único
+que ve las pantallas de abajo con sus botones. Cualquier otra persona ve *El
+acceso está en pausa* y solo puede cerrar sesión.
+
+## Las tres razones
+
+La pantalla que ve el Propietario te dice cuál de las tres es. Se leen distinto a
+propósito:
+
+| Lo que dice la pantalla | Qué pasó | Cómo se sale |
+|---|---|---|
+| *Elige tu plan para empezar* | Te registraste y nunca contrataste | [Elige un plan](#nunca-elegiste-plan) |
+| *Tu prueba terminó* | Se acabaron los 30 días gratis | [Elige un plan](#se-acabó-la-prueba) |
+| *No pudimos procesar tu pago* | El banco rechazó el cargo | [Actualiza tu tarjeta](#el-cobro-falló) |
+
+## Nunca elegiste plan
+
+Tu condominio está creado pero nunca pasó por la pantalla de planes, así que
+nunca empezó la prueba.
+
+Presiona **Ver planes**, elige el que corresponde al número de casas y registra
+tu tarjeta. Ahí empiezan tus 30 días gratis y hoy no pagas nada.
+
+→ [Crear tu cuenta y elegir plan](/docs/empezar/crear-cuenta-y-plan)
+
+<Aside type="note">
+Este estado no caduca ni borra nada. Un condominio que se quedó aquí seis meses
+sigue igual el día que decidan contratar, con lo que hayan alcanzado a capturar.
+</Aside>
+
+## Se acabó la prueba
+
+Pasaron los 30 días y la suscripción no quedó activa. Pasa por dos caminos: se
+canceló antes del primer cargo, o la prueba era **de cortesía** —de las que da el
+equipo de Kivo7 al dar de alta un condominio— y nunca se contrató un plan. La de
+cortesía no se convierte sola: hay que contratar antes de que venza.
+
+Presiona **Elegir plan** y contrata. Tu información sigue completa.
+
+<Aside type="note">
+Al recontratar después de una prueba ya usada **no hay días gratis otra vez**: el
+cobro se hace de inmediato. Los 30 días son uno por condominio.
+</Aside>
+
+<Aside type="tip">
+Para no llegar aquí por sorpresa, la fecha del último día gratis está en **Mi
+suscripción** desde el primer día.
+→ [Cuánto te queda de prueba](/docs/cuenta/planes-y-precios#cuánto-te-queda-de-prueba)
+</Aside>
+
+## El cobro falló
+
+El banco rechazó el cargo —tarjeta vencida, fondos insuficientes o un bloqueo del
+propio banco— y el acceso quedó en pausa el mismo día. **No hay días de gracia**,
+ni cuando es el primer cargo al terminar la prueba ni en una renovación.
+
+<Steps>
+
+1. Presiona **Actualizar mi tarjeta**. Se abre el portal de Stripe, que es donde
+   viven los datos de pago.
+
+2. Captura la tarjeta nueva y guarda.
+
+3. Vuelve a Kivo7. En cuanto el pago se confirma, el acceso se reactiva solo. No
+   tienes que avisarle a nadie ni volver a contratar.
+
+</Steps>
+
+La pantalla no te muestra los planes: tu tarea es la tarjeta, no volver a
+elegir. Si de verdad lo que quieres es pagar menos, el enlace **Prefiero cambiar
+de plan** los revela.
+
+<Aside type="caution">
+Mientras el cobro no pase, el condominio sigue en pausa. Si el cargo era de la
+quincena en que se emiten los recibos, avísale a la mesa: nadie va a poder
+capturar pagos hasta que se resuelva.
+</Aside>
+
+<Aside type="tip">
+Si tu tarjeta está bien y el cobro sigue fallando, escríbele al equipo de Kivo7 a
+`hola@kivo7.com`. Suele ser un bloqueo del banco a cargos recurrentes, y se
+resuelve autorizándolo desde la aplicación de tu banco.
+</Aside>
+
+## Si cancelaste a propósito
+
+Es otro camino, no un error: se vuelve a contratar desde la misma pantalla.
+
+→ [Cancelar y reanudar](/docs/cuenta/cancelar-y-reanudar)
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Cambiar de plan o de periodicidad"
+    href="/docs/cuenta/cambiar-de-plan"
+    description="Dónde se actualiza la tarjeta sin esperar a que falle un cobro."
+  />
+  <LinkCard
+    title="Planes y precios"
+    href="/docs/cuenta/planes-y-precios"
+    description="Qué rango de casas cubre cada plan."
+  />
+</CardGrid>

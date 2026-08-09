@@ -1,0 +1,751 @@
+---
+import { pricing } from '@/data/site';
+import SectionHead from '@/components/SectionHead.astro';
+import Button from '@/components/Button.astro';
+
+const defaultIndex = Math.max(
+  0,
+  pricing.tiers.findIndex((t) => t.highlight),
+);
+---
+
+<section class="pb-32 pt-24" aria-labelledby="pricing-title">
+  <div class="wrap">
+    <SectionHead
+      eyebrow={pricing.eyebrow}
+      titleLead={pricing.title}
+      body={pricing.lede}
+      titleId="pricing-title"
+      anchorId="precios"
+    />
+
+    {/* ============================================================= *
+     * FALLBACK ESTÁTICO — render en servidor, SIEMPRE presente.      *
+     * Si el catálogo público no carga (API caída / CORS), este       *
+     * bloque queda tal cual y la sección sigue siendo funcional.     *
+     * Incluye el tier de venta consultiva (`contactSales`) como una  *
+     * card hermana de los planes con precio.                         *
+     * ============================================================= */}
+    <div data-pricing-static>
+      <div data-pricing class="reveal mx-auto max-w-[860px]">
+        {/* Selector de tamaño */}
+        <p class="mb-4 text-center text-[13px] font-medium text-ink-soft">
+          ¿Cuántas casas tiene tu fraccionamiento?
+        </p>
+        <div
+          role="group"
+          aria-label="Tamaño del fraccionamiento"
+          class="mx-auto flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-full border border-line bg-card p-1.5"
+        >
+          {
+            pricing.tiers.map((tier, i) => (
+              <button
+                type="button"
+                data-size={i}
+                aria-pressed={i === defaultIndex ? 'true' : 'false'}
+                class:list={[
+                  'rounded-full px-4 py-2 text-[13px] font-semibold tracking-[0.01em] transition-colors',
+                  i === defaultIndex ? 'bg-ink text-paper' : 'text-ink-soft hover:text-ink',
+                ]}
+              >
+                {tier.range.replace(' casas', '')}
+              </button>
+            ))
+          }
+        </div>
+
+        {/* Escenario: el plan elegido, en tinta con el precio gigante */}
+        <div
+          class="relative mt-7 overflow-hidden rounded-band bg-[linear-gradient(135deg,#1d2426,#14181a)] text-paper shadow-[0_50px_120px_-50px_rgba(20,24,26,0.6)]"
+        >
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-sage)_32%,transparent),transparent)]"
+          >
+          </div>
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-white/[0.03]"
+          >
+          </div>
+
+          {
+            pricing.tiers.map((tier, i) => (
+              <div
+                data-plan
+                hidden={i !== defaultIndex || undefined}
+                class="relative grid grid-cols-[1.25fr_1fr] items-center gap-8 p-10 max-[680px]:grid-cols-1 max-[680px]:gap-7 max-[680px]:p-8"
+              >
+                <div>
+                  <p class="flex flex-wrap items-center gap-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#A9B6A2]">
+                    Plan {tier.name}
+                    {tier.highlight && (
+                      <span class="rounded-full bg-sage-bg px-2 py-0.5 text-[9.5px] font-semibold tracking-[0.06em] text-sage-deep">
+                        Más elegido
+                      </span>
+                    )}
+                  </p>
+
+                  {tier.contactSales ? (
+                    <>
+                      <p class="mt-4 font-serif text-[clamp(30px,4.2vw,42px)] font-medium leading-[1.05] tracking-[-0.01em]">
+                        ¿Más de 300 casas?
+                      </p>
+                      <p class="mt-3 max-w-[38ch] text-[13.5px] leading-relaxed text-[#C9CCC2]">
+                        {tier.blurb}
+                      </p>
+                      <p class="mt-3 text-[12.5px] text-[#8E9788]">
+                        Precio a la medida <span class="px-1 text-[#5a6957]">·</span> mismas
+                        funciones, sin módulos extra
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p class="mt-1.5 text-[13.5px] text-[#C9CCC2]">
+                        Para fraccionamientos de {tier.range}
+                      </p>
+                      <p class="mt-6 flex items-baseline gap-2.5">
+                        <span class="font-serif text-[clamp(54px,7vw,82px)] font-medium leading-[0.85] tracking-[-0.01em]">
+                          {tier.price}
+                        </span>
+                        <span class="text-[14px] leading-[1.15] text-[#C9CCC2]">
+                          MXN
+                          <br />/ mes
+                        </span>
+                      </p>
+                      <p class="mt-3 text-[12.5px] text-[#8E9788]">
+                        IVA incluido <span class="px-1 text-[#5a6957]">·</span> todo el producto
+                        incluido
+                      </p>
+                      {tier.proposed && (
+                        <p class="mt-1.5 text-[11.5px] italic text-[#8E9788]">
+                          Precio propuesto — sujeto a confirmación
+                        </p>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                <div class="flex flex-col gap-3.5 max-[680px]:items-stretch">
+                  <Button
+                    href={tier.href}
+                    label={tier.cta}
+                    variant="light"
+                    class="w-full justify-center"
+                    event="Lead"
+                  />
+                  <p class="text-center text-[12px] text-[#A9B6A2] max-[680px]:text-center">
+                    {
+                      tier.contactSales
+                        ? 'Te respondemos el mismo día hábil'
+                        : '30 días gratis · Hoy no pagas nada · Cancela cuando quieras'
+                    }
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      {/* Todo incluido en cualquier plan + notas — un panel cohesivo bajo el escenario */}
+      <div
+        class="reveal mx-auto mt-8 max-w-[860px] rounded-card border border-line bg-card px-9 py-8 max-[680px]:px-6 max-[680px]:py-6"
+      >
+        <p
+          class="mb-6 text-center text-[11.5px] font-semibold uppercase tracking-[0.18em] text-sage-deep"
+        >
+          {pricing.includesTitle}
+        </p>
+        <ul class="grid grid-cols-3 gap-x-8 gap-y-4 max-[680px]:grid-cols-1 max-[680px]:gap-y-3">
+          {
+            pricing.includes.map((item) => (
+              <li class="flex items-start gap-2.5 text-[13.5px] text-ink-soft">
+                <span
+                  class="mt-px flex h-[18px] w-[18px] flex-none items-center justify-center rounded-full bg-sage-bg text-[10px] font-bold text-sage-deep"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-7 border-t border-line pt-5 text-center text-[11.5px] leading-relaxed text-ink-faint">
+          {pricing.notes.join('  ·  ')}
+        </p>
+      </div>
+    </div>
+
+    {/* ============================================================= *
+     * VERSIÓN INTERACTIVA — checkout angosto: precio del PLAN (no    *
+     * hay módulos vendibles) + periodicidad + CTA. El <script> la    *
+     * puebla desde el catálogo público y la muestra sólo si el fetch *
+     * tuvo éxito; si algo falla gana el fallback estático.           *
+     * El plan `is_contact_sales` cambia la card a modo Contáctanos.  *
+     * ============================================================= */}
+    <div data-pricing-interactive data-default-index={defaultIndex} hidden class="mx-auto max-w-[640px]">
+      <p class="mb-4 text-center text-[13px] font-medium text-ink-soft">
+        ¿Cuántas casas tiene tu fraccionamiento?
+      </p>
+      <div
+        data-plan-tabs
+        role="group"
+        aria-label="Tamaño del fraccionamiento"
+        class="mx-auto flex w-fit max-w-full flex-wrap justify-center gap-1 rounded-full border border-line bg-card p-1.5"
+      >
+      </div>
+
+      {/* Resumen compacto — precio del plan + periodicidad + CTA */}
+      <div
+        data-price-card
+        class="relative mt-7 overflow-hidden rounded-band bg-[linear-gradient(135deg,#1d2426,#14181a)] text-paper shadow-[0_50px_120px_-50px_rgba(20,24,26,0.6)]"
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-sage)_32%,transparent),transparent)]"
+        >
+        </div>
+        <div class="relative flex flex-wrap items-center justify-between gap-x-8 gap-y-5 p-7 max-[680px]:p-6">
+          <div>
+            <p class="text-[12px] font-semibold uppercase tracking-[0.18em] text-[#A9B6A2]">
+              Plan <span data-plan-name></span>
+            </p>
+
+            {/* Estado A: plan con precio */}
+            <div data-price-view>
+              <p class="mt-3 flex items-baseline gap-2.5" aria-live="polite">
+                <span
+                  data-price
+                  class="font-serif text-[clamp(44px,6vw,58px)] font-medium leading-[0.85] tracking-[-0.01em]"
+                  >$0</span
+                >
+                <span class="text-[13px] leading-[1.2] text-[#C9CCC2]">
+                  MXN
+                  <br />
+                  / <span data-interval-label>mes</span>
+                </span>
+              </p>
+              <p class="mt-2 text-[12px] text-[#8E9788]">
+                IVA incluido <span class="px-1 text-[#5a6957]">·</span>
+                <span data-plan-range></span>
+              </p>
+            </div>
+
+            {/* Estado B: venta consultiva (más de 300 casas) */}
+            <div data-contact-view hidden>
+              <p
+                class="mt-3 font-serif text-[clamp(28px,4vw,38px)] font-medium leading-[1.05] tracking-[-0.01em]"
+              >
+                ¿Más de 300 casas?
+              </p>
+              <p class="mt-3 max-w-[38ch] text-[13px] leading-relaxed text-[#C9CCC2]">
+                Armamos un plan a tu medida, con acompañamiento en la migración y precio acorde al
+                tamaño de tu comunidad.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col items-stretch gap-3 max-[680px]:w-full">
+            <div
+              data-interval-toggle
+              role="group"
+              aria-label="Periodicidad de facturación"
+              class="inline-flex justify-center gap-1 self-center rounded-full border border-white/15 bg-white/[0.04] p-1"
+            >
+              <button
+                type="button"
+                data-interval="month"
+                aria-pressed="true"
+                class="rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition-colors bg-paper text-ink"
+              >
+                Mensual
+              </button>
+              <button
+                type="button"
+                data-interval="year"
+                aria-pressed="false"
+                class="rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition-colors text-[#C9CCC2] hover:text-paper"
+              >
+                Anual
+              </button>
+            </div>
+            <a
+              data-cta
+              href="#"
+              data-track-event="Lead"
+              class="inline-flex items-center justify-center gap-[9px] whitespace-nowrap rounded-full bg-paper px-6 py-3 text-[13.5px] font-semibold text-ink transition-colors duration-200 hover:bg-sage hover:text-white"
+            >
+              Empezar gratis
+            </a>
+            <p data-cta-note class="text-center text-[11.5px] text-[#A9B6A2]">
+              30 días gratis · Hoy no pagas nada · Cancela cuando quieras
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Todo incluido en cualquier plan — server-render desde site.ts; si el  *
+       * módulo base del catálogo trae `features`, el script las reemplaza.     */}
+      <div data-includes-panel class="mt-4 rounded-card border border-line bg-white px-7 py-6 max-[680px]:px-5">
+        <p
+          class="mb-5 text-center text-[11.5px] font-semibold uppercase tracking-[0.18em] text-sage-deep"
+        >
+          {pricing.includesTitle}
+        </p>
+        <ul data-includes class="grid grid-cols-2 gap-x-6 gap-y-3 max-[680px]:grid-cols-1">
+          {
+            pricing.includes.map((item) => (
+              <li class="flex items-start gap-2.5 text-[13px] text-ink-soft">
+                <span
+                  class="mt-px flex h-[17px] w-[17px] flex-none items-center justify-center rounded-full bg-sage-bg text-[9px] font-bold text-sage-deep"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="mt-4 text-center text-[11.5px] leading-relaxed text-ink-faint">
+        {pricing.notes.join('  ·  ')}
+      </p>
+
+      {/* Dock de precio — pill flotante que entra con resorte cuando el   *
+       * resumen sale de vista: plan + precio + toggle de periodicidad     *
+       * FUNCIONAL + CTA. Se oculta por completo en el plan a medida.      *
+       * `inert` lo saca del teclado mientras está oculto.                 */}
+      <div
+        data-sticky-bar
+        aria-hidden="true"
+        inert
+        class="pointer-events-none fixed inset-x-0 bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] z-40 flex justify-center px-3"
+      >
+        <div
+          data-sticky-inner
+          class="dock-out pointer-events-auto flex w-[min(680px,100%)] flex-wrap items-center justify-between gap-x-5 gap-y-2 rounded-2xl border border-white/10 bg-[linear-gradient(135deg,#1d2426,#14181a)] px-5 py-2.5 text-paper shadow-[0_24px_60px_-18px_rgba(20,24,26,0.65)]"
+        >
+          {/* Grupo 1: plan + precio */}
+          <div class="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5">
+            <p
+              class="whitespace-nowrap text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#A9B6A2]"
+            >
+              Plan <span data-sticky-plan></span>
+            </p>
+            <p class="flex items-baseline gap-1.5">
+              <span data-sticky-total class="font-serif text-[24px] font-medium leading-none">$0</span
+              >
+              <span data-sticky-interval class="whitespace-nowrap text-[11px] text-[#C9CCC2]"></span>
+            </p>
+          </div>
+          {/* Grupo 2: periodicidad + CTA */}
+          <div class="flex flex-wrap items-center gap-2">
+            <div
+              role="group"
+              aria-label="Periodicidad de facturación"
+              class="inline-flex gap-1 rounded-full border border-white/15 bg-white/[0.04] p-1"
+            >
+              <button
+                type="button"
+                data-interval="month"
+                aria-pressed="true"
+                class="rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition-colors bg-paper text-ink"
+              >
+                Mensual
+              </button>
+              <button
+                type="button"
+                data-interval="year"
+                aria-pressed="false"
+                class="rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition-colors text-[#C9CCC2] hover:text-paper"
+              >
+                Anual
+              </button>
+            </div>
+            <a
+              data-sticky-cta
+              href="#"
+              data-track-event="Lead"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-paper px-4 py-2 text-[12.5px] font-semibold text-ink transition-colors duration-200 hover:bg-sage hover:text-white"
+            >
+              Empezar gratis
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style is:global>
+    /* Dock de precio: entrada con resorte / salida rápida */
+    @keyframes kivo-dock-in {
+      0% { transform: translateY(130%) scale(0.94); opacity: 0; }
+      65% { transform: translateY(-6px) scale(1.005); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .dock-in { animation: kivo-dock-in 0.5s cubic-bezier(0.22, 0.9, 0.3, 1.15) both; }
+    .dock-out {
+      transform: translateY(130%);
+      opacity: 0;
+      transition: transform 0.22s ease-in, opacity 0.22s ease-in;
+    }
+    /* Pop del total cuando cambia el monto */
+    @keyframes kivo-price-pop {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.12); color: #dce5d3; }
+      100% { transform: scale(1); }
+    }
+    .price-pop { display: inline-block; animation: kivo-price-pop 0.38s ease-out; }
+    @media (prefers-reduced-motion: reduce) {
+      .dock-in { animation: none; transform: none; opacity: 1; }
+      .dock-out { transition: none; }
+      .price-pop { animation: none; }
+    }
+  </style>
+
+  <script>
+    // ------------------------------------------------------------------ //
+    // 1) Fallback estático: el selector de tamaño alterna entre los       //
+    //    planes server-render (incluida la card "Contáctanos"). Funciona  //
+    //    SIN el catálogo (mejora progresiva base).                        //
+    // ------------------------------------------------------------------ //
+    const staticRoot = document.querySelector<HTMLElement>('[data-pricing]');
+
+    if (staticRoot) {
+      const tabs = Array.from(staticRoot.querySelectorAll<HTMLButtonElement>('[data-size]'));
+      const plans = Array.from(staticRoot.querySelectorAll<HTMLElement>('[data-plan]'));
+
+      const show = (n: number) => {
+        plans.forEach((plan, i) => {
+          plan.hidden = i !== n;
+        });
+        tabs.forEach((tab, i) => {
+          const active = i === n;
+          tab.setAttribute('aria-pressed', active ? 'true' : 'false');
+          tab.classList.toggle('bg-ink', active);
+          tab.classList.toggle('text-paper', active);
+          tab.classList.toggle('text-ink-soft', !active);
+        });
+      };
+
+      tabs.forEach((tab, i) => tab.addEventListener('click', () => show(i)));
+    }
+
+    // ------------------------------------------------------------------ //
+    // 2) Mejora interactiva: trae el catálogo público y, si carga, arma   //
+    //    el resumen con el precio del PLAN (ya no se suman módulos: todo  //
+    //    el producto va en el plan base). Todo el enhancement va en       //
+    //    try/catch — si el fetch falla el fallback estático queda intacto.//
+    // ------------------------------------------------------------------ //
+    interface CatalogPrice {
+      unit_amount: number;
+      is_free?: boolean;
+      currency: string;
+    }
+    interface CatalogModule {
+      module_key?: string;
+      key?: string;
+      name: string;
+      description?: string;
+      is_base: boolean;
+      features?: string[];
+    }
+    interface CatalogPlan {
+      key: string;
+      name: string;
+      suggested_unit_min: number;
+      suggested_unit_max: number | null;
+      is_contact_sales?: boolean;
+      modules?: CatalogModule[];
+      /** SIEMPRE objeto ({} cuando el plan no tiene precio). */
+      prices?: Partial<Record<Interval, CatalogPrice>>;
+    }
+    interface PlanCatalog {
+      currency: string;
+      max_billable_units?: number;
+      contact?: { email?: string | null; whatsapp?: string | null };
+      plans: CatalogPlan[];
+    }
+
+    type Interval = 'month' | 'year';
+
+    const API_BASE = import.meta.env.PUBLIC_API_BASE_URL ?? 'http://localhost:8080/api';
+    const APP_URL = import.meta.env.PUBLIC_APP_URL ?? 'https://app.kivo7.com';
+    const FALLBACK_CONTACT_EMAIL = 'hola@kivo7.com';
+    const pesos = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 });
+
+    async function enhancePricing(): Promise<void> {
+      const staticEl = document.querySelector<HTMLElement>('[data-pricing-static]');
+      const interactiveEl = document.querySelector<HTMLElement>('[data-pricing-interactive]');
+      if (!staticEl || !interactiveEl) return;
+
+      // --- Traer el catálogo. Cualquier fallo → dejamos el fallback. ---
+      let catalog: PlanCatalog;
+      try {
+        const res = await fetch(`${API_BASE}/billing/plan-catalog`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) return;
+        catalog = (await res.json()) as PlanCatalog;
+      } catch {
+        return;
+      }
+
+      const plans = Array.isArray(catalog?.plans) ? catalog.plans : [];
+      if (plans.length === 0) return;
+
+      const contactEmail = catalog?.contact?.email || FALLBACK_CONTACT_EMAIL;
+      const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent(
+        'Plan a medida para más de 300 casas',
+      )}`;
+
+      // --- Referencias del shell interactivo. ---
+      const tabsEl = interactiveEl.querySelector<HTMLElement>('[data-plan-tabs]');
+      const priceEl = interactiveEl.querySelector<HTMLElement>('[data-price]');
+      const priceViewEl = interactiveEl.querySelector<HTMLElement>('[data-price-view]');
+      const contactViewEl = interactiveEl.querySelector<HTMLElement>('[data-contact-view]');
+      const planNameEl = interactiveEl.querySelector<HTMLElement>('[data-plan-name]');
+      const planRangeEl = interactiveEl.querySelector<HTMLElement>('[data-plan-range]');
+      const intervalLabelEl = interactiveEl.querySelector<HTMLElement>('[data-interval-label]');
+      const intervalToggleEl = interactiveEl.querySelector<HTMLElement>('[data-interval-toggle]');
+      const ctaEl = interactiveEl.querySelector<HTMLAnchorElement>('[data-cta]');
+      const ctaNoteEl = interactiveEl.querySelector<HTMLElement>('[data-cta-note]');
+      const priceCardEl = interactiveEl.querySelector<HTMLElement>('[data-price-card]');
+      const includesPanelEl = interactiveEl.querySelector<HTMLElement>('[data-includes-panel]');
+      const includesEl = interactiveEl.querySelector<HTMLUListElement>('[data-includes]');
+      const stickyBarEl = interactiveEl.querySelector<HTMLElement>('[data-sticky-bar]');
+      const stickyInnerEl = interactiveEl.querySelector<HTMLElement>('[data-sticky-inner]');
+      const stickyPlanEl = interactiveEl.querySelector<HTMLElement>('[data-sticky-plan]');
+      const stickyTotalEl = interactiveEl.querySelector<HTMLElement>('[data-sticky-total]');
+      const stickyIntervalEl = interactiveEl.querySelector<HTMLElement>('[data-sticky-interval]');
+      const stickyCtaEl = interactiveEl.querySelector<HTMLAnchorElement>('[data-sticky-cta]');
+      const intervalBtns = Array.from(
+        interactiveEl.querySelectorAll<HTMLButtonElement>('[data-interval]'),
+      );
+      if (
+        !tabsEl ||
+        !priceEl ||
+        !priceViewEl ||
+        !contactViewEl ||
+        !planNameEl ||
+        !planRangeEl ||
+        !intervalLabelEl ||
+        !intervalToggleEl ||
+        !ctaEl ||
+        !ctaNoteEl ||
+        !priceCardEl ||
+        !includesPanelEl ||
+        !includesEl ||
+        !stickyBarEl ||
+        !stickyInnerEl ||
+        !stickyPlanEl ||
+        !stickyTotalEl ||
+        !stickyIntervalEl ||
+        !stickyCtaEl
+      ) {
+        return;
+      }
+
+      // --- Estado. ---
+      const clampedDefault = Number(interactiveEl.dataset.defaultIndex ?? '0');
+      let planIndex = Math.min(Math.max(0, clampedDefault), plans.length - 1);
+      let interval: Interval = 'month';
+
+      const currentPlan = (): CatalogPlan => plans[planIndex];
+      const isContact = (plan: CatalogPlan): boolean => plan.is_contact_sales === true;
+      const intervalWord = (): string => (interval === 'year' ? 'año' : 'mes');
+      const formatMoney = (minor: number): string => `$${pesos.format(Math.round(minor / 100))}`;
+
+      /** Precio del PLAN para el intervalo activo (ya no se suman módulos). */
+      const planAmount = (plan: CatalogPlan): number => {
+        const price = plan.prices?.[interval];
+        return price && !price.is_free ? price.unit_amount : 0;
+      };
+
+      const tabLabel = (plan: CatalogPlan): string => {
+        if (plan.suggested_unit_max === null || plan.suggested_unit_max === undefined) {
+          return `Más de ${Math.max(0, plan.suggested_unit_min - 1)}`;
+        }
+        return `${plan.suggested_unit_min}–${plan.suggested_unit_max}`;
+      };
+
+      const tabClass = (active: boolean): string =>
+        [
+          'rounded-full px-4 py-2 text-[13px] font-semibold tracking-[0.01em] transition-colors',
+          active ? 'bg-ink text-paper' : 'text-ink-soft hover:text-ink',
+        ].join(' ');
+
+      const intervalClass = (active: boolean): string =>
+        [
+          'rounded-full px-3.5 py-1.5 text-[12px] font-semibold transition-colors',
+          active ? 'bg-paper text-ink' : 'text-[#C9CCC2] hover:text-paper',
+        ].join(' ');
+
+      const updatePrice = (): void => {
+        const plan = currentPlan();
+        if (isContact(plan)) return; // sin precio que mostrar
+        const amount = formatMoney(planAmount(plan));
+        const changed = priceEl.textContent !== amount && priceEl.textContent !== '$0';
+        priceEl.textContent = amount;
+        stickyTotalEl.textContent = amount;
+        stickyIntervalEl.textContent = `MXN / ${intervalWord()} · IVA incluido`;
+        if (changed) {
+          for (const el of [priceEl, stickyTotalEl]) {
+            el.classList.remove('price-pop');
+            void el.offsetWidth; // reinicia la animación
+            el.classList.add('price-pop');
+          }
+        }
+      };
+
+      // --- Card en modo precio vs. modo "Contáctanos" (venta consultiva). ---
+      const updatePlanMeta = (): void => {
+        const plan = currentPlan();
+        const contact = isContact(plan);
+
+        planNameEl.textContent = plan.name;
+        stickyPlanEl.textContent = plan.name;
+        priceViewEl.hidden = contact;
+        contactViewEl.hidden = !contact;
+        intervalToggleEl.hidden = contact;
+
+        if (contact) {
+          ctaEl.href = contactHref;
+          ctaEl.textContent = 'Contáctanos';
+          ctaEl.removeAttribute('data-track-event');
+          ctaNoteEl.textContent = 'Te respondemos el mismo día hábil';
+          stickyCtaEl.href = contactHref;
+          return;
+        }
+
+        const max = plan.suggested_unit_max ?? plan.suggested_unit_min;
+        planRangeEl.textContent = `Para fraccionamientos de ${plan.suggested_unit_min} a ${max} casas`;
+        const registerHref = `${APP_URL}/register?plan=${encodeURIComponent(plan.key)}`;
+        ctaEl.href = registerHref;
+        ctaEl.textContent = 'Empezar gratis';
+        ctaEl.setAttribute('data-track-event', 'Lead');
+        ctaNoteEl.textContent = '30 días gratis · Hoy no pagas nada · Cancela cuando quieras';
+        stickyCtaEl.href = registerHref;
+      };
+
+      /**
+       * "Todo incluido": si el módulo base del catálogo trae features, mandan
+       * ellas; si no, se queda la lista server-render de `site.ts`.
+       */
+      const renderIncludes = (): void => {
+        const base = (currentPlan().modules ?? []).find((m) => m.is_base);
+        const features = Array.isArray(base?.features) ? base.features : [];
+        if (features.length === 0) return;
+
+        includesEl.replaceChildren();
+        for (const feature of features) {
+          const li = document.createElement('li');
+          li.className = 'flex items-start gap-2.5 text-[13px] text-ink-soft';
+          const icon = document.createElement('span');
+          icon.setAttribute('aria-hidden', 'true');
+          icon.className =
+            'mt-px flex h-[17px] w-[17px] flex-none items-center justify-center rounded-full bg-sage-bg text-[9px] font-bold text-sage-deep';
+          icon.textContent = '✓';
+          li.append(icon, document.createTextNode(feature));
+          includesEl.append(li);
+        }
+      };
+
+      const setPlan = (i: number): void => {
+        planIndex = i;
+        Array.from(tabsEl.children).forEach((child, idx) => {
+          const btn = child as HTMLButtonElement;
+          const active = idx === i;
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          btn.className = tabClass(active);
+        });
+        updatePlanMeta();
+        renderIncludes();
+        updatePrice();
+        requestEvaluate();
+      };
+
+      const selectInterval = (next: Interval): void => {
+        interval = next;
+        intervalBtns.forEach((btn) => {
+          const active = btn.dataset.interval === next;
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          btn.className = intervalClass(active);
+        });
+        intervalLabelEl.textContent = intervalWord();
+        updatePrice();
+      };
+
+      // --- Pestañas de plan (etiquetadas por rango de unidades). ---
+      plans.forEach((plan, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', i === planIndex ? 'true' : 'false');
+        btn.className = tabClass(i === planIndex);
+        btn.textContent = tabLabel(plan);
+        btn.addEventListener('click', () => setPlan(i));
+        tabsEl.append(btn);
+      });
+
+      intervalBtns.forEach((btn) =>
+        btn.addEventListener('click', () => selectInterval(btn.dataset.interval as Interval)),
+      );
+
+      // --- Pintado inicial + swap atómico: hasta aquí ocultamos el ---
+      // --- fallback y mostramos la versión interactiva ya poblada. ---
+      updatePlanMeta();
+      renderIncludes();
+      updatePrice();
+
+      staticEl.hidden = true;
+      interactiveEl.hidden = false;
+
+      // ------------------------------------------------------------------ //
+      // 3) Barra sticky de precio: sólo se activa aquí, SOBRE la versión     //
+      //    interactiva ya visible (nunca compite con el fallback estático). //
+      //    Se muestra cuando el resumen sale de vista Y el panel de "todo   //
+      //    incluido" sigue visible. En el plan a medida no aplica (no hay   //
+      //    precio ni registro), así que se retira.                          //
+      // ------------------------------------------------------------------ //
+      let stickyShown = false;
+      const setStickyVisible = (visible: boolean): void => {
+        if (visible === stickyShown) return;
+        stickyShown = visible;
+        stickyInnerEl.classList.toggle('dock-in', visible);
+        stickyInnerEl.classList.toggle('dock-out', !visible);
+        stickyBarEl.setAttribute('aria-hidden', visible ? 'false' : 'true');
+        stickyBarEl.toggleAttribute('inert', !visible);
+      };
+
+      let ticking = false;
+      const evaluateSticky = (): void => {
+        ticking = false;
+        if (isContact(currentPlan())) {
+          setStickyVisible(false);
+          return;
+        }
+        const priceRect = priceCardEl.getBoundingClientRect();
+        const includesRect = includesPanelEl.getBoundingClientRect();
+        const pastPrice = priceRect.bottom < 0;
+        // Umbral calibrado: 45% del viewport con piso de 360px — en ventanas
+        // altas el panel es corto y un % puro lo escondería siempre.
+        const threshold = Math.max(window.innerHeight * 0.45, 360);
+        const deciding = includesRect.top < window.innerHeight && includesRect.bottom > threshold;
+        setStickyVisible(pastPrice && deciding);
+      };
+      function requestEvaluate(): void {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(evaluateSticky);
+      }
+      window.addEventListener('scroll', requestEvaluate, { passive: true });
+      window.addEventListener('resize', requestEvaluate, { passive: true });
+      evaluateSticky();
+    }
+
+    void enhancePricing();
+  </script>
+</section>

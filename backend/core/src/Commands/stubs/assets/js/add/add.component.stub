@@ -1,0 +1,48 @@
+class $STUDLY_NAME$AddController {
+    constructor(API, PNotify, $state, $timeout, $translate) {
+        'ngInject'
+
+        this.$translate = $translate
+        this.$state = $state
+        this.$timeout = $timeout
+        this.$CAMEL_NAME$ = {}
+        this.PNotify = PNotify
+        this.saving = false
+        this.res$STUDLY_NAME$ = API.service('$CAMEL_NAME$')
+    }
+
+    onSave(form) {
+        if (!form.validate()) {
+            return false
+        }
+        this.saving = true
+        this.res$STUDLY_NAME$.post(this.$CAMEL_NAME$)
+            .then((response, request) => {
+                this.saving = false
+                this.PNotify.success({ 'text' : response['message'], 'title' : this.$translate.instant(['Saved'])['Saved'] + '!' })
+                this.$CAMEL_NAME$ = {}
+                if (this.event) {
+                    this.event({
+                        data : {event: 'updateList$STUDLY_NAME$', data: response['data']}
+                    })
+                } else {
+                    this.$state.go('app.$CAMEL_NAME$List', {})
+                }
+            }, (response, request) => {
+                this.saving = false
+                if (response['status'] === 422) {
+                    form.showErrors(response['data']['error']['errors'])
+                }
+            })
+    }
+
+    $onInit() {
+    }
+}
+
+export const $STUDLY_NAME$AddComponent = {
+    template: require('./$KEBAB_NAME$-add.component.html'),
+    controller: $STUDLY_NAME$AddController,
+    controllerAs: 'vm',
+    bindings: { event: '&', subcomponent: '@', datacomponent: '=' }
+}

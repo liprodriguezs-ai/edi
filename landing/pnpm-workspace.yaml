@@ -1,0 +1,12 @@
+engineStrict: true
+saveExact: true
+legacyPeerDeps: true
+ignoreScripts: true
+packageLock: true
+savePrefix: ''
+audit: true
+auditLevel: high
+strictSsl: true
+preferOffline: true
+minimumReleaseAgeExclude:
+  - '@astrojs/starlight@0.41.7'

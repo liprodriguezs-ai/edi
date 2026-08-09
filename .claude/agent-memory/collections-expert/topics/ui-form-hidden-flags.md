@@ -1,0 +1,5 @@
+# UI decisions (charge-policy form) — frontend-only `hidden` flags
+
+- **AmountMode**: form shows ONLY **Fijo obligatorio** (2026-06-30, per user "deja solo fijo obligatorio"). `AmountModeSelector.tsx` `AMOUNT_MODE_CARDS` use `hidden?:boolean` + `.filter(c=>!c.hidden)`; FIXED_OPTIONAL/RANGE/FREE/BY_SHARE hidden. All still exist in central catalog + `chargePolicyFormSchema` (legacy safety). Re-enable = remove flag. RANGE still used PROGRAMMATICALLY by Community Projects (`CommunityProjectListPage.tsx:132`) — independent of this form. EDGE (low risk): editing a policy whose mode is hidden renders no selected card; user must re-pick.
+- **Periodicity**: `BIWEEKLY`/`BIMONTHLY` hidden (`PeriodicitySelector.tsx` same flag). Visible: Mensual, Semanal, Anual, Eventual. Still in central catalog + date-math branches live in `shared/utils/chargeLifecycle.ts` (~124 BIMONTHLY / ~139 BIWEEKLY) + `chargeConcept/helpers/chargeGeneration.ts`.
+- STALE TEST (pre-existing): `chargePolicy/components/__tests__/AmountModeSelector.test.tsx` asserts "Fijo sugerido" visible but component hides it → fails. Working-tree change never updated the test.

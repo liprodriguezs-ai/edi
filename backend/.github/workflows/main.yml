@@ -1,0 +1,13 @@
+name: Deploy React to cPanel
+
+on:
+  push:
+    branches: ["main", "staging", "development"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: Extendevs/ci-core/.github/workflows/api-template.yml@main
+    with:
+      ssh_port: "22"
+    secrets: inherit

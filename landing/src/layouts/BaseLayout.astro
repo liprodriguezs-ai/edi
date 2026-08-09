@@ -1,0 +1,133 @@
+---
+// Fuentes self-hosted con font-display: optional (sin viaje a Google Fonts;
+// CLS 0 porque no swapean). Ver src/styles/fonts.css.
+import '@/styles/fonts.css';
+import '@/styles/global.css';
+import BaseHead from '@/components/BaseHead.astro';
+import ConsentBanner from '@/components/ConsentBanner.astro';
+import Lightbox from '@/components/Lightbox.astro';
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  datePublished: string;
+  dateModified?: string;
+  author: string;
+  image?: string;
+}
+
+interface Crumb {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  includeFaq?: boolean;
+  article?: ArticleMeta;
+  breadcrumb?: Crumb[];
+}
+
+const { title, description, image, includeFaq, article, breadcrumb } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      includeFaq={includeFaq}
+      article={article}
+      breadcrumb={breadcrumb}
+    />
+    {/* Set the start-state class before paint so the reveal never flashes.
+        Only enabled when JS runs AND the user allows motion. */}
+    <script is:inline>
+      (function () {
+        try {
+          if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('motion-safe-js');
+          }
+        } catch (e) {
+          /* no-op: leave content visible */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <slot name="header" />
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <slot name="footer" />
+
+    {/* Lightbox compartido para ampliar imágenes (hero + bento). */}
+    <Lightbox />
+
+    {/* Cookie consent — solo en prod, donde GA está activo. */}
+    {import.meta.env.PROD && <ConsentBanner />}
+
+    <script>
+      // Scroll reveal — adds .is-visible as elements enter the viewport.
+      const motionOk = document.documentElement.classList.contains('motion-safe-js');
+
+      if (motionOk && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
+        );
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+      }
+
+      // Count-up. The final value already lives in the DOM (no-JS / SR safe);
+      // when motion is allowed we reset to 0 and animate up to it.
+      function countUp(el: HTMLElement, to: number, duration: number) {
+        const start = performance.now();
+        function tick(now: number) {
+          const p = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = String(Math.round(to * eased));
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = String(to);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      if (motionOk) {
+        document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+          const to = Number(el.dataset.count ?? '0');
+          const obs = new IntersectionObserver(
+            (entries, o) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  el.textContent = '0';
+                  countUp(el, to, 1400);
+                  o.disconnect();
+                }
+              }
+            },
+            { threshold: 0.5 },
+          );
+          obs.observe(el);
+        });
+      }
+    </script>
+  </body>
+</html>

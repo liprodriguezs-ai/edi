@@ -1,0 +1,98 @@
+---
+title: "Cobro de reservaciones"
+description: "Cómo paga el vecino su reservación, cómo la valida la tesorería y por qué el residente no puede pagar en efectivo."
+sidebar:
+  order: 7
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+El cobro de una reservación funciona parecido al de una cuota, pero con dos
+diferencias: el dinero va a la cuenta que configuraste en la amenidad, y no hay
+reparto entre cargos — el pago liquida esa reserva y ya.
+
+## Cómo paga el vecino
+
+<Steps>
+
+1. Desde **Mis reservaciones**, abre la que tiene saldo y elige pagar.
+
+2. Verás el **Saldo pendiente** y, si aplica, el **Depósito mínimo**.
+
+3. La **Cuenta destino** viene fija: es la de la amenidad y no se puede cambiar.
+
+4. Captura la **Fecha de pago**, el **Monto** y el **Método de pago**.
+
+5. Sube el **Comprobante**. Es **obligatorio siempre**.
+
+6. Presiona **Enviar pago**.
+
+</Steps>
+
+El pago queda **pendiente de validación** hasta que la tesorería lo revise.
+
+<Aside type="note">
+**El residente no puede pagar en efectivo aquí.** Solo transferencia, depósito o
+cheque. La pantalla lo explica: *Los pagos en efectivo los registra la
+administración directamente en la oficina.*
+
+Tiene sentido: un pago en efectivo no tiene comprobante que subir, así que lo
+captura quien recibió el dinero.
+</Aside>
+
+## Cómo lo registra la administración
+
+Desde el detalle de la reservación, con **Registrar pago**. Es el mismo
+formulario más dos campos —**Folio recibo físico** y **Notas**— y con una
+diferencia importante: **aquí sí se acepta efectivo**, y en ese caso el
+comprobante no es obligatorio.
+
+El pago nace confirmado y se aplica de inmediato.
+
+## Las reglas del monto
+
+| Regla | Mensaje que verás |
+|---|---|
+| No puedes pagar más de lo que debes | *El monto no puede superar el saldo pendiente ($X)* |
+| El primer pago debe cubrir el depósito | *El primer pago debe cubrir al menos el depósito de $X* |
+| No puede haber dos pagos en revisión a la vez | *Ya hay un pago pendiente de validación para esta reservación. Espera su revisión.* |
+| El pago va a la cuenta de la amenidad | *El pago debe registrarse en la cuenta bancaria configurada para esta amenidad.* |
+
+## Qué pasa al confirmarse
+
+- **Si cubre el depósito** → la reserva pasa a **Confirmada** y se calcula la
+  fecha límite para liquidar el saldo. El vecino recibe *Depósito confirmado*.
+- **Si deja el saldo en cero** → la reserva queda liquidada. El vecino recibe
+  *Reservación liquidada*.
+
+## Si el pago se rechaza
+
+La fecha límite **se extiende un día** para que el vecino pueda mandar un
+comprobante corregido sin perder su reserva.
+
+<Aside type="tip">
+Vale la pena revisar los pagos de reservación el mismo día. A diferencia de una
+cuota, aquí el retraso en validar puede costarle la fecha al vecino, porque el
+plazo corre.
+</Aside>
+
+## Si nadie paga
+
+El proceso diario cancela la reserva con el motivo **Vencimiento de plazo de
+pago**, libera el horario, revierte cualquier pago confirmado y le avisa al
+vecino con *Reservación expirada*.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Costo y depósito"
+    href="/docs/amenidades/costo-y-deposito"
+    description="De dónde salen el monto y los plazos."
+  />
+  <LinkCard
+    title="Pagos"
+    href="/docs/cobranza/pagos"
+    description="El flujo de cobranza normal, que funciona distinto."
+  />
+</CardGrid>

@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import PostMeta from '@/components/PostMeta.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const url = new URL(`/blog/${post.id}`, Astro.site).href;
+---
+
+<BaseLayout
+  title={`${post.data.title} · Kivo7`}
+  description={post.data.description}
+  article={{
+    title: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.pubDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+    author: post.data.author,
+    image: post.data.heroImage,
+  }}
+  breadcrumb={[
+    { name: 'Inicio', url: new URL('/', Astro.site).href },
+    { name: 'Blog', url: new URL('/blog', Astro.site).href },
+    { name: post.data.title, url },
+  ]}
+>
+  <Nav slot="header" />
+
+  <article class="pb-28 pt-[150px]">
+    <div class="wrap">
+      <div class="mx-auto max-w-[720px]">
+        <a
+          href="/blog"
+          class="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-sage-deep transition-colors hover:text-ink"
+        >
+          ← Blog
+        </a>
+        <h1
+          class="reveal mt-5 font-serif text-[clamp(30px,4.2vw,50px)] font-medium leading-[1.06] tracking-[-0.01em]"
+        >
+          {post.data.title}
+        </h1>
+        <div class="mt-5">
+          <PostMeta author={post.data.author} pubDate={post.data.pubDate} body={post.body} />
+        </div>
+        <div class="prose mt-10">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

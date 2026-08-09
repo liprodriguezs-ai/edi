@@ -1,0 +1,77 @@
+---
+alwaysApply: true
+---
+
+# CRM Multi-Company — Project Overview
+
+## Project Context
+
+**CRM Multi-Company Management System** — SPA en React + TypeScript para gestionar empresas, usuarios, roles, permisos, colaboradores, documentos, tenants y suscripciones en un entorno multi-tenant. Incluye dominio de cumplimiento laboral (expedientes, plantillas de contrato, generación de contratos).
+
+## Technology Stack
+
+### Core
+- **React 19** + **TypeScript 5.9** + **Vite 8** (beta, `@vitejs/plugin-react`)
+- **Tailwind CSS v4** — configuración CSS-first en `index.css` (`@import "tailwindcss"`), sin `tailwind.config.ts`
+- **shadcn/ui** (estilo new-york, Radix UI) — componentes base en `src/components/ui/`
+- **Zustand 5** — estado cliente (stores de entidades, session store)
+- **TanStack Query 5** — estado servidor y caché
+- **React Hook Form 7** + **Zod 4** — formularios y validación
+- **React Router DOM 7** — rutas
+- **Axios** — interceptores (token, 401/403)
+
+### UI y utilidades
+- **Lucide React** + **Tabler Icons** — iconos
+- **Sileo** / **Sonner** — toasts (`import { toast } from '@/shared/hooks/useToast'`)
+- **date-fns** — fechas
+- **Recharts** — gráficos
+- **CVA** + **clsx** + **tailwind-merge** (`cn()` en `@/lib/utils`)
+
+### Dev
+- **pnpm**, **ESLint** (flat), **Prettier**, **lint-staged**, **Husky**, **Commitlint**
+
+## Estructura de alto nivel
+
+| Área | Ubicación | Responsabilidad |
+|------|-----------|-----------------|
+| Shell y rutas | `app/`, `App.tsx` | Layout, guards (ProtectedRoute, PublicOnlyRoute, SubscriptionGuard, PermissionRoute) |
+| Componentes globales | `components/` | Sidebar, header, login, formularios de auth |
+| UI base | `components/ui/` | Primitivas shadcn |
+| Módulos de negocio | `modules/<entity>/` | CRUD por entidad (schema, store, resource, hooks, list/form/modal) |
+| Infraestructura compartida | `shared/` | API, auth, hooks base, componentes reutilizables, tipos |
+
+## Principios de arquitectura
+
+1. **Módulo por entidad**: cada entidad en `src/modules/<entity>/` con schema, store, resource, hooks y componentes.
+2. **Composición**: `useBaseList` y `useBaseCrud` orquestan; `createEntityStore` y `createCrudApi` son fábricas.
+3. **Sesión con Zustand vanilla**: `sessionStore` accesible fuera de React (interceptores, guards).
+4. **Imports con alias**: solo `@/`; rutas relativas prohibidas por ESLint.
+5. **Separación**: Schema → Store → Resource → Hook → Componente.
+
+## Autenticación y rutas
+
+- **Públicas (sin sesión)**: `/login`, `/register`, `/forgot-password`, `/auth/reset-password/:token/:email`, `/auth/accept-invitation/:token`.
+- **Protegidas**: envueltas en `ProtectedRoute`; las que requieren suscripción activa usan `SubscriptionGuard`.
+- **Por permiso**: `PermissionRoute permissionEntity="company"` (u otro) para listados/CRUD.
+- **Redirección por rol**: `roleRoutes` en `Entity.ts` (SUPER_ADMIN → `/user`, COMPANY_ADMIN/RH → `/dashboard`, COLLABORATOR → `/collaborator/me`, etc.).
+
+## Gestión de estado
+
+| Capa | Herramienta | Uso |
+|------|-------------|-----|
+| Servidor | TanStack Query | Fetch, caché, invalidación |
+| Entidades | Zustand (`createEntityStore`) | Lista, paginación, flags de CRUD |
+| Sesión | Zustand vanilla (`sessionStore`) | Token, perfil, roles, permisos |
+| Formularios | React Hook Form + Zod | Validación y submit |
+| UI local | `useState` | Modales, selección |
+
+## Variables de entorno
+
+- `VITE_API_BASE_URL` — API del backend (default: `http://localhost:8000/api`)
+- `VITE_PAGE_SIZE_DEFAULT` — Tamaño de página por defecto (default: `10`)
+
+## Referencia rápida
+
+- **Nuevo módulo CRUD**: usar como referencia `src/modules/company/` y la regla create-module.
+- **Nuevo componente UI**: `npx shadcn@latest add <nombre>` → `src/components/ui/`.
+- **Comandos**: `pnpm dev` | `pnpm build` | `pnpm lint` | `pnpm preview`

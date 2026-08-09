@@ -1,0 +1,118 @@
+---
+title: "Catálogo de reportes"
+description: "Los trece reportes que trae Kivo7, para qué sirve cada uno y quién puede generarlos."
+sidebar:
+  order: 1
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+La pantalla **Reportes** genera documentos en PDF y Excel a partir de la
+información del condominio.
+
+## Los trece reportes
+
+### Cobranza
+
+| Reporte | Qué contiene |
+|---|---|
+| **Morosidad** | Unidades con saldo vencido y antigüedad |
+| **Estado de cuenta global** | Resumen de todas las unidades |
+| **Histórico de pagos** | Pagos registrados con folio y método |
+| **Saldos a favor** | Unidades con saldo a favor vigente |
+
+### Finanzas
+
+| Reporte | Qué contiene |
+|---|---|
+| **Ingresos vs egresos** | Estado de resultados del periodo |
+| **Saldos de cuentas** | Saldo actual por cuenta bancaria y caja |
+| **Flujo de efectivo** | Entradas y salidas por mes |
+| **Egresos por categoría** | Distribución del gasto |
+| **Anual fiscal** | Resumen anual para contabilidad |
+
+### Operación
+
+| Reporte | Qué contiene |
+|---|---|
+| **Bitácora de accesos** | Entradas y salidas del condominio |
+| **Personal** | Plantilla de personal operativo |
+| **Proveedores** | Histórico de pagos a proveedores |
+| **Auditoría** | Bitácora de cambios del sistema |
+
+## Quién puede generarlos
+
+| Rol | Alcance |
+|---|---|
+| Administrador · Presidente | Los trece |
+| Tesorero | Los trece, **excepto la vista previa de Auditoría** |
+| **Comité de Vigilancia** | **Solo los cinco financieros** |
+
+<Aside type="caution">
+**El Comité de Vigilancia ve las trece tarjetas pero solo puede generar cinco**:
+Ingresos vs egresos, Flujo de efectivo, Egresos por categoría, Anual fiscal y
+Saldos de cuentas.
+
+Con cualquier otro recibe *El Comité de Vigilancia solo puede generar reportes
+financieros*. Es una inconsistencia de la pantalla: los botones están, pero
+fallan.
+</Aside>
+
+## La limitación que hay que conocer
+
+<Aside type="caution">
+**No se puede elegir el periodo.** La pantalla no tiene selector de fechas, año
+ni unidad.
+
+Consecuencia: **Ingresos vs egresos, Flujo de efectivo, Egresos por categoría,
+Histórico de pagos, Proveedores y Bitácora de accesos salen siempre del mes en
+curso**, y **Anual fiscal del año en curso**.
+
+Si necesitas el cierre de marzo estando en mayo, este módulo no te lo da hoy. La
+salida práctica es exportar a Excel desde la pantalla del módulo
+correspondiente —[Cargos](/docs/cobranza/cargos),
+[Egresos](/docs/tesoreria/egresos),
+[Morosidad](/docs/cobranza/morosidad)— donde sí hay filtros de fecha.
+</Aside>
+
+## El nombre cambia en el archivo
+
+La tarjeta dice una cosa y el PDF otra: **Morosidad** se imprime como *Reporte de
+Morosidad*, **Ingresos vs egresos** como *Estado de Resultados*.
+
+No es un error, pero explica la confusión cuando alguien busca un archivo por el
+nombre de la tarjeta.
+
+## Cuáles usar en una asamblea
+
+<Aside type="tip">
+Los tres que responden lo que la gente pregunta:
+
+1. **Ingresos vs egresos** — "¿en qué se gastó el dinero?"
+2. **Morosidad** — "¿quién no está pagando?" (sin nombres, si prefieres: el
+   [tablero de cobranza](/docs/reportes/tableros) da los números sin exponer casas)
+3. **Saldos de cuentas** — "¿cuánto hay?"
+
+Con esos tres, publicados en el tablero antes de la junta, la asamblea cambia de
+tono.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Generar y descargar"
+    href="/docs/reportes/generar-y-descargar"
+    description="Vista previa, PDF y Excel."
+  />
+  <LinkCard
+    title="Publicar en el tablero"
+    href="/docs/reportes/publicar-en-el-tablero"
+    description="Dejar un reporte a la vista de todos los vecinos."
+  />
+  <LinkCard
+    title="Tableros"
+    href="/docs/reportes/tableros"
+    description="Las cinco vistas gráficas, para consulta rápida."
+  />
+</CardGrid>

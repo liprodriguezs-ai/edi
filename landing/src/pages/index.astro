@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Hero from '@/components/Hero.astro';
+import TrustStrip from '@/components/TrustStrip.astro';
+import ComparisonExcel from '@/components/ComparisonExcel.astro';
+import HowItWorks from '@/components/HowItWorks.astro';
+import Bento from '@/components/Bento.astro';
+import ResultsBand from '@/components/ResultsBand.astro';
+import Quote from '@/components/Quote.astro';
+import Pricing from '@/components/Pricing.astro';
+import Faq from '@/components/Faq.astro';
+import CTA from '@/components/CTA.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+---
+
+<BaseLayout includeFaq>
+  <Nav slot="header" />
+
+  {/* Gancho */}
+  <Hero />
+  <TrustStrip />
+
+  {/* Problema → el cambio */}
+  <ComparisonExcel />
+
+  {/* Cómo lo lográs */}
+  <HowItWorks />
+
+  {/* Qué hace */}
+  <Bento />
+
+  {/* Prueba */}
+  <ResultsBand />
+  <Quote />
+
+  {/* Precio */}
+  <Pricing />
+
+  {/* Dudas */}
+  <Faq />
+
+  {/* Cierre */}
+  <CTA />
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

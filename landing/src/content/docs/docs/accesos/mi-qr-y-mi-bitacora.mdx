@@ -1,0 +1,85 @@
+---
+title: "Mi QR y mi bitácora"
+description: "El pase personal del residente, que cambia cada minuto, y el historial de sus propias visitas."
+sidebar:
+  order: 6
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Dos pantallas para el vecino: su propio pase de entrada y el historial de quién
+ha visitado su casa.
+
+## Mi QR de acceso
+
+Es el pase personal del residente, para su propia entrada al condominio. Está en
+el menú como **Mi QR**.
+
+### Cambia cada minuto
+
+El código **se renueva cada 60 segundos**. La pantalla muestra un anillo de
+progreso con la cuenta regresiva y el rótulo **Se renueva en**.
+
+<Aside type="note">
+Que rote es lo que lo hace seguro: una captura de pantalla compartida deja de
+servir en un minuto. Por eso **no tiene sentido guardarlo ni mandárselo a nadie**
+— hay que abrirlo en el momento de entrar.
+</Aside>
+
+### Cómo se usa
+
+Se muestra en la caseta y el vigilante lo escanea. La entrada queda registrada a
+nombre del residente, con el método **QR escaneado**.
+
+A diferencia de un pase de visita, **el pase personal no se consume**: sirve
+todas las veces que entres.
+
+<Aside type="tip">
+Es especialmente útil en condominios con acceso peatonal, donde no hay placa que
+identificar. También le ahorra al vigilante preguntar el nombre y buscar la casa.
+</Aside>
+
+## Historial de accesos
+
+En el menú como **Mi bitácora**. Muestra las entradas y salidas registradas
+**para tu casa**: tus visitas y las tuyas propias.
+
+Columnas: **Visitante**, **Unidad**, **Tipo**, **Vehículo**, **Entró**, **Salió**
+y **Estado**.
+
+Es solo de lectura y se pagina de 15 en 15.
+
+### Para qué sirve en la práctica
+
+- Confirmar que la visita que esperabas ya llegó.
+- Revisar a qué hora entró el técnico que fuiste a recibir.
+- Verificar si alguien se presentó en tu casa cuando no estabas.
+
+<Aside type="note">
+Solo ves lo de **tus** casas. No hay forma de que un vecino consulte quién visitó
+a otro: la bitácora completa del condominio es de la administración y la caseta.
+</Aside>
+
+## Lo que ve el residente en su inicio
+
+El panel de inicio muestra **Accesos de hoy** con las entradas del día y un
+enlace al historial completo. Si no hubo ninguna, dice *Sin accesos registrados
+hoy*.
+
+Desde ahí también está el botón para
+[registrar una visita](/docs/accesos/qr-de-visita).
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="QR de visita"
+    href="/docs/accesos/qr-de-visita"
+    description="El pase para quien te visita, que es otra cosa."
+  />
+  <LinkCard
+    title="Autorización remota"
+    href="/docs/accesos/autorizacion-remota"
+    description="Cuando llega alguien sin pase y te piden autorizar."
+  />
+</CardGrid>

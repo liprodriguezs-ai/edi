@@ -1,0 +1,111 @@
+---
+title: "Cambio de propietario"
+description: "Qué hacer cuando una casa se vende: qué se cierra, qué se transfiere y qué pasa con la deuda."
+sidebar:
+  order: 5
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Cuando una casa cambia de dueño, Kivo7 tiene un flujo dedicado que cierra al
+propietario anterior, da de alta al nuevo y conserva todo el historial.
+
+Es una acción crítica y la interfaz lo trata como tal: pide escribir una palabra
+de confirmación.
+
+<Aside type="caution">
+**Verifica antes de usarlo.** Hay indicios de que el permiso que protege este
+botón no está dado de alta en el sistema, lo que haría que **el botón "Cambiar
+propietario" no aparezca para ningún rol, ni siquiera el Administrador**.
+
+Si no lo ves en el detalle de la casa, no es que te falte un permiso: es este
+problema. Mientras se resuelve, el camino manual es
+[finalizar la asociación del dueño anterior y asociar al nuevo](/docs/estructura/residentes),
+marcándolo como titular de pago.
+</Aside>
+
+## Qué hace exactamente
+
+En una sola operación:
+
+1. **Cierra todas las asociaciones de propietario activas**, con fecha de fin el
+   día anterior al cambio. Las filas se conservan como historial.
+2. **Le quita la marca de titular de pago** a cualquier otra persona de la casa.
+3. **Crea la asociación del nuevo propietario**, con la marca de titular de pago
+   puesta.
+4. **Transfiere la condición de responsable legal** si el saliente la tenía.
+
+## Qué pasa con la deuda
+
+**Se queda con la casa.** Los cargos pendientes no se cancelan ni se transfieren
+a nadie: siguen ligados a la unidad, que es a quien pertenecen.
+
+El propio aviso del diálogo lo dice:
+
+> Esto cerrará la asociación del propietario actual, creará la nueva como titular
+> de pago, conservará el histórico y mantendrá los cargos pendientes en la unidad.
+
+<Aside type="tip">
+Es la respuesta a la pregunta que siempre sale en una compraventa: *"¿el nuevo
+dueño hereda la deuda?"* En Kivo7, sí — la deuda es de la casa. Lo que se haga
+con ella entre las partes es un acuerdo del contrato de compraventa, y ahí es
+donde debe resolverse, no en el sistema.
+</Aside>
+
+## Cómo se hace
+
+<Steps>
+
+1. Abre el detalle de la casa y presiona **Cambiar propietario**.
+
+2. Revisa el bloque **Propietario actual**, que muestra quién es y desde cuándo.
+
+3. Busca al **Nuevo propietario**. Debe existir como usuario.
+
+4. Ajusta la **Fecha de cambio** si no es hoy.
+
+5. Captura **Notas** si hace falta dejar constancia de algo.
+
+6. Escribe **CAMBIAR** en el campo de confirmación.
+
+7. Presiona **Confirmar cambio**.
+
+</Steps>
+
+## A quién se le avisa
+
+Kivo7 manda dos notificaciones:
+
+- **Al propietario anterior**: *Tu asociación como propietario de (la casa) se
+  cerró el (fecha). Tu histórico se conserva.*
+- **Al nuevo propietario**: *Eres el nuevo propietario y titular de pago de (la
+  casa) a partir del (fecha).*
+
+## Antes de hacerlo
+
+Una lista corta que evita problemas:
+
+- **Cierra la cuenta con el dueño saliente.** Revisa su
+  [estado de cuenta](/docs/cobranza/estado-de-cuenta) y déjalo documentado: quién
+  debía qué al momento del cambio.
+- **Da de alta al nuevo dueño** como usuario antes de empezar, o
+  [invítalo](/docs/estructura/invitar-residentes).
+- **Decide qué pasa con el arrendatario**, si había uno. El cambio de propietario
+  no lo toca; si también se va, finaliza su asociación por separado.
+- **Revisa el saldo a favor.** Si la casa tiene saldo a favor, se queda con la
+  casa y lo aprovechará el nuevo dueño.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Residentes"
+    href="/docs/estructura/residentes"
+    description="El flujo manual de asociar y finalizar."
+  />
+  <LinkCard
+    title="Estado de cuenta por unidad"
+    href="/docs/cobranza/estado-de-cuenta"
+    description="Para documentar el corte antes del cambio."
+  />
+</CardGrid>

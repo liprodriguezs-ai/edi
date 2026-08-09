@@ -1,0 +1,129 @@
+---
+title: "QR de visita"
+description: "Cómo un vecino genera el pase de entrada para su visita, y qué tipo de QR conviene en cada caso."
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+El QR de visita es el pase que un residente genera para quien lo va a visitar. En
+la caseta se escanea y la entrada queda registrada sola, sin que el vigilante
+tenga que llamar a nadie.
+
+## Quién puede generarlos
+
+| Rol | Puede |
+|---|---|
+| **Residente** | Sí, para sus propias casas |
+| **Arrendatario** | **No.** Solo consulta |
+| Administrador · Presidente · Tesorero | Sí, para cualquier casa |
+| **Seguridad** | **No.** El vigilante solo los lee |
+
+<Aside type="note">
+Que el arrendatario no genere pases es una decisión de diseño del producto. Si en
+tu condominio quieres que sí pueda, hoy tiene que pedírselo al propietario o a la
+administración.
+</Aside>
+
+## Generar un pase
+
+<Steps>
+
+1. Entra a **Visitantes** y presiona para registrar una visita.
+
+2. Captura el **Nombre del visitante**.
+
+3. Elige la **Unidad que visita**. Si eres residente, solo verás las tuyas.
+
+4. Elige el **Motivo**: Social / familiar, Trabajador, Reparto / mensajería,
+   Profesional (médico, etc.) u Otro.
+
+5. Elige el **Tipo de QR** (ver abajo) y captura su vigencia si aplica.
+
+6. Si viene en auto, enciende **Llega en vehículo** y captura la **Placa** — es
+   obligatoria — y opcionalmente el **Modelo del vehículo**.
+
+7. Opcionalmente captura la **Identificación** (INE, Pasaporte, Licencia u Otra)
+   y su **Núm. de documento**.
+
+8. Presiona **Registrar visita**.
+
+</Steps>
+
+## Los tres tipos de QR
+
+| Tipo | Cuántas entradas | Hasta cuándo | Para qué sirve |
+|---|---|---|---|
+| **Una sola entrada** | Una | Fin del día | La visita normal, el repartidor |
+| **Válido por tiempo** | Varias | La fecha y hora que elijas | El albañil que viene toda la semana |
+| **Por evento** | Varias | **Solo ese día**, hasta la hora de corte | Una fiesta, una mudanza |
+
+<Aside type="tip">
+La diferencia entre **Válido por tiempo** y **Por evento** confunde: el primero
+puede abarcar varios días; el segundo, por más que pongas una hora, **solo sirve
+el día que indicaste**. Para una fiesta, usa Por evento.
+
+Si dejas vacía la vigencia de un QR por tiempo, vale 24 horas.
+</Aside>
+
+## Compartir el pase
+
+Al generarlo se abre la pantalla del QR, con el código en formato `XXXX-XXXX` y
+tres opciones:
+
+- **Compartir** — manda el código por WhatsApp o donde quieras. El mensaje va
+  armado: *Visita para (la casa) — código XXXX-XXXX. Muéstralo en la caseta.*
+- **Descargar** — guarda el QR como imagen.
+- **Cancelar QR** — lo invalida, si todavía no se usó.
+
+El vigilante puede escanear la imagen o teclear el código, así que sirve
+igual mandarlo por texto.
+
+## Cancelar un pase
+
+Desde la lista de visitantes, mientras esté en estado **Pendiente**:
+
+> El QR de (nombre) dejará de ser válido en la caseta. Esta acción no se puede
+> deshacer.
+
+## Los estados de una visita
+
+| Estado | Qué quiere decir |
+|---|---|
+| **Pendiente** | Generado, aún no se usa |
+| **Utilizado** | El pase de una sola entrada ya se consumió |
+| **Cancelado** | El residente lo invalidó |
+| **Expirado** | Se intentó usar fuera de vigencia |
+| **Pendiente de aprobación** | La caseta pidió autorización y esperan respuesta |
+| **Aprobado** | El residente autorizó la entrada |
+| **Rechazado** | El residente la negó |
+
+La lista los separa en dos pestañas: **Próximas** e **Histórico**.
+
+## Si tu casa tiene adeudo vencido
+
+Si el condominio activó las
+[restricciones por morosidad](/docs/cobranza/restricciones-por-morosidad), el
+formulario se bloquea y muestra cuánto se debe. Hay que ponerse al corriente para
+volver a generar pases.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Caseta"
+    href="/docs/accesos/caseta"
+    description="Del otro lado: cómo se escanea y se registra la entrada."
+  />
+  <LinkCard
+    title="Autorización remota"
+    href="/docs/accesos/autorizacion-remota"
+    description="Cuando la visita llega sin pase."
+  />
+  <LinkCard
+    title="Mi QR y mi bitácora"
+    href="/docs/accesos/mi-qr-y-mi-bitacora"
+    description="El pase personal del propio residente."
+  />
+</CardGrid>

@@ -1,0 +1,66 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>{{'$TITLE_NAME$' | translate}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="v">
+                        <a ui-sref="app.landing">
+                            <i class="fa fa-dashboard"></i> Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a ui-sref="app.$CAMEL_NAME$List">{{'$PLURAL_NAME$' | translate}}</a>
+                    </li>
+                    <li class="breadcrumb-item active"> {{'$TITLE_NAME$' | translate}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content" ng-intro-options="vm.IntroOptions" ng-intro-method="showIntro">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-12 col-md-10">
+                <div class="card">
+                    <div class="card-header with-border">
+                        <h3 class="card-title"> {{'$TITLE_NAME$' | translate}}</h3>
+                        <div class="card-tools">
+                            <button type="button" ng-click="showIntro()" class="btn btn-sm btn-info" title="Ayuda">
+                                <i class="fas fa-question-circle"> </i> {{'Help' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                    <form ng-validate name="$CAMEL_NAME$Form" ng-submit="vm.onSave($CAMEL_NAME$Form)" novalidate
+                        autocomplete="off">
+                        <div class="card-body" ng-persistant-form="vm.$CAMEL_NAME$" edit="vm.edit">
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label class="control-label">
+                                        <span class="text-danger">*</span> {{'Name' | translate}}</label>
+                                    <input type="text" class="form-control" ng-model="vm.$CAMEL_NAME$.name" name="name"
+                                        id="name" placeholder="{{'Name' | translate}}"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" hl-sticky="" anchor="bottom">
+                            <a ui-sref="app.$CAMEL_NAME$List" class="btn btn-default">
+                                <i class="fas fa-angle-double-left"></i> {{'Go back' | translate}}</a>
+                            <button ladda="vm.saving" ng-user-can="update.$CAMEL_NAME$" ng-if="vm.edit" type="submit"
+                                    class="btn btn-primary float-right">
+                                <i class="fas fa-save"></i> {{'Save' | translate}}
+                            </button>
+                            <button ladda="vm.saving" ng-user-can="create.$CAMEL_NAME$" ng-if="!vm.edit" type="submit"
+                                    class="btn btn-primary float-right">
+                                <i class="fas fa-save"></i> {{'Save' | translate}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

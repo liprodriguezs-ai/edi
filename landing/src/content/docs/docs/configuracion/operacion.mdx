@@ -1,0 +1,68 @@
+---
+title: "Operación"
+description: "Zona horaria, moneda y tipo de condominio — la base de todos los montos y las fechas."
+sidebar:
+  order: 2
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> Cómo funciona la plataforma día a día: zona horaria y moneda (base de todos los
+> montos y fechas) y tipo de condominio.
+
+Son tres ajustes cortos con efecto en todo el sistema.
+
+## Zona horaria
+
+Determina a qué hora ocurren las cosas: cuándo vence un cargo, cuándo expira un
+QR de visita, a qué hora corren los procesos automáticos.
+
+Para México suele ser `America/Mexico_City`.
+
+<Aside type="caution">
+Con la zona horaria mal puesta, un
+[QR de visita de una sola entrada](/docs/accesos/qr-de-visita) —que vale hasta el
+fin del día— puede caducar horas antes o después de lo que la gente espera. Es de
+esos errores que se descubren tarde y confunden mucho.
+</Aside>
+
+## Moneda
+
+La base de todos los montos del sistema. Para México, MXN.
+
+<Aside type="caution">
+**No la cambies con operación en marcha.** Los montos ya capturados no se
+convierten: cambiar la moneda reinterpreta las mismas cifras en otra divisa.
+Defínela al arrancar y no la vuelvas a tocar.
+</Aside>
+
+## Tipo de condominio
+
+Horizontal, vertical o mixto. Ayuda a que el sistema se comporte de acuerdo con
+la realidad de tu conjunto.
+
+<Aside type="note">
+En la práctica, lo que de verdad cambia cómo se capturan las casas no es este
+ajuste sino el interruptor **Exige torre y piso** de cada
+[tipo de unidad](/docs/estructura/tipos-y-estados-de-unidad). Si tu condominio es
+vertical, revisa ese también.
+</Aside>
+
+## Quién puede editarla
+
+Administrador y Propietario de la cuenta.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="General"
+    href="/docs/configuracion/general"
+    description="Los datos legales del condominio."
+  />
+  <LinkCard
+    title="Tipos y estados de unidad"
+    href="/docs/estructura/tipos-y-estados-de-unidad"
+    description="Donde de verdad se define si el condominio es vertical."
+  />
+</CardGrid>

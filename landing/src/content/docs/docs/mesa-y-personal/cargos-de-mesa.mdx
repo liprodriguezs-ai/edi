@@ -1,0 +1,131 @@
+---
+title: "Cargos de la mesa y qué otorga cada uno"
+description: "Los cinco cargos, el acceso que dan y las separaciones de responsabilidad que conviene respetar."
+sidebar:
+  order: 2
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Nombrar a alguien en un cargo le otorga permisos reales sobre el dinero y la
+operación del condominio. Conviene saber qué está entregando cada nombramiento.
+
+## Los cinco cargos
+
+### Presidente
+
+El cargo con más facultades después del Administrador.
+
+**Puede lo que el Tesorero no**: [cancelar cargos](/docs/cobranza/cargos),
+[condonar deuda](/docs/cobranza/descuentos-y-condonaciones) y
+[anular egresos](/docs/tesoreria/egresos).
+
+También: edita unidades (no las crea), gestiona torres, secciones y vehículos,
+administra la [lista negra](/docs/accesos/lista-negra) sin poder borrar entradas,
+publica y gestiona **cualquier** aviso, modera el chat, y ve todos los tableros.
+
+<Aside type="note">
+El Presidente **no crea unidades ni cuentas bancarias, ni invita residentes por
+correo**. Eso queda en el Administrador.
+</Aside>
+
+### Tesorero
+
+El que mueve el dinero del día a día.
+
+**Puede**: registrar, validar y rechazar [pagos](/docs/cobranza/pagos); capturar
+y editar [egresos](/docs/tesoreria/egresos); gestionar proveedores; administrar
+conceptos y programaciones de cobro; y asociar personas a las casas —es quien
+ejecuta el cambio de arrendatario.
+
+**No puede**: anular egresos, cancelar cargos, condonar deuda, ni crear o editar
+cuentas bancarias (solo las consulta).
+
+<Aside type="caution">
+Es la separación más importante del sistema: **quien recibe el dinero no decide
+que alguien deje de deberlo, ni deshace un gasto ya registrado.** Si en tu
+condominio el tesorero necesita esas facultades, lo que hay que revisar es el
+reglamento, no los permisos.
+</Aside>
+
+### Secretario
+
+Comunicación y actas.
+
+**Puede**: publicar sus propios avisos, crear y moderar canales de chat, y leer
+el directorio de la mesa, la estructura del condominio y la bitácora de accesos.
+
+**No puede**: nada financiero. No ve egresos, cuentas ni proveedores.
+
+### Vocal
+
+Apoyo en comunicación.
+
+**Puede**: publicar y gestionar **sus propios** avisos, participar en el chat, y
+consultar la estructura.
+
+**No puede**: administrar canales, ni nada financiero.
+
+<Aside type="note">
+El diseño del sistema dice que el Vocal no debería poder marcar un aviso como
+**Urgente** —el que salta el horario de silencio— pero **esa restricción no está
+implementada**: hoy sí puede. Vale la pena acordarlo verbalmente hasta que se
+corrija.
+</Aside>
+
+### Comité de Vigilancia
+
+El contralor. **Lee todo lo financiero y no escribe nada.**
+
+**Puede**: ver todos los tableros, consultar cargos, pagos, egresos, cuentas y
+proveedores, y entrar a la [auditoría](/docs/reportes/catalogo-de-reportes).
+También puede reservar amenidades para su propia casa, porque también es vecino.
+
+**No puede**: ningún permiso de escritura sobre dinero.
+
+<Aside type="caution">
+Hay un detalle que confunde: el Comité **ve las 13 tarjetas de reportes pero solo
+puede generar 5** —los financieros—. Con los otros recibe *El Comité de
+Vigilancia solo puede generar reportes financieros.*
+</Aside>
+
+## Cómo repartir los cargos
+
+<Aside type="tip">
+Tres recomendaciones que salen de cómo está diseñado el sistema:
+
+**No juntes Presidente y Tesorero en la misma persona.** El sistema separa
+facultades a propósito; si una sola persona tiene las dos, la separación
+desaparece.
+
+**Dale el Comité de Vigilancia a alguien que de verdad vaya a revisar.** Es el
+único cargo diseñado para auditar sin poder tocar, y el que más tranquiliza a la
+asamblea.
+
+**El Administrador no es un cargo de la mesa.** Es el rol operativo —muchas veces
+una administradora contratada— y se asigna aparte. No lo confundas con el
+Presidente.
+</Aside>
+
+## Al cerrar el periodo
+
+Todos estos permisos **se revocan automáticamente**. Nadie tiene que acordarse de
+quitarlos.
+
+La excepción: si la persona sigue teniendo el mismo rol por un cargo en otro
+periodo vigente, lo conserva.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Periodos de mesa directiva"
+    href="/docs/mesa-y-personal/periodos-de-mesa"
+    description="Abrir, integrar y cerrar."
+  />
+  <LinkCard
+    title="Matriz comparativa de roles"
+    href="/docs/roles/matriz-comparativa"
+    description="Todos los roles y todas las áreas en una tabla."
+  />
+</CardGrid>

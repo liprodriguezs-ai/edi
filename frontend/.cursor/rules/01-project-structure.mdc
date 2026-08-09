@@ -1,0 +1,129 @@
+---
+alwaysApply: true
+---
+
+# Project Structure & Architecture
+
+## Directory Layout
+
+```
+src/
+├── app/                              # Shell y routing
+│   ├── AccessDeniedPage.tsx          # Página de acceso denegado (403)
+│   ├── layout/
+│   │   └── DashboardLayout.tsx       # Layout autenticado (Sidebar + Header + Outlet)
+│   └── router/
+│       ├── ProtectedRoute.tsx        # Requiere isAuthenticated → Outlet o redirect /login
+│       ├── PublicOnlyRoute.tsx       # Requiere !isAuthenticated → Outlet o redirect
+│       ├── SubscriptionGuard.tsx    # Requiere suscripción no bloqueada → Outlet o redirect /select-plan
+│       └── PermissionRoute.tsx       # Requiere permiso/rol → Outlet o redirect /acceso-denegado
+│
+├── assets/                           # Estáticos (imágenes, SVGs)
+├── components/                       # Componentes de aplicación y layout
+│   ├── ui/                           # Primitivas shadcn (button, input, table, dialog, field, etc.)
+│   ├── app-sidebar.tsx
+│   ├── site-header.tsx
+│   ├── login-form.tsx
+│   ├── signup-form.tsx
+│   ├── forgot-password-form.tsx
+│   ├── reset-password-form.tsx
+│   ├── accept-invitation-form.tsx
+│   ├── nav-main.tsx
+│   ├── nav-user.tsx
+│   ├── nav-documents.tsx
+│   └── nav-secondary.tsx
+│
+├── hooks/                            # Hooks globales (no por módulo)
+│   └── use-mobile.ts
+│
+├── lib/
+│   └── utils.ts                      # cn() (clsx + tailwind-merge)
+│
+├── modules/                          # Módulos de negocio (CRUD por entidad)
+│   └── company/                     # Ejemplo canónico
+│       ├── schema.ts
+│       ├── store/companyStore.ts
+│       ├── services/CompanyResource.ts
+│       ├── hooks/useCompanyList.ts
+│       ├── components/CompanyTableRow.tsx
+│       ├── CompanyList.tsx
+│       ├── CompanyListPage.tsx
+│       ├── CompanyForm.tsx
+│       └── CompanyFormModal.tsx
+│
+├── shared/
+│   ├── api/                          # apiClient, resourceApi, queryClient
+│   ├── auth/                         # Session, sessionStore, authService, SessionProvider, useSession
+│   ├── components/                   # Modal, ConfirmDialog, SearchList, Pagination, PermissionGuard, etc.
+│   │   ├── atoms/                    # PageHeader, EmptyStateIcon, ProfileIdentity, ObfuscatedText
+│   │   └── molecules/               # ActionButtonGroup, TableLoadingState, TableEmptyState
+│   ├── config/                       # appConfig
+│   ├── constants/                    # Constantes (ej. passwordRequirements)
+│   ├── enums/                        # CrudMode
+│   ├── hooks/                        # useBaseList, useBaseCrud, usePermissions, useRoles, useToast, etc.
+│   ├── interfaces/                  # Entity.ts (IEntity, PaginatedResponse, ERoleUserSlug, roleRoutes), list.types.ts
+│   ├── store/                        # EntityStore (createEntityStore)
+│   └── utils/                        # Helpers (displayInitials, dateHelper, currencyHelper)
+│
+├── index.css                         # Tailwind v4 + @theme + variables (oklch)
+├── main.tsx
+└── App.tsx                           # Rutas: PublicOnlyRoute, ProtectedRoute, SubscriptionGuard, PermissionRoute
+```
+
+## Configuración relevante
+
+| Archivo | Propósito |
+|---------|-----------|
+| `vite.config.ts` | Vite 8 + `@vitejs/plugin-react` + `@tailwindcss/vite`, alias `@/` → `src/` |
+| `tsconfig.json` / `tsconfig.app.json` | Strict, ES2022, path `@/*`, verbatimModuleSyntax |
+| `eslint.config.js` | Flat config; no rutas relativas; max-lines 500; complexity 15 |
+| `components.json` | shadcn (new-york, rsc: false) |
+
+## Imports
+
+Siempre usar el alias `@/`. Las rutas relativas (`../`, `./`) están prohibidas por ESLint (excepto en `emails/`).
+
+```typescript
+// Correcto
+import { Button } from '@/components/ui/button'
+import { useCompanyList } from '@/modules/company/hooks/useCompanyList'
+import { useBaseList } from '@/shared/hooks/useBaseList'
+
+// Prohibido
+import { Button } from '../../components/ui/button'
+```
+
+## Nomenclatura de archivos
+
+| Tipo | Convención | Ejemplo |
+|------|------------|---------|
+| Componentes | PascalCase | `CompanyList.tsx`, `PageHeader.tsx` |
+| Hooks | camelCase + prefijo `use` | `useCompanyList.ts`, `useBaseList.ts` |
+| Stores | camelCase + sufijo `Store` | `companyStore.ts`, `EntityStore.ts` |
+| Resources | PascalCase + sufijo `Resource` | `CompanyResource.ts` |
+| Schemas | camelCase | `schema.ts` |
+| Interfaces | PascalCase + prefijo `I` | `ICompany`, `IEntity` |
+| Enums | PascalCase | `CrudMode`, `ERoleUserSlug` |
+| Tipos de formulario (Zod) | PascalCase + sufijo `Values` | `CompanyFormValues` |
+
+## Patrón de módulo
+
+Cada módulo en `src/modules/<entity>/` sigue:
+
+1. **schema.ts** — Schema Zod + interfaz `I<Entity>` + tipo `EntityFormValues`
+2. **store/<entity>Store.ts** — `createEntityStore<IEntity>('entity')`
+3. **services/<Entity>Resource.ts** — `createCrudApi` con `basePath`
+4. **hooks/use<Entity>List.ts** — `useBaseList` configurado
+5. **components/<Entity>TableRow.tsx** — Fila memo con `checkMemoListProps`
+6. **<Entity>Form.tsx** — React Hook Form + useBaseCrud
+7. **<Entity>FormModal.tsx** — Modal con formulario
+8. **<Entity>List.tsx** — Lista (SearchList + tabla + Pagination + modales)
+9. **<Entity>ListPage.tsx** — Página delgada que renderiza `<Entity>List />`
+
+## Rutas en App.tsx
+
+- Públicas bajo `PublicOnlyRoute`: `/login`, `/register`, `/forgot-password`, etc.
+- Protegidas bajo `ProtectedRoute`; rutas que requieren suscripción bajo `SubscriptionGuard`.
+- Rutas por permiso envueltas en `<Route element={<PermissionRoute permissionEntity="…" />}>`.
+- Redirección inicial por rol vía `roleRoutes` (Navigate to `roleRoute`).
+- Nuevas rutas se agregan dentro del árbol correspondiente y, si aplica, con `PermissionRoute`.

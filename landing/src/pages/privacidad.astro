@@ -1,0 +1,105 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import { meta } from '@/data/site';
+---
+
+<BaseLayout
+  title={`Aviso de Privacidad · ${meta.name}`}
+  description={`Aviso de Privacidad de ${meta.name}: qué datos recabamos, para qué los usamos y cómo ejercer tus derechos ARCO.`}
+>
+  <Nav slot="header" />
+
+  <article class="pb-28 pt-[150px]">
+    <div class="wrap">
+      <div class="mx-auto max-w-[720px]">
+        <a
+          href="/"
+          class="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-sage-deep transition-colors hover:text-ink"
+        >
+          ← Inicio
+        </a>
+        <h1
+          class="mt-5 font-serif text-[clamp(30px,4.2vw,50px)] font-medium leading-[1.06] tracking-[-0.01em]"
+        >
+          Aviso de Privacidad
+        </h1>
+        <p class="mt-3 text-[13px] text-ink-faint">Última actualización: junio de 2026</p>
+
+        <p
+          class="mt-6 rounded-soft border border-line bg-sage-bg/60 px-4 py-3 text-[13px] text-ink-soft"
+        >
+          <strong class="text-ink">Nota:</strong> este documento es una plantilla de referencia.
+          Revísalo con asesoría legal antes de publicarlo para asegurar el cumplimiento de la
+          LFPDPPP y de tu operación específica.
+        </p>
+
+        <div class="prose mt-10">
+          <p>
+            En {meta.name} valoramos tu privacidad. Este Aviso describe cómo recabamos, usamos y
+            protegemos tus datos personales, en cumplimiento de la Ley Federal de Protección de
+            Datos Personales en Posesión de los Particulares (LFPDPPP).
+          </p>
+
+          <h2>Responsable de tus datos</h2>
+          <p>
+            {meta.name} es responsable del tratamiento de tus datos personales. Para cualquier asunto
+            relacionado con tu privacidad puedes escribirnos a <strong>privacidad@kivo7.com</strong>.
+          </p>
+
+          <h2>Datos que recabamos</h2>
+          <ul>
+            <li>Datos de identificación y contacto: nombre, correo electrónico y teléfono.</li>
+            <li>Datos de la cuenta: condominio que administras y tu rol dentro de él.</li>
+            <li>Datos de uso: información técnica sobre cómo utilizas la plataforma.</li>
+          </ul>
+
+          <h2>Finalidades del tratamiento</h2>
+          <p>Usamos tus datos para:</p>
+          <ul>
+            <li>Brindarte acceso y operar la plataforma de administración.</li>
+            <li>Procesar pagos y gestionar tu suscripción.</li>
+            <li>Enviarte notificaciones operativas y soporte.</li>
+            <li>Mejorar la seguridad y el desempeño del servicio.</li>
+          </ul>
+
+          <h2>Tus derechos ARCO</h2>
+          <p>
+            Tienes derecho a <strong>Acceder</strong>, <strong>Rectificar</strong>,
+            <strong>Cancelar</strong> u <strong>Oponerte</strong> al tratamiento de tus datos
+            personales, así como a revocar tu consentimiento. Para ejercerlos, escríbenos a
+            <strong>privacidad@kivo7.com</strong> y daremos respuesta en los plazos que marca la ley.
+          </p>
+
+          <h2>Transferencias de datos</h2>
+          <p>
+            No vendemos tus datos. Podemos compartirlos con proveedores que nos ayudan a operar el
+            servicio (por ejemplo, procesadores de pago), siempre bajo obligaciones de
+            confidencialidad y solo en lo necesario para prestarte el servicio.
+          </p>
+
+          <h2>Cookies y tecnologías similares</h2>
+          <p>
+            Utilizamos cookies para mantener tu sesión y entender el uso del sitio. Puedes
+            configurar tu navegador para limitarlas, aunque algunas funciones podrían verse
+            afectadas.
+          </p>
+
+          <h2>Cambios a este aviso</h2>
+          <p>
+            Podemos actualizar este Aviso de Privacidad. Publicaremos la versión vigente en esta
+            página con su fecha de actualización.
+          </p>
+
+          <h2>Contacto</h2>
+          <p>
+            ¿Dudas sobre tu privacidad? Escríbenos a <strong>privacidad@kivo7.com</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

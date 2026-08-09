@@ -1,0 +1,124 @@
+---
+title: "Tipos y estados de unidad"
+description: "Los dos catálogos que clasifican tus casas y deciden cuáles reciben cargos."
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Dos catálogos pequeños con consecuencias grandes: uno cambia cómo se captura una
+casa, el otro decide si se le cobra.
+
+## Quién puede usarlos
+
+Crear y editar: **solo el Administrador**. Todos los demás roles los consultan.
+
+---
+
+## Tipos de unidad
+
+Es la clase de vivienda: casa, departamento, local comercial. Vienen tres
+sembrados por defecto.
+
+### Crear un tipo
+
+<Steps>
+
+1. Entra a **Tipos de Unidad** y presiona **Nuevo tipo**.
+
+2. Captura el **Nombre**.
+
+3. Decide si enciendes **Exige torre y piso (vertical)**.
+
+4. Guarda.
+
+</Steps>
+
+### Qué hace "Exige torre y piso"
+
+Es el interruptor que convierte un tipo en vertical, y cambia tres cosas:
+
+1. En el formulario de la casa **aparecen y se vuelven obligatorios** los campos
+   **Torre** y **Piso**.
+2. El campo **Número** se renombra a **Número de depto**.
+3. El identificador visible cambia de `Casa 23` a
+   `Torre A · Piso 5 · Depto 502`.
+
+| Tipo sembrado | Vertical |
+|---|---|
+| **Casa** | No |
+| **Departamento** | **Sí** |
+| **Local comercial** | No |
+
+<Aside type="tip">
+Si tu condominio es horizontal, no enciendas este interruptor en ningún tipo. Te
+ahorra dos campos obligatorios por cada casa que des de alta.
+</Aside>
+
+---
+
+## Estados de unidad
+
+Es la situación de la casa: activa, vacante, en obra, inactiva. También vienen
+cuatro sembrados.
+
+### Crear un estado
+
+<Steps>
+
+1. Entra a **Estados de Unidad** y presiona **Nuevo estado**.
+
+2. Captura el **Nombre** y elige un **Color** — se usa en la píldora de la lista.
+
+3. Decide si enciendes **Recibe cargos (facturable)**.
+
+4. Guarda.
+
+</Steps>
+
+### Qué hace "Recibe cargos"
+
+Es el interruptor que decide si esa casa entra en la cobranza.
+
+Cuando un cobro tiene alcance **Todo el condominio**, solo alcanza a las casas
+cuyo estado es facturable. Una casa marcada con un estado no facturable queda
+fuera de la emisión.
+
+| Estado sembrado | Color | Recibe cargos |
+|---|---|---|
+| **Activa** | verde | Sí |
+| **Vacante** | azul | Sí |
+| **En obra** | ámbar | Sí |
+| **Inactiva** | gris | **No** |
+
+<Aside type="note">
+**Vacante sí recibe cargos**, y es correcto: una casa sin habitar sigue debiendo
+mantenimiento. Si en tu condominio se acordó lo contrario, crea un estado propio
+con el interruptor apagado en vez de cambiar el que viene.
+</Aside>
+
+<Aside type="caution">
+**Marcar una casa con un estado no facturable le avisa a sus residentes.** Kivo7
+les manda un correo:
+
+> Tu unidad fue marcada como (estado) y quedó fuera de la operación de cobranza.
+> Contacta a la administración si tienes dudas.
+
+No es un cambio silencioso. Úsalo cuando de verdad corresponda.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Unidades"
+    href="/docs/estructura/unidades"
+    description="Donde se aplican el tipo y el estado."
+  />
+  <LinkCard
+    title="Programación de cobros"
+    href="/docs/cobranza/programacion-de-cobros"
+    description="Cobrar distinto según el tipo de unidad."
+  />
+</CardGrid>

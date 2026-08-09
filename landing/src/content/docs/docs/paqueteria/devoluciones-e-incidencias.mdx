@@ -1,0 +1,119 @@
+---
+title: "Devoluciones e incidencias"
+description: "Qué hacer cuando un paquete se devuelve, se daña o llegó a la casa equivocada."
+sidebar:
+  order: 3
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Tres acciones para cuando un paquete no termina en una entrega normal. Todas se
+hacen desde el menú de tres puntos del renglón, y **solo funcionan mientras el
+paquete esté en Listo para recoger**.
+
+## Marcar como devuelto
+
+Para cuando el paquete regresa al transportista: nadie lo recogió, la casa lo
+rechazó, o venció el plazo de retención.
+
+<Steps>
+
+1. Abre el menú del paquete y elige **Marcar como devuelto**.
+
+2. Captura el **Motivo**. Es obligatorio.
+
+3. Presiona **Confirmar devolución**.
+
+</Steps>
+
+Al residente le llega *Tu paquete fue devuelto al remitente.*
+
+## Reportar un incidente
+
+Para cuando el paquete se dañó, se mojó, llegó abierto o se perdió estando bajo
+custodia de la caseta.
+
+<Steps>
+
+1. Elige **Reportar incidente**.
+
+2. Captura el **Motivo** describiendo qué pasó.
+
+3. Presiona **Reportar incidente**.
+
+</Steps>
+
+Al residente le llega el aviso con tu descripción: *Incidente con tu paquete:
+(motivo).*
+
+<Aside type="tip">
+Describe el incidente con detalle y toma foto antes. Un "paquete dañado" no le
+sirve a nadie; un "la caja llegó con el costado roto y húmedo, se recibió así del
+repartidor a las 14:30" resuelve la reclamación.
+</Aside>
+
+## Reasignar a otra unidad
+
+Para cuando se capturó la casa equivocada.
+
+<Steps>
+
+1. Elige **Reasignar unidad**.
+
+2. Busca la **Unidad de destino**.
+
+3. Presiona **Reasignar**.
+
+</Steps>
+
+<Aside type="note">
+La reasignación **conserva la cadena de custodia**: no reinicia la fecha de
+recepción, ni quién lo recibió, ni el código de retiro. Es importante — el
+paquete no "vuelve a nacer" y su reloj de retención sigue corriendo desde que
+llegó de verdad.
+
+Se avisa a las dos casas: a la anterior *El paquete ya no está asignado a tu
+unidad*, y a la nueva *Tienes un paquete esperándote en la portería.*
+</Aside>
+
+## Los estados son definitivos
+
+<Aside type="caution">
+**Entregado, Devuelto e Incidencia son estados finales.** Desde ahí no se puede
+entregar, ni reasignar, ni corregir.
+
+Si marcaste un paquete por error, no hay vuelta atrás: hay que registrarlo de
+nuevo y dejar la explicación en la descripción.
+</Aside>
+
+## La devolución automática
+
+Aparte de la manual, hay un proceso diario que revisa los paquetes en portería:
+
+- Al llegar a los **días de recordatorio** configurados, manda **un solo**
+  recordatorio al residente.
+- Al llegar a los **días de devolución**, marca el paquete como devuelto con el
+  motivo **Plazo de retención expirado**.
+
+Se configura en [Configuración → Paquetería](/docs/configuracion/paqueteria).
+
+<Aside type="caution">
+Revisa esos plazos antes de que el módulo lleve un mes andando. El valor de
+fábrica devuelve a los **10 días**, y en un condominio donde la gente viaja eso
+puede ser corto. Un paquete devuelto por el sistema es una queja garantizada.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Reporte de antigüedad"
+    href="/docs/paqueteria/reporte-de-antiguedad"
+    description="Ver qué está por vencer antes de que el sistema lo devuelva."
+  />
+  <LinkCard
+    title="Configuración de paquetería"
+    href="/docs/configuracion/paqueteria"
+    description="Los plazos de recordatorio y devolución."
+  />
+</CardGrid>

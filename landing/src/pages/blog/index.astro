@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import BlogCard from '@/components/BlogCard.astro';
+import { blogMeta } from '@/data/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout title={`${blogMeta.title} · Kivo7`} description={blogMeta.description}>
+  <Nav slot="header" />
+
+  <section class="pb-24 pt-[150px]">
+    <div class="wrap">
+      <header class="reveal mx-auto mb-16 max-w-[60ch] text-center">
+        <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-sage-deep">
+          {blogMeta.title}
+        </p>
+        <h1
+          class="font-serif text-[clamp(34px,4.6vw,56px)] font-medium leading-[1.05] tracking-[-0.01em]"
+        >
+          Administrar tu condominio, sin misterios.
+        </h1>
+        <p class="mx-auto mt-6 max-w-[52ch] text-[16.5px] text-ink-soft">{blogMeta.description}</p>
+      </header>
+
+      <div
+        class="mx-auto grid max-w-[1000px] grid-cols-3 gap-6 max-[920px]:grid-cols-2 max-[620px]:grid-cols-1"
+      >
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

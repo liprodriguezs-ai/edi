@@ -1,0 +1,13 @@
+<?php
+return [
+    'rest' => [
+        'store' => '$TITLE_NAME$ saved correctly',
+        'storeFail' => 'Error in saving the $TITLE_NAME$',
+        'update' => '$TITLE_NAME$ saved the correctly',
+        'updateFail' => 'Error in updating the $TITLE_NAME$',
+        'delete' => '$TITLE_NAME$ deleted the correctly',
+        'deleteFail' => 'Error in deleting the $TITLE_NAME$',
+        'notFound' => '$TITLE_NAME$ not found',
+        'unprocessableEntity' => 'Error in the process data'
+    ]
+];

@@ -1,0 +1,26 @@
+---
+interface Props {
+  eyebrow: string;
+  titleLead: string;
+  titleEm?: string;
+  body?: string;
+  /** id for the <h2>, so a parent section can use aria-labelledby. */
+  titleId?: string;
+  /** Ancla de navegación (#id). Va en el encabezado —no en la sección— para que
+   *  el scroll caiga sobre el título y no sobre el padding superior. */
+  anchorId?: string;
+}
+
+const { eyebrow, titleLead, titleEm, body, titleId, anchorId } = Astro.props;
+---
+
+<div id={anchorId} class="reveal mx-auto mb-16 max-w-[60ch] text-center">
+  <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-sage-deep">{eyebrow}</p>
+  <h2
+    id={titleId}
+    class="font-serif text-[clamp(32px,4.4vw,54px)] font-medium leading-[1.05] tracking-[-0.01em]"
+  >
+    {titleLead}{titleEm && <> <em class="italic text-sage">{titleEm}</em></>}
+  </h2>
+  {body && <p class="mx-auto mt-6 max-w-[52ch] text-[16.5px] text-ink-soft">{body}</p>}
+</div>

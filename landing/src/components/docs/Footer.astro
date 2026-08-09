@@ -1,0 +1,52 @@
+---
+/**
+ * Override de `Footer` de Starlight.
+ *
+ * Conserva el footer nativo (paginación anterior/siguiente) y le añade la tira
+ * de enlaces de la landing, para que /docs no sea un callejón sin salida.
+ */
+import Default from '@astrojs/starlight/components/Footer.astro';
+import { meta, footerLinks, footerLegal } from '@/data/site';
+---
+
+<Default><slot /></Default>
+
+<nav class="k7-footer" aria-label="Enlaces del sitio">
+  <a href="/" class="k7-back">← Volver a {meta.name}</a>
+  {footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+</nav>
+<p class="k7-legal">{footerLegal}</p>
+
+<style>
+  .k7-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+
+  .k7-footer a {
+    font-size: 13px;
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+  }
+
+  .k7-footer a:hover {
+    color: var(--sl-color-white);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .k7-back {
+    font-weight: 600;
+  }
+
+  .k7-legal {
+    margin-top: 1.25rem;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--sl-color-gray-3);
+  }
+</style>

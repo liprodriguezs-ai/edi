@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Modules">
+            <directory>Modules/*/tests/Unit</directory>
+            <directory>Modules/*/tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <ini name="memory_limit" value="1G"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <!-- Subscription enforcement is fail-secure ON in prod; the suite runs it
+             OFF so unrelated fixtures need not carry billing entitlements. The
+             dedicated enforcement test re-enables it via config() at runtime. -->
+        <env name="BILLING_ENFORCE_SUBSCRIPTION" value="false"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="DB_DATABASE" value="testing"/>
+        <env name="FIREBASE_CREDENTIALS" value=""/>
+        <env name="DB_HOST" value="pgsql.test"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="NOTIFICATION_CHANNELS" value="log"/>
+        <env name="PULSE_ENABLED" value="false"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="MODEL_CACHE_ENABLED" value="false"/>
+    </php>
+</phpunit>

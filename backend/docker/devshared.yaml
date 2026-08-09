@@ -1,0 +1,138 @@
+# Servicios de desarrollo COMPARTIDOS entre proyectos.
+#
+# ── POR QUÉ ESTE ARCHIVO ESTÁ DUPLICADO EN CADA REPO ─────────────────────────
+# Docker namespacea los contenedores por PROYECTO de compose, no por archivo.
+# Si estos servicios se declararan dentro del compose de cada repo, Docker
+# crearía un valkey por repo — que es justo lo que queremos evitar.
+#
+# La identidad la da `-p devshared`, NO la ruta del archivo. Así que cada repo
+# puede llevar su propia copia (versionada, clonable, sin depender de nada
+# fuera del checkout) y aun así todos comparten UN solo juego de contenedores.
+#
+# ── POR QUÉ ESTÁ EN backend/docker/ Y NO EN LA RAÍZ DEL MONOREPO ─────────────
+# Porque `backend` es un submódulo con su propio repo. Su `compose.yaml` declara
+# la red `devshared` como externa; si el archivo que la crea viviera en la raíz
+# del monorepo, quien clone SOLO el backend se llevaría el compose que necesita
+# la red pero no el que la crea, y `sail up` fallaría sin forma de arreglarlo.
+# El archivo tiene que viajar junto al compose que depende de él.
+#
+# CONSECUENCIA: este archivo tiene que ser IDÉNTICO en todos los repos. Si
+# cambiás algo acá, copialo a los demás, igual que con el cuerpo común de
+# start.sh. Si difieren, el segundo proyecto en arrancar recrearía los
+# contenedores del primero.
+#
+# ── USO ──────────────────────────────────────────────────────────────────────
+#   docker compose -p devshared -f docker/devshared.yaml up -d
+#
+# `start.sh` ya lo hace, y saltea el arranque si los servicios ya están
+# corriendo. `restart: unless-stopped` hace que Docker Desktop los reviva en
+# cada boot, así que en la práctica siempre están ahí.
+#
+#   docker compose -p devshared -f docker/devshared.yaml ps     # verlos
+#   docker compose -p devshared -f docker/devshared.yaml down   # bajarlos
+#
+# ── CÓMO LO CONSUME EL COMPOSE DEL PROYECTO ─────────────────────────────────
+#     networks:
+#         sail: { driver: bridge }
+#         devshared: { external: true }
+#
+#     services:
+#         laravel.test:
+#             networks: [sail, devshared]
+#
+# Los hostnames (`valkey`, `mailpit`, `rustfs`) resuelven igual desde adentro
+# del contenedor, así que el .env del proyecto NO cambia.
+#
+# ── POR QUÉ POSTGRES NO ESTÁ ACÁ ─────────────────────────────────────────────
+# A propósito. Cada proyecto tiene su `pgsql.test` con tuning propio (tmpfs,
+# fsync=off) y un `migrate:fresh` de un proyecto no debe poder rozar a otro.
+#
+# ── PUERTOS ──────────────────────────────────────────────────────────────────
+# Toman los defaults estándar. Un proyecto TODAVÍA NO migrado que publique esos
+# mismos puertos va a fallar con "port is already allocated": es la señal de que
+# a ese proyecto le toca migrar, no un bug.
+
+services:
+    valkey:
+        image: 'valkey/valkey:alpine'
+        restart: unless-stopped
+        ports:
+            - '${DEVSHARED_VALKEY_PORT:-6379}:6379'
+        volumes:
+            - 'devshared-valkey:/data'
+        healthcheck:
+            test: ['CMD', 'valkey-cli', 'ping']
+            retries: 3
+            timeout: 5s
+
+    # Explorador visual de valkey/redis. Valkey no trae UI propia (es un servidor
+    # de protocolo), así que esto es lo que permite navegar las claves a mano.
+    # Para las colas de Laravel el panel bueno sigue siendo Horizon, dentro de la app.
+    #
+    # La conexión NO viene preconfigurada: la primera vez hay que agregarla en la
+    # UI con host `valkey` y puerto `6379` — los nombres internos de la red
+    # `devshared`, no `localhost`, porque RedisInsight corre en otro contenedor.
+    redisinsight:
+        image: 'redis/redisinsight:latest'
+        restart: unless-stopped
+        ports:
+            - '${DEVSHARED_REDISINSIGHT_PORT:-5540}:5540'
+        volumes:
+            - 'devshared-redisinsight:/data'
+
+    mailpit:
+        image: 'axllent/mailpit:latest'
+        restart: unless-stopped
+        ports:
+            # SMTP — a donde escriben las apps.
+            - '${DEVSHARED_MAILPIT_PORT:-1025}:1025'
+            # Bandeja web en http://127.0.0.1:8025 — es COMPARTIDA: vas a ver los
+            # correos de todos los proyectos mezclados. Filtrá por remitente.
+            - '${DEVSHARED_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+
+    rustfs:
+        image: 'rustfs/rustfs:latest'
+        restart: unless-stopped
+        ports:
+            - '${DEVSHARED_RUSTFS_PORT:-9000}:9000'
+            - '${DEVSHARED_RUSTFS_CONSOLE_PORT:-9001}:9001'
+        environment:
+            RUSTFS_VOLUMES: /data
+            RUSTFS_ADDRESS: '0.0.0.0:9000'
+            RUSTFS_CONSOLE_ADDRESS: '0.0.0.0:9001'
+            RUSTFS_CONSOLE_ENABLE: 'true'
+            RUSTFS_EXTERNAL_ADDRESS: ':9000'
+            RUSTFS_CORS_ALLOWED_ORIGINS: '*'
+            RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: '*'
+            # Mismas credenciales que traía el stub de Sail, para que el .env de
+            # los proyectos siga funcionando sin tocar nada.
+            RUSTFS_ACCESS_KEY: sail
+            RUSTFS_SECRET_KEY: password
+            RUSTFS_LOG_LEVEL: info
+        volumes:
+            - 'devshared-rustfs:/data'
+        healthcheck:
+            test:
+                - CMD
+                - sh
+                - '-c'
+                - 'curl -f http://127.0.0.1:9000/health && curl -f http://127.0.0.1:9001/health'
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
+
+networks:
+    # Nombre fijo: es el que los proyectos declaran como `external: true`.
+    default:
+        name: devshared
+
+volumes:
+    # Prefijo propio para no confundirlos con los `sail-*` de cada proyecto.
+    devshared-valkey:
+        driver: local
+    devshared-rustfs:
+        driver: local
+    # Guarda las conexiones que configurás en la UI, para no recrearlas cada vez.
+    devshared-redisinsight:
+        driver: local

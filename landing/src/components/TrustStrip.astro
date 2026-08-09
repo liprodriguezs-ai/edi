@@ -1,0 +1,31 @@
+---
+import { trustEyebrow, trustNames } from '@/data/site';
+---
+
+<section class="pb-20 pt-4" aria-label={trustEyebrow}>
+  <div class="wrap">
+    <div
+      class="reveal mx-auto flex max-w-[940px] flex-col items-center gap-x-8 gap-y-4 rounded-card border border-line bg-card/70 px-9 py-6 sm:flex-row sm:justify-between"
+    >
+      <p
+        class="whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.2em] text-sage-deep"
+      >
+        {trustEyebrow}
+      </p>
+      <ul class="flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2 sm:justify-end">
+        {
+          trustNames.map((name, i) => (
+            <Fragment>
+              {i > 0 && (
+                <li class="text-line" aria-hidden="true">
+                  ·
+                </li>
+              )}
+              <li class="font-serif text-[17px] text-ink-soft">{name}</li>
+            </Fragment>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

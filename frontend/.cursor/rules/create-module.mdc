@@ -1,0 +1,79 @@
+---
+description: Patrón para crear un nuevo módulo CRUD (referencia: Company)
+globs: "src/modules/**/*.ts,src/modules/**/*.tsx"
+alwaysApply: false
+---
+
+# CRUD Module Generator
+
+Para crear un nuevo módulo ("crear módulo [NOMBRE]" / "generate module [NOMBRE]") usar como referencia el módulo **Company** y este patrón.
+
+## Estructura de archivos
+
+Para entidad `[Entity]` (ej. Product, Branch):
+
+```
+src/modules/[entity]/
+├── schema.ts
+├── store/[entity]Store.ts
+├── services/[Entity]Resource.ts
+├── hooks/use[Entity]List.ts
+├── components/[Entity]TableRow.tsx
+├── [Entity]Form.tsx
+├── [Entity]FormModal.tsx
+├── [Entity]List.tsx
+└── [Entity]ListPage.tsx
+```
+
+## Reemplazos de placeholders
+
+| Placeholder | Sustituir por | Ejemplo |
+|-------------|----------------|--------|
+| [Entity] | PascalCase singular | Product |
+| [entity] | camelCase singular | product |
+| [Entities] | PascalCase plural | Products |
+| [entities] | camelCase plural | products |
+
+## Puntos clave por archivo
+
+### schema.ts
+- Zod schema (`[entity]FormSchema`), interfaz `I[Entity] extends IEntity`, tipo `[Entity]FormValues = z.infer<typeof schema>`.
+
+### store/[entity]Store.ts
+- `createEntityStore<I[Entity]>('[entity]')`.
+
+### services/[Entity]Resource.ts
+- `createCrudApi<I[Entity], [Entity]FormValues>({ basePath: '/[entity]' })`. Métodos: create, update, remove (no "save"); useBaseCrud recibe `resource: { save: Resource.create, update: Resource.update, delete: Resource.remove }`.
+
+### hooks/use[Entity]List.ts
+- `useBaseList<I[Entity]>({ store: use[Entity]Store, resource: [Entity]Resource, autoInit: true, initialSearch: { sort: [{ field: 'created_at', direction: 'desc' }] } })`.
+
+### components/[Entity]TableRow.tsx
+- Props: `IEntityTableRowProps<I[Entity]>` (entity, canEdit, canDelete, isLoading, isDeleting, isSaving, onEdit, onDelete).
+- `memo` con comparador `checkMemoListProps`; `displayName = '[Entity]TableRow'`.
+- ActionButtonGroup: `onEdit={canEdit ? () => onEdit(entity) : undefined}`, `onRemove={canDelete ? () => onDelete(entity) : undefined}`.
+
+### [Entity]Form.tsx
+- defaultValues con useMemo a partir de entity; useBaseCrud con save/update/delete; useForm con zodResolver; handleSubmit llama crud.submit(values) y onSuccess.
+
+### [Entity]FormModal.tsx
+- Props: `IEntityFormModalProps<I[Entity]>`. Footer: Cancelar + Submit (type="submit" form=FORM_ID). Modal envuelve [Entity]Form con formId, mode, entity, onSuccess.
+
+### [Entity]List.tsx
+- use[Entity]List() → onPageChanged, onRemove, onSearch, onReset, paramsSearch.
+- use[Entity]Store() → entities, pagination, isLoading, isDeleting, isSaving (o selectores por campo si se quiere optimizar).
+- useMultiplePermissions({ canCreate, canEdit, canDelete }).
+- Handlers: handleCreate, handleEdit(**entity**), handleDeleteClick(**entity**) — parámetro es la entidad, no array.
+- Tabla: `entities.map((entity) => <[Entity]TableRow key={entity.id} entity={entity} ... />)` — variable de bucle correcta.
+- **Pagination**: `<Pagination pagination={pagination} onPageChanged={onPageChanged} />` (pagination es objeto con page, pages, total, per_page).
+- ConfirmDialog: variant="delete", entityName={entityToDelete?.name}, isLoading={isDeleting}, onConfirm, onCancel.
+
+### [Entity]ListPage.tsx
+- Solo renderiza &lt;[Entity]List /&gt;.
+
+## Después de crear el módulo
+
+1. Ajustar schema y basePath al backend.
+2. Añadir ruta en `App.tsx`: dentro de `PermissionRoute` si aplica, p. ej. `Route element={<PermissionRoute permissionEntity="[entity]" />}` con hijo `Route path="/[entity]" element={<[Entity]ListPage />} />`.
+3. Añadir enlace en sidebar (`app-sidebar.tsx`) con el permiso correspondiente.
+4. Verificar slugs de permisos (create.[entity], update.[entity], delete.[entity], read.[entity], report.[entity]) según backend.

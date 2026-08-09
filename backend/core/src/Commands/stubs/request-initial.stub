@@ -1,0 +1,16 @@
+<?php
+
+namespace Modules\$STUDLY_NAME$\Http\Requests;
+
+use QCH\Core\Http\Request\FormRequest;
+
+class $STUDLY_NAME$Request extends FormRequest
+{
+    protected $params = [
+        [
+            'name' => 'name',
+            'rules' => 'required',
+            'attribute' => 'Name'
+        ]
+    ];
+}

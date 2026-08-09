@@ -1,0 +1,94 @@
+---
+title: "Generar y descargar un reporte"
+description: "Vista previa, PDF y Excel, y dónde quedan los archivos generados."
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+## Generar
+
+<Steps>
+
+1. Entra a **Reportes** y busca la tarjeta del reporte que quieres.
+
+2. Presiona **PDF** o **Excel**.
+
+3. Espera a que diga **Generando…**. El archivo se descarga solo al terminar.
+
+</Steps>
+
+<Aside type="note">
+Mientras se genera un reporte, **todas las tarjetas se deshabilitan**. Es a
+propósito: evita disparar cinco generaciones a la vez. Espera a que termine.
+</Aside>
+
+## Vista previa
+
+Solo cuatro reportes la tienen: **Morosidad**, **Ingresos vs egresos**, **Saldos
+de cuentas** y **Auditoría**.
+
+Abre un diálogo con los datos en pantalla, sin generar archivo. Útil para
+confirmar que hay información antes de generar el PDF.
+
+<Aside type="caution">
+La vista previa de **Auditoría** exige un permiso adicional. El **Tesorero ve el
+botón pero recibe un error** al presionarlo: no tiene acceso a la auditoría.
+</Aside>
+
+## Qué trae el PDF
+
+- El nombre y el logotipo del condominio
+- Un folio con formato `REP-20260806-XXXXXX`
+- Una marca de agua **OFICIAL · (nombre del condominio)**
+
+<Aside type="tip">
+El folio y la marca de agua importan más de lo que parece: son lo que distingue
+un reporte generado por el sistema de una hoja de cálculo que cualquiera pudo
+editar. En una asamblea, eso cierra discusiones.
+</Aside>
+
+## PDF o Excel: cuál elegir
+
+| Para | Usa |
+|---|---|
+| Publicar, imprimir, adjuntar a un acta | **PDF** |
+| Seguir trabajando los datos, filtrar, sumar | **Excel** |
+| Mandarlo al contador | **Excel** |
+| Presentarlo en asamblea | **PDF** |
+
+## Generados recientes
+
+Debajo de las tarjetas aparece la lista de lo que ya generaste, con su fecha y un
+botón **Descargar**. Sirve para no volver a generar lo mismo.
+
+<Aside type="caution">
+**Los reportes generados caducan a los 90 días.** Si necesitas conservar el
+cierre de un ejercicio, descárgalo y guárdalo por tu cuenta —no confíes en que
+seguirá disponible el año que viene.
+</Aside>
+
+## Recuerda el periodo
+
+Como [se explica en el catálogo](/docs/reportes/catalogo-de-reportes), la mayoría
+de los reportes salen **del mes en curso** y no hay forma de cambiarlo desde esta
+pantalla.
+
+Si necesitas otro periodo, usa el botón **Descargar** de la pantalla del módulo
+correspondiente, que sí respeta los filtros de fecha que hayas puesto.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Catálogo de reportes"
+    href="/docs/reportes/catalogo-de-reportes"
+    description="Qué hay disponible y quién puede generarlo."
+  />
+  <LinkCard
+    title="Publicar en el tablero"
+    href="/docs/reportes/publicar-en-el-tablero"
+    description="Compartir un reporte con todos los vecinos."
+  />
+</CardGrid>

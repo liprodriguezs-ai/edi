@@ -1,0 +1,28 @@
+# ─── AI tooling (local, regenerable) ───
+.atl/
+.playwright-mcp/
+.superpowers/
+.codegraph/
+.claude/settings.local.json
+.claude/worktrees/
+
+# ─── OS ───
+.DS_Store
+
+# ─── Secrets (NEVER commit) ───
+# Firebase Admin service account JSON (referenced by backend FIREBASE_CREDENTIALS).
+firebase-auth.json
+*-firebase-adminsdk-*.json
+auth.json
+*.pem
+*.p12
+*.key
+!**/public/**/*.key
+
+# ─── Database dumps (may contain personal data of minors) ───
+*.sql
+!backend/**/database/**/*.sql
+
+# ─── Local evidence / media artifacts ───
+videos/
+pruebas-evidencia/

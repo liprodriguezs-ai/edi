@@ -1,0 +1,194 @@
+---
+title: "Preguntas frecuentes"
+description: "Las dudas más comunes, con el enlace al procedimiento completo."
+sidebar:
+  order: 1
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Respuestas cortas. Para el detalle, sigue el enlace.
+
+## Cobranza
+
+**Un vecino dice que ya pagó y sigue apareciendo como moroso. ¿Por qué?**
+Casi siempre porque reportó su pago y nadie lo ha validado. Revisa la pestaña
+*Pendientes de validación*. → [Pagos](/docs/cobranza/pagos)
+
+**Pagó la cuota de este mes pero sigue en rojo.**
+El pago se aplicó a su cargo más viejo, que es lo correcto. La casa hereda el
+peor estado de sus cargos abiertos. → [Cómo funciona la cobranza](/docs/cobranza/como-funciona)
+
+**¿Qué pasa si alguien paga de más?**
+Queda como saldo a favor de la casa y se usa solo en el próximo cobro. Kivo7
+nunca rechaza un pago por exceder la deuda. → [Saldo a favor](/docs/cobranza/saldo-a-favor)
+
+**Emití un lote equivocado. ¿Cómo lo deshago?**
+Hoy no hay botón para cancelar un lote emitido. Solo se pueden cancelar los
+cargos uno por uno, y únicamente los que no tengan pagos.
+→ [Cobros programados](/docs/cobranza/cobros-programados)
+
+**¿Dónde se ponen los días de gracia?**
+En la programación de cobro, no en el concepto ni en la configuración general.
+→ [Programación de cobros](/docs/cobranza/programacion-de-cobros)
+
+**¿Se pueden cobrar recargos?**
+Sí, pero **no se cobra ninguno si no lo configuras**. Y conviene que esté
+respaldado por el reglamento. → [Recargos por mora](/docs/cobranza/recargos-por-mora)
+
+**¿Por qué el tesorero no puede condonar una deuda?**
+Por separación de responsabilidades: quien recibe el dinero no decide solo que
+alguien deje de deberlo. Es del Presidente y el Administrador.
+→ [Descuentos y condonaciones](/docs/cobranza/descuentos-y-condonaciones)
+
+## Casas y residentes
+
+**El identificador de una casa salió como "Casa Casa 23".**
+En el campo *Número* se capturó "Casa 23" en lugar de solo "23". El sistema
+antepone el tipo. → [Unidades](/docs/estructura/unidades)
+
+**Una casa se vendió. ¿La deuda se va con el dueño anterior?**
+No. La deuda pertenece a la casa. Lo que se acuerde entre las partes es del
+contrato de compraventa. → [Cambio de propietario](/docs/estructura/cambio-de-propietario)
+
+**No encuentro el botón "Cambiar propietario".**
+Es un defecto conocido: el permiso que lo protege no está dado de alta, así que
+no aparece para nadie. Hay un camino manual.
+→ [Cambio de propietario](/docs/estructura/cambio-de-propietario)
+
+**Invité a un vecino y dice que no le llegó nada.**
+Revisa spam primero, y que el correo esté bien capturado. Después usa
+**Reenviar**, que genera un enlace nuevo.
+→ [Invitar residentes](/docs/estructura/invitar-residentes)
+
+**¿Cuánto dura una invitación?**
+7 días. Reenviarla reinicia el plazo. → [Invitar residentes](/docs/estructura/invitar-residentes)
+
+**No me deja dar de alta más casas.**
+Llegaste al tope de tu plan. Las casas con estado no facturable no cuentan.
+→ [Límite de unidades](/docs/estructura/limite-de-unidades)
+
+## Accesos y paquetería
+
+**El vigilante dice que no le abre la cámara.**
+El escáner necesita conexión segura. Puede teclear el código a mano.
+→ [Caseta](/docs/accesos/caseta)
+
+**Mandé una solicitud de autorización y no pasa nada en la pantalla.**
+No se actualiza sola. Llama por teléfono y registra la entrada a mano.
+→ [Autorización remota](/docs/accesos/autorizacion-remota)
+
+**Puse a alguien en la lista negra y aun así entró.**
+La coincidencia es por texto exacto: *Juan Pérez* no bloquea a *Juan Perez*.
+→ [Lista negra](/docs/accesos/lista-negra)
+
+**¿Puedo mandar a alguien más a recoger mis paquetes?**
+Sí, compartiéndole tu código. Le van a pedir nombre, relación y **firma**.
+→ [Mis paquetes](/docs/paqueteria/mis-paquetes)
+
+**Un paquete se devolvió solo.**
+Venció el plazo de retención, 10 días por omisión.
+→ [Configuración de paquetería](/docs/configuracion/paqueteria)
+
+## Amenidades
+
+**¿El depósito se devuelve?**
+No. En Kivo7 el depósito es el **anticipo** del costo, no una garantía. Para
+cobrar un daño se usa un cargo adicional.
+→ [Costo y depósito](/docs/amenidades/costo-y-deposito)
+
+**No me aparece una amenidad para reservar.**
+Puede ser que su alcance no incluya tu casa, que tengas adeudo vencido, o que
+esté fuera de servicio. → [Reservar como residente](/docs/amenidades/reservar-como-residente)
+
+**Marqué "no se presentó" y no pasó nada con el dinero.**
+Correcto: esa acción no toca el saldo ni el depósito.
+→ [Estados de una reservación](/docs/amenidades/estados-de-una-reservacion)
+
+## Comunicación
+
+**Desmarqué "Push" en un aviso y llegó igual.**
+Es un defecto conocido: solo el canal de correo funciona. El push sale siempre.
+→ [Avisos](/docs/comunicacion/avisos)
+
+**¿Puedo programar un aviso para mañana?**
+Hoy no desde la aplicación. Guárdalo como borrador y publícalo el día que toque.
+→ [Avisos](/docs/comunicacion/avisos)
+
+**Un vecino reportó un mensaje del chat. ¿Dónde lo reviso?**
+La bandeja de reportes hoy no se puede abrir. Actúa sobre el mensaje con
+**Ocultar**. → [Moderación del chat](/docs/comunicacion/moderacion-del-chat)
+
+**¿Cuándo llega un aviso por WhatsApp?**
+Nunca todavía. El canal aparece como *Próximamente* y no envía nada.
+→ [Notificaciones del condominio](/docs/comunicacion/notificaciones-del-condominio)
+
+**Puse horario de silencio y aun así me despertó una notificación.**
+Los avisos urgentes lo saltan a propósito.
+→ [Preferencias de notificación](/docs/comunicacion/preferencias-de-notificacion)
+
+## Incidencias
+
+**No puedo registrar una incidencia: no me deja elegir categoría.**
+Los catálogos vienen vacíos. Hay que crear al menos una categoría y una
+prioridad. → [Categorías y prioridades](/docs/incidencias/categorias-y-prioridades)
+
+**¿El denunciado puede leer la incidencia?**
+No. Quien vive en la unidad señalada queda excluido por completo.
+→ [Asignar y dar seguimiento](/docs/incidencias/asignar-y-dar-seguimiento)
+
+**¿Hay notas internas entre gestores?**
+No. Todo lo que se escribe en el seguimiento lo lee el reportante.
+→ [Asignar y dar seguimiento](/docs/incidencias/asignar-y-dar-seguimiento)
+
+## Reportes y cuenta
+
+**Necesito el estado de resultados de marzo y estamos en junio.**
+La pantalla de reportes siempre saca el mes en curso. Usa el botón *Descargar*
+del módulo correspondiente, que sí tiene filtros de fecha.
+→ [Catálogo de reportes](/docs/reportes/catalogo-de-reportes)
+
+**¿Se puede programar un reporte mensual?**
+Todavía no hay pantalla para eso, aunque aparezca en el menú.
+→ [Reportes programados](/docs/reportes/reportes-programados)
+
+**¿El precio depende de cuántos usuarios tenga?**
+No. Solo del número de casas. Todas las funciones vienen incluidas.
+→ [Planes y precios](/docs/cuenta/planes-y-precios)
+
+**¿Me van a cobrar al registrarme?**
+No. Eliges plan y registras tu tarjeta al darte de alta, pero el primer cargo se
+hace hasta el día 31. → [Crear tu cuenta y elegir plan](/docs/empezar/crear-cuenta-y-plan)
+
+**¿Puedo entrar a probar la aplicación antes de elegir plan?**
+No. Elegir plan y registrar la tarjeta es el paso previo a entrar: sin eso te
+quedas en la pantalla de planes.
+→ [Crear tu cuenta y elegir plan](/docs/empezar/crear-cuenta-y-plan)
+
+**Estoy en prueba. ¿Tengo que hacer algo antes de que venza?**
+Depende de cómo empezó. Si contrataste tú, no: se cobra solo el día 31. Si la
+prueba te la dio el equipo de Kivo7, sí: hay que contratar antes o el acceso se
+pausa. La pantalla de planes se ve distinta en cada caso.
+→ [Cómo saber en cuál estás](/docs/cuenta/planes-y-precios#cómo-saber-en-cuál-estás)
+
+**Falló el cobro de mi tarjeta y nadie puede entrar.**
+El acceso se pausa el mismo día, sin días de gracia. Actualiza la tarjeta y se
+reactiva solo. → [Cuando el acceso está en pausa](/docs/cuenta/acceso-en-pausa)
+
+**¿Qué pasa si cancelo la suscripción?**
+La aplicación se pausa para todo el condominio, pero los datos se conservan. Si
+cancelas durante los 30 días de prueba, no se te cobra nada.
+→ [Cancelar y reanudar](/docs/cuenta/cancelar-y-reanudar)
+
+<CardGrid>
+  <LinkCard
+    title="Solución de problemas"
+    href="/docs/ayuda/solucion-de-problemas"
+    description="Cuando algo no funciona como esperas."
+  />
+  <LinkCard
+    title="Glosario"
+    href="/docs/ayuda/glosario"
+    description="Qué significa cada término."
+  />
+</CardGrid>

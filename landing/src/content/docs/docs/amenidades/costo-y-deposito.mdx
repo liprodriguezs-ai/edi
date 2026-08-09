@@ -1,0 +1,91 @@
+---
+title: "Costo y depósito"
+description: "Cobrar el uso de una amenidad y qué es realmente el depósito en Kivo7 — no es lo que la mayoría espera."
+sidebar:
+  order: 3
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Una amenidad puede tener costo, y ese costo puede pagarse en dos partes.
+
+## Lo primero: qué es el depósito en Kivo7
+
+<Aside type="caution">
+**El depósito NO es una garantía reembolsable. Es el anticipo mínimo del primer
+pago, y se descuenta del costo.**
+
+Si el salón cuesta $2,000.00 MXN con un depósito de $500.00, el vecino paga
+$500.00 para apartar y $1,500.00 después. El total sigue siendo $2,000.00. **No
+hay nada que devolver.**
+
+Si en tu condominio se cobra una garantía por daños que se regresa al final, eso
+**no existe en Kivo7 todavía**: no hay flujo de devolución ni de retención del
+depósito. Habría que manejarlo por fuera, o cobrarlo como un
+[cargo adicional](/docs/amenidades/administrar-reservaciones) si hubo daños.
+</Aside>
+
+## Configurarlo
+
+<Steps>
+
+1. Edita la amenidad y baja a **Costo y depósito**.
+
+2. Enciende **Tiene costo** y captura:
+
+   - **Monto del costo** — lo que se cobra por reservar.
+   - **Cuenta destino** — a qué cuenta entra el dinero. Es obligatoria.
+
+3. Si quieres cobro en dos partes, enciende **Requiere depósito** y captura:
+
+   - **Monto del depósito** — el anticipo mínimo.
+   - **Días para liquidar** — cuántos días tiene el vecino para pagar el resto.
+
+4. Guarda.
+
+</Steps>
+
+## Cómo funciona el cobro
+
+Cuando una amenidad tiene costo, la reserva nace en **Pendiente de pago**.
+
+- **Sin depósito**: hay que pagar el total. El plazo por defecto es de **3 días**.
+- **Con depósito**: el primer pago debe cubrir al menos el depósito. Si no,
+  Kivo7 lo rechaza: *El primer pago debe cubrir al menos el depósito de $X.*
+
+Al confirmarse el depósito, la reserva pasa a **Confirmada** y se calcula una
+**fecha límite de saldo** con los días que configuraste.
+
+## Qué pasa si no paga el saldo
+
+Un proceso automático cancela la reservación con el motivo **Vencimiento de plazo
+de pago**, libera el horario y le avisa al vecino.
+
+Los pagos confirmados se revierten y los que estuvieran pendientes de validación
+se rechazan.
+
+<Aside type="tip">
+Si tu condominio cobra el salón, un depósito bajo con plazo corto funciona mejor
+que el pago total por adelantado: baja la fricción para apartar y el plazo se
+encarga de que no queden fechas bloqueadas por reservas que nadie va a pagar.
+</Aside>
+
+## Si el pago se rechaza
+
+Cuando la tesorería rechaza un comprobante, la fecha límite **se extiende un
+día** para que el vecino pueda mandar uno corregido sin perder su reserva.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Cobro de reservaciones"
+    href="/docs/amenidades/cobro-de-reservaciones"
+    description="Cómo se registra y valida el pago."
+  />
+  <LinkCard
+    title="Estados de una reservación"
+    href="/docs/amenidades/estados-de-una-reservacion"
+    description="Cómo se mueve entre pendiente de pago y confirmada."
+  />
+</CardGrid>

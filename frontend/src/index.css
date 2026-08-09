@@ -1,0 +1,363 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Fuente oficial shadcn / Vercel: Geist Sans */
+@import '@fontsource/geist/latin-400.css';
+@import '@fontsource/geist/latin-500.css';
+@import '@fontsource/geist/latin-600.css';
+@import '@fontsource/geist/latin-700.css';
+
+/* Marca "Salvia" (scoped a las pantallas de acceso vía .salvia):
+   Hanken Grotesk = UI, Cormorant Garamond = sello de marca (wordmark). */
+@import '@fontsource/hanken-grotesk/latin-400.css';
+@import '@fontsource/hanken-grotesk/latin-500.css';
+@import '@fontsource/hanken-grotesk/latin-600.css';
+@import '@fontsource/hanken-grotesk/latin-700.css';
+@import '@fontsource/cormorant-garamond/latin-500.css';
+@import '@fontsource/cormorant-garamond/latin-600.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --text-base: 14px;
+  --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* ===== Marca "Kivo7 · v3 Salvia" — tema GLOBAL (sRGB) =====
+     Aplicada a TODO el app. La paleta editorial del diseño reemplaza
+     el tema oklch previo. Modo claro; `.dark` conserva su paleta. */
+  --radius: 0.5625rem; /* 9px */
+  --background: #ffffff;
+  --foreground: #1b201c;
+  --card: #ffffff;
+  --card-foreground: #1b201c;
+  --popover: #ffffff;
+  --popover-foreground: #1b201c;
+  --primary: #21402c; /* green-deep — CTA */
+  --primary-foreground: #ffffff;
+  --secondary: #f3f2ec; /* surface-3 */
+  --secondary-foreground: #1b201c;
+  --muted: #f2f1ec; /* canvas */
+  --muted-foreground: #888d83; /* ink-3 */
+  --accent: #e9f1ea; /* green-bg */
+  --accent-foreground: #21402c;
+  --destructive: #c0533c; /* status red */
+  --border: #e8e5dd; /* line */
+  --input: #e8e5dd;
+  --ring: #33935d; /* brand */
+  --chart-1: #33935d;
+  --chart-2: #2e6b45;
+  --chart-3: #c0862b;
+  --chart-4: #3f6e8e;
+  --chart-5: #21402c;
+  --sidebar: #21402c; /* nav verde bosque — sidebar global */
+  --sidebar-foreground: #afc2ad; /* nav-txt */
+  --sidebar-primary: #33935d; /* brand */
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2c5239; /* nav-hover (verde más claro) */
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2c5239;
+  --sidebar-ring: #33935d;
+
+  /* Fuente de UI global */
+  --font-sans: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* Extras de marca para componentes a medida (no shadcn) */
+  --brand: #33935d;
+  --green: #2e6b45;
+  --green-deep: #21402c;
+  --green-bg: #e9f1ea;
+  --nav: #21402c;
+  --nav-2: #1a3322;
+  --nav-txt: #afc2ad;
+  --nav-lbl: #6f8c72;
+  --ink-2: #585d54;
+  --ink-3: #888d83;
+  --ink-4: #b0b4aa;
+  --line-2: #f0eee7;
+  --surface-2: #faf9f5; /* cabeceras de tabla, hovers */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+
+  /* Estados financieros (pares texto/fondo del UI Kit) */
+  --g: #3f9a5e;
+  --gbg: #e7f1e9;
+  --y: #c0862b;
+  --ybg: #f6ecd6;
+  --r: #c0533c;
+  --rbg: #f6e2dc;
+  --b: #3f6e8e;
+  --bbg: #e4ecf2;
+}
+
+.dark {
+  /* Marca "Salvia" en oscuro — ink verde profundo + verde de marca más brillante */
+  --background: #141d17;
+  --foreground: #e8ebe4;
+  --card: #1d2a22;
+  --card-foreground: #e8ebe4;
+  --popover: #1d2a22;
+  --popover-foreground: #e8ebe4;
+  --primary: #3f9a5e;
+  --primary-foreground: #0f1712;
+  --secondary: #243029;
+  --secondary-foreground: #e8ebe4;
+  --muted: #141d17;
+  --muted-foreground: #93a08f;
+  --accent: #24382b;
+  --accent-foreground: #d6e3d4;
+  --destructive: #d4604a;
+  --border: #2c3a30;
+  --input: #2c3a30;
+  --ring: #3f9a5e;
+  --chart-1: #3f9a5e;
+  --chart-2: #5cae78;
+  --chart-3: #c0862b;
+  --chart-4: #3f6e8e;
+  --chart-5: #2e6b45;
+  --sidebar: #1a3322;
+  --sidebar-foreground: #afc2ad;
+  --sidebar-primary: #3f9a5e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #21402c;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2c5239;
+  --sidebar-ring: #3f9a5e;
+
+  /* extras de marca en oscuro */
+  --brand: #3f9a5e;
+  --green: #6bbd86;
+  --green-deep: #2e6b45;
+  --green-bg: #1f3326;
+  --nav: #1a3322;
+  --nav-2: #21402c;
+  --nav-txt: #afc2ad;
+  --ink-2: #b8c2b2;
+  --ink-3: #93a08f;
+  --ink-4: #6f7d6d;
+  --line-2: #243029;
+  --surface-2: #243029;
+}
+
+/* Sello de marca tipográfico Salvia (wordmark, nombres de plan) — global */
+.font-brand {
+  font-family: var(--font-serif);
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: clip;
+    touch-action: manipulation;
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  /* Global focus-visible fallback for keyboard users (WCAG 2.4.7). Components with outline-none + ring use their own focus style. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    width: 100%;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  #root {
+    min-height: 100dvh;
+    overflow-x: clip;
+    min-width: 0;
+    max-width: 100%;
+  }
+  /* Flex children no deben empujar el viewport en mobile */
+  [data-slot='sidebar-wrapper'],
+  [data-slot='sidebar-inset'] {
+    min-width: 0;
+    max-width: 100%;
+  }
+  /* iOS Safari hace zoom automático si el font-size del control es < 16px */
+  @media (max-width: 767px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+  /* Scroll margin so focused elements aren’t hidden under fixed headers */
+  [id]:focus {
+    scroll-margin-top: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+table {
+  th.actions {
+    background-color: var(--card);
+  }
+  td.actions,
+  th.actions {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: right;
+    position: sticky;
+    right: 0;
+    width: 1.25rem;
+    background-color: var(--card);
+    animation: shadow-on-scroll linear;
+    animation-timeline: scroll(x);
+    overflow: visible;
+    z-index: 10;
+  }
+}
+
+@keyframes shadow-on-scroll {
+  0% {
+    filter: drop-shadow(rgb(from #21252c r g b / 8%) -2px 10px 6px);
+  }
+  75% {
+    filter: drop-shadow(rgb(from #21252c r g b / 8%) -2px 10px 6px);
+  }
+  99% {
+    filter: none;
+  }
+  /* 0% {
+    filter: none;
+  }
+  1% {
+    filter: drop-shadow(-2px 0 6px rgba(33, 37, 44, 0.08));
+  }
+  100% {
+    filter: drop-shadow(-2px 0 6px rgba(33, 37, 44, 0.08));
+  } */
+}
+
+/* Los toasts de sileo deben quedar SOBRE los overlays de Radix (Dialog y Sheet
+   usan z-50). El viewport de sileo trae `z-index:50` inyectado en runtime, así
+   que subimos la especificidad con `html` para ganar el empate sin !important.
+
+   BUG FIX (E2E QA round 2): patrón estándar de toasts — el VIEWPORT
+   (contenedor fijo que ocupa toda una esquina de la pantalla) no captura
+   punteros; solo cada TOAST individual, que sí necesita ser interactivo
+   (swipe/click para descartar). Esto ya viene así en el CSS de sileo
+   (`sileo/styles.css`); se declara también acá, explícito, para que este
+   contrato no dependa silenciosamente de que ese paquete no cambie su hoja de
+   estilos.
+
+   LÍMITE de este patrón (verificado E2E round 3, ver useToast.ts): cuando el
+   TOAST mismo (no el viewport vacío) queda pixel-a-pixel encima de un botón
+   del footer de un Dialog/Sheet — ambos anclados a la MISMA esquina de la
+   pantalla — el toast sigue necesitando `pointer-events:auto` para ser
+   descartable, así que ningún selector CSS puede dejar pasar ese clic al
+   botón de abajo. Esto NO es un selector equivocado; es una colisión de
+   posición. La solución real para los toasts de error (los que disparan
+   mientras el usuario interactúa con un form) es reposicionarlos lejos del
+   footer — ver el override `position: 'top-center'` en
+   `shared/hooks/useToast.ts` (`withErrorDefaults`). Este bloque de CSS sigue
+   siendo válido y se mantiene como defensa adicional. */
+html [data-sileo-viewport] {
+  z-index: 100;
+  pointer-events: none;
+}
+
+html [data-sileo-viewport] [data-sileo-toast] {
+  pointer-events: auto;
+}
+
+/* El título de un toast de sileo trae `text-transform: capitalize` en su hoja
+   por defecto (`sileo/dist/styles.css`) — Title Case, que es INCORRECTO en
+   español ("Tu Reservación Quedó Pendiente…"). Nuestros mensajes ya vienen en
+   mayúscula de oración; forzamos `none` para respetarlos tal cual. Global a
+   propósito: aplica a todos los toasts de la app, no solo a amenidades.
+   `!important` es obligatorio: sileo INYECTA su CSS en runtime (`__insertCSS`)
+   DESPUÉS de que carga esta hoja, así que con igual especificidad su regla
+   ganaría por orden — verificado en vivo (el computed seguía en `capitalize`
+   sin `!important`). */
+[data-sileo-title] {
+  text-transform: none !important;
+}
+
+/* Acento de marca Kivo7 para los calendarios schedule-x (ocupación + reservas).
+   El tema por defecto pinta el marcador de "hoy"/nav con `--sx-color-primary`
+   (un morado Material). Lo retargeteamos al verde de Kivo7 en `.sx__calendar-wrapper`
+   (el nodo más externo de schedule-x) — un ancestro más cercano que el `:root`
+   del tema, así gana la cascada sin `!important`. Valores en verde CLARO fijo
+   (no `var(--green)`, que se invierte con el modo oscuro de la app): schedule-x
+   se renderiza siempre en su tema claro acá, así el marcador queda verde oscuro
+   con texto blanco sobre su superficie clara. Los chips de evento conservan su
+   paleta por-amenidad (definida en `lightColors` de cada calendario). */
+.sx__calendar-wrapper {
+  --sx-color-primary: #2e6b45;
+  --sx-color-on-primary: #ffffff;
+  --sx-color-primary-container: #e9f1ea;
+  --sx-color-on-primary-container: #21402c;
+}
+
+/* Los eventos del month-grid cortan el texto en seco (overflow:hidden + nowrap
+   sin `text-overflow` en el tema) — agregamos la elipsis para que un título
+   largo se lea como recortado y no cortado a mitad de palabra. */
+.sx__month-grid-event {
+  text-overflow: ellipsis;
+}

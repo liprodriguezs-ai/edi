@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Residia — Administración de clústeres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Dirección A · Salvia — 60-30-10 */
+    --paper:#ECEAE4;        /* 60 */
+    --paper-2:#E4E1D9;
+    --paper-3:#DCD8CF;
+    --ink:#14181A;          /* 30 */
+    --ink-soft:#54584F;
+    --ink-faint:#8A8C82;
+    --sage:#6E7E6A;         /* 10 */
+    --sage-deep:#5A6957;
+    --line:#D3CFC4;
+    --line-soft:#DFDBD1;
+
+    --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:96px;--s8:128px;--s9:184px;
+    --sans:'Hanken Grotesk', system-ui, sans-serif;
+    --serif:'Cormorant Garamond', Georgia, serif;
+    --maxw:1240px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.62;font-size:17px;}
+  ::selection{background:var(--sage);color:#fff;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s6);}
+  @media(max-width:760px){.wrap{padding:0 var(--s4);}}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--s4);}
+  @media(max-width:760px){.grid{grid-template-columns:1fr;gap:var(--s3);}}
+
+  .eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--sage-deep);}
+  .serif{font-family:var(--serif);}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1);}
+  .rv.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none;}}
+
+  /* ---------------- NAV ---------------- */
+  nav.top{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s,border-color .4s;border-bottom:1px solid transparent;}
+  nav.top.solid{background:color-mix(in srgb,var(--paper) 85%,transparent);backdrop-filter:blur(12px);border-color:var(--line-soft);}
+  nav.top .row{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  nav.top .logo{font-family:var(--serif);font-weight:500;font-size:23px;letter-spacing:.01em;}
+  nav.top .links{display:flex;gap:var(--s5);}
+  nav.top .links a{font-size:13px;letter-spacing:.04em;color:var(--ink-soft);transition:color .2s;}
+  nav.top .links a:hover{color:var(--ink);}
+  nav.top .cta{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ink);padding:11px 22px;transition:.25s;}
+  nav.top .cta:hover{background:var(--ink);color:var(--paper);}
+  @media(max-width:860px){nav.top .links{display:none;}}
+
+  /* ---------------- HERO ---------------- */
+  header.hero{padding-top:150px;padding-bottom:var(--s7);position:relative;}
+  .hero .grid{align-items:center;}
+  .hero .copy{grid-column:1 / 7;}
+  .hero .copy .eyebrow{margin-bottom:var(--s4);}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(44px,5.6vw,74px);line-height:1.05;letter-spacing:-.01em;}
+  .hero h1 em{font-style:italic;color:var(--sage);}
+  .hero .lede{margin-top:var(--s6);font-size:19px;line-height:1.6;color:var(--ink-soft);max-width:42ch;}
+  .hero .actions{margin-top:var(--s5);display:flex;align-items:center;gap:var(--s4);flex-wrap:wrap;}
+  .btn{font-size:13px;letter-spacing:.06em;padding:15px 30px;transition:.25s;display:inline-block;}
+  .btn.solid{background:var(--ink);color:var(--paper);}
+  .btn.solid:hover{background:var(--sage-deep);}
+  .btn.ghost{padding:15px 4px;color:var(--ink);border-bottom:1px solid transparent;}
+  .btn.ghost:hover{border-color:var(--ink);}
+  .hero .figure{grid-column:8 / 13;position:relative;}
+  .hero .ph{aspect-ratio:4/5;position:relative;overflow:hidden;background:var(--paper-2);border:1px solid var(--line);}
+  .ph.striped{background-image:repeating-linear-gradient(135deg,transparent 0 10px,color-mix(in srgb,var(--ink) 7%,transparent) 10px 11px);}
+  .ph .plabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);background:var(--paper);padding:6px 12px;white-space:nowrap;}
+  .hero .focal{position:absolute;left:-46px;bottom:56px;background:var(--paper);border:1px solid var(--line);padding:22px 28px;max-width:236px;box-shadow:0 24px 48px -28px rgba(20,24,26,.28);}
+  .hero .focal .n{font-family:var(--serif);font-size:52px;line-height:.9;}
+  .hero .focal .c{font-size:12px;color:var(--ink-soft);margin-top:8px;line-height:1.45;}
+  @media(max-width:860px){
+    .hero .copy{grid-column:1 / -1;}
+    .hero .figure{grid-column:1 / -1;margin-top:var(--s5);max-width:420px;}
+    .hero .focal{left:auto;right:18px;}
+  }
+
+  /* ---------------- TRUST STRIP ---------------- */
+  .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:var(--s5) 0;}
+  .trust .grid{align-items:center;}
+  .trust .lab{grid-column:1 / 4;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);}
+  .trust .names{grid-column:4 / 13;display:flex;flex-wrap:wrap;gap:var(--s3) var(--s6);align-items:center;}
+  .trust .names span{font-family:var(--serif);font-size:21px;color:var(--ink-soft);letter-spacing:.01em;}
+  @media(max-width:760px){.trust .lab,.trust .names{grid-column:1 / -1;}.trust .names{gap:var(--s2) var(--s4);}.trust .names span{font-size:18px;}}
+
+  /* ---------------- SECTION SCAFFOLD ---------------- */
+  section{padding:var(--s8) 0;}
+  @media(max-width:760px){section{padding:var(--s7) 0;}}
+  .shead{margin-bottom:var(--s6);}
+  .shead .eyebrow{margin-bottom:var(--s3);}
+  .shead h2{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.6vw,56px);line-height:1.04;letter-spacing:-.005em;max-width:18ch;}
+  .shead p{margin-top:var(--s3);color:var(--ink-soft);font-size:18px;max-width:54ch;}
+
+  /* manifesto */
+  .manifesto{padding:var(--s9) 0;}
+  .manifesto p{grid-column:2 / 12;font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,46px);line-height:1.22;letter-spacing:-.005em;text-wrap:pretty;}
+  .manifesto p em{font-style:italic;color:var(--sage);}
+  .manifesto .by{grid-column:2 / 12;margin-top:var(--s4);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);}
+  @media(max-width:760px){.manifesto p,.manifesto .by{grid-column:1 / -1;}}
+
+  /* ---------------- MÓDULOS (editorial rows) ---------------- */
+  .mod{padding:var(--s7) 0;border-top:1px solid var(--line);}
+  .mod .grid{align-items:center;}
+  .mod .txt{grid-column:1 / 6;}
+  .mod .fig{grid-column:7 / 13;}
+  .mod.flip .txt{grid-column:8 / 13;order:2;}
+  .mod.flip .fig{grid-column:1 / 7;order:1;}
+  .mod .ix{font-family:var(--serif);font-size:15px;color:var(--sage);}
+  .mod h3{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.05;margin-top:var(--s2);}
+  .mod p{margin-top:var(--s3);color:var(--ink-soft);font-size:17px;max-width:40ch;}
+  .mod ul{margin-top:var(--s4);list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .mod ul li{display:flex;gap:14px;align-items:baseline;font-size:15.5px;color:var(--ink-soft);}
+  .mod ul li::before{content:"";width:6px;height:6px;background:var(--sage);flex:0 0 6px;transform:translateY(-2px);border-radius:50%;}
+  .mod ul li b{color:var(--ink);font-weight:600;}
+  .mod .fig .frame{aspect-ratio:16/12;background:var(--paper-2);border:1px solid var(--line);position:relative;overflow:hidden;}
+  @media(max-width:860px){
+    .mod .txt,.mod .fig,.mod.flip .txt,.mod.flip .fig{grid-column:1 / -1;order:initial;}
+    .mod .fig{margin-top:var(--s4);}
+  }
+
+  /* ---------------- PRODUCT PEEK (real mini UI) ---------------- */
+  .peek{background:var(--paper-2);}
+  .peek .shead{text-align:center;margin-left:auto;margin-right:auto;}
+  .peek .shead h2,.peek .shead p{margin-left:auto;margin-right:auto;}
+  .peek .shead p{text-align:center;}
+  .uiwin{margin-top:var(--s6);border:1px solid var(--line);background:var(--paper);box-shadow:0 50px 90px -50px rgba(20,24,26,.4);overflow:hidden;}
+  .uiwin .bar{height:42px;display:flex;align-items:center;gap:8px;padding:0 18px;background:var(--paper-2);border-bottom:1px solid var(--line);}
+  .uiwin .bar i{width:9px;height:9px;border-radius:50%;background:var(--line);}
+  .uiwin .bar .u{margin-left:14px;font-size:11px;color:var(--ink-faint);letter-spacing:.04em;}
+  .uiwin .ui{display:grid;grid-template-columns:230px 1fr;min-height:440px;}
+  .uiwin .side{border-right:1px solid var(--line);padding:var(--s4) var(--s3);}
+  .uiwin .side .brand{font-family:var(--serif);font-size:20px;margin-bottom:var(--s5);padding-left:6px;}
+  .uiwin .side .nav{display:flex;flex-direction:column;gap:2px;}
+  .uiwin .side .nav a{font-size:13.5px;color:var(--ink-soft);padding:10px 12px;border-radius:7px;display:flex;justify-content:space-between;align-items:center;}
+  .uiwin .side .nav a.on{background:var(--paper-3);color:var(--ink);font-weight:500;}
+  .uiwin .side .nav a .badge{font-size:10.5px;background:var(--sage);color:#fff;border-radius:20px;padding:1px 8px;font-weight:600;}
+  .uiwin .main{padding:var(--s5);}
+  .uiwin .main .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--s5);}
+  .uiwin .main .top .h{font-family:var(--serif);font-size:30px;font-weight:500;}
+  .uiwin .main .top .sub{font-size:13px;color:var(--ink-faint);margin-top:4px;letter-spacing:.02em;}
+  .uiwin .main .top .pill{font-size:12px;border:1px solid var(--line);padding:9px 16px;color:var(--ink-soft);}
+  .stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);}
+  .stat3 .st{border-top:2px solid var(--ink);padding-top:16px;}
+  .stat3 .st.sage{border-color:var(--sage);}
+  .stat3 .st .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+  .stat3 .st .v{font-family:var(--serif);font-size:38px;line-height:1;margin-top:10px;}
+  .stat3 .st .v small{font-size:16px;color:var(--ink-soft);}
+  .stat3 .st .d{font-size:12px;color:var(--ink-soft);margin-top:8px;}
+  .peekrows{margin-top:var(--s5);border-top:1px solid var(--line);}
+  .peekrows .r{display:grid;grid-template-columns:1fr auto auto auto;gap:var(--s4);align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft);font-size:14px;}
+  .peekrows .r .nm{color:var(--ink);}
+  .peekrows .r .mut{color:var(--ink-faint);font-variant-numeric:tabular-nums;}
+  .peekrows .r .dot{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);}
+  .peekrows .r .dot i{width:8px;height:8px;border-radius:50%;}
+  .g{background:#5E8C6A;}.y{background:#C9A24B;}.rr{background:#B6604F;}
+  @media(max-width:760px){.uiwin .ui{grid-template-columns:1fr;}.uiwin .side{display:none;}.stat3{grid-template-columns:1fr;gap:var(--s3);}.peekrows .r{grid-template-columns:1fr auto;}.peekrows .r .mut:nth-child(2),.peekrows .r .mut:nth-child(3){display:none;}}
+
+  /* ---------------- TRANSPARENCIA ---------------- */
+  .transp .grid{align-items:center;}
+  .transp .l{grid-column:1 / 6;}
+  .transp .r{grid-column:7 / 13;}
+  .transp .l h2{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.2vw,50px);line-height:1.04;}
+  .transp .l p{margin-top:var(--s4);color:var(--ink-soft);max-width:40ch;}
+  .barcard{background:var(--paper);border:1px solid var(--line);padding:var(--s5);}
+  .barcard .hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:var(--s4);}
+  .barcard .hd .t{font-family:var(--serif);font-size:22px;}
+  .barcard .hd .m{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+  .barcard .row{margin-bottom:18px;}
+  .barcard .row .lab{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:7px;}
+  .barcard .row .lab .amt{color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .barcard .track{height:8px;background:var(--paper-3);overflow:hidden;}
+  .barcard .track i{display:block;height:100%;background:var(--sage);}
+  .barcard .foot{margin-top:var(--s4);padding-top:var(--s4);border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;}
+  .barcard .foot .nt{font-size:11px;color:var(--ink-faint);letter-spacing:.04em;}
+  .barcard .foot .net{font-family:var(--serif);font-size:28px;color:var(--sage-deep);}
+  @media(max-width:860px){.transp .l,.transp .r{grid-column:1 / -1;}.transp .r{margin-top:var(--s5);}}
+
+  /* ---------------- QUOTE ---------------- */
+  .quote{padding:var(--s9) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .quote blockquote{grid-column:2 / 12;font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(26px,3.6vw,42px);line-height:1.28;letter-spacing:-.005em;text-wrap:pretty;}
+  .quote .attr{grid-column:2 / 12;margin-top:var(--s4);display:flex;align-items:center;gap:14px;}
+  .quote .attr .av{width:44px;height:44px;border-radius:50%;background:var(--paper-3);border:1px solid var(--line);}
+  .quote .attr .who{font-size:14px;}
+  .quote .attr .who b{display:block;font-weight:600;}
+  .quote .attr .who span{color:var(--ink-faint);font-size:12.5px;}
+  @media(max-width:760px){.quote blockquote,.quote .attr{grid-column:1 / -1;}}
+
+  /* ---------------- CTA ---------------- */
+  .cta-final{background:var(--ink);color:var(--paper);padding:var(--s9) 0;}
+  .cta-final .eyebrow{color:var(--sage);}
+  .cta-final h2{font-family:var(--serif);font-weight:500;font-size:clamp(40px,6vw,80px);line-height:.98;margin-top:var(--s3);max-width:16ch;}
+  .cta-final h2 em{font-style:italic;color:#A9B6A2;}
+  .cta-final p{margin-top:var(--s4);color:#B4B3AC;max-width:44ch;font-size:18px;}
+  .cta-final .actions{margin-top:var(--s6);display:flex;gap:var(--s4);align-items:center;flex-wrap:wrap;}
+  .cta-final .btn.solid{background:var(--paper);color:var(--ink);}
+  .cta-final .btn.solid:hover{background:var(--sage);color:#fff;}
+  .cta-final .btn.ghost{color:var(--paper);border-bottom-color:transparent;}
+  .cta-final .btn.ghost:hover{border-bottom-color:var(--paper);}
+
+  /* ---------------- FOOTER ---------------- */
+  footer.site{padding:var(--s7) 0 var(--s6);}
+  footer.site .grid{align-items:start;}
+  footer.site .brandcol{grid-column:1 / 5;}
+  footer.site .brandcol .logo{font-family:var(--serif);font-size:26px;}
+  footer.site .brandcol p{margin-top:var(--s2);font-size:13.5px;color:var(--ink-soft);max-width:30ch;}
+  footer.site .col{grid-column:span 2;}
+  footer.site .col h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:var(--s3);}
+  footer.site .col a{display:block;font-size:14px;color:var(--ink-soft);padding:5px 0;}
+  footer.site .col a:hover{color:var(--ink);}
+  footer.site .legal{grid-column:1 / 13;margin-top:var(--s6);padding-top:var(--s4);border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--ink-faint);}
+  @media(max-width:760px){footer.site .brandcol,footer.site .col{grid-column:1 / -1;}footer.site .legal{flex-direction:column;gap:8px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top" id="nav">
+  <div class="wrap row">
+    <a href="#" class="logo">Residia</a>
+    <div class="links">
+      <a href="#modulos">Plataforma</a>
+      <a href="#peek">El panel</a>
+      <a href="#transparencia">Transparencia</a>
+      <a href="#precio">Precio</a>
+    </div>
+    <a href="#precio" class="cta">Solicitar acceso</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap grid">
+    <div class="copy">
+      <div class="eyebrow rv">Administración de clústeres</div>
+      <h1 class="rv">Vivir en orden<br>es vivir<br><em>tranquilo.</em></h1>
+      <p class="lede rv">Residia mantiene tu fraccionamiento al día: cobranza, tesorería y reportes en un solo lugar, claros para todos. Sin Excel, sin dudas, sin ruido.</p>
+      <div class="actions rv">
+        <a href="#precio" class="btn solid">Solicitar acceso</a>
+        <a href="#peek" class="btn ghost">Ver el panel →</a>
+      </div>
+    </div>
+    <div class="figure rv">
+      <div class="ph striped"><span class="plabel">Fotografía · Arquitectura residencial</span></div>
+      <div class="focal">
+        <div class="n">98<span style="font-size:.55em">%</span></div>
+        <div class="c">de cuotas al corriente este trimestre en Loma Chica</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap grid">
+    <div class="lab rv">Administra hoy</div>
+    <div class="names rv">
+      <span>Loma Chica</span>
+      <span>Torre Polanco</span>
+      <span>Villa Serena</span>
+      <span>Altos del Bosque</span>
+      <span>Residencial Niebla</span>
+    </div>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="wrap grid">
+    <p class="rv">Una comunidad bien administrada no se nota. Se <em>siente</em>: en la jardinera podada, en la cuota que llegó a tiempo, en la confianza de saber a dónde va cada peso.</p>
+    <div class="by rv">La filosofía de Residia</div>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<div id="modulos">
+  <div class="shead wrap rv" style="padding-top:var(--s4);">
+    <div class="eyebrow">La plataforma</div>
+    <h2>Todo lo que un tesorero necesita. Nada que lo distraiga.</h2>
+    <p>Cuatro módulos que reemplazan la libreta y el Excel, con la calma de tenerlo todo en un mismo lugar.</p>
+  </div>
+
+  <div class="mod">
+    <div class="wrap grid">
+      <div class="txt rv">
+        <div class="ix">01</div>
+        <h3>Cobranza con flexibilidad total</h3>
+        <p>Registra cualquier pago, en cualquier monto. El sistema nunca rechaza: solo refleja el estado real de cada unidad, al instante.</p>
+        <ul>
+          <li><b>Estado por color</b> — al corriente, parcial o vencido, de un vistazo.</li>
+          <li><b>Aplicación automática</b> de pagos a los cargos más antiguos.</li>
+          <li><b>Saldo a favor</b> que se aplica solo en el siguiente cobro.</li>
+        </ul>
+      </div>
+      <div class="fig rv">
+        <div class="frame ph striped"><span class="plabel">Captura · Estado de cuenta de unidad</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mod flip">
+    <div class="wrap grid">
+      <div class="txt rv">
+        <div class="ix">02</div>
+        <h3>Tesorería que cuadra sola</h3>
+        <p>Ingresos y egresos en una misma cuenta corriente. Cada salida con su comprobante, su categoría y quién la autorizó.</p>
+        <ul>
+          <li><b>Cuentas y caja</b> con saldo estimado siempre actualizado.</li>
+          <li><b>Egresos categorizados</b> para reportes en segundos.</li>
+          <li><b>Alertas</b> de saldo bajo y pagos por vencer.</li>
+        </ul>
+      </div>
+      <div class="fig rv">
+        <div class="frame ph striped"><span class="plabel">Captura · Ingresos y egresos</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mod">
+    <div class="wrap grid">
+      <div class="txt rv">
+        <div class="ix">03</div>
+        <h3>Mesa directiva y personal, en orden</h3>
+        <p>Cada periodo de la mesa con sus cargos y permisos. El directorio del personal con sus documentos, siempre a la mano.</p>
+        <ul>
+          <li><b>Periodos electos</b> con cierre y relevo automático.</li>
+          <li><b>Directorio público</b> de la mesa para todos los residentes.</li>
+          <li><b>Expedientes</b> de empleados, privados y completos.</li>
+        </ul>
+      </div>
+      <div class="fig rv">
+        <div class="frame ph striped"><span class="plabel">Captura · Directorio de la mesa</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mod flip">
+    <div class="wrap grid">
+      <div class="txt rv">
+        <div class="ix">04</div>
+        <h3>Reportes que se entienden solos</h3>
+        <p>Estado de resultados, morosidad y flujo de efectivo en PDF o Excel. Listos para la asamblea, sin armarlos a mano.</p>
+        <ul>
+          <li><b>Un clic</b> para el cierre mensual completo.</li>
+          <li><b>Programados</b> y enviados solos a la mesa cada mes.</li>
+          <li><b>Transparencia</b> que cualquier vecino puede consultar.</li>
+        </ul>
+      </div>
+      <div class="fig rv">
+        <div class="frame ph striped"><span class="plabel">Captura · Centro de reportes</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT PEEK -->
+<section class="peek" id="peek">
+  <div class="wrap">
+    <div class="shead rv" style="max-width:42ch;">
+      <div class="eyebrow">El panel</div>
+      <h2>Una sola vista. Todo el clúster.</h2>
+      <p>Así se ve el día a día del tesorero: lo importante arriba, el detalle a un clic, el ruido fuera.</p>
+    </div>
+
+    <div class="uiwin rv">
+      <div class="bar"><i></i><i></i><i></i><span class="u">app.residia.mx · Loma Chica</span></div>
+      <div class="ui">
+        <aside class="side">
+          <div class="brand">Residia</div>
+          <div class="nav">
+            <a class="on">Inicio</a>
+            <a>Unidades</a>
+            <a>Cobranza</a>
+            <a>Morosidad <span class="badge">35</span></a>
+            <a>Tesorería</a>
+            <a>Reportes</a>
+          </div>
+        </aside>
+        <div class="main">
+          <div class="top">
+            <div>
+              <div class="h">Buenos días, Alberto.</div>
+              <div class="sub">Marzo 2026 · 77 unidades · Tesorero</div>
+            </div>
+            <div class="pill">Generar cierre mensual</div>
+          </div>
+
+          <div class="stat3">
+            <div class="st sage">
+              <div class="k">Recaudado este mes</div>
+              <div class="v">$35,000<small> / 53,900</small></div>
+              <div class="d">65% del esperado · 35 de 77 al corriente</div>
+            </div>
+            <div class="st">
+              <div class="k">Saldo en cuentas</div>
+              <div class="v">$231,400</div>
+              <div class="d">3 cuentas · operativa, reserva y caja</div>
+            </div>
+            <div class="st">
+              <div class="k">Adeudo total</div>
+              <div class="v">$89,300</div>
+              <div class="d">35 unidades con saldo pendiente</div>
+            </div>
+          </div>
+
+          <div class="peekrows">
+            <div class="r"><span class="nm">Casa 1 · Héctor Reyes</span><span class="mut">$700</span><span class="mut">Pagado 15 mar</span><span class="dot"><i class="g"></i>Al corriente</span></div>
+            <div class="r"><span class="nm">Casa 2 · José Alcázar</span><span class="mut">$500 / 700</span><span class="mut">Falta $200</span><span class="dot"><i class="y"></i>Parcial</span></div>
+            <div class="r"><span class="nm">Casa 3 · Jaime Martínez</span><span class="mut">$0 / 700</span><span class="mut">Vence hace 5d</span><span class="dot"><i class="rr"></i>Vencido</span></div>
+            <div class="r"><span class="nm">Casa 4 · Sergio Sandoval</span><span class="mut">$700</span><span class="mut">Pagado 12 mar</span><span class="dot"><i class="g"></i>Al corriente</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPARENCIA -->
+<section class="transp" id="transparencia">
+  <div class="wrap grid">
+    <div class="l rv">
+      <div class="eyebrow" style="margin-bottom:var(--s3)">Confianza</div>
+      <h2>El dinero de todos, a la vista de todos.</h2>
+      <p>Cada residente ve a dónde va su cuota: ingresos, egresos y el neto del mes, actualizado a diario. La transparencia no se promete, se muestra.</p>
+    </div>
+    <div class="r rv">
+      <div class="barcard">
+        <div class="hd"><div class="t">Marzo 2026</div><div class="m">Loma Chica · público</div></div>
+        <div class="row">
+          <div class="lab"><span>Ingresos</span><span class="amt">$45,200</span></div>
+          <div class="track"><i style="width:100%"></i></div>
+        </div>
+        <div class="row">
+          <div class="lab"><span>Egresos</span><span class="amt">$14,852</span></div>
+          <div class="track"><i style="width:33%;background:var(--ink)"></i></div>
+        </div>
+        <div class="foot">
+          <div class="nt">NETO DEL MES</div>
+          <div class="net">+$30,348</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote">
+  <div class="wrap grid">
+    <blockquote class="rv">“Dejé tres libretas y dos hojas de Excel. Ahora la asamblea ve el reporte y nadie pregunta a dónde se fue el dinero. Esa tranquilidad no tiene precio.”</blockquote>
+    <div class="attr rv">
+      <div class="av"></div>
+      <div class="who"><b>Alberto González</b><span>Tesorero · Loma Chica, 77 unidades</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="precio">
+  <div class="wrap grid">
+    <div style="grid-column:1 / 9;">
+      <div class="eyebrow rv">Empieza este mes</div>
+      <h2 class="rv">Tu fraccionamiento, <em>al corriente.</em></h2>
+      <p class="rv">Te damos de alta tu clúster, migramos tus saldos y capacitamos a la mesa. En una semana dejas el Excel.</p>
+      <div class="actions rv">
+        <a href="#" class="btn solid">Solicitar acceso</a>
+        <a href="#" class="btn ghost">Agendar una demo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap grid">
+    <div class="brandcol">
+      <div class="logo">Residia</div>
+      <p>Administración transparente para fraccionamientos y condominios.</p>
+    </div>
+    <div class="col"><h4>Plataforma</h4><a href="#modulos">Cobranza</a><a href="#modulos">Tesorería</a><a href="#modulos">Reportes</a><a href="#transparencia">Transparencia</a></div>
+    <div class="col"><h4>Empresa</h4><a href="#">Nosotros</a><a href="#">Clústeres</a><a href="#">Contacto</a></div>
+    <div class="col"><h4>Legal</h4><a href="#">Privacidad</a><a href="#">Términos</a><a href="#">Seguridad</a></div>
+    <div class="legal">
+      <span>© 2026 Residia. Hecho en México.</span>
+      <span>App móvil · Panel web · Multi-clúster</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav solid on scroll
+  const nav=document.getElementById('nav');
+  const onScroll=()=>{nav.classList.toggle('solid',window.scrollY>40);};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.14,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>

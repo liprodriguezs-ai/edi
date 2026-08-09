@@ -1,0 +1,113 @@
+---
+title: "Qué es Kivo7"
+description: "Qué resuelve Kivo7, para quién es y qué necesitas tener a la mano antes de empezar a usarlo."
+sidebar:
+  order: 1
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Kivo7 es la plataforma con la que se administra un fraccionamiento o un
+condominio: cobrar las cuotas, llevar el dinero, comunicar a los vecinos,
+controlar quién entra y dejar todo documentado para la siguiente mesa directiva.
+
+Sustituye al Excel de cobranza, al grupo de WhatsApp donde se pierden los avisos
+y a la libreta de la caseta.
+
+## Qué resuelve
+
+<CardGrid>
+  <LinkCard
+    title="Cobrar sin perseguir a nadie"
+    href="/docs/cobranza/como-funciona"
+    description="Los cargos se generan solos cada periodo. Cada vecino ve cuánto debe y desde cuándo. Cada pago queda con folio."
+  />
+  <LinkCard
+    title="Que las cuentas cuadren"
+    href="/docs/tesoreria/cuentas-bancarias"
+    description="Ingresos y egresos con su comprobante y su responsable. Al cierre del mes ya está hecho."
+  />
+  <LinkCard
+    title="Que nadie diga que no se enteró"
+    href="/docs/comunicacion/avisos"
+    description="Avisos que llegan por correo y notificación, con registro de quién los leyó."
+  />
+  <LinkCard
+    title="Saber quién entró y cuándo"
+    href="/docs/accesos/qr-de-visita"
+    description="Visitas con código QR y una bitácora que no se puede borrar."
+  />
+</CardGrid>
+
+## Para quién es
+
+Kivo7 no es una herramienta de una sola persona. Cada quien entra y ve lo suyo:
+
+| Quién | Qué hace en Kivo7 |
+|---|---|
+| **Administración** | Opera todo: da de alta casas, genera los cobros, registra pagos y gastos. |
+| **Mesa directiva** | Supervisa las finanzas, publica avisos y aprueba lo que le toca según su cargo. |
+| **Caseta** | Registra entradas y salidas, y recibe y entrega paquetes. |
+| **Residentes** | Consultan su estado de cuenta, pagan, reservan el salón y generan el pase de sus visitas. |
+
+Lo que cada persona puede hacer depende de su rol. La sección
+[Roles y permisos](/docs/roles/como-funcionan) tiene el detalle de cada uno.
+
+## Los conceptos que hay que entender
+
+Solo son cuatro. Con estos se entiende el resto del manual.
+
+**Unidad (o casa).** Cada vivienda del condominio. Es a la unidad, no a la
+persona, a la que se le cobra. Si una casa se vende, la deuda se queda con la
+casa.
+
+**Concepto de cobro.** Aquello que se cobra: la cuota de mantenimiento, la de
+vigilancia, una derrama para el portón. Define cada cuánto se cobra y cuántos
+días de gracia hay antes de considerarlo vencido.
+
+**Cargo.** Lo que una casa debe por un concepto en un periodo. "Casa 12 debe
+$1,500.00 MXN de la cuota de marzo" es un cargo.
+
+**Pago.** El dinero que entra. Un pago se reparte entre los cargos pendientes de
+esa casa, empezando por el más viejo. Si sobra, queda como saldo a favor.
+
+<Aside type="note">
+Un residente que renta se llama **arrendatario** en Kivo7. Es distinto del
+propietario: ambos pueden entrar a la aplicación, pero solo uno es el
+responsable del pago.
+</Aside>
+
+## Qué necesitas antes de empezar
+
+Ninguna de estas cosas es opcional: sin ellas no se puede emitir el primer cobro.
+
+- **Los datos fiscales del condominio**: razón social y RFC. Aparecen en los
+  recibos.
+- **La lista de casas**, con su identificación tal como la usa la gente
+  ("Casa 12", "Torre A – 301").
+- **Al menos una cuenta bancaria o caja** donde entra el dinero.
+- **Cuánto se cobra y cada cuándo.**
+- **Quién es el tesorero.** Kivo7 pide un periodo de mesa directiva con tesorero
+  antes de dejarte operar con normalidad.
+- **Los correos de los vecinos**, para invitarlos. Puedes empezar sin ellos y
+  agregarlos después.
+
+<Aside type="tip">
+Si tienes esto a la mano, la configuración inicial se completa en una sola
+sentada. Si no, empieza igual: Kivo7 te va marcando qué falta.
+</Aside>
+
+## Qué sigue
+
+<CardGrid>
+  <LinkCard
+    title="Crear tu cuenta y elegir plan"
+    href="/docs/empezar/crear-cuenta-y-plan"
+    description="El registro y la contratación, paso a paso."
+  />
+  <LinkCard
+    title="Configuración inicial guiada"
+    href="/docs/empezar/configuracion-inicial"
+    description="Los nueve pasos que Kivo7 te pide completar."
+  />
+</CardGrid>

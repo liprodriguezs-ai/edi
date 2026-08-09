@@ -1,0 +1,139 @@
+/* =========================================================================
+   KIVO7 — Tema de marca para Starlight (/docs)
+   ---------------------------------------------------------------------------
+   Los valores duplican los tokens de `global.css` A PROPÓSITO: ese archivo NO
+   se puede importar aquí (arrastraría Tailwind entero y su preflight dentro de
+   /docs). Si cambia la paleta de marca, hay que tocar los dos archivos.
+
+   SIN `@layer` a propósito: Starlight mete todo su CSS en
+   @layer starlight.base|reset|core|content|components|utils, y el CSS sin capa
+   gana siempre sobre el CSS en capas, con independencia de la especificidad.
+   Por eso estas variables pisan tanto el bloque oscuro como el claro de su
+   props.css, y el sitio queda light-only aunque el visitante prefiera oscuro.
+   ========================================================================= */
+
+:root,
+::backdrop,
+:root[data-theme='light'],
+:root[data-theme='dark'] {
+  color-scheme: light;
+
+  /* Escala de grises. OJO con la semántica invertida de Starlight: en tema
+     claro `--sl-color-white` es el TEXTO y `--sl-color-black` es el FONDO. */
+  --sl-color-white: #14181a; /* ink       — titulares */
+  --sl-color-gray-1: #14181a; /* ink       */
+  --sl-color-gray-2: #54584f; /* ink-soft  — cuerpo */
+  --sl-color-gray-3: #686a60; /* ink-faint — AA 4.5:1 sobre paper */
+  --sl-color-gray-4: #8a8c82;
+  --sl-color-gray-5: #d8d4c9; /* line      */
+  --sl-color-gray-6: #e4e1d9; /* paper-2   */
+  --sl-color-gray-7: #f6f5f1; /* card      */
+  --sl-color-black: #eceae4; /* paper     — fondo */
+
+  /* Marca — salvia */
+  --sl-color-accent: #6e7e6a;
+  --sl-color-accent-high: #5a6957;
+  --sl-color-accent-low: #e6eae2;
+
+  /* Semánticos. Starlight los deriva de los de arriba, pero los fijamos
+     explícitos para no depender de qué bloque de props.css quede activo. */
+  --sl-color-text: #54584f;
+  --sl-color-text-accent: #5a6957;
+  --sl-color-text-invert: #ffffff;
+  --sl-color-bg: #eceae4;
+  --sl-color-bg-nav: #f6f5f1;
+  --sl-color-bg-sidebar: #eceae4;
+  --sl-color-bg-inline-code: #e4e1d9;
+  --sl-color-bg-accent: #5a6957;
+  --sl-color-hairline: #e3dfd5;
+  --sl-color-hairline-light: #e3dfd5;
+  --sl-color-hairline-shade: #d8d4c9;
+  --sl-color-backdrop-overlay: rgba(20, 24, 26, 0.6);
+
+  /* Estados financieros de la marca (ok / warn / bad). */
+  --sl-color-green: #5e8c6a;
+  --sl-color-green-high: #4d7357;
+  --sl-color-green-low: #e2ebe4;
+  --sl-color-orange: #c9a24b;
+  --sl-color-orange-high: #a8853c;
+  --sl-color-orange-low: #f3ecd9;
+  --sl-color-red: #b6604f;
+  --sl-color-red-high: #964c3e;
+  --sl-color-red-low: #f2e0dc;
+  --sl-color-blue: #6e7e6a;
+  --sl-color-blue-high: #5a6957;
+  --sl-color-blue-low: #e6eae2;
+  --sl-color-purple: #6e7e6a;
+  --sl-color-purple-high: #5a6957;
+  --sl-color-purple-low: #e6eae2;
+
+  /* Elevación — misma receta que --shadow-card de la landing. */
+  --sl-shadow-sm: 0 1px 2px rgba(20, 24, 26, 0.04);
+  --sl-shadow-md: 0 1px 2px rgba(20, 24, 26, 0.04), 0 8px 24px -16px rgba(20, 24, 26, 0.12);
+  --sl-shadow-lg: 0 1px 2px rgba(20, 24, 26, 0.04), 0 24px 48px -24px rgba(20, 24, 26, 0.18);
+
+  /* Tipografía — las @font-face vienen de fonts.css (va antes en customCss). */
+  --sl-font: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Ritmo de lectura. */
+  --sl-line-height: 1.7;
+  --sl-text-body: 16.5px;
+  --sl-content-width: 47rem;
+  --sl-nav-height: 4rem;
+}
+
+/* Titulares en la serif de marca, igual que `.prose` del blog. */
+.sl-markdown-content :is(h1, h2, h3, h4),
+.content-panel h1,
+.site-title {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.sl-markdown-content h2 {
+  font-size: 1.9rem;
+}
+
+.sl-markdown-content h3 {
+  font-size: 1.45rem;
+}
+
+/* Foco visible on-brand, idéntico al de global.css. */
+:focus-visible {
+  outline: 2px solid #5a6957;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Enlaces de contenido: subrayado con offset, como en `.prose`. */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  text-underline-offset: 2px;
+}
+
+/* Tablas: las docs viven de tablas de campos y de permisos. Hairlines suaves y
+   encabezado en papel para que no compitan con el texto. */
+.sl-markdown-content table:not(:where(.not-content *)) {
+  border-collapse: collapse;
+  font-size: 0.94em;
+}
+
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+  border: 1px solid var(--sl-color-hairline-shade);
+  padding: 0.5rem 0.75rem;
+}
+
+.sl-markdown-content th:not(:where(.not-content *)) {
+  background: var(--sl-color-gray-7);
+  text-align: left;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+
+/* Capturas de pantalla: encuadre de tarjeta, como los mocks de la landing. */
+.sl-markdown-content img:not(:where(.not-content *)) {
+  border: 1px solid var(--sl-color-hairline-shade);
+  border-radius: 10px;
+  box-shadow: var(--sl-shadow-md);
+}

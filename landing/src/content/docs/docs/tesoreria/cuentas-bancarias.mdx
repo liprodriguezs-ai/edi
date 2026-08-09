@@ -1,0 +1,144 @@
+---
+title: "Cuentas bancarias y caja"
+description: "Dónde entra y de dónde sale el dinero del condominio, y cómo se recalcula el saldo de cada cuenta."
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Una cuenta en Kivo7 es cualquier lugar donde el condominio guarda dinero: la
+cuenta del banco, pero también la caja de efectivo de la administración. Todo
+pago que entra y todo gasto que sale se asocia a una de estas cuentas.
+
+Sin al menos una cuenta no puedes registrar pagos, por eso es uno de los pasos
+de la configuración inicial.
+
+## Quién puede usarlo
+
+| Acción | Quién |
+|---|---|
+| Crear, editar y exportar cuentas | Administrador |
+| Consultar cuentas y saldos | Presidente · Tesorero · Comité de Vigilancia |
+
+<Aside type="note">
+Ni el Tesorero ni el Presidente pueden crear o editar cuentas: solo las
+consultan. Es deliberado — quién custodia el dinero y quién define dónde se
+guarda son responsabilidades distintas. Por la misma razón, esos roles tampoco
+ven el botón **Descargar** en esta pantalla.
+</Aside>
+
+## Dar de alta una cuenta
+
+<Steps>
+
+1. Entra a **Cuentas Bancarias** y presiona **Nueva cuenta**.
+
+2. Captura el **Nombre**. Ponle algo que la gente reconozca en un menú:
+   *HSBC Principal*, *Caja efectivo*.
+
+3. Elige el **Tipo**: **Cuenta bancaria**, **Caja de efectivo** o **Inversión**.
+
+4. Elige el **Propósito**: **Operativa**, **Fondo de reserva**, **Nómina**,
+   **Caja chica** u **Otro**. Sirve para leer los reportes sin adivinar.
+
+5. Si el tipo es **Cuenta bancaria**, captura **Banco**, **Número de cuenta**,
+   **CLABE** (18 dígitos) y, si lo necesitas, **Número de tarjeta**. En una caja
+   de efectivo o en una cuenta de inversión estos cuatro campos no aparecen.
+
+6. Captura el **Saldo inicial**: cuánto hay en esa cuenta hoy, antes de que Kivo7
+   empiece a llevar la contabilidad.
+
+7. Marca **Principal** si es la cuenta a la que llegan los pagos por omisión, y
+   deja **Activa** encendido.
+
+8. Presiona **Guardar cuenta**.
+
+</Steps>
+
+<Aside type="caution">
+**El saldo inicial solo se captura al dar de alta la cuenta.** Al editarla ese
+campo desaparece, porque a partir de ahí el saldo lo lleva el sistema. Si te
+equivocas en el saldo inicial, corrígelo antes de registrar movimientos: después
+tendrás que compensarlo con un ajuste.
+</Aside>
+
+## El número de tarjeta
+
+**Número de tarjeta** es opcional y solo aparece cuando el tipo es **Cuenta
+bancaria**. Sirve para identificar la tarjeta ligada a esa cuenta cuando el
+condominio paga con ella.
+
+- Captúralo con **entre 13 y 19 dígitos**. Puedes escribirlo con espacios o con
+  guiones: Kivo7 los quita al guardar. Si el número no cumple, el formulario
+  responde *El número de tarjeta debe tener entre 13 y 19 dígitos*.
+- En la lista de cuentas, la columna **Datos** lo muestra enmascarado —solo los
+  últimos cuatro dígitos, con el formato `•••• 1234`— junto al banco y al número
+  de cuenta.
+- El archivo que genera el botón **Descargar** trae la columna **Tarjeta**,
+  también enmascarada.
+
+El número completo se ve únicamente al abrir la cuenta para editarla. Es
+deliberado: es un dato sensible y no tiene por qué quedar a la vista de todos
+los que consultan la pantalla ni viajar completo en un archivo que después se
+reenvía por correo.
+
+## Qué significa "Principal"
+
+La cuenta principal es la que Kivo7 usa cuando nadie eligió una. El caso concreto:
+cuando un **residente reporta un pago**, él no ve un selector de cuenta, así que
+el sistema lo asigna a la cuenta principal activa del condominio.
+
+Si no tienes ninguna cuenta activa, los residentes no pueden reportar pagos y
+reciben el error *El condominio no tiene una cuenta bancaria configurada*.
+
+## Cómo se mueve el saldo
+
+El saldo actual **no se captura nunca a mano**. Se calcula así:
+
+```
+saldo actual = saldo inicial + lo que entró − lo que salió
+```
+
+| Sube el saldo | Baja el saldo |
+|---|---|
+| Un pago confirmado depositado en esa cuenta | Un egreso registrado con esa cuenta de origen |
+| La anulación de un egreso (se devuelve el monto) | La cancelación de un pago confirmado |
+
+Un pago que sigue **pendiente de validación** no mueve nada: hasta que alguien lo
+valida, el dinero no existe para la contabilidad.
+
+<Aside type="tip">
+Al pie de la lista aparece **Total en cuentas**, la suma de todos los saldos. Es
+la cifra que la mesa directiva pide en cada junta, y sale sin trabajo extra.
+</Aside>
+
+## Dar de baja una cuenta
+
+Las cuentas **no se eliminan**: se desactivan apagando el interruptor **Activa**.
+La cuenta deja de aparecer como opción en los formularios, pero su historial de
+movimientos se conserva íntegro.
+
+Es lo correcto: borrar una cuenta borraría el rastro de por dónde pasó el dinero
+del condominio.
+
+## Avisos automáticos
+
+Kivo7 vigila el saldo por su cuenta. Cuando una cuenta baja de **$10,000.00 MXN**,
+manda un aviso al Tesorero, al Presidente y al Administrador:
+*El saldo de la cuenta bajó a $X. Revisa las finanzas del condominio.*
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Egresos"
+    href="/docs/tesoreria/egresos"
+    description="Los gastos que descuentan del saldo."
+  />
+  <LinkCard
+    title="Pagos"
+    href="/docs/cobranza/pagos"
+    description="El dinero que entra y suma al saldo."
+  />
+</CardGrid>

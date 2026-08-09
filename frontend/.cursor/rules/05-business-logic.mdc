@@ -1,0 +1,71 @@
+---
+description: Lógica de negocio, hooks base, API y estado
+globs: "**/*.ts,**/*.tsx"
+---
+
+# Business Logic & Application Patterns
+
+## Dominio
+
+CRM multi-company: empresas, usuarios, roles, permisos, clientes, proyectos, colaboradores, documentos, plantillas, tenants, planes de suscripción, etc. Entidades con soporte multi-tenant donde aplique.
+
+## Entidad base
+
+Las entidades extienden o alinean con `IEntity` (`@/shared/interfaces/Entity`): id, name?, created_at, updated_at, deleted_at?, tenant_id?, company?, etc.
+
+## CRUD
+
+**Flujo**: Schema (Zod + tipos) → Store (Zustand) → Resource (API) → Hook (useBaseList / useBaseCrud) → Componente.
+
+### createCrudApi (`@/shared/api/resourceApi`)
+
+`createCrudApi<TRecord, TForm>({ basePath, mapListResponse?, mapCreateInput?, mapUpdateInput?, customMethods? })` devuelve: `list`, `search`, `show`, `create`, `update`, `remove`, `report` (y métodos custom). El método `search` hace POST a `basePath/search` con body (filtros, sort, paginación).
+
+### createEntityStore (`@/shared/store/EntityStore`)
+
+`createEntityStore<T>(name)`: estado (entities, pagination, isLoading, isSaving, isDeleting, …) y operaciones (addEntity, setAllEntities, updateEntity, removeEntity, putPagination, reset, etc.).
+
+### useBaseList
+
+`useBaseList<T>({ store, resource, autoInit?, initialSearch?, overrideParams? })` → `getList`, `onSearch`, `onReset`, `onPageChanged`, `onRemove`, `onRestore`, `onReport`, `paramsSearch`.
+
+### useBaseCrud
+
+`useBaseCrud<T>({ store, resource: { save, update, delete }, mode, entityId?, initialData? })` → `submit`, `onSave`, `onUpdate`, `onDelete`, `cleanParams`, `store`. Acepta JSON o FormData. `save` suele mapear a `resource.create`, `delete` a `resource.remove`.
+
+## Autenticación y sesión
+
+- **sessionStore** (Zustand vanilla): token, profile, isAuthenticated, setSession, clearSession, restoreSession, logout. Persistencia en localStorage.
+- **useSession**: login, logout, loadProfile, validateSession; expone user, abilities, roles, company, isAuthenticated, isRestoring, role.
+- **Redirección por rol**: `roleRoutes` en `Entity.ts` (ERoleUserSlug → ruta por defecto).
+
+### ERoleUserSlug y roleRoutes
+
+Definidos en `@/shared/interfaces/Entity.ts`: SUPER_ADMIN, ACCOUNT_OWNER, RH, COLLABORATOR, AFFILIATE, COMPANY_ADMIN. `roleRoutes` mapea cada rol a la ruta inicial (ej. COLLABORATOR → `/collaborator/me`, COMPANY_ADMIN → `/dashboard`).
+
+## Permisos
+
+- **usePermissions**(key o array) → boolean (o array de booleanos).
+- **useMultiplePermissions**({ canCreate, canEdit, canDelete, … }) → objeto con booleanos.
+- **useRoles**(): { hasRole, hasAnyRole }; **useRoles(slug)** → boolean.
+- **PermissionGuard**: renderiza children si el usuario tiene el permiso.
+- **PermissionRoute**: requiere permiso o rol; si no, redirige a `/acceso-denegado` (o configuración equivalente).
+
+## API y errores
+
+- **apiClient**: baseURL desde config; interceptor inyecta `Authorization: Bearer <token>`; 401 → logout y redirect; 403 → modal de permisos; errores envueltos en ApiError.
+- **APP_CONFIG** (`@/shared/config/appConfig`): apiBaseUrl, pageSize desde env.
+
+## Toasts
+
+`import { toast } from '@/shared/hooks/useToast'` (Sileo/Sonner). useBaseCrud y useBaseList muestran toasts en éxito/error.
+
+## Nuevo módulo (resumen)
+
+1. schema.ts (Zod + IEntity + FormValues).
+2. store: createEntityStore.
+3. resource: createCrudApi con basePath correcto.
+4. hook list: useBaseList con store, resource, initialSearch.
+5. Componentes: TableRow (memo + checkMemoListProps), Form, FormModal, List, ListPage.
+6. Ruta en App.tsx (con PermissionRoute si aplica).
+7. Enlace en sidebar (según permisos).

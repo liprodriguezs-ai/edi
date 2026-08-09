@@ -1,0 +1,103 @@
+---
+title: Documentación de Kivo7
+description: Manual completo para administrar tu fraccionamiento o condominio con Kivo7. Cobranza, tesorería, accesos, paquetería, amenidades y más.
+template: splash
+hero:
+  tagline: Todo lo que necesitas para administrar tu condominio, explicado paso a paso.
+  actions:
+    - text: Empezar desde cero
+      link: /docs/empezar/que-es-kivo7
+      icon: right-arrow
+      variant: primary
+    - text: Ver por rol
+      link: /docs/roles/como-funcionan
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## ¿Por dónde empiezo?
+
+<CardGrid>
+  <Card title="Acabo de contratar Kivo7" icon="rocket">
+    Sigue [Primeros pasos](/docs/empezar/que-es-kivo7). Te lleva desde la creación
+    de la cuenta hasta el primer cobro emitido, en orden.
+  </Card>
+  <Card title="Ya lo uso y busco algo puntual" icon="magnifier">
+    Usa el buscador de arriba (`Ctrl` + `K`). Indexa todo el manual, incluidos
+    los nombres de los botones.
+  </Card>
+  <Card title="Quiero saber qué puede hacer mi rol" icon="approve-check">
+    Cada rol tiene su página en [Roles y permisos](/docs/roles/como-funcionan),
+    con qué ve en el menú y qué puede hacer.
+  </Card>
+  <Card title="Algo no funciona como espero" icon="warning">
+    Revisa [Preguntas frecuentes](/docs/ayuda/preguntas-frecuentes) y
+    [Solución de problemas](/docs/ayuda/solucion-de-problemas).
+  </Card>
+</CardGrid>
+
+## Las áreas del sistema
+
+<CardGrid>
+  <LinkCard
+    title="Estructura del condominio"
+    href="/docs/estructura/torres-y-secciones"
+    description="Torres, secciones, unidades, residentes y vehículos. La base sobre la que se apoya todo lo demás."
+  />
+  <LinkCard
+    title="Cobranza"
+    href="/docs/cobranza/como-funciona"
+    description="Conceptos, reglas de cobro, cargos, pagos, estado de cuenta y morosidad."
+  />
+  <LinkCard
+    title="Tesorería"
+    href="/docs/tesoreria/cuentas-bancarias"
+    description="Cuentas bancarias, egresos y proveedores del condominio."
+  />
+  <LinkCard
+    title="Control de accesos"
+    href="/docs/accesos/qr-de-visita"
+    description="QR de visitas, caseta, bitácora de entradas y salidas, lista negra."
+  />
+  <LinkCard
+    title="Paquetería"
+    href="/docs/paqueteria/registrar-paquetes"
+    description="Recepción en portería, entrega verificada con código y firma, devoluciones."
+  />
+  <LinkCard
+    title="Amenidades y reservaciones"
+    href="/docs/amenidades/dar-de-alta-una-amenidad"
+    description="Salón, canchas y alberca: horarios, reglas de uso, cobro y calendario."
+  />
+  <LinkCard
+    title="Comunicación"
+    href="/docs/comunicacion/avisos"
+    description="Avisos, chat comunitario y notificaciones a residentes."
+  />
+  <LinkCard
+    title="Proyectos comunitarios"
+    href="/docs/proyectos/crear-un-proyecto"
+    description="Obras y mejoras con meta de financiamiento y aportaciones de vecinos."
+  />
+  <LinkCard
+    title="Incidencias"
+    href="/docs/incidencias/registrar-una-incidencia"
+    description="Reportes de convivencia y operación, con responsable y seguimiento."
+  />
+  <LinkCard
+    title="Mesa directiva y personal"
+    href="/docs/mesa-y-personal/periodos-de-mesa"
+    description="Periodos de mesa, cargos, y el personal que trabaja en el condominio."
+  />
+  <LinkCard
+    title="Reportes y tableros"
+    href="/docs/reportes/catalogo-de-reportes"
+    description="Estados de resultados, cobranza, gastos y reportes programados."
+  />
+  <LinkCard
+    title="Configuración del condominio"
+    href="/docs/configuracion/general"
+    description="Los parámetros que cambian cómo se comporta Kivo7 en tu condominio."
+  />
+</CardGrid>

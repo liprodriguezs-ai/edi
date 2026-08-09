@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Residia — Comparar las 3 direcciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7E4DC;          /* gallery wall */
+    --ink:#1A1916;
+    --ink-soft:#56524A;
+    --ink-faint:#8B8579;
+    --line:#D2CCC0;
+    --accent:#8A6A3B;
+    --sans:'Hanken Grotesk', system-ui, sans-serif;
+    --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;--s7:96px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:17px;}
+  ::selection{background:var(--ink);color:var(--paper);}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 var(--s5);}
+  @media(max-width:720px){.wrap{padding:0 var(--s3);}}
+
+  /* sticky top */
+  .bar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .bar .row{display:flex;align-items:center;justify-content:space-between;height:62px;}
+  .bar .brand{font-family:'Newsreader',serif;font-size:19px;}
+  .bar .brand small{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-left:10px;}
+  .jump{display:flex;gap:var(--s1);}
+  .jump a{text-decoration:none;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--line);padding:8px 14px;background:#F2EFE8;transition:.2s;}
+  .jump a:hover{color:var(--ink);border-color:var(--ink);}
+  @media(max-width:720px){.jump a{padding:7px 10px;}.bar .brand small{display:none;}}
+
+  /* intro */
+  .intro{padding:var(--s7) 0 var(--s6);}
+  .intro .eyebrow{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);}
+  .intro h1{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(34px,5.5vw,62px);line-height:1.02;margin-top:var(--s3);max-width:18ch;}
+  .intro p{margin-top:var(--s3);max-width:60ch;color:var(--ink-soft);font-size:18px;}
+
+  /* each direction block */
+  .block{padding:var(--s6) 0;border-top:1px solid var(--line);}
+  .blabel{display:grid;grid-template-columns:auto 1fr;gap:var(--s4);align-items:start;margin-bottom:var(--s4);}
+  .blabel .letter{font-family:'Bodoni Moda',serif;font-size:clamp(54px,7vw,92px);line-height:.8;color:var(--ink);}
+  .blabel .meta .nm{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(26px,3.4vw,38px);line-height:1.02;}
+  .blabel .meta .feel{margin-top:6px;font-size:16px;color:var(--ink-soft);}
+  .blabel .meta .feel b{color:var(--accent);font-weight:600;}
+  .blabel .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .blabel .chips span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--line);padding:5px 11px;background:#F2EFE8;}
+
+  /* hero shell (shared) */
+  .hero{position:relative;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/9;min-height:440px;box-shadow:0 1px 0 rgba(0,0,0,.02);}
+  .hero .browserbar{height:38px;display:flex;align-items:center;gap:7px;padding:0 16px;border-bottom:1px solid;}
+  .hero .browserbar i{width:9px;height:9px;border-radius:50%;display:block;opacity:.5;}
+  .hero .browserbar .u{margin-left:14px;font-family:var(--sans);font-size:11px;letter-spacing:.04em;opacity:.55;}
+  .hero .stage{position:absolute;inset:38px 0 0 0;display:grid;}
+  .hero .pad{padding:clamp(28px,5%,56px);}
+  .hnav{display:flex;align-items:center;justify-content:space-between;}
+  .hnav .logo{font-family:'Newsreader',serif;font-size:18px;letter-spacing:.02em;}
+  .hnav .links{display:flex;gap:24px;font-family:var(--sans);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;}
+  .hnav .cta{font-family:var(--sans);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border:1px solid currentColor;}
+  .heyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.26em;text-transform:uppercase;}
+  .hh{line-height:.98;letter-spacing:-.01em;}
+  .hsub{font-family:var(--sans);font-size:16px;line-height:1.55;}
+  .hbtns{display:flex;align-items:center;gap:18px;}
+  .hbtn{font-family:var(--sans);font-size:12.5px;letter-spacing:.06em;padding:13px 26px;}
+  .hbtn.ghost{padding:13px 4px;}
+  .placeholder{position:relative;background-image:repeating-linear-gradient(135deg, transparent 0 9px, currentColor 9px 10px);}
+  .placeholder .plabel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--sans);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;padding:5px 10px;white-space:nowrap;}
+
+  /* Direction A */
+  .heroA{--bg:#ECEAE4;--fg:#14181A;--ac:#6E7E6A;--soft:#5C5F58;background:var(--bg);color:var(--fg);}
+  .heroA .browserbar{background:#E4E1D9;border-color:#D8D4CA;color:var(--fg);}
+  .heroA .stage{grid-template-columns:1.05fr .95fr;}
+  .heroA .left{display:flex;flex-direction:column;justify-content:space-between;}
+  .heroA .heyebrow{color:var(--ac);}
+  .heroA .hh{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(34px,4.6vw,58px);}
+  .heroA .hh em{font-style:italic;color:var(--ac);}
+  .heroA .hsub{color:var(--soft);max-width:34ch;margin-top:20px;}
+  .heroA .hbtns{margin-top:32px;}
+  .heroA .hbtn.solid{background:var(--fg);color:var(--bg);}
+  .heroA .hbtn.ghost{color:var(--fg);}
+  .heroA .right{position:relative;}
+  .heroA .right .placeholder{position:absolute;inset:0;color:#C9C6BD;background-color:#E3E0D8;}
+  .heroA .right .placeholder .plabel{color:#7C8076;background:#ECEAE4;}
+  .heroA .hnav .cta{border-color:var(--fg);}
+  .heroA .focal{position:absolute;left:-44px;bottom:48px;background:var(--bg);border:1px solid #D5D2C8;padding:20px 26px;max-width:230px;}
+  .heroA .focal .n{font-family:'Cormorant Garamond',serif;font-size:46px;line-height:1;color:var(--fg);}
+  .heroA .focal .c{font-family:var(--sans);font-size:11.5px;color:var(--soft);margin-top:6px;}
+
+  /* Direction B */
+  .heroB{--bg:#F2EFEA;--fg:#1A1714;--ac:#A9854E;--soft:#5A554C;background:var(--bg);color:var(--fg);}
+  .heroB.hero{aspect-ratio:16/10;min-height:560px;}
+  .heroB .pad{padding:clamp(24px,4%,52px);display:flex;flex-direction:column;}
+  .heroB .browserbar{background:#EAE6DF;border-color:#DED9CF;color:var(--fg);}
+  .heroB .stage{grid-template-rows:auto 1fr;}
+  .heroB .center{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+  .heroB .heyebrow{color:var(--ac);}
+  .heroB .hh{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(36px,5.2vw,68px);line-height:.98;margin-top:18px;max-width:15ch;}
+  .heroB .hh em{font-style:italic;}
+  .heroB .hsub{color:var(--soft);max-width:40ch;margin-top:20px;}
+  .heroB .hbtns{margin-top:26px;}
+  .heroB .hbtn.solid{background:var(--fg);color:var(--bg);}
+  .heroB .hbtn.ghost{color:var(--fg);text-transform:uppercase;letter-spacing:.14em;font-size:11px;}
+  .heroB .hnav .cta{border-color:var(--ac);color:var(--ac);}
+  .heroB .rule{height:1px;background:#DBD6CB;}
+  .heroB .footstrip{display:flex;gap:48px;padding-top:18px;}
+  .heroB .footstrip .it .n{font-family:'Bodoni Moda',serif;font-size:26px;}
+  .heroB .footstrip .it .c{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px;}
+
+  /* Direction C */
+  .heroC{--bg:#F4F1EA;--fg:#1C1B19;--ac:#9C7B4E;--soft:#57534A;--panel:#1C1B19;background:var(--bg);color:var(--fg);}
+  .heroC .browserbar{background:#1C1B19;border-color:#1C1B19;color:#D8D2C6;}
+  .heroC .browserbar i{background:#D8D2C6;}
+  .heroC .stage{grid-template-columns:1fr 1fr;}
+  .heroC .left{display:flex;flex-direction:column;justify-content:space-between;}
+  .heroC .heyebrow{color:var(--ac);}
+  .heroC .hh{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(34px,4.8vw,60px);}
+  .heroC .hh em{font-style:italic;color:var(--ac);}
+  .heroC .hsub{color:var(--soft);max-width:32ch;margin-top:20px;}
+  .heroC .hbtns{margin-top:30px;}
+  .heroC .hbtn.solid{background:var(--ac);color:#fff;}
+  .heroC .hbtn.ghost{color:var(--fg);}
+  .heroC .hnav .cta{border-color:var(--fg);}
+  .heroC .panel{background:var(--panel);color:#E7E2D7;position:relative;overflow:hidden;display:flex;flex-direction:column;}
+  .heroC .panel .ph{padding:22px 24px 0;display:flex;justify-content:space-between;align-items:baseline;}
+  .heroC .panel .ph .t{font-family:'Newsreader',serif;font-size:14px;}
+  .heroC .panel .ph .d{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9A9384;}
+  .heroC .panel .big{padding:18px 24px 0;}
+  .heroC .panel .big .n{font-family:'Newsreader',serif;font-size:clamp(36px,5vw,56px);line-height:1;color:#fff;}
+  .heroC .panel .big .c{font-size:11px;letter-spacing:.04em;color:#9A9384;margin-top:8px;}
+  .heroC .panel .bars{margin-top:auto;padding:24px;display:flex;align-items:flex-end;gap:7px;height:120px;}
+  .heroC .panel .bars i{flex:1;background:#34322C;display:block;}
+  .heroC .panel .bars i.on{background:var(--ac);}
+
+  /* helper note under hero */
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);margin-top:var(--s4);}
+  @media(max-width:720px){.why{grid-template-columns:1fr;gap:var(--s3);}}
+  .why .c .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+  .why .c .v{font-size:14.5px;color:var(--ink-soft);line-height:1.5;}
+  .why .c .v b{color:var(--ink);font-weight:600;}
+
+  /* closing prompt */
+  .pick{padding:var(--s7) 0;border-top:1px solid var(--line);}
+  .pick h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(26px,3.6vw,40px);max-width:20ch;}
+  .pick p{margin-top:var(--s3);color:var(--ink-soft);max-width:56ch;}
+  .pick .opts{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s4);}
+  .pick .opts span{font-family:'Newsreader',serif;font-style:italic;font-size:17px;color:var(--accent);border:1px solid var(--line);padding:12px 20px;background:#F2EFE8;}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap row">
+    <div class="brand">Residia<small>Tres direcciones</small></div>
+    <div class="jump">
+      <a href="#a">A · Salvia</a>
+      <a href="#b">B · Perla</a>
+      <a href="#c">C · Mármol</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="intro">
+    <div class="eyebrow">Elige tu favorita — o combinamos</div>
+    <h1>Tres maneras de que Residia se vea y se sienta.</h1>
+    <p>La misma estructura y la misma calidad, con tres personalidades distintas. Mira las tres, dime cuál te late más (o qué elemento de cada una te gusta) y a partir de ahí construyo todo lo demás.</p>
+  </section>
+
+  <!-- A -->
+  <section class="block" id="a">
+    <div class="blabel">
+      <div class="letter">A</div>
+      <div class="meta">
+        <div class="nm">Salvia</div>
+        <div class="feel">Se siente <b>calmada y acogedora</b> — como entrar a una casa en orden.</div>
+        <div class="chips"><span>Verde salvia</span><span>Letra elegante (Cormorant)</span><span>Foto + un dato</span></div>
+      </div>
+    </div>
+    <div class="hero heroA">
+      <div class="browserbar"><i></i><i></i><i></i><span class="u">residia.mx</span></div>
+      <div class="stage">
+        <div class="left pad">
+          <div class="hnav"><div class="logo">Residia</div><div class="cta">Solicitar acceso</div></div>
+          <div>
+            <div class="heyebrow">Administración de clústeres</div>
+            <h2 class="hh" style="margin-top:18px">Vivir en orden<br>es vivir <em>tranquilo.</em></h2>
+            <p class="hsub">El estado de tu fraccionamiento, claro y al día. Sin Excel, sin dudas, sin ruido.</p>
+            <div class="hbtns"><div class="hbtn solid">Conoce Residia</div><div class="hbtn ghost">Ver demo →</div></div>
+          </div>
+          <div style="height:8px"></div>
+        </div>
+        <div class="right">
+          <div class="placeholder"><span class="plabel">Fotografía · Arquitectura residencial</span></div>
+          <div class="focal"><div class="n">98%</div><div class="c">de cuotas al corriente este trimestre en Loma Chica</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="why">
+      <div class="c"><div class="k">Para quién</div><div class="v">Comunidades que quieren sentirse <b>cuidadas y unidas</b>, más que impresionar.</div></div>
+      <div class="c"><div class="k">El gancho</div><div class="v">Un solo número —<b>98% al corriente</b>— en vez de saturar de gráficas.</div></div>
+      <div class="c"><div class="k">Personalidad</div><div class="v">Cálida y humana. La letra cursiva da cercanía, no frialdad.</div></div>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="block" id="b">
+    <div class="blabel">
+      <div class="letter">B</div>
+      <div class="meta">
+        <div class="nm">Perla &amp; Champaña</div>
+        <div class="feel">Se siente <b>sofisticada, tipo revista de lujo</b> — portada de moda.</div>
+        <div class="chips"><span>Dorado champán</span><span>Letra de alto contraste (Bodoni)</span><span>Centrada</span></div>
+      </div>
+    </div>
+    <div class="hero heroB">
+      <div class="browserbar"><i></i><i></i><i></i><span class="u">residia.mx</span></div>
+      <div class="stage">
+        <div class="pad" style="height:100%">
+          <div class="hnav" style="margin-bottom:auto">
+            <div class="logo" style="font-family:'Bodoni Moda',serif">RESIDIA</div>
+            <div class="links" style="color:#5A554C"><span>Plataforma</span><span>Clústeres</span><span>Transparencia</span></div>
+            <div class="cta">Acceso</div>
+          </div>
+          <div class="center">
+            <div class="heyebrow">La administración, elevada</div>
+            <h2 class="hh">Tu fraccionamiento merece <em>otra</em> categoría.</h2>
+            <p class="hsub">Cobranza, tesorería y reportes con el nivel de cuidado de una marca de lujo. Discreto. Impecable. Tuyo.</p>
+            <div class="hbtns"><div class="hbtn solid">Solicitar una demostración</div><div class="hbtn ghost">Manifiesto →</div></div>
+          </div>
+          <div class="rule"></div>
+          <div class="footstrip">
+            <div class="it"><div class="n">77</div><div class="c">unidades</div></div>
+            <div class="it"><div class="n">$231k</div><div class="c">bajo gestión</div></div>
+            <div class="it"><div class="n">0</div><div class="c">hojas de Excel</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why">
+      <div class="c"><div class="k">Para quién</div><div class="v">Fraccionamientos premium y mesas directivas que quieren <b>proyectar estatus</b>.</div></div>
+      <div class="c"><div class="k">El gancho</div><div class="v">El titular gigante manda; todo lo demás le cede el espacio.</div></div>
+      <div class="c"><div class="k">Personalidad</div><div class="v">Editorial y aspiracional. La más “de revista” de las tres.</div></div>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="block" id="c">
+    <div class="blabel">
+      <div class="letter">C</div>
+      <div class="meta">
+        <div class="nm">Mármol &amp; Latón</div>
+        <div class="feel">Se siente <b>poderosa y de control</b> — tú al mando de los números.</div>
+        <div class="chips"><span>Latón / dorado oscuro</span><span>Letra con carácter (Newsreader)</span><span>Panel de datos</span></div>
+      </div>
+    </div>
+    <div class="hero heroC">
+      <div class="browserbar"><i></i><i></i><i></i><span class="u" style="color:#9A9384">residia.mx</span></div>
+      <div class="stage">
+        <div class="left pad">
+          <div class="hnav"><div class="logo">Residia</div><div class="cta">Solicitar acceso</div></div>
+          <div>
+            <div class="heyebrow">Control total del clúster</div>
+            <h2 class="hh" style="margin-top:18px">Cada peso,<br><em>bajo control.</em></h2>
+            <p class="hsub">Ingresos, egresos y morosidad en una sola vista. La autoridad de saber, exactamente, dónde estás parado.</p>
+            <div class="hbtns"><div class="hbtn solid">Tomar el control</div><div class="hbtn ghost">Ver el panel →</div></div>
+          </div>
+          <div style="height:8px"></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="t">Loma Chica</div><div class="d">Marzo 2026</div></div>
+          <div class="big"><div class="n">+$92,405</div><div class="c">NETO DEL PERIODO · 35 DE 77 CON ADEUDO</div></div>
+          <div class="bars">
+            <i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i>
+            <i style="height:70%"></i><i style="height:62%"></i><i class="on" style="height:88%"></i>
+            <i style="height:50%"></i><i style="height:66%"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why">
+      <div class="c"><div class="k">Para quién</div><div class="v">Administradores y tesoreros que quieren <b>poder y visibilidad</b> sobre el dinero.</div></div>
+      <div class="c"><div class="k">El gancho</div><div class="v">Un panel oscuro con el dato clave en latón: imposible no mirarlo.</div></div>
+      <div class="c"><div class="k">Personalidad</div><div class="v">Seria y de herramienta profesional. La más “software de control”.</div></div>
+    </div>
+  </section>
+
+  <section class="pick">
+    <h2>¿Cuál te late más?</h2>
+    <p>Dime una letra, o mézclalas — por ejemplo: “la letra de B con el panel de datos de C”. Con eso construyo la landing completa y el dashboard.</p>
+    <div class="opts">
+      <span>“Me gusta la A”</span>
+      <span>“La B se ve elegante”</span>
+      <span>“La C, quiero control”</span>
+      <span>“Combinemos B + C”</span>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

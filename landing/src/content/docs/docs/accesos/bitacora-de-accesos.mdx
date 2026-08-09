@@ -1,0 +1,110 @@
+---
+title: "Bitácora de accesos"
+description: "El registro de todas las entradas y salidas, por qué no se puede editar y cómo se corrige."
+sidebar:
+  order: 4
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+La bitácora guarda cada entrada y cada salida del condominio. Es el documento al
+que se recurre cuando pasó algo y hay que reconstruir quién entró y cuándo.
+
+## Por qué no se puede editar
+
+<Aside type="caution">
+**La bitácora es inmutable a propósito.** No hay forma de modificar ni borrar un
+registro, ni siquiera para el Administrador. Un registro de accesos que se puede
+alterar no sirve como prueba de nada.
+
+Si hay un error, se le **anexa una corrección** — el original permanece.
+</Aside>
+
+## Qué muestra
+
+Columnas: **Visitante** (con su placa), **Unidad**, **Tipo**, **Entrada**,
+**Salida**, **Vigilante** y **Estado**.
+
+| Estado | Qué quiere decir |
+|---|---|
+| **Dentro** | Entró y no ha registrado salida |
+| **Salió** | Ciclo completo |
+| **Denegado** | No se le permitió el acceso |
+
+Arriba hay pestañas de periodo —**Día**, **Semana**, **Mes**, **Todo**— y dos
+totales: cuántos ingresos hubo y cuántos siguen dentro.
+
+## Buscar
+
+El buscador va sobre toda la bitácora. Los filtros permiten acotar por
+**Unidad**, **Placa**, **Tipo de entrada**, **Motivo** y **Estado**, con un botón
+para limpiarlos.
+
+El botón **Descargar** exporta a Excel.
+
+<Aside type="tip">
+La búsqueda por **Placa** es la que más se usa en la práctica: casi siempre el
+punto de partida es "un auto gris con placas que empiezan con ABC".
+</Aside>
+
+## Agregar una corrección
+
+<Steps>
+
+1. Localiza el registro en la bitácora.
+
+2. Presiona el botón de corrección de ese renglón.
+
+3. Escribe la **Nota de corrección**: qué estuvo mal y cuál es el dato correcto.
+
+4. Presiona **Guardar corrección**.
+
+</Steps>
+
+La pantalla lo dice claro: *La nota se anexa de forma permanente; el registro
+original no se modifica.*
+
+<Aside type="note">
+Las correcciones **se acumulan con marca de tiempo**. Si un registro ya tenía
+una, la nueva se agrega debajo; no la reemplaza. Aunque el botón diga "Editar"
+cuando ya hay una corrección previa, lo que hace es anexar.
+</Aside>
+
+### Qué escribir
+
+Una corrección útil dice tres cosas: qué estaba mal, cuál es el dato correcto, y
+cómo se supo.
+
+> *El nombre correcto es Juan Ramírez, no Juan Ramos. Se verificó con la
+> identificación al momento de la salida.*
+
+## Quién puede qué
+
+| Acción | Quién |
+|---|---|
+| Consultar la bitácora | Seguridad · Administrador · Presidente · Tesorero · Secretario |
+| Agregar correcciones y registrar salidas | **Seguridad** · Administrador |
+| Exportar a Excel | Seguridad · Administrador · Presidente · Tesorero |
+
+<Aside type="note">
+Es el vigilante —no el presidente— quien corrige la bitácora. Tiene sentido: es
+quien estuvo ahí y quien sabe qué pasó realmente.
+</Aside>
+
+Los residentes no ven esta pantalla. Tienen la suya, acotada a sus propias
+visitas. → [Mi QR y mi bitácora](/docs/accesos/mi-qr-y-mi-bitacora)
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Caseta"
+    href="/docs/accesos/caseta"
+    description="Donde se generan los registros."
+  />
+  <LinkCard
+    title="Reportes y tableros"
+    href="/docs/reportes/catalogo-de-reportes"
+    description="El reporte de bitácora de accesos, para periodos largos."
+  />
+</CardGrid>

@@ -1,0 +1,101 @@
+---
+title: "Categorías y prioridades"
+description: "Los dos catálogos sin los cuales no se puede registrar ninguna incidencia. Hay que crearlos antes de empezar."
+sidebar:
+  order: 4
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Aside type="caution">
+**Empieza por aquí.** Kivo7 **no trae ninguna categoría ni ninguna prioridad
+sembrada**, y las dos son obligatorias al registrar una incidencia.
+
+Un condominio recién configurado tiene el módulo de Incidencias **inutilizable**
+hasta que alguien cree al menos una de cada. No hay ningún aviso que lo advierta:
+simplemente el formulario no deja avanzar.
+</Aside>
+
+## Quién puede crearlas
+
+**Solo el Administrador.** Ningún rol de la mesa directiva puede crear categorías
+ni prioridades, aunque sí las usan al registrar.
+
+## Categorías
+
+Clasifican de qué se trata la incidencia. Sirven para filtrar y para saber qué se
+reporta más.
+
+<Steps>
+
+1. Entra a **Categorías de Incidencia** y presiona **Nueva categoría**.
+
+2. Captura el **Nombre**. *Ruido*.
+
+3. Deja **Activo** encendido.
+
+4. Opcionalmente captura el **Orden de aparición**, que controla cómo se listan
+   en el desplegable.
+
+5. Guarda.
+
+</Steps>
+
+### Un punto de partida razonable
+
+Si no sabes por dónde empezar, estas seis cubren casi todo lo que ocurre en un
+condominio:
+
+| Categoría | Qué agrupa |
+|---|---|
+| **Ruido** | Fiestas, música, obras fuera de horario |
+| **Convivencia** | Conflictos entre vecinos, mascotas, uso de áreas comunes |
+| **Mantenimiento** | Fugas, luminarias, portón, bombas |
+| **Seguridad** | Personas sospechosas, puertas abiertas, cámaras |
+| **Estacionamiento** | Autos en lugares ajenos, bloqueos |
+| **Administración** | Quejas sobre la operación o la mesa directiva |
+
+## Prioridades
+
+Indican qué tan urgente es el caso.
+
+Mismos campos que las categorías, más un **color** que se usa en el chip de la
+lista.
+
+<Aside type="note">
+**La prioridad es únicamente visual.** Kivo7 no cambia ningún comportamiento
+según ella: no notifica distinto, no escala sola, no reordena. Sirve para que un
+humano vea de un vistazo qué atender primero.
+</Aside>
+
+Tres suelen bastar: **Baja**, **Media**, **Alta**. Con colores contrastantes.
+
+## Desactivar en vez de eliminar
+
+Una categoría que ya se usó **conviene desactivarla**, no borrarla: las
+incidencias históricas quedarían sin clasificar.
+
+Apaga el interruptor **Activo** y deja de aparecer al registrar casos nuevos.
+
+## Estados: esos sí vienen listos
+
+A diferencia de los otros dos catálogos, los **estados** de una incidencia sí
+vienen sembrados y **no se pueden editar**: Registrada, En revisión, Resuelta y
+Desestimada. Son parte del funcionamiento del módulo, no una clasificación libre.
+
+→ [Estados y conversación](/docs/incidencias/estados-y-conversacion)
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Registrar una incidencia"
+    href="/docs/incidencias/registrar-una-incidencia"
+    description="Donde se usan estos dos catálogos."
+  />
+  <LinkCard
+    title="Configuración de incidencias"
+    href="/docs/configuracion/incidencias"
+    description="Quién puede reportar y gestionar."
+  />
+</CardGrid>

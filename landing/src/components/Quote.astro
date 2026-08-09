@@ -1,0 +1,166 @@
+---
+import { testimonials } from '@/data/site';
+
+// 3 testimonios por página.
+const PER_PAGE = 3;
+const pages: (typeof testimonials)[] = [];
+for (let i = 0; i < testimonials.length; i += PER_PAGE) {
+  pages.push(testimonials.slice(i, i + PER_PAGE));
+}
+---
+
+<section class="py-32" aria-label="Testimonios de clientes">
+  <div class="wrap">
+    <div class="reveal mx-auto mb-14 max-w-[60ch] text-center">
+      <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-sage-deep">
+        Testimonios
+      </p>
+      <h2
+        class="font-serif text-[clamp(30px,4vw,48px)] font-medium leading-[1.05] tracking-[-0.01em]"
+      >
+        Condominios que ya dejaron el Excel.
+      </h2>
+    </div>
+
+    <div
+      data-testimonials
+      class="reveal"
+      role="group"
+      aria-roledescription="carrusel"
+      aria-label="Testimonios"
+    >
+      <div>
+        {
+          pages.map((group, p) => (
+            <div
+              data-slide
+              hidden={p !== 0 || undefined}
+              class="grid grid-cols-3 gap-5 max-[860px]:grid-cols-1"
+            >
+              {group.map((t) => (
+                <figure class="flex h-full flex-col rounded-card border border-line bg-card p-6 text-left">
+                  <blockquote class="text-[15px] leading-relaxed text-ink-soft [text-wrap:pretty]">
+                    “{t.quote}”
+                  </blockquote>
+                  <figcaption class="mt-auto flex items-center gap-3 border-t border-line pt-5">
+                    <span
+                      class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-sage-bg font-serif text-[16px] font-semibold text-sage-deep"
+                      aria-hidden="true"
+                    >
+                      {t.name.charAt(0)}
+                    </span>
+                    <span class="text-[13px] leading-tight">
+                      <b class="block font-semibold text-ink">{t.name}</b>
+                      <span class="text-[11.5px] text-ink-faint">{t.role}</span>
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-10 flex items-center justify-center gap-5">
+        <button
+          type="button"
+          data-prev
+          aria-label="Anterior"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-ink"
+        >
+          <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+
+        <div class="flex items-center gap-0.5">
+          {
+            pages.map((_, i) => (
+              <button
+                type="button"
+                data-dot={i}
+                aria-label={`Ir a la página ${i + 1} de testimonios`}
+                class="flex h-6 w-6 items-center justify-center"
+              >
+                <span
+                  class:list={[
+                    'h-2 w-2 rounded-full transition-colors',
+                    i === 0 ? 'bg-sage-deep' : 'bg-line',
+                  ]}
+                />
+              </button>
+            ))
+          }
+        </div>
+
+        <button
+          type="button"
+          data-next
+          aria-label="Siguiente"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-ink"
+        >
+          <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const root = document.querySelector<HTMLElement>('[data-testimonials]');
+
+    if (root) {
+      const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
+      const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+      const motionOk = document.documentElement.classList.contains('motion-safe-js');
+      let index = 0;
+      let timer = 0;
+
+      const show = (n: number) => {
+        index = (n + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          slide.hidden = i !== index;
+        });
+        dots.forEach((dot, i) => {
+          const active = i === index;
+          dot.setAttribute('aria-current', active ? 'true' : 'false');
+          const visual = dot.querySelector('span');
+          visual?.classList.toggle('bg-sage-deep', active);
+          visual?.classList.toggle('bg-line', !active);
+        });
+      };
+
+      const restart = () => {
+        if (!motionOk || slides.length < 2) return;
+        clearInterval(timer);
+        timer = window.setInterval(() => show(index + 1), 7000);
+      };
+
+      root.querySelector('[data-next]')?.addEventListener('click', () => {
+        show(index + 1);
+        restart();
+      });
+      root.querySelector('[data-prev]')?.addEventListener('click', () => {
+        show(index - 1);
+        restart();
+      });
+      dots.forEach((dot, i) =>
+        dot.addEventListener('click', () => {
+          show(i);
+          restart();
+        }),
+      );
+
+      root.addEventListener('mouseenter', () => clearInterval(timer));
+      root.addEventListener('mouseleave', restart);
+      root.addEventListener('focusin', () => clearInterval(timer));
+      root.addEventListener('focusout', restart);
+
+      show(0);
+      restart();
+    }
+  </script>
+</section>

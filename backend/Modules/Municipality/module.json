@@ -1,0 +1,11 @@
+{
+    "name": "Municipality",
+    "alias": "municipality",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Municipality\\Providers\\MunicipalityServiceProvider"
+    ],
+    "files": []
+}

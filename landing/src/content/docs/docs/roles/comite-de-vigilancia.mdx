@@ -1,0 +1,88 @@
+---
+title: "Comité de Vigilancia"
+description: "El contralor del condominio: ve todo lo financiero y no escribe nada."
+sidebar:
+  order: 8
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+Es el cargo de control. Su valor está justamente en lo que **no** puede hacer:
+**ve todas las finanzas y no tiene un solo permiso de escritura sobre dinero.**
+
+Es lo que permite que la asamblea confíe en los números sin depender de la
+palabra de quien los captura.
+
+## Qué puede consultar
+
+| Área | Qué ve | Dónde |
+|---|---|---|
+| **Tableros** | Los cinco: resultados, tesorería, gastos, cobranza y proyectos | [Tableros](/docs/reportes/tableros) |
+| **Cobranza** | Cargos, pagos y morosidad | [Cómo funciona la cobranza](/docs/cobranza/como-funciona) |
+| **Tesorería** | Egresos, cuentas bancarias y proveedores | [Egresos](/docs/tesoreria/egresos) |
+| **Auditoría** | La bitácora de cambios del sistema | [Catálogo de reportes](/docs/reportes/catalogo-de-reportes) |
+| **Estructura** | Casas, residentes y vehículos | [Unidades](/docs/estructura/unidades) |
+| **Paquetería** | Consulta y reportes | [Reporte de antigüedad](/docs/paqueteria/reporte-de-antiguedad) |
+| **Amenidades** | El calendario de ocupación anonimizado | [Calendarios](/docs/amenidades/calendarios) |
+
+## Las dos excepciones a "solo lectura"
+
+1. **Puede reservar amenidades para su propia casa**, porque también es vecino.
+2. **Puede registrar y atender incidencias**.
+
+## Los reportes: una limitación importante
+
+<Aside type="caution">
+**Ve las trece tarjetas de reportes pero solo puede generar cinco**: Ingresos vs
+egresos, Flujo de efectivo, Egresos por categoría, Anual fiscal y Saldos de
+cuentas.
+
+Con cualquier otro recibe *El Comité de Vigilancia solo puede generar reportes
+financieros*. Es una inconsistencia de la interfaz: los botones están, pero
+fallan.
+
+Los tableros sí los ve todos, incluido el de cobranza.
+</Aside>
+
+## Lo que NO puede hacer
+
+Nada de escritura sobre dinero: no registra pagos, no captura egresos, no cancela
+cargos, no condona deuda, no toca cuentas ni proveedores.
+
+Tampoco: publicar avisos, moderar el chat, gestionar la mesa, ni administrar
+casas.
+
+## Cómo ejercer el cargo
+
+<Aside type="tip">
+Una rutina mensual que hace útil el cargo:
+
+1. **[Tablero de resultados](/docs/reportes/tableros)** — ¿el neto tiene sentido
+   con lo que sabes que pasó?
+
+2. **[Egresos](/docs/tesoreria/egresos) del mes** — revisa los mayores. ¿Tienen
+   comprobante? ¿El beneficiario es un proveedor dado de alta o texto libre?
+
+3. **[Saldos de cuentas](/docs/reportes/catalogo-de-reportes)** — pide el estado
+   de cuenta del banco y cuadra.
+
+4. **[Auditoría](/docs/reportes/catalogo-de-reportes)** — busca cancelaciones de
+   cargos, condonaciones y anulaciones de egresos. Cada una debería tener un
+   motivo escrito. **Ese es el punto más sensible del sistema y el que solo tú
+   revisas.**
+
+5. **[Tablero de cobranza](/docs/reportes/tableros)** — ¿la cartera de +90 días
+   crece?
+</Aside>
+
+<Aside type="note">
+Las condonaciones y cancelaciones **exigen motivo obligatorio** justamente para
+que alguien las pueda auditar después. Si encuentras motivos vacíos de contenido
+—"ajuste", "corrección"— vale la pena señalarlo en la mesa.
+</Aside>
+
+<LinkCard
+  title="Matriz comparativa"
+  href="/docs/roles/matriz-comparativa"
+  description="Todos los roles lado a lado."
+/>

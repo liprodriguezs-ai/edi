@@ -1,0 +1,76 @@
+---
+title: "Reportes programados"
+description: "Que un reporte se genere y se envíe solo cada mes — y el estado real de esta función."
+sidebar:
+  order: 4
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<Aside type="caution">
+**Esta función todavía no tiene pantalla.**
+
+El motor existe y funciona: se pueden programar reportes con frecuencia diaria,
+semanal o mensual, elegir formato y destinatarios, y hay un proceso que los
+genera y los envía. Pero **no hay ninguna pantalla en la aplicación para
+configurarlos**.
+
+Peor: **la entrada "Reportes Programados" sí aparece en el menú** y no lleva a
+ningún lado. Si la ves y no abre nada, no es tu navegador.
+
+Mientras se construye, genera los reportes a mano desde
+[Reportes](/docs/reportes/generar-y-descargar).
+</Aside>
+
+## Qué va a hacer cuando esté
+
+Se documenta aquí para que sepas qué esperar, no como algo que puedas usar hoy.
+
+### Frecuencias
+
+| Frecuencia | Cuándo corre |
+|---|---|
+| **Diaria** | Cada mañana a las 8:00 |
+| **Semanal** | Los lunes a las 8:00 |
+| **Mensual** | El día 1 de cada mes a las 8:00 |
+
+### Formato
+
+PDF, Excel o CSV.
+
+### Destinatarios
+
+Correos, o personas del condominio. **Si no configuras ninguno, el reporte se
+manda a los miembros de la mesa directiva vigente** — que suele ser justo lo que
+quieres.
+
+### Quién podrá
+
+Administrador, Presidente y Tesorero. El Comité de Vigilancia solo consultará.
+
+## Qué hacer mientras tanto
+
+<Aside type="tip">
+La alternativa manual que funciona bien:
+
+1. Ponte un recordatorio el día 5 de cada mes.
+2. Genera **Ingresos vs egresos** y **Saldos de cuentas**.
+3. [Publícalos en el tablero](/docs/reportes/publicar-en-el-tablero).
+
+Son cinco minutos y logra lo mismo que la programación mensual.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Generar y descargar"
+    href="/docs/reportes/generar-y-descargar"
+    description="Lo que sí se puede hacer hoy."
+  />
+  <LinkCard
+    title="Publicar en el tablero"
+    href="/docs/reportes/publicar-en-el-tablero"
+    description="Compartirlos con los vecinos."
+  />
+</CardGrid>

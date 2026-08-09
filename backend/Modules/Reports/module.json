@@ -1,0 +1,12 @@
+{
+    "name": "Reports",
+    "alias": "reports",
+    "description": "Reportes y Exportación — Module 11",
+    "tenancy": "tenant",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Reports\\Providers\\ReportsServiceProvider"
+    ],
+    "files": []
+}

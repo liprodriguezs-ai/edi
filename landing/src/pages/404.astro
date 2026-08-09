@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import Button from '@/components/Button.astro';
+import { meta } from '@/data/site';
+---
+
+<BaseLayout
+  title={`Página no encontrada · ${meta.name}`}
+  description="La página que buscás no existe o se movió."
+>
+  <Nav slot="header" />
+
+  <section class="flex min-h-[72vh] items-center justify-center pb-32 pt-[150px] text-center">
+    <div class="wrap">
+      <p class="font-serif text-[clamp(90px,15vw,190px)] font-medium leading-none text-sage">404</p>
+      <h1 class="mt-2 font-serif text-[clamp(28px,4vw,46px)] font-medium leading-tight tracking-[-0.01em]">
+        Esta página no existe.
+      </h1>
+      <p class="mx-auto mt-5 max-w-[46ch] text-[16.5px] text-ink-soft">
+        Puede que el enlace esté roto o que la página se haya movido. Volvé al inicio y seguimos.
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3.5">
+        <Button href="/" label="Volver al inicio" />
+        <Button href="/blog" label="Ir al blog" variant="ghost" />
+      </div>
+    </div>
+  </section>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

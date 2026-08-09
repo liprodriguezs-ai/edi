@@ -1,0 +1,52 @@
+---
+import type { TrackEventName } from '@/lib/trackEvent';
+
+type Variant = 'solid' | 'ghost' | 'light' | 'ghost-on-dark';
+type Size = 'md' | 'sm';
+
+interface Props {
+  href: string;
+  label: string;
+  variant?: Variant;
+  size?: Size;
+  class?: string;
+  /** Evento de marketing a disparar al hacer click, antes de navegar. Opcional — sin esto, el botón no trackea nada. */
+  event?: TrackEventName;
+}
+
+const { href, label, variant = 'solid', size = 'md', class: extra = '', event } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-[9px] rounded-full font-semibold whitespace-nowrap transition-colors duration-200';
+
+const sizes: Record<Size, string> = {
+  md: 'px-6 py-3 text-[13.5px]',
+  sm: 'px-[18px] py-[9px] text-[12.5px]',
+};
+
+const variants: Record<Variant, string> = {
+  solid: 'bg-ink text-paper hover:bg-sage-deep',
+  ghost: 'border border-line text-ink hover:border-ink',
+  light: 'bg-paper text-ink hover:bg-sage hover:text-white',
+  'ghost-on-dark': 'border border-white/30 text-paper hover:border-white/70',
+};
+---
+
+<a href={href} data-track-event={event} class:list={[base, sizes[size], variants[variant], extra]}
+  >{label}</a
+>
+
+<script>
+  // Delegación en document: Astro dedupea este bloque una sola vez por página
+  // aunque <Button> se use muchas veces, así que un solo listener cubre todas
+  // las instancias. El fetch de trackEvent va con `keepalive`, así que sigue
+  // en vuelo aunque el click ya haya disparado la navegación del <a>.
+  import { trackEvent, type TrackEventName } from '@/lib/trackEvent';
+
+  document.addEventListener('click', (clickEvent) => {
+    const target = clickEvent.target as HTMLElement | null;
+    const cta = target?.closest<HTMLElement>('[data-track-event]');
+    const name = cta?.dataset.trackEvent as TrackEventName | undefined;
+    if (name) trackEvent(name);
+  });
+</script>

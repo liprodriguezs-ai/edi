@@ -1,0 +1,155 @@
+---
+title: "Crear tu cuenta y elegir plan"
+description: "Cómo registrar tu condominio en Kivo7, elegir plan y empezar los 30 días gratis."
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside, LinkCard } from '@astrojs/starlight/components';
+
+Dar de alta tu condominio son dos pantallas seguidas: primero te registras y
+después eliges tu plan. Ahí empiezan tus **30 días gratis**. Hoy no pagas nada:
+el primer cargo llega hasta el día 31 y puedes cancelar antes sin que se te
+cobre.
+
+## Quién puede hacerlo
+
+Quien registra la cuenta queda como **Propietario** de la cuenta. Es el único
+rol que puede contratar, cambiar o cancelar el plan. Puedes darle el rol de
+**Administrador** a otra persona para que opere el día a día sin tocar la
+facturación.
+
+## Crear la cuenta
+
+<Steps>
+
+1. Entra a la página de registro de Kivo7 y elige **Crea tu cuenta**.
+
+2. Captura los cuatro datos que pide:
+
+   - **Nombre completo** — el tuyo, no el del condominio.
+   - **Nombre del condominio** — así lo verán los residentes. Se puede cambiar
+     después.
+   - **Correo electrónico** — con este correo vas a entrar.
+   - **Contraseña** — mínimo 8 caracteres, con mayúscula, minúscula y número.
+
+3. Presiona **Continuar**.
+
+</Steps>
+
+No hay que confirmar nada por correo: Kivo7 crea tu condominio y te deja en la
+pantalla **Elige tu plan para empezar**.
+
+<Aside type="caution">
+El correo con el que te registras queda como dueño de la cuenta. Si es el correo
+personal de un administrador que puede irse el año que viene, considera usar
+mejor un correo del condominio.
+</Aside>
+
+## Elegir el plan y registrar tu tarjeta
+
+Este paso es obligatorio y va antes de entrar a la aplicación. **Mientras no
+contrates, tu condominio existe pero nadie puede entrar** — ni tú ni el resto
+del equipo. Te quedas en la pantalla de planes.
+
+El precio depende **solo de cuántas casas tiene tu condominio**. No hay módulos
+que contratar aparte ni cargos por usuario: todas las funciones vienen incluidas
+en cualquier plan.
+
+| Plan | Para condominios de | Precio mensual |
+|---|---|---|
+| **Básico** | 1 a 25 casas | $450.00 MXN |
+| **Inicial** | 26 a 50 casas | $650.00 MXN |
+| **Esencial** | 51 a 100 casas | $950.00 MXN |
+| **Avanzado** | 101 a 200 casas | $1,550.00 MXN |
+| **Premium** | 201 a 300 casas | $2,100.00 MXN |
+| **A medida** | más de 300 casas | se cotiza |
+
+<Steps>
+
+1. En la pantalla **Elige tu plan para empezar**, selecciona la tarjeta cuya banda de
+   unidades corresponde a tu condominio. Cada tarjeta dice
+   *Ideal para 26–50 unidades* o similar.
+
+2. En **Facturación**, elige **Mensual** o **Anual**. El pago anual ya tiene
+   aplicado un 5% de descuento sobre el precio de lista.
+
+3. Revisa la columna **Tu cotización** a la derecha: muestra el plan
+   seleccionado y el **Total**.
+
+4. Presiona **Contratar**. Te lleva a Stripe para capturar los datos de tu
+   tarjeta.
+
+5. Al volver de Stripe ves **Listo, tu prueba empezó**, con la fecha exacta de
+   tu primer cargo. La cuenta se activa sola y en unos segundos te deja en el
+   panel.
+
+</Steps>
+
+<Aside type="note">
+La tarjeta se registra para dejar la suscripción armada, pero **durante los 30
+días no se cobra nada**. El **Total** que ves en la cotización es lo que se
+cobrará el día 31, no hoy.
+</Aside>
+
+### Si la confirmación tarda
+
+A veces Stripe confirma con retraso y en lugar de eso verás **Tu prueba está en
+camino**, con los botones **Reintentar** e **Ir al panel**. Significa que Stripe
+sí registró tu suscripción pero el aviso no ha llegado. Usa **Reintentar**, o
+entra con **Ir al panel**: el acceso se habilita en cuanto llegue la
+confirmación. No vuelvas a contratar.
+
+## Qué pasa el día 31
+
+Se cobra automáticamente el plan que elegiste, con la tarjeta que registraste. A
+partir de ahí el cobro se repite cada mes o cada año, según la periodicidad que
+hayas elegido.
+
+La fecha del primer cargo y los días que te quedan están siempre a la vista.
+→ [Cuánto te queda de prueba](/docs/cuenta/planes-y-precios#cuánto-te-queda-de-prueba)
+
+Puedes cancelar en cualquier momento antes de esa fecha y no se te cobra nada.
+→ [Cancelar y reanudar](/docs/cuenta/cancelar-y-reanudar)
+
+<Aside type="caution">
+Si ese primer cobro falla —tarjeta vencida, fondos insuficientes o rechazo del
+banco— **el acceso del condominio se pausa ese mismo día**. No hay días de
+gracia. Se reactiva en cuanto el pago se confirme.
+→ [Cuando el acceso está en pausa](/docs/cuenta/acceso-en-pausa)
+</Aside>
+
+## Si tu condominio tiene más de 300 casas
+
+El plan **A medida** no tiene precio de lista a propósito: se arma una propuesta
+contigo. Su tarjeta no lleva a Stripe, sino a escribirle al equipo de Kivo7 por
+correo o por WhatsApp, y es el equipo quien activa tu condominio a mano cuando
+la propuesta queda cerrada.
+
+<Aside type="caution">
+Si mientras tanto el equipo te habilita una prueba de cortesía, **esa no se
+convierte sola**: hay que contratar antes de que venza o el acceso se pausa.
+Es la diferencia que más confunde entre los dos tipos de prueba.
+→ [Los 30 días de prueba](/docs/cuenta/planes-y-precios#cómo-saber-en-cuál-estás)
+</Aside>
+
+## Qué pasa si no eliges plan
+
+Tu condominio queda creado pero en pausa, indefinidamente. Nadie puede entrar y
+Kivo7 no borra nada ni te manda recordatorios: cuando contrates, todo sigue
+donde estaba.
+
+→ [Cuando el acceso está en pausa](/docs/cuenta/acceso-en-pausa)
+
+## Qué sigue
+
+<LinkCard
+  title="Configuración inicial guiada"
+  href="/docs/empezar/configuracion-inicial"
+  description="Los nueve pasos que Kivo7 te pide antes de dejarte operar con normalidad."
+/>
+<LinkCard
+  title="Cambiar de plan o de periodicidad"
+  href="/docs/cuenta/cambiar-de-plan"
+  description="Qué pasa cuando creces de plan a mitad del periodo."
+/>

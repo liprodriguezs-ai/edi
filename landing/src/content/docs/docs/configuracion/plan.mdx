@@ -1,0 +1,63 @@
+---
+title: "Plan y suscripción"
+description: "Tu plan contratado y cuántas casas llevas frente al límite. Es informativa."
+sidebar:
+  order: 9
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> Tu suscripción a Kivo7 y el consumo de unidades frente al límite de tu plan.
+> Esta sección es informativa (solo lectura).
+
+## Qué muestra
+
+- El **Estado** de la suscripción.
+- El **plan contratado** y su periodicidad.
+- **Cuántas casas activas tienes** frente al tope del plan.
+
+Si el **Estado** no dice *Activo*, el condominio está por quedarse —o ya se
+quedó— sin acceso, y eso solo lo resuelve el Propietario de la cuenta.
+→ [Cuando el acceso está en pausa](/docs/cuenta/acceso-en-pausa)
+
+## Para qué sirve
+
+Es la pantalla a la que hay que entrar cuando el sistema no te deja dar de alta
+una casa más: aquí ves si de verdad llegaste al límite.
+
+<Aside type="tip">
+Revísala antes de una carga masiva. Si vas a importar 30 casas y tu plan Básico
+cubre 25, mejor cambiar de plan antes que descubrirlo a mitad de la importación
+—que además es todo o nada, así que no entra ninguna.
+</Aside>
+
+## Solo cuenta lo activo
+
+Las casas marcadas con un estado no facturable **no cuentan** para el tope. Si
+estás cerca del límite, revisa si hay casas que ya no existen o que se fusionaron
+y márcalas.
+
+→ [Tipos y estados de unidad](/docs/estructura/tipos-y-estados-de-unidad)
+
+## Es solo de lectura
+
+Desde aquí no se cambia el plan ni se cancela nada. Eso está en la sección de tu
+cuenta.
+
+<CardGrid>
+  <LinkCard
+    title="Cambiar de plan"
+    href="/docs/cuenta/cambiar-de-plan"
+    description="Subir de plan o cambiar de periodicidad."
+  />
+  <LinkCard
+    title="Límite de unidades de tu plan"
+    href="/docs/estructura/limite-de-unidades"
+    description="Qué pasa exactamente cuando te pasas."
+  />
+  <LinkCard
+    title="Planes y precios"
+    href="/docs/cuenta/planes-y-precios"
+    description="Qué rango de casas cubre cada plan."
+  />
+</CardGrid>

@@ -1,0 +1,107 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import { meta } from '@/data/site';
+---
+
+<BaseLayout
+  title={`Términos y Condiciones · ${meta.name}`}
+  description={`Términos y Condiciones de uso de ${meta.name}: cuenta, suscripción, uso aceptable y responsabilidades.`}
+>
+  <Nav slot="header" />
+
+  <article class="pb-28 pt-[150px]">
+    <div class="wrap">
+      <div class="mx-auto max-w-[720px]">
+        <a
+          href="/"
+          class="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-sage-deep transition-colors hover:text-ink"
+        >
+          ← Inicio
+        </a>
+        <h1
+          class="mt-5 font-serif text-[clamp(30px,4.2vw,50px)] font-medium leading-[1.06] tracking-[-0.01em]"
+        >
+          Términos y Condiciones
+        </h1>
+        <p class="mt-3 text-[13px] text-ink-faint">Última actualización: junio de 2026</p>
+
+        <p
+          class="mt-6 rounded-soft border border-line bg-sage-bg/60 px-4 py-3 text-[13px] text-ink-soft"
+        >
+          <strong class="text-ink">Nota:</strong> este documento es una plantilla de referencia.
+          Revísalo con asesoría legal antes de publicarlo para ajustarlo a tu operación y
+          jurisdicción.
+        </p>
+
+        <div class="prose mt-10">
+          <p>
+            Estos Términos y Condiciones regulan el uso de la plataforma {meta.name}. Al crear una
+            cuenta o usar el servicio, aceptas estos términos.
+          </p>
+
+          <h2>1. Descripción del servicio</h2>
+          <p>
+            {meta.name} es una plataforma de administración para fraccionamientos y condominios que
+            incluye cobranza, tesorería, transparencia y reportes. Podemos mejorar o modificar
+            funciones con el tiempo.
+          </p>
+
+          <h2>2. Tu cuenta</h2>
+          <p>
+            Eres responsable de la veracidad de los datos de tu cuenta y de mantener la
+            confidencialidad de tus credenciales. Avísanos de inmediato si detectas un uso no
+            autorizado.
+          </p>
+
+          <h2>3. Suscripción y pagos</h2>
+          <p>
+            El acceso se ofrece mediante planes de suscripción. Para iniciar la prueba gratuita de
+            30 días es necesario elegir un plan y registrar un medio de pago; no se realiza ningún
+            cargo durante la prueba. Al terminar, se cobra automáticamente el plan contratado, salvo
+            que canceles antes. Los cargos, periodos y condiciones de cancelación se informan al
+            contratar tu plan.
+          </p>
+
+          <h2>4. Uso aceptable</h2>
+          <ul>
+            <li>No uses la plataforma para fines ilícitos ni para vulnerar derechos de terceros.</li>
+            <li>No intentes acceder a datos de otros condominios ni comprometer la seguridad.</li>
+            <li>Eres responsable de la información que cargas y de su tratamiento conforme a la ley.</li>
+          </ul>
+
+          <h2>5. Propiedad intelectual</h2>
+          <p>
+            La plataforma, su marca y su software son propiedad de {meta.name}. Tus datos siguen
+            siendo tuyos; nos otorgas solo la licencia necesaria para prestarte el servicio.
+          </p>
+
+          <h2>6. Limitación de responsabilidad</h2>
+          <p>
+            El servicio se ofrece "tal cual". En la medida que la ley lo permita, {meta.name} no será
+            responsable por daños indirectos derivados del uso o la imposibilidad de uso de la
+            plataforma.
+          </p>
+
+          <h2>7. Terminación</h2>
+          <p>
+            Puedes cancelar tu cuenta cuando quieras. Podemos suspender el servicio ante un
+            incumplimiento de estos términos, notificándote cuando corresponda.
+          </p>
+
+          <h2>8. Ley aplicable</h2>
+          <p>
+            Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier
+            controversia se resolverá ante los tribunales competentes.
+          </p>
+
+          <h2>9. Contacto</h2>
+          <p>¿Preguntas sobre estos términos? Escríbenos a <strong>hola@kivo7.com</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

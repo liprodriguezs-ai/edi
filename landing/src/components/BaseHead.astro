@@ -1,0 +1,330 @@
+---
+import { meta, faq } from '@/data/site';
+
+interface ArticleMeta {
+  title: string;
+  description: string;
+  /** ISO 8601 date string. */
+  datePublished: string;
+  /** ISO 8601 date string; falls back to datePublished. */
+  dateModified?: string;
+  author: string;
+  /** Path or URL to the article image. */
+  image?: string;
+}
+
+interface Crumb {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Open Graph image, served from /public. */
+  image?: string;
+  /** Inject FAQPage structured data from the shared `faq` data (home page). */
+  includeFaq?: boolean;
+  /** Inject Article/BlogPosting structured data (blog posts). */
+  article?: ArticleMeta;
+  /** Inject BreadcrumbList structured data. */
+  breadcrumb?: Crumb[];
+}
+
+const {
+  title = meta.title,
+  description = meta.description,
+  image = '/og.png',
+  includeFaq = false,
+  article,
+  breadcrumb,
+} = Astro.props;
+
+// Self-referencing canonical built from the configured `site`.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
+const ogType = article ? 'article' : 'website';
+
+// Google Analytics measurement ID. Overridable per environment; defaults to prod.
+const gaId = import.meta.env.PUBLIC_GA_ID ?? 'G-X9EFEZRG28';
+
+// Meta (Facebook) Pixel ID. Overridable per environment; defaults to prod.
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID ?? '1012668624876358';
+
+// Base graph — Organization + WebSite + SoftwareApplication are always present.
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': 'Organization',
+    '@id': `${Astro.site}#organization`,
+    name: meta.name,
+    url: Astro.site?.href,
+    description: meta.description,
+    areaServed: 'MX',
+    ...(meta.sameAs.length ? { sameAs: meta.sameAs } : {}),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${Astro.site}#website`,
+    url: Astro.site?.href,
+    name: meta.name,
+    inLanguage: 'es-MX',
+    publisher: { '@id': `${Astro.site}#organization` },
+  },
+  {
+    '@type': 'SoftwareApplication',
+    name: meta.name,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    description:
+      'Software de administración para fraccionamientos y condominios: cobranza, tesorería, morosidad, mesa directiva, reportes y transparencia.',
+    inLanguage: 'es-MX',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'MXN',
+      description:
+        'Prueba gratuita de 30 días. Se registra una tarjeta al contratar y el primer cargo se realiza al terminar la prueba.',
+    },
+  },
+];
+
+// FAQPage — only when the page opts in (home). Mirrors the visible <details> list.
+if (includeFaq) {
+  graph.push({
+    '@type': 'FAQPage',
+    mainEntity: faq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  });
+}
+
+// BlogPosting — blog post pages.
+if (article) {
+  graph.push({
+    '@type': 'BlogPosting',
+    headline: article.title,
+    description: article.description,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified ?? article.datePublished,
+    author: { '@type': 'Person', name: article.author },
+    publisher: { '@id': `${Astro.site}#organization` },
+    mainEntityOfPage: canonical,
+    inLanguage: 'es-MX',
+    ...(article.image ? { image: new URL(article.image, Astro.site).href } : {}),
+  });
+}
+
+// BreadcrumbList — any page that passes a trail (blog posts).
+if (breadcrumb?.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumb.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: crumb.name,
+      item: crumb.url,
+    })),
+  });
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="generator" content={Astro.generator} />
+
+{/* Google Analytics (gtag.js) — solo en producción, para no contar tráfico de dev. */}
+{
+  import.meta.env.PROD && gaId && (
+    <Fragment>
+      <script async is:inline src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+      <script is:inline define:vars={{ gaId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        // Consent Mode v2 — todo denegado hasta que el visitante opte por aceptar.
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500,
+        });
+        // Respeta una elección previa para no volver a preguntar.
+        try {
+          if (localStorage.getItem('kivo7-consent') === 'granted') {
+            gtag('consent', 'update', { analytics_storage: 'granted' });
+          }
+        } catch (e) {
+          /* localStorage bloqueado: queda en denied */
+        }
+        gtag('js', new Date());
+        gtag('config', gaId);
+      </script>
+    </Fragment>
+  )
+}
+
+{/* Meta (Facebook) Pixel — solo en producción, para no ensuciar métricas con
+    tráfico de dev. Arranca con el consentimiento REVOCADO (Consent Mode de
+    Meta): retiene el tracking hasta que el visitante acepte en el
+    ConsentBanner. Respeta una elección previa guardada en localStorage
+    ('kivo7-consent'), igual que GA arriba. */}
+{
+  import.meta.env.PROD && metaPixelId && (
+    <Fragment>
+      <script is:inline define:vars={{ metaPixelId }}>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        // Consent Mode de Meta — retiene el tracking hasta que el visitante acepte.
+        fbq('consent', 'revoke');
+        fbq('init', metaPixelId);
+        fbq('track', 'PageView');
+        // Respeta una elección previa para no volver a preguntar.
+        try {
+          if (localStorage.getItem('kivo7-consent') === 'granted') {
+            fbq('consent', 'grant');
+          }
+        } catch (e) {
+          /* localStorage bloqueado: queda revocado */
+        }
+      </script>
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style="display:none"
+          alt=""
+          src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+        />
+      </noscript>
+    </Fragment>
+  )
+}
+
+{/* Captura de click-IDs de campaña (fbclid de Meta Ads, gclid de Google Ads).
+    No depende de fbq/gtag ni de gates de entorno: corre siempre para no
+    perder la atribución del primer click. Se persisten porque las cookies de
+    este dominio no cruzan al dominio de la app (app.kivo7.com) — se reenvían
+    como query params recién al hacer click en un CTA hacia la app. */}
+<script>
+  const STORAGE_KEY = 'kivo7-click-ids';
+  const appUrl = import.meta.env.PUBLIC_APP_URL ?? 'https://app.kivo7.com';
+
+  interface StoredClickIds {
+    fbclid?: string;
+    gclid?: string;
+  }
+
+  function readStoredClickIds(): StoredClickIds {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? (JSON.parse(raw) as StoredClickIds) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function persistClickIds(ids: StoredClickIds): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    } catch {
+      /* localStorage bloqueado: sin persistencia, solo sirve para esta vista */
+    }
+  }
+
+  // Last-touch: solo pisa el ID que venga presente en la URL de esta visita;
+  // conserva el guardado si esta vez no viene ninguno.
+  const params = new URLSearchParams(window.location.search);
+  const stored = readStoredClickIds();
+  const fbclid = params.get('fbclid') ?? stored.fbclid;
+  const gclid = params.get('gclid') ?? stored.gclid;
+  if (fbclid || gclid) persistClickIds({ fbclid, gclid });
+
+  // Al hacer click en cualquier CTA que apunte a la app, anexa los click-IDs
+  // guardados como query params — así la app los recibe tras el salto
+  // cross-origin (deben ir en la URL: una cookie de kivo7.com no es legible
+  // desde app.kivo7.com).
+  document.addEventListener(
+    'click',
+    (event) => {
+      const target = event.target as HTMLElement | null;
+      const anchor = target?.closest<HTMLAnchorElement>(`a[href^="${appUrl}"]`);
+      if (!anchor) return;
+
+      const current = readStoredClickIds();
+      if (!current.fbclid && !current.gclid) return;
+
+      try {
+        const url = new URL(anchor.href);
+        if (current.fbclid) url.searchParams.set('fbclid', current.fbclid);
+        if (current.gclid) url.searchParams.set('gclid', current.gclid);
+        anchor.href = url.toString();
+      } catch {
+        /* href inválido: no forzamos la navegación */
+      }
+    },
+    true,
+  );
+</script>
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+{/* Tinte de la barra del navegador (Safari iOS / Chrome Android). El paper
+    #ECEAE4 era invisible — casi idéntico al chrome default del navegador.
+    Sage-deep en claro para que el tinte de marca SE NOTE; ink en oscuro
+    (sin variante dark, Safari descarta un color claro en modo oscuro). */}
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#5A6957" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14181A" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+{/* Safari (todas las versiones) ignora favicons SVG — necesita el PNG. */}
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={meta.name} />
+<meta property="og:locale" content="es_MX" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${meta.name} — ${description}`} />
+{
+  article && (
+    <Fragment>
+      <meta property="article:published_time" content={article.datePublished} />
+      <meta property="article:modified_time" content={article.dateModified ?? article.datePublished} />
+      <meta property="article:author" content={article.author} />
+    </Fragment>
+  )
+}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+{/* TODO: agregar twitter:site / twitter:creator y meta.sameAs cuando existan los handles sociales. */}
+
+<!-- Fonts: self-hosted vía @fontsource (importadas en BaseLayout). Sin Google Fonts. -->
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

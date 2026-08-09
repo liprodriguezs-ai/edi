@@ -1,0 +1,11 @@
+{
+    "name": "Treasury",
+    "alias": "treasury",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Treasury\\Providers\\TreasuryServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,140 @@
+---
+title: "Periodos de mesa directiva"
+description: "Abrir un periodo con los cargos electos, y qué pasa con los permisos al abrirlo y al cerrarlo."
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+El periodo de mesa directiva es lo que conecta la elección de la asamblea con los
+permisos del sistema. **Al nombrar a alguien tesorero, esa persona obtiene el
+acceso del tesorero.** Al cerrar el periodo, lo pierde.
+
+Por eso Kivo7 pide un periodo abierto con tesorero antes de dejarte operar.
+
+## Quién puede usarlo
+
+| Acción | Quién |
+|---|---|
+| **Abrir** un periodo | **Solo el Administrador** |
+| Cerrar, editar, subir acta | Administrador · Presidente |
+| Agregar, editar y quitar miembros | Administrador · Presidente |
+| Consultar el directorio de la mesa | **Todos**, incluidos residentes |
+
+<Aside type="note">
+El Presidente puede hacer todo con el periodo **menos crearlo**. Es deliberado:
+abrir un periodo redefine quién manda en el sistema, y esa acción queda en el
+Administrador.
+</Aside>
+
+## Abrir un periodo
+
+<Steps>
+
+1. Entra a **Mesa Directiva** y presiona **Iniciar nuevo periodo**.
+
+2. Captura el **Nombre del periodo**. Viene sugerido como
+   *Mesa Directiva 2026–2027*. Debe ser único.
+
+3. Captura **Inicio** y **Fin**.
+
+4. Agrega los **Miembros de la mesa** con **Agregar cargo**: por cada uno, busca
+   a la persona y elige su cargo.
+
+5. Deja encendido **Cerrar automáticamente el periodo vigente (revoca sus
+   roles)** si estás relevando a la mesa anterior.
+
+6. Captura **Notas** con los acuerdos de asamblea.
+
+7. Presiona **Iniciar periodo**.
+
+</Steps>
+
+## Los cargos obligatorios
+
+<Aside type="caution">
+**Todo periodo necesita Presidente, Tesorero y Secretario.** Sin los tres, Kivo7
+no deja crearlo: *Faltan cargos obligatorios: Presidente, Tesorero, Secretario.*
+
+Tampoco deja quitarlos después: *La mesa debe conservar Presidente, Tesorero y
+Secretario.*
+</Aside>
+
+Los cinco cargos disponibles y el acceso que otorga cada uno:
+
+| Cargo | Qué gana |
+|---|---|
+| **Presidente** | Supervisión total: cancela cargos, condona deuda, anula egresos |
+| **Tesorero** | Cobranza y captura de gastos |
+| **Secretario** | Avisos, actas y canales de chat |
+| **Vocal** | Avisos propios |
+| **Comité de Vigilancia** | Lectura de todo lo financiero y auditoría |
+
+Cada persona puede tener **un solo cargo** por periodo.
+
+## Qué pasa al abrirlo
+
+1. A cada miembro se le **otorga su rol** en el sistema.
+2. Si marcaste el cierre automático, el periodo anterior se cierra y **se revocan
+   sus roles**.
+3. Se le avisa a cada miembro: *Has sido asignado a la mesa directiva del periodo
+   X.*
+4. **Se publica un aviso automático en el tablero** anunciando la nueva mesa,
+   visible para todo el condominio.
+
+<Aside type="tip">
+Ese aviso automático es útil pero genérico. Vale la pena publicar después uno
+propio con las fotos y los teléfonos de contacto de cada quien: es lo que los
+vecinos realmente quieren saber.
+</Aside>
+
+## Cerrar un periodo
+
+> Se cerrará «X» y se revocarán los roles de mesa de todos sus miembros. Esta
+> acción queda en auditoría.
+
+A los salientes les llega: *El periodo de la mesa directiva "X" ha sido cerrado.
+Gracias por tu servicio.*
+
+<Aside type="note">
+Kivo7 tiene una salvaguarda: **no revoca un rol si la persona lo sigue teniendo
+por otro cargo vigente**. Alguien que era vocal en la mesa anterior y sigue como
+tesorero en la nueva no pierde nada.
+</Aside>
+
+## El acta
+
+El botón **Subir acta** adjunta el documento del periodo, y después queda
+disponible con el botón **Acta**.
+
+<Aside type="caution">
+**Solo se acepta PDF**, aunque el selector de archivos permita elegir imágenes.
+Si subes una foto, recibirás un error sin explicación. Escanea el acta a PDF
+antes.
+</Aside>
+
+## Un detalle de operación
+
+Los botones de gestionar miembros **solo aparecen en el periodo vigente**. Un
+periodo cerrado es histórico y no se toca.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Cargos de la mesa"
+    href="/docs/mesa-y-personal/cargos-de-mesa"
+    description="Qué puede hacer cada cargo, en detalle."
+  />
+  <LinkCard
+    title="Roles y permisos"
+    href="/docs/roles/como-funcionan"
+    description="Cómo se combinan el rol y la relación con la casa."
+  />
+  <LinkCard
+    title="Configuración inicial guiada"
+    href="/docs/empezar/configuracion-inicial"
+    description="Por qué el periodo con tesorero es uno de los nueve pasos."
+  />
+</CardGrid>

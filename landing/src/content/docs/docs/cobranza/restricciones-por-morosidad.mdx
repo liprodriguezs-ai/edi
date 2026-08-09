@@ -1,0 +1,126 @@
+---
+title: "Restricciones por morosidad"
+description: "Condicionar amenidades, visitas y paquetes a estar al corriente. Cómo se configura y qué ve el vecino restringido."
+sidebar:
+  order: 13
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Kivo7 puede bloquear tres funciones a las casas con adeudo vencido: reservar
+amenidades, generar accesos de visita y recibir paquetes.
+
+**Viene apagado.** Ningún condominio restringe nada hasta que alguien lo enciende
+a propósito.
+
+<Aside type="caution">
+Antes de encender esto, asegúrate de que el reglamento interno o un acuerdo de
+asamblea lo respalden, y de que se haya avisado. Bloquearle la entrada a la visita
+de un vecino sin aviso previo no es una función del sistema: es un conflicto.
+</Aside>
+
+## Qué se puede bloquear
+
+| Función | Qué deja de poder hacer la casa |
+|---|---|
+| **Reservaciones de amenidades** | Reservar el salón, la cancha, la alberca |
+| **Accesos de visita** | Generar o autorizar el pase de sus visitas |
+| **Recepción de paquetes** | Que la caseta le reciba envíos |
+
+Y lo que **nunca** se bloquea: pagar. Una casa restringida siempre puede
+consultar su estado de cuenta y reportar su pago — bloquear eso sería impedirle
+salir del problema. Tampoco se bloquea el chat, los avisos ni los proyectos.
+
+## Configurarlo
+
+<Steps>
+
+1. Entra a **Configuración** → pestaña **Morosidad**.
+
+2. Enciende **Activar restricciones por morosidad**. Es el interruptor general:
+   apagado, nada aplica sin importar lo demás.
+
+3. Captura el **Adeudo mínimo vencido (MXN)**: desde qué monto se restringe.
+
+4. Marca qué funciones se bloquean, de las tres disponibles.
+
+5. Ajusta el **Texto del aviso** que verá el vecino, hasta 500 caracteres.
+
+6. Presiona **Guardar**.
+
+</Steps>
+
+<Aside type="caution">
+**Cuidado con dejar el umbral en cero.** No significa "sin restricción": significa
+**cualquier casa con un solo peso vencido queda restringida**.
+
+Es la trampa más común del módulo. Si quieres un margen, captura un monto real —
+por ejemplo el equivalente a dos cuotas.
+</Aside>
+
+## Quién queda restringido exactamente
+
+Se necesitan las cuatro condiciones a la vez:
+
+1. El interruptor general está encendido.
+2. Esa función específica está marcada.
+3. La casa está en estado **Vencido**.
+4. Su adeudo vencido alcanza o supera el umbral.
+
+Una casa en **Parcial** —pagó algo y sigue en plazo— **nunca se restringe**, por
+diseño.
+
+<Aside type="note">
+La restricción es **por casa, no por persona**. Si un vecino tiene dos casas y
+solo una está vencida, puede seguir reservando y generando accesos para la que
+está al corriente.
+</Aside>
+
+## Qué ve el vecino
+
+**Al intentar reservar una amenidad**, el asistente cambia su título a *Reserva no
+disponible* y muestra un aviso rojo con tres líneas: el monto adeudado, el texto
+que tú configuraste, y *Realiza tu pago para reactivar las reservas.* Solo queda
+visible el paso de elegir unidad, para que pueda cambiar a otra casa suya que sí
+esté al corriente.
+
+**Al intentar registrar una visita**, aparece el mismo aviso y el resto del
+formulario desaparece.
+
+**En la caseta, al recibir un paquete**, el mensaje es distinto y **no se puede
+configurar**:
+
+> Esta unidad no puede recibir paquetes.
+
+<Aside type="tip">
+Ese mensaje es corto a propósito: el vigilante **nunca ve cuánto debe el
+residente**. Exponer el adeudo de un vecino frente a un repartidor sería un
+problema de privacidad, y el sistema lo evita.
+</Aside>
+
+## El texto del aviso
+
+El que viene por defecto:
+
+> Tu unidad tiene adeudos vencidos, por lo que esta función está restringida.
+> Ponte al corriente con tus pagos o acude a la administración para regularizar
+> tu situación.
+
+Vale la pena ajustarlo al tono de tu condominio y, sobre todo, decir **a quién
+acudir**. Un aviso que solo prohíbe genera enojo; uno que además dice qué hacer,
+resuelve.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Morosidad"
+    href="/docs/cobranza/morosidad"
+    description="Quién está vencido y desde cuándo."
+  />
+  <LinkCard
+    title="Configuración de morosidad"
+    href="/docs/configuracion/morosidad"
+    description="La pestaña donde se configura todo esto."
+  />
+</CardGrid>

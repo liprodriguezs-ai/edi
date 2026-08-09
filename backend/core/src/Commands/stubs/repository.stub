@@ -1,0 +1,17 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+use QCH\Core\Repositories\Repository;
+
+class $CLASS$ extends Repository
+{
+    /**
+     * Specify Model class name.
+     *
+     * @return mixed
+     */
+    public function model()
+    {
+        return \Modules\$STUDLY_NAME$\Models\$STUDLY_NAME$::class;
+    }
+}

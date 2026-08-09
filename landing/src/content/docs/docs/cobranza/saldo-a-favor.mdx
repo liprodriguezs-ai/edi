@@ -1,0 +1,113 @@
+---
+title: "Saldo a favor y folios de recibo"
+description: "Qué pasa con el dinero que un vecino paga de más, cómo se usa después, y cómo se numeran los recibos."
+sidebar:
+  order: 10
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Dos cosas que Kivo7 maneja solo y que conviene entender para poder explicárselas
+a un vecino.
+
+## Saldo a favor
+
+Es el dinero que una casa pagó de más y que todavía no se ha usado.
+
+### Cómo se genera
+
+Kivo7 **nunca rechaza un pago por ser mayor a la deuda**. Cuando el monto excede
+lo que la casa debe, la diferencia se guarda como saldo a favor de esa casa.
+
+Pasa en tres situaciones típicas:
+
+- El vecino paga una cantidad redonda: debe $1,350.00 MXN y deposita $1,500.00.
+- El vecino adelanta varios meses de una vez.
+- La casa no debía nada y pagó de todos modos.
+
+<Aside type="note">
+El saldo a favor pertenece a **la casa**, no a la persona que pagó. Si la casa se
+vende, el saldo se queda con la casa. Conviene tenerlo presente al hacer el corte
+de una compraventa.
+</Aside>
+
+### Cómo se usa
+
+Solo, y antes que nada. En el próximo cobro, cuando entra un pago o cuando se
+emite un cargo nuevo, Kivo7 aplica primero el saldo a favor a los cargos más
+antiguos y solo después toca el dinero nuevo.
+
+No hay que "activarlo" ni acordarse de aplicarlo.
+
+### Dónde se ve
+
+- En el **estado de cuenta** de la casa, junto a la deuda total.
+- En el panel de registrar un pago, en cuanto eliges la unidad: *Saldo a favor
+  actual de la unidad: $X — se consume automáticamente antes del pago.*
+- El vecino recibe una notificación cuando se genera: *Tienes saldo a favor de
+  $X. Se aplicará automáticamente en tu próximo cobro.*
+
+<Aside type="caution">
+El saldo a favor no se devuelve desde Kivo7. Si un vecino pide que le regresen su
+dinero, la devolución se hace por fuera y se registra como un egreso en
+tesorería. El sistema no tiene un botón de reembolso.
+</Aside>
+
+## Folios de recibo
+
+Cada pago confirmado recibe un folio único, con este formato:
+
+```
+R-2026-000123
+│    │      └── consecutivo de 6 dígitos
+│    └───────── año de la fecha de pago
+└────────────── siempre la letra R
+```
+
+El consecutivo es **por condominio y por año**: cada 1 de enero vuelve a empezar
+en `000001`, y el folio de tu condominio no depende de los de nadie más.
+
+### Cuándo se asigna
+
+- **Pago registrado por la administración**: en el momento, porque nace
+  confirmado.
+- **Pago reportado por un residente**: hasta que alguien lo **valida**. Mientras
+  está pendiente de validación no tiene folio, y el detalle muestra *Pago
+  pendiente* en lugar del número.
+
+Esto explica una duda frecuente: un vecino que reportó su pago no ve folio hasta
+que la tesorería lo revisa.
+
+### El folio físico
+
+Aparte está el campo **Folio recibo físico**, que es opcional y sirve para otra
+cosa: anotar el número del talonario de papel que le entregaste al vecino. Los
+dos números conviven, y el buscador de pagos encuentra por cualquiera de ellos.
+
+### El recibo en PDF
+
+Al confirmarse un pago, Kivo7 genera el recibo en PDF, lo adjunta al pago y se lo
+manda por correo al responsable de pago de esa casa. Queda disponible en dos
+lugares: en el detalle del pago, como **Recibo del sistema**, y en el estado de
+cuenta del vecino.
+
+<Aside type="tip">
+En el detalle de un pago hay dos archivos que se confunden seguido: el **Recibo
+del sistema** lo genera Kivo7, y el **Comprobante subido** es la foto o el PDF de
+la transferencia que adjuntó quien capturó el pago. No son lo mismo.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Pagos"
+    href="/docs/cobranza/pagos"
+    description="Registrar, reportar y validar el dinero que entra."
+  />
+  <LinkCard
+    title="Estado de cuenta por unidad"
+    href="/docs/cobranza/estado-de-cuenta"
+    description="Dónde consulta el vecino su deuda y su saldo a favor."
+  />
+</CardGrid>

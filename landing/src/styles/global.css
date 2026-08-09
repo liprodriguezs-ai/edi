@@ -1,0 +1,281 @@
+@import 'tailwindcss';
+
+/* El markdown de /docs lo estiliza Starlight, no Tailwind. Fuera del escaneo
+   automático para que no emita utilidades fantasma en el bundle de la landing. */
+@source not "../content/docs";
+
+/* =========================================================================
+   KIVO7 — Design tokens (Dirección A · Salvia)
+   Tokens live in @theme so Tailwind generates utilities (bg-paper, text-ink,
+   font-serif, rounded-card, shadow-card …) AND exposes them as CSS variables
+   for the handful of scoped styles that need raw values.
+   The 8px spacing scale maps 1:1 onto Tailwind's default numeric spacing:
+   16=4 · 24=6 · 32=8 · 48=12 · 64=16 · 96=24 · 128=32.
+   ========================================================================= */
+@theme {
+  /* Warm paper neutrals — "espacio en blanco como señal de estatus" */
+  --color-paper: #eceae4;
+  --color-paper-2: #e4e1d9;
+  --color-paper-3: #dbd7cd;
+  --color-card: #f6f5f1;
+
+  /* Ink */
+  --color-ink: #14181a;
+  --color-ink-soft: #54584f;
+  /* Faint nudged from the prototype's #8A8C82 (2.83:1, fails WCAG AA) to
+     #686A60 (~4.57:1 on paper) so caption/micro text meets AA 4.5:1. */
+  --color-ink-faint: #686a60;
+
+  /* Brand — sage */
+  --color-sage: #6e7e6a;
+  --color-sage-deep: #5a6957;
+  --color-sage-bg: #e6eae2;
+
+  /* Hairlines */
+  --color-line: #d8d4c9;
+  --color-line-soft: #e3dfd5;
+
+  /* Financial status (always paired with a dot/label — never color alone) */
+  --color-ok: #5e8c6a;
+  --color-warn: #c9a24b;
+  --color-bad: #b6604f;
+
+  /* Type */
+  --font-sans: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+
+  /* Radii */
+  --radius-card: 16px;
+  --radius-soft: 10px;
+  --radius-band: 24px;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(20, 24, 26, 0.04), 0 8px 24px -16px rgba(20, 24, 26, 0.12);
+
+  /* Layout */
+  --container-page: 1200px;
+}
+
+/* ----------------------------------------------------------------- base -- */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the fixed pill nav */
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: var(--color-sage);
+    color: #fff;
+  }
+
+  /* Visible, on-brand focus ring for keyboard users (never remove outline). */
+  :focus-visible {
+    outline: 2px solid var(--color-sage-deep);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* ------------------------------------------------------------ utilities -- */
+
+/* Centered page container with responsive gutters. */
+@utility wrap {
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 48px;
+}
+@media (max-width: 760px) {
+  .wrap {
+    padding-inline: 24px;
+  }
+}
+
+/* Scroll-reveal. The hidden start-state is applied ONLY when JS is running and
+   the user has NOT asked to reduce motion (the `motion-safe-js` class is added
+   to <html> by an inline head script). No-JS and reduced-motion users always
+   get fully visible content — no flash, no dependence on JS to read the page. */
+.reveal {
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.65, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.65, 0.2, 1);
+}
+.motion-safe-js .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.motion-safe-js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-d1 {
+  transition-delay: 0.08s;
+}
+.reveal-d2 {
+  transition-delay: 0.16s;
+}
+
+/* Skip link — visually hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  transform: translateY(-160%);
+  transition: transform 0.18s ease;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Article prose — blog post body. Hand-rolled (no typography plugin) so it
+   stays on the paper/sage palette and the Cormorant/Hanken pairing. */
+.prose {
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+}
+.prose > * + * {
+  margin-top: 1.1em;
+}
+.prose p,
+.prose li {
+  max-width: 68ch;
+}
+.prose h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin-top: 1.9em;
+  margin-bottom: 0.1em;
+}
+.prose h3 {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: 1.5em;
+}
+.prose strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.prose a {
+  color: var(--color-sage-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose a:hover {
+  color: var(--color-ink);
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li {
+  margin-top: 0.4em;
+}
+.prose li::marker {
+  color: var(--color-sage);
+}
+.prose blockquote {
+  border-left: 3px solid var(--color-sage);
+  padding-left: 1.1em;
+  font-style: italic;
+  color: var(--color-ink-soft);
+}
+
+/* Mobile vertical rhythm. The desktop section spacing (pt-24/pt-32/pb-32 + the
+   150px hero offset) is intentionally generous — "espacio en blanco como señal
+   de estatus". On phones that same air reads as empty and turns the page into
+   an endless sparse scroll, so we tighten it here in one place (overrides the
+   Tailwind utilities; unlayered rules win over the utilities layer). */
+@media (max-width: 760px) {
+  .pt-\[150px\] {
+    padding-top: 104px;
+  }
+  .pt-32 {
+    padding-top: 3.5rem;
+  }
+  .pt-24 {
+    padding-top: 2.5rem;
+  }
+  .pb-32 {
+    padding-bottom: 3.5rem;
+  }
+  .pb-28 {
+    padding-bottom: 3rem;
+  }
+  .pb-24 {
+    padding-bottom: 3rem;
+  }
+}
+
+/* Lightbox backdrop (dialog#lightbox abre con showModal). */
+#lightbox::backdrop {
+  background: rgba(20, 24, 26, 0.6);
+}
+
+/* Safari < 18 solo soporta backdrop-filter con prefijo -webkit-, y Lightning
+   CSS no prefija la declaración de Tailwind (el valor es una cadena de var()
+   que no puede analizar). Sin esto el glassmorphism de la nav, el banner de
+   cookies y los chips del hero no existe en iOS 15–17. */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  [class*='backdrop-blur'] {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur, ) var(--tw-backdrop-brightness, )
+      var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, )
+      var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, )
+      var(--tw-backdrop-sepia, );
+  }
+}
+
+/* Carrusel de testimonios: cada slide que se muestra hace un fade-in suave.
+   Gated por reduced-motion. display:none→block reinicia la animación, así que
+   se reproduce en cada cambio de testimonio. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-slide]:not([hidden]),
+  [data-plan]:not([hidden]) {
+    animation: fade-rise 0.5s cubic-bezier(0.2, 0.65, 0.2, 1) both;
+  }
+}
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

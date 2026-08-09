@@ -1,0 +1,11 @@
+{
+    "name": "System",
+    "alias": "system",
+    "description": "Systems aggregate (top-level grouping of modules, tenant/plan assignment, menu composition).",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\System\\Providers\\SystemServiceProvider"
+    ],
+    "files": []
+}

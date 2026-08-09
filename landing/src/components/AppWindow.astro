@@ -1,0 +1,144 @@
+---
+import { meta } from '@/data/site';
+
+// Mock del producto renderizado en HTML (no es un screenshot) → nítido en
+// cualquier densidad de pantalla, responsive y liviano. Muestra el valor real:
+// el resumen del mes con métricas de dinero (animadas) y los pagos recientes.
+const stats = [
+  { label: 'Ingresos del mes', amount: 8250, prefix: '$', caption: 'Pagos confirmados', dot: 'bg-ok' },
+  { label: 'Saldo en cuentas', amount: 77110, prefix: '$', caption: 'Caja + BBVA', dot: 'bg-sage' },
+  { label: 'Adeudo total', amount: 5250, prefix: '$', caption: '3 unidades', dot: 'bg-bad' },
+  { label: 'Neto del mes', amount: 1290, prefix: '+$', caption: 'Ingresos − egresos', dot: 'bg-ink' },
+];
+
+const payments = [
+  { unit: 'Torre Norte · Depto 201', name: 'Miguel Á. Soto', amount: '$1,500' },
+  { unit: 'Torre Norte · Depto 102', name: 'Patricia Gómez', amount: '$1,500' },
+  { unit: 'Casa 3', name: 'Ana Torres', amount: '$750' },
+];
+---
+
+<figure
+  class="relative mx-auto max-w-[1020px] overflow-hidden rounded-card border border-line bg-white text-left shadow-[0_60px_120px_-50px_rgba(20,24,26,0.45)]"
+>
+  <div aria-hidden="true">
+    <!-- window chrome -->
+    <div class="flex h-10 items-center gap-2 border-b border-line-soft bg-card px-[18px]">
+      <span class="h-[9px] w-[9px] rounded-full bg-line"></span>
+      <span class="h-[9px] w-[9px] rounded-full bg-line"></span>
+      <span class="h-[9px] w-[9px] rounded-full bg-line"></span>
+      <span class="ml-3.5 text-[11px] tracking-[0.03em] text-ink-faint">
+        {meta.appHost} · Privada Los Encinos
+      </span>
+    </div>
+
+    <!-- dashboard (HTML, siempre nítido) -->
+    <div class="bg-paper/30 p-5">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="text-[9.5px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            Privada Los Encinos · Junio 2026
+          </p>
+          <p class="mt-1 font-serif text-[22px] font-semibold leading-none">Resumen del mes</p>
+        </div>
+        <span
+          class="inline-flex flex-none items-center rounded-full bg-sage-deep px-2.5 py-1.5 text-[10px] font-semibold text-white"
+        >
+          + Registrar pago
+        </span>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-2.5">
+        {
+          stats.map((s) => (
+            <div class="rounded-lg border border-line bg-white p-3">
+              <p class="flex items-center gap-1.5 text-[9.5px] text-ink-faint">
+                <span class={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
+                {s.label}
+              </p>
+              <p class="mt-1 text-[19px] font-semibold tracking-[-0.01em] text-ink">
+                <span data-money={s.amount} data-prefix={s.prefix}>
+                  {s.prefix}
+                  {s.amount.toLocaleString('es-MX')}
+                </span>
+                <span class="text-[11px] font-normal text-ink-faint">.00</span>
+              </p>
+              <p class="text-[9px] text-ink-faint">{s.caption}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-3 rounded-lg border border-line bg-white p-3">
+        <div class="flex items-center justify-between">
+          <p class="text-[10.5px] font-semibold text-ink">Pagos recientes</p>
+          <span class="text-[9.5px] text-sage-deep">Ver cobranza →</span>
+        </div>
+        <ul class="mt-2 flex flex-col gap-2">
+          {
+            payments.map((p) => (
+              <li class="flex items-center justify-between gap-2 text-[10px]">
+                <span class="min-w-0 truncate">
+                  <span class="font-semibold text-ink">{p.unit}</span>
+                  <span class="text-ink-faint"> · {p.name}</span>
+                </span>
+                <span class="flex flex-none items-center gap-2">
+                  <span class="text-ink-soft">{p.amount}</span>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-sage-bg px-1.5 py-0.5 text-[8.5px] font-semibold text-sage-deep">
+                    <span class="h-1 w-1 rounded-full bg-ok" />
+                    Confirmado
+                  </span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <figcaption class="sr-only">
+    Vista del panel de {meta.name}: resumen del mes con ingresos, saldo en cuentas, adeudo total y
+    pagos recientes del condominio.
+  </figcaption>
+</figure>
+
+<script>
+  // Count-up con formato de moneda para las métricas del panel. Gated por
+  // motion-safe-js (lo agrega BaseLayout solo si el usuario permite movimiento);
+  // sin JS / reduced-motion el valor final ya está en el DOM.
+  const motionOk = document.documentElement.classList.contains('motion-safe-js');
+
+  if (motionOk) {
+    const fmt = (n: number, prefix: string) => prefix + Math.round(n).toLocaleString('es-MX');
+
+    const animate = (el: HTMLElement) => {
+      const to = Number(el.dataset.money ?? '0');
+      const prefix = el.dataset.prefix ?? '';
+      const duration = 1300;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(to * eased, prefix);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = fmt(to, prefix);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            animate(entry.target as HTMLElement);
+            obs.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.4 },
+    );
+
+    document.querySelectorAll<HTMLElement>('[data-money]').forEach((el) => io.observe(el));
+  }
+</script>

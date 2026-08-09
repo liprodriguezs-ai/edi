@@ -1,0 +1,77 @@
+---
+title: "Características de unidad"
+description: "El catálogo de atributos asignables a las casas, y una advertencia sobre su estado actual."
+sidebar:
+  order: 3
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Las características son etiquetas que describen una casa: *Alberca*, *Cochera
+doble*, *Esquina*, *Jardín grande*.
+
+Su razón de ser es poder cobrar por grupo: una cuota extra a las casas con
+alberca, por ejemplo. El alcance **Por característica** de una programación de
+cobro se apoya en ellas.
+
+## Quién puede usarlo
+
+Crear y editar: **solo el Administrador**. Los demás roles lo consultan.
+
+## Estado actual: léelo antes de usarlo
+
+<Aside type="caution">
+**Este catálogo hoy no está conectado al formulario de la unidad.**
+
+El formulario de una casa guarda sus características como **texto libre**, con
+cuatro sugerencias escritas en el propio formulario — *Cochera doble*, *Esquina*,
+*Frente a calle principal*, *Acceso para discapacitados* — más las que escribas a
+mano. Esas no son las filas de este catálogo.
+
+Consecuencia práctica: **el alcance "Por característica" de una programación de
+cobro puede no encontrar las casas que esperas.** Si vas a cobrar por
+característica, pruébalo primero con la vista previa del alcance y confirma que
+el número de unidades cuadra antes de emitir.
+</Aside>
+
+El catálogo funciona y el formulario funciona; lo que falta es el puente entre
+los dos. Vale la pena confirmarlo con el equipo antes de apoyar una cuota
+diferenciada en esto.
+
+## Crear una característica
+
+<Steps>
+
+1. Entra a **Características de Unidad** y presiona **Nueva característica**.
+
+2. Captura el **Nombre**. *Alberca*.
+
+3. Deja **Activa** encendido y guarda.
+
+</Steps>
+
+Este catálogo **no trae filas sembradas**: arranca vacío y lo llenas tú.
+
+## Mientras tanto
+
+Si necesitas cobrar distinto a un grupo de casas y no quieres depender de esto,
+tienes dos caminos que sí funcionan hoy:
+
+- **Por tipo de unidad** — si el grupo coincide con un tipo, crea un tipo propio.
+- **Selección manual** — eliges las casas una por una en la programación. Es más
+  laborioso, pero es exacto.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Unidades"
+    href="/docs/estructura/unidades"
+    description="Donde se capturan las características de cada casa."
+  />
+  <LinkCard
+    title="Programación de cobros"
+    href="/docs/cobranza/programacion-de-cobros"
+    description="El alcance por característica y sus alternativas."
+  />
+</CardGrid>

@@ -1,0 +1,105 @@
+---
+title: "Cómo se organiza la aplicación"
+description: "El menú, los grupos plegables y por qué cada persona ve una lista distinta de opciones."
+sidebar:
+  order: 4
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Kivo7 se navega desde el menú lateral izquierdo. Dos cosas explican casi todo lo
+que verás ahí.
+
+## Cada quien ve un menú distinto
+
+El menú no es fijo: se arma para cada persona cruzando su rol con lo que el
+condominio tiene activo. Un vigilante ve **Control de Accesos** y **Paquetería**;
+un residente ve **Mi Unidad** y **Mi estado de cuenta**; la administración las ve
+casi todas.
+
+<Aside type="note">
+Si alguien te dice que "no le aparece" una opción, casi siempre es su rol, no una
+falla. Revisa la [sección de Roles](/docs/roles/como-funcionan) para ver qué le
+toca ver a cada quien.
+</Aside>
+
+## Grupos plegables, no secciones
+
+El menú es una lista corrida. Las opciones relacionadas se juntan en grupos que
+se abren y cierran con la flecha de la derecha:
+
+| Grupo | Qué contiene |
+|---|---|
+| **Cobranza** | Conceptos de cobro, programación, cargos, pagos, importación |
+| **Estructura** | Torres, secciones, características, asignaciones, vehículos |
+| **Mesa y Personal** | Mesa directiva y colaboradores |
+| **Accesos** | Control de accesos, visitantes, bitácora, lista negra |
+| **Portería** | Paquetería y sus reportes |
+| **Amenidades** | Amenidades y reservaciones |
+| **Proyectos Comunitarios** | Proyectos y aportaciones |
+| **Reportes** | Reportes y los cinco tableros |
+| **Administración** | Cuentas bancarias, egresos, proveedores |
+| **Catálogos** | Las listas que tú administras: tipos de unidad, categorías, motivos |
+
+Cuando entras a una pantalla, su grupo se abre solo.
+
+Fuera de los grupos, al nivel principal, están las opciones que se usan a diario:
+**Dashboard**, **Mi Unidad · Unidades**, **Mi estado de cuenta**, **Morosidad**,
+**Avisos**, **Canales de Chat**, **Incidencias** y **Configuración**.
+
+## El encabezado
+
+Arriba del menú hay tres cosas:
+
+- **El selector de condominio.** Solo aparece si administras más de uno.
+- **Buscar módulo** (`⌘K` o `Ctrl` + `K`). La forma más rápida de llegar a
+  cualquier pantalla sin recorrer el menú.
+- **El logotipo de tu condominio**, si lo subiste en la configuración.
+
+<Aside type="tip">
+El buscador de módulos es el mejor atajo de Kivo7 y casi nadie lo usa. `⌘K`,
+escribes "morosidad", entras. Ahorra abrir tres grupos.
+</Aside>
+
+## Los catálogos
+
+Aparecen mucho en el menú y conviene entender qué son: **listas que tú
+administras** y que después se usan como opciones en los formularios. Los tipos
+de unidad, las categorías de egreso, los motivos de visita.
+
+Hay dos clases:
+
+- **Los que puedes editar** — tipos de unidad, categorías de concepto, motivos de
+  visita, tipos de paquete. Están hechos para que los adaptes a tu condominio.
+- **Los que solo puedes consultar** — los estados de un cargo, de un pago, de una
+  reservación. Kivo7 toma decisiones con base en ellos, así que no son editables.
+
+## La pantalla de Configuración
+
+Aparte del menú, hay una pantalla de **Configuración** con nueve pestañas que
+cambian cómo se comporta Kivo7 en tu condominio: desde qué día se generan los
+cargos hasta si se exige firma al entregar un paquete.
+
+Vale la pena recorrerla una vez completa, aunque no cambies nada: la mitad de las
+dudas de operación se contestan ahí.
+
+<LinkCard
+  title="Configuración del condominio"
+  href="/docs/configuracion/general"
+  description="Las nueve pestañas, una por una."
+/>
+
+## Qué sigue
+
+<CardGrid>
+  <LinkCard
+    title="Tu primer mes con Kivo7"
+    href="/docs/empezar/tu-primer-mes"
+    description="El recorrido completo: del alta de casas al primer pago aplicado."
+  />
+  <LinkCard
+    title="Roles y permisos"
+    href="/docs/roles/como-funcionan"
+    description="Qué ve y qué puede hacer cada persona."
+  />
+</CardGrid>

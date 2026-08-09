@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/subscriptionplan",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SubscriptionPlan\\": "app/",
+            "Modules\\SubscriptionPlan\\Database\\Factories\\": "database/factories/",
+            "Modules\\SubscriptionPlan\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\SubscriptionPlan\\Tests\\": "tests/"
+        }
+    }
+}

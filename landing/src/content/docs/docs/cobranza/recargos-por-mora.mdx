@@ -1,0 +1,98 @@
+---
+title: "Recargos por mora"
+description: "Configurar la penalización por pagar tarde: desde qué mes, de cuánto y con qué tope."
+sidebar:
+  order: 4
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Un recargo es la penalización que se le cobra a una casa por pagar tarde. Se
+configura **dentro de una programación de cobro**, no por separado.
+
+<Aside type="caution">
+**Sin reglas capturadas, no se cobra ningún recargo.** Kivo7 no aplica intereses
+por su cuenta: si no configuras nada, nadie paga recargos. Esto es intencional —
+cobrar una penalización que no está en el reglamento es la forma más rápida de
+que el sistema se vuelva el villano de la asamblea.
+</Aside>
+
+## Antes de configurarlo
+
+Revisa que el recargo esté respaldado por el reglamento interno o por un acuerdo
+de asamblea, y que se haya avisado a los vecinos. La herramienta calcula; el
+acuerdo lo pones tú.
+
+## Agregar un recargo
+
+<Steps>
+
+1. Abre la programación de cobro y baja a la sección **Recargo moratorio**.
+
+2. Presiona **Agregar recargo**.
+
+3. Captura **Desde el mes**: a partir de qué mes de morosidad empieza a aplicar.
+   Un 1 significa desde el primer mes vencido; un 3, solo a partir del tercero.
+
+4. Elige el **Tipo**:
+
+   - **Porcentaje** — un porcentaje sobre el saldo en mora.
+   - **Monto fijo** — una cantidad fija en pesos.
+
+5. Captura el valor. El campo cambia de nombre según el tipo: **Porcentaje** o
+   **Monto**.
+
+6. Elige la **Frecuencia**:
+
+   - **Una sola vez** — se cobra un recargo y ya.
+   - **Por cada mes de mora** — se acumula mes con mes.
+
+7. Opcionalmente captura un **Tope**: el máximo que puede acumular el recargo. Si
+   lo dejas vacío, no hay límite.
+
+8. Guarda la programación.
+
+</Steps>
+
+## Varios recargos escalonados
+
+Puedes agregar más de una regla para castigar más la morosidad prolongada:
+
+| Desde el mes | Tipo | Valor | Frecuencia |
+|---|---|---|---|
+| 1 | Porcentaje | 3% | Por cada mes de mora |
+| 6 | Porcentaje | 5% | Por cada mes de mora |
+
+La regla cuando hay varias: **se aplica la del mayor mes alcanzado**. Una casa
+con 7 meses de atraso paga el 5%, no la suma de los dos.
+
+Kivo7 lo dice en la propia pantalla:
+
+> Cada recargo aplica desde el mes de morosidad que indiques. Si hay varios, se
+> usa el de mayor mes alcanzado. Sin reglas, no se cobran recargos.
+
+## Sobre el tope
+
+El tope es la red de seguridad. Sin él, un recargo del 5% mensual acumulado
+convierte una cuota de $1,500.00 MXN en una deuda impagable en dos años — y una
+deuda impagable no se cobra, se pleitea.
+
+<Aside type="tip">
+Un tope común es el equivalente a una o dos cuotas mensuales. Suficiente para
+que pagar tarde duela, insuficiente para volver la deuda irrecuperable.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Programación de cobros"
+    href="/docs/cobranza/programacion-de-cobros"
+    description="Donde se configuran los recargos."
+  />
+  <LinkCard
+    title="Morosidad"
+    href="/docs/cobranza/morosidad"
+    description="El panel donde se ve el resultado."
+  />
+</CardGrid>

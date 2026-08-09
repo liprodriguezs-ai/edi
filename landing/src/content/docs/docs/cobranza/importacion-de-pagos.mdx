@@ -1,0 +1,133 @@
+---
+title: "Importación de pagos desde Excel"
+description: "Subir muchos pagos de golpe con el asistente de cuatro pasos, sin duplicar nada."
+sidebar:
+  order: 14
+---
+
+import { Steps, Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Sirve para dos cosas: cargar el histórico cuando vienes de otro sistema, y
+capturar de golpe los pagos de un mes que llevaste en Excel.
+
+El asistente valida todo **antes** de escribir nada, así que puedes intentarlo sin
+miedo.
+
+## Quién puede usarlo
+
+**Solo el Administrador.** Ni el Presidente ni el Tesorero tienen acceso a esta
+pantalla.
+
+## Antes de empezar
+
+La pantalla trae un checklist de **Catálogos requeridos** con tres ligas: **Tipos
+de unidad**, **Estados de unidad** y **Cuentas bancarias**. Si alguno está vacío
+lo marca en ámbar.
+
+No es obligatorio tenerlos: el importador crea lo que falte y te avisa. Pero es
+mejor configurarlos antes, para que las cosas queden con el nombre que tú quieres
+y no con el que adivine el archivo.
+
+## Los cuatro pasos
+
+<Steps>
+
+1. **Descarga la plantilla.**
+
+   El botón **Descargar template** te da el Excel con la estructura correcta y,
+   además, hojas de referencia precargadas con **tus** catálogos actuales. No
+   armes el archivo desde cero.
+
+2. **Llena la hoja PAGOS.**
+
+   Una fila por pago. Seis columnas son obligatorias: `tipo_unidad`, `numero`,
+   `nombre`, `apellido_paterno`, `fecha_pago` y `monto`. Las demás son opcionales.
+
+3. **Sube y valida.**
+
+   En el **Paso 1** eliges el archivo y presionas **Validar**. El sistema revisa
+   todas las filas **sin escribir nada**.
+
+4. **Revisa el resultado.**
+
+   El **Paso 2** te da cuatro cifras — total de filas, pagos a registrar,
+   unidades nuevas y residentes nuevos — y dos tablas de incidencias.
+
+5. **Ejecuta.**
+
+   Si no hay errores se habilita **Continuar**. El **Paso 3** procesa el archivo
+   mostrando el avance, y el **Paso 4** te entrega el reporte final.
+
+</Steps>
+
+## Errores y advertencias: no son lo mismo
+
+Es la distinción que hay que entender para no perder tiempo.
+
+| | Qué significa | Qué pasa |
+|---|---|---|
+| **Error** (rojo) | Falta un dato obligatorio o está mal escrito | **Esa fila se frena.** Hay que corregir el archivo |
+| **Advertencia** (ámbar) | Falta una referencia que se puede resolver sola | **La fila entra igual**, con aviso |
+
+Ejemplo de advertencia: *La cuenta 'HSBC' no existe — se creará automáticamente al
+ejecutar.*
+
+Mientras haya un solo error, el botón **Continuar** sigue deshabilitado.
+
+## Qué crea el importador y qué no
+
+| Si no existe… | Qué hace |
+|---|---|
+| La **unidad** | La crea |
+| El **residente** | Lo crea |
+| El **tipo de unidad** | Lo crea, con aviso |
+| La **cuenta destino** | La crea, con aviso |
+| El **estado de unidad** | Usa el estado por defecto del condominio |
+| La **torre** o la **sección** | **No la crea.** La unidad se importa sin ese dato |
+
+<Aside type="caution">
+Ojo con torres y secciones: si tu archivo trae torres que no existen en Kivo7,
+las unidades se crean **sin torre** y tendrás que asignarlas a mano después.
+Créalas antes de importar.
+</Aside>
+
+## Se puede subir el mismo archivo dos veces
+
+Sin riesgo de duplicar. El sistema identifica los pagos ya registrados por el
+folio físico, o por la combinación de unidad, fecha y monto, y los omite.
+
+<Aside type="tip">
+Esto cambia cómo conviene trabajar: corriges el archivo y lo vuelves a subir
+completo, en lugar de armar un segundo archivo solo con las filas que fallaron.
+Es más simple y menos propenso a errores.
+</Aside>
+
+## Qué pasa con los pagos importados
+
+Exactamente lo mismo que con uno capturado a mano: se aplican a los cargos
+pendientes de la casa, del más viejo al más nuevo, y lo que sobre queda como
+saldo a favor.
+
+El reporte final incluye una tabla de **Movimientos en cuentas** con cuánto subió
+cada cuenta bancaria. Vale la pena cuadrarlo contra tu estado de cuenta del banco.
+
+## Límites
+
+- El monto de un pago no puede pasar de **$9,999,999.99**.
+- Los archivos muy grandes se revisan por partes; si eso pasa, el paso 2 lo avisa
+  con *Sin errores en las filas revisadas*.
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Pagos"
+    href="/docs/cobranza/pagos"
+    description="El flujo normal, uno por uno."
+  />
+  <LinkCard
+    title="Unidades"
+    href="/docs/estructura/unidades"
+    description="Conviene tener las casas dadas de alta antes de importar."
+  />
+</CardGrid>

@@ -1,0 +1,11 @@
+{
+    "name": "SubscriptionPlan",
+    "alias": "subscriptionplan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SubscriptionPlan\\Providers\\SubscriptionPlanServiceProvider"
+    ],
+    "files": []
+}

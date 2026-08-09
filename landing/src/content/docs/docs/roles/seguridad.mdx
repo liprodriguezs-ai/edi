@@ -1,0 +1,78 @@
+---
+title: "Seguridad"
+description: "Qué ve y qué puede hacer el personal de caseta."
+sidebar:
+  order: 9
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+El rol de la caseta. Su mundo son dos cosas: quién entra y qué paquetes llegan.
+**No ve nada financiero.**
+
+Se otorga automáticamente al dar de alta a un colaborador con el puesto
+**Vigilante**.
+
+## Qué puede hacer
+
+| Área | Qué puede | Dónde |
+|---|---|---|
+| **Accesos** | Escanear pases, registrar entradas manuales, marcar salidas | [Caseta](/docs/accesos/caseta) |
+| | Pedir autorización remota al residente | [Autorización remota](/docs/accesos/autorizacion-remota) |
+| | Consultar la bitácora y **agregar correcciones** | [Bitácora de accesos](/docs/accesos/bitacora-de-accesos) |
+| **Paquetería** | Registrar paquetes, individual y por lote | [Registrar paquetes](/docs/paqueteria/registrar-paquetes) |
+| | Entregarlos con código, firma y evidencia | [Entregar un paquete](/docs/paqueteria/entregar-un-paquete) |
+| | Devolver, reportar incidentes y reasignar | [Devoluciones e incidencias](/docs/paqueteria/devoluciones-e-incidencias) |
+| **Estructura** | Consultar casas, residentes y vehículos, para identificar | [Unidades](/docs/estructura/unidades) |
+| **Comunicación** | Leer avisos y participar en el chat | [Avisos](/docs/comunicacion/avisos) |
+
+<Aside type="note">
+**Es el único rol que puede corregir la bitácora de accesos.** Ni el presidente ni
+el tesorero pueden. Tiene sentido: es quien estuvo ahí y sabe qué pasó.
+</Aside>
+
+## Lo que NO puede hacer
+
+| No puede | Por qué |
+|---|---|
+| **Generar pases de visita** | Los generan los residentes y la administración |
+| **Bloquear o desbloquear en la lista negra** | Solo la consulta. Bloquear es decisión de la mesa |
+| Ver nada financiero | No es su área |
+| Ver el adeudo de un residente | Protección de privacidad, a propósito |
+
+<Aside type="note">
+Cuando una casa está restringida por morosidad, el vigilante ve solo *Esta unidad
+no puede recibir paquetes* — **sin el monto**. Es deliberado: exponer el adeudo de
+un vecino frente a un repartidor sería un problema de privacidad.
+</Aside>
+
+## Lo que conviene tener claro en el turno
+
+<Aside type="tip">
+**Registrar salidas.** Es lo que más se descuida y sin ello la lista de "quién
+está dentro" deja de servir en una semana. Revísala al cambio de turno.
+
+**El campo "Autorizado por".** Si dejas pasar a alguien tras hablar por teléfono,
+escribe quién autorizó. Es lo único que va a existir si después hay un problema.
+
+**La lista negra necesita el nombre exacto.** La comparación es literal: *Juan
+Pérez* no bloquea a *Juan Perez*. Si sospechas de alguien, avísale a la
+administración para que capture las variantes.
+
+**La cámara necesita conexión segura.** Si no abre el escáner, no es el teléfono:
+teclea el código a mano.
+</Aside>
+
+## Si no responde el residente
+
+La autorización remota **no avisa sola en la pantalla de la caseta**. Si no llega
+respuesta en un par de minutos, llama por teléfono y registra la entrada a mano
+con la verificación **Llamada telefónica**.
+
+→ [Autorización remota](/docs/accesos/autorizacion-remota)
+
+<LinkCard
+  title="Matriz comparativa"
+  href="/docs/roles/matriz-comparativa"
+  description="Todos los roles lado a lado."
+/>

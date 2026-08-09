@@ -1,0 +1,11 @@
+{
+    "name": "AmenityReservations",
+    "alias": "amenityreservations",
+    "description": "Reservas de amenidades del clúster (canchas, salón de eventos, alberca, etc.)",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AmenityReservations\\Providers\\AmenityReservationsServiceProvider"
+    ],
+    "files": []
+}

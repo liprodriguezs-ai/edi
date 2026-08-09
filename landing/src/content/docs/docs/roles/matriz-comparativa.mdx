@@ -1,0 +1,134 @@
+---
+title: "Matriz comparativa"
+description: "Todos los roles y todas las áreas del sistema en una sola tabla."
+sidebar:
+  order: 2
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+La vista de conjunto. Para el detalle de cada rol, entra a su página.
+
+**Leyenda:** ✅ completo · 👁 solo consulta · — sin acceso
+
+## Estructura y residentes
+
+| | Admin | Presi | Tesor | Secre | Vocal | Vigil | Segur | Oper | Resid | Arren |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Crear casas | ✅ | — | — | — | — | — | — | — | — | — |
+| Editar casas | ✅ | ✅ | 👁 | 👁 | 👁 | 👁 | 👁 | — | 👁 | 👁 |
+| Torres y secciones | ✅ | ✅ | 👁 | 👁 | 👁 | 👁 | 👁 | — | 👁 | 👁 |
+| Asociar personas | ✅ | ✅ | ✅ | 👁 | 👁 | 👁 | 👁 | — | 👁 | 👁 |
+| Invitar residentes | ✅ | — | — | — | — | — | — | — | * | * |
+| Bloquear residentes | ✅ | — | — | — | — | — | — | — | — | — |
+| Vehículos | ✅ | ✅ | 👁 | 👁 | 👁 | 👁 | 👁 | — | 👁 | 👁 |
+
+\* El propietario o titular de pago de una casa puede invitar y dar de baja en
+**su propia casa**, sin ser administrador.
+
+## Cobranza
+
+| | Admin | Presi | Tesor | Secre | Vocal | Vigil | Resid | Arren |
+|---|---|---|---|---|---|---|---|---|
+| Conceptos y programaciones | ✅ | ✅ | ✅ | 👁 | 👁 | 👁 | — | — |
+| Emitir cobros | ✅ | ✅ | ✅ | 👁 | 👁 | 👁 | — | — |
+| Registrar y validar pagos | ✅ | ✅ | ✅ | — | — | 👁 | — | — |
+| **Cancelar cargos** | ✅ | ✅ | **—** | — | — | — | — | — |
+| **Condonar deuda** | ✅ | ✅ | **—** | — | — | — | — | — |
+| Morosidad | ✅ | ✅ | ✅ | — | — | 👁 | — | — |
+| Importar pagos | ✅ | — | — | — | — | — | — | — |
+| Su estado de cuenta | — | — | — | — | — | — | 👁 | 👁 |
+| Reportar su pago | — | — | — | — | — | — | ✅ | ✅ |
+
+## Tesorería
+
+| | Admin | Presi | Tesor | Vigil |
+|---|---|---|---|---|
+| Cuentas bancarias | ✅ | 👁 | 👁 | 👁 |
+| Registrar egresos | ✅ | ✅ | ✅ | 👁 |
+| **Anular egresos** | ✅ | ✅ | **—** | — |
+| Categorías de egreso | ✅ | 👁 | 👁 | 👁 |
+| Proveedores | ✅ | ✅ | ✅ | 👁 |
+
+Secretario, Vocal, Seguridad, Personal, Residente y Arrendatario no tienen acceso
+a Tesorería.
+
+## Comunicación
+
+| | Admin | Presi | Tesor | Secre | Vocal | Vigil | Segur | Oper | Resid | Arren |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Avisos (cualquiera) | ✅ | ✅ | — | — | — | — | — | — | — | — |
+| Avisos propios | ✅ | ✅ | ✅ | ✅ | ✅ | — | — | — | — | — |
+| Ver avisos | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Escribir en el chat | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **—** |
+| Administrar canales | ✅ | ✅ | — | ✅ | — | — | — | — | — | — |
+| Moderar el chat | ✅ | ✅ | — | ✅ | — | — | — | — | — | — |
+
+## Accesos y paquetería
+
+| | Admin | Presi | Tesor | Secre | Segur | Resid | Arren |
+|---|---|---|---|---|---|---|---|
+| Generar QR de visita | ✅ | ✅ | ✅ | — | — | ✅ | **—** |
+| Registrar entradas | ✅ | — | — | — | ✅ | — | — |
+| Bitácora | ✅ | 👁 | 👁 | 👁 | ✅ | * | * |
+| Lista negra | ✅ | ✅ | — | 👁 | 👁 | — | — |
+| Registrar y entregar paquetes | ✅ | 👁 | 👁 | — | ✅ | * | * |
+
+\* Solo lo de su propia casa, en sus pantallas *Mi bitácora* y *Mis paquetes*.
+
+## Amenidades, proyectos e incidencias
+
+| | Admin | Presi | Tesor | Secre | Vocal | Vigil | Resid | Arren |
+|---|---|---|---|---|---|---|---|---|
+| Gestionar amenidades | ✅ | ✅ | ✅ | ✅ | ✅ | 👁 | 👁 | 👁 |
+| Aprobar reservaciones | ✅ | ✅ | ✅ | ✅ | ✅ | — | — | — |
+| Reservar para su casa | — | — | — | — | — | ✅ | ✅ | ✅ |
+| Proyectos comunitarios | ✅ | ✅ | ✅ | ✅ | ✅ | 👁 | 👁 | 👁 |
+| Incidencias | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **—** | **—** |
+
+## Mesa directiva, personal y reportes
+
+| | Admin | Presi | Tesor | Vigil |
+|---|---|---|---|---|
+| **Abrir un periodo de mesa** | ✅ | **—** | — | — |
+| Gestionar miembros y cerrar | ✅ | ✅ | — | — |
+| **Alta y baja de colaboradores** | ✅ | **—** | — | — |
+| Editar colaboradores | ✅ | ✅ | 👁 | — |
+| Reportes | ✅ | ✅ | ✅ | Solo financieros |
+| Tableros | ✅ | ✅ | ✅ | ✅ |
+| Auditoría | ✅ | ✅ | — | ✅ |
+| Configuración | ✅ | 👁 | 👁 | — |
+
+## Lo exclusivo del Administrador
+
+Nueve cosas que **solo el Administrador** puede hacer:
+
+1. Crear casas
+2. Crear y editar cuentas bancarias
+3. Invitar residentes por correo
+4. Bloquear residentes
+5. Abrir un periodo de mesa directiva
+6. Dar de alta y de baja colaboradores
+7. Importar pagos
+8. Crear catálogos (categorías, tipos, prioridades)
+9. Editar la configuración del condominio
+
+<Aside type="note">
+El **Propietario de la cuenta** tiene todo lo del Administrador, más lo único que
+este no puede: contratar, cambiar y cancelar el plan.
+</Aside>
+
+## Relacionado
+
+<CardGrid>
+  <LinkCard
+    title="Cómo funcionan los roles"
+    href="/docs/roles/como-funcionan"
+    description="De dónde salen los permisos y por qué."
+  />
+  <LinkCard
+    title="Cargos de la mesa"
+    href="/docs/mesa-y-personal/cargos-de-mesa"
+    description="Qué otorga cada cargo al nombrarlo."
+  />
+</CardGrid>

@@ -1,0 +1,11 @@
+{
+    "name": "Projects",
+    "alias": "projects",
+    "description": "Proyectos Comunitarios — Module 7",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Projects\\Providers\\ProjectsServiceProvider"
+    ],
+    "files": []
+}

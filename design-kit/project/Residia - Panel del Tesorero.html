@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Residia — Panel del tesorero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ECEAE4; --paper-2:#E4E1D9; --paper-3:#DCD8CF; --card:#F3F1EC;
+    --ink:#14181A; --ink-soft:#54584F; --ink-faint:#8A8C82;
+    --sage:#6E7E6A; --sage-deep:#5A6957;
+    --line:#D7D3C8; --line-soft:#E2DED4;
+    --g:#5E8C6A; --y:#C9A24B; --r:#B6604F; --b:#5B7A99; --gray:#9A9C92;
+    --gbg:#E7EEE6; --ybg:#F2EBD7; --rbg:#F0E0DB; --bbg:#E2E9F0;
+    --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s5:48px;--s6:64px;
+    --sans:'Hanken Grotesk', system-ui, sans-serif;
+    --serif:'Cormorant Garamond', Georgia, serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;}
+  ::selection{background:var(--sage);color:#fff;}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;}
+  .serif{font-family:var(--serif);}
+  .tnum{font-variant-numeric:tabular-nums;}
+
+  .app{display:grid;grid-template-columns:248px 1fr;min-height:100vh;}
+
+  /* ---------- SIDEBAR ---------- */
+  .side{border-right:1px solid var(--line);background:var(--paper);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:var(--s4) var(--s3);}
+  .side .brand{font-family:var(--serif);font-size:24px;font-weight:500;padding:0 10px;margin-bottom:6px;}
+  .side .cluster{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:var(--s4);border:1px solid var(--line);background:var(--card);}
+  .side .cluster .mk{width:26px;height:26px;background:var(--sage);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-size:15px;flex:0 0 26px;}
+  .side .cluster .info{line-height:1.2;}
+  .side .cluster .info b{font-size:13px;font-weight:600;display:block;white-space:nowrap;line-height:1.25;}
+  .side .cluster .info span{font-size:11px;color:var(--ink-faint);display:block;line-height:1.2;}
+  .side .cluster .chev{margin-left:auto;color:var(--ink-faint);font-size:11px;}
+  .side .navlbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);padding:0 10px;margin:var(--s2) 0 8px;}
+  .navitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:10px 10px;border-radius:8px;color:var(--ink-soft);font-size:14px;transition:.18s;margin-bottom:1px;}
+  .navitem:hover{background:var(--paper-2);color:var(--ink);}
+  .navitem.on{background:var(--ink);color:var(--paper);font-weight:500;}
+  .navitem.on .ic{opacity:1;}
+  .navitem .ic{width:16px;height:16px;flex:0 0 16px;opacity:.7;}
+  .navitem .badge{margin-left:auto;font-size:11px;background:var(--r);color:#fff;border-radius:20px;padding:1px 8px;font-weight:600;}
+  .navitem.on .badge{background:var(--paper);color:var(--ink);}
+  .side .foot{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-top:1px solid var(--line-soft);}
+  .side .foot .av{width:30px;height:30px;border-radius:50%;background:var(--paper-3);border:1px solid var(--line);flex:0 0 30px;}
+  .side .foot .who{line-height:1.2;}
+  .side .foot .who b{font-size:13px;font-weight:600;display:block;white-space:nowrap;line-height:1.25;}
+  .side .foot .who span{font-size:11px;color:var(--ink-faint);display:block;line-height:1.2;}
+
+  /* ---------- MAIN ---------- */
+  .main{min-width:0;}
+  .topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:var(--s3);padding:0 var(--s5);height:68px;}
+  .topbar .crumb{font-size:12.5px;color:var(--ink-faint);letter-spacing:.02em;}
+  .topbar .crumb b{color:var(--ink-soft);font-weight:500;}
+  .topbar .search{margin-left:auto;display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--card);padding:9px 14px;width:260px;color:var(--ink-faint);font-size:13px;}
+  .topbar .ico{width:34px;height:34px;border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-soft);background:var(--card);}
+  .content{padding:var(--s5);max-width:1180px;}
+  @media(max-width:1100px){.content{max-width:none;}}
+
+  .screen{display:none;}
+  .screen.active{display:block;}
+  @media(prefers-reduced-motion:no-preference){
+    .screen.active{animation:fade .45s ease;}
+  }
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* page heads */
+  .phead{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s4);margin-bottom:var(--s5);flex-wrap:wrap;}
+  .phead .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:8px;}
+  .phead h1{font-family:var(--serif);font-weight:500;font-size:40px;line-height:1.02;letter-spacing:-.01em;}
+  .phead .sub{font-size:13.5px;color:var(--ink-faint);margin-top:6px;}
+  .phead .acts{display:flex;gap:10px;align-items:center;}
+  .btn{font-size:13px;letter-spacing:.02em;padding:11px 20px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);transition:.2s;white-space:nowrap;}
+  .btn:hover{background:var(--sage-deep);border-color:var(--sage-deep);}
+  .btn.ghost{background:transparent;color:var(--ink);}
+  .btn.ghost:hover{background:var(--paper-2);color:var(--ink);border-color:var(--ink);}
+  .btn.sm{padding:8px 14px;font-size:12.5px;}
+
+  /* stat cards */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);margin-bottom:var(--s5);}
+  .stat{background:var(--card);border:1px solid var(--line);padding:var(--s3);border-top:2px solid var(--ink);}
+  .stat.sage{border-top-color:var(--sage);}
+  .stat.red{border-top-color:var(--r);}
+  .stat .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+  .stat .v{font-family:var(--serif);font-size:34px;line-height:1;margin-top:12px;}
+  .stat .v small{font-size:15px;color:var(--ink-soft);}
+  .stat .d{font-size:12px;color:var(--ink-soft);margin-top:10px;}
+  .stat .d .up{color:var(--g);}.stat .d .down{color:var(--r);}
+  @media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* generic card */
+  .card{background:var(--card);border:1px solid var(--line);}
+  .card .ch{display:flex;justify-content:space-between;align-items:center;padding:var(--s3) var(--s3) var(--s2);}
+  .card .ch h3{font-family:var(--serif);font-size:21px;font-weight:600;}
+  .card .ch a{font-size:12.5px;color:var(--sage-deep);}
+  .cols{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--s3);}
+  @media(max-width:980px){.cols{grid-template-columns:1fr;}}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;}
+  thead th{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;text-align:left;padding:12px var(--s3);border-bottom:1px solid var(--line);}
+  thead th.num,tbody td.num{text-align:right;}
+  tbody td{padding:14px var(--s3);border-bottom:1px solid var(--line-soft);font-size:14px;}
+  tbody tr:last-child td{border-bottom:0;}
+  tbody tr.clickable{cursor:pointer;transition:background .15s;}
+  tbody tr.clickable:hover{background:var(--paper-2);}
+  td .nm{font-weight:500;color:var(--ink);}
+  td .mut{color:var(--ink-faint);}
+  tfoot td{padding:14px var(--s3);font-weight:600;border-top:2px solid var(--ink);font-size:14px;}
+
+  /* status chip */
+  .chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;padding:4px 11px;border-radius:30px;white-space:nowrap;}
+  .chip i{width:7px;height:7px;border-radius:50%;flex:0 0 7px;}
+  .chip.g{background:var(--gbg);color:#3c6b48;}.chip.g i{background:var(--g);}
+  .chip.y{background:var(--ybg);color:#8a6c20;}.chip.y i{background:var(--y);}
+  .chip.r{background:var(--rbg);color:#8c3f30;}.chip.r i{background:var(--r);}
+  .chip.b{background:var(--bbg);color:#3f5a72;}.chip.b i{background:var(--b);}
+  .chip.gray{background:var(--paper-3);color:var(--ink-soft);}.chip.gray i{background:var(--gray);}
+
+  /* filters */
+  .filters{display:flex;gap:10px;align-items:center;margin-bottom:var(--s3);flex-wrap:wrap;}
+  .fchip{font-size:12.5px;color:var(--ink-soft);border:1px solid var(--line);background:var(--card);padding:8px 14px;display:flex;gap:8px;align-items:center;}
+  .fchip.on{border-color:var(--ink);color:var(--ink);background:var(--paper-2);font-weight:500;}
+  .fchip .x{color:var(--ink-faint);font-size:11px;}
+  .fsearch{margin-left:auto;border:1px solid var(--line);background:var(--card);padding:9px 14px;font-size:13px;color:var(--ink-faint);min-width:200px;}
+
+  /* progress */
+  .prog{height:7px;background:var(--paper-3);overflow:hidden;border-radius:6px;}
+  .prog i{display:block;height:100%;background:var(--sage);}
+  .prog.tall{height:9px;}
+
+  /* unit header (estado de cuenta) */
+  .uhead{display:flex;align-items:flex-start;gap:var(--s4);margin-bottom:var(--s5);flex-wrap:wrap;}
+  .uhead .badge-lg{width:64px;height:64px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-family:var(--serif);font-size:26px;position:relative;}
+  .uhead .badge-lg .dotc{position:absolute;right:-5px;top:-5px;width:16px;height:16px;border-radius:50%;border:2px solid var(--paper);}
+  .uhead .meta h1{font-family:var(--serif);font-size:34px;font-weight:500;line-height:1;}
+  .uhead .meta .who{font-size:14px;color:var(--ink-soft);margin-top:6px;}
+  .uhead .figs{margin-left:auto;display:flex;gap:var(--s5);text-align:right;}
+  .uhead .figs .f .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);}
+  .uhead .figs .f .v{font-family:var(--serif);font-size:28px;margin-top:4px;}
+  .uhead .figs .f .v.r{color:var(--r);}.uhead .figs .f .v.b{color:var(--b);}
+
+  /* summary row of mini metrics */
+  .minirow{display:flex;gap:var(--s4);margin-bottom:var(--s4);flex-wrap:wrap;}
+  .minirow .m{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink-soft);}
+  .minirow .m b{font-family:var(--serif);font-size:22px;color:var(--ink);font-weight:600;}
+  .minirow .m i{width:9px;height:9px;border-radius:50%;}
+
+  /* tabs */
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:var(--s3);}
+  .tab{font-size:13.5px;color:var(--ink-faint);padding:12px 16px;border-bottom:2px solid transparent;margin-bottom:-1px;}
+  .tab.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:500;}
+  .tabpane{display:none;}.tabpane.on{display:block;}
+
+  /* category bars (transparencia) */
+  .catbars{display:flex;flex-direction:column;gap:18px;}
+  .catbars .c .top{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:7px;}
+  .catbars .c .top .amt{color:var(--ink-soft);}
+  .catbars .c .top .amt b{color:var(--ink);font-weight:600;}
+
+  /* split panel finanzas */
+  .iobig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s3);margin-bottom:var(--s5);}
+  .iobig .io{background:var(--card);border:1px solid var(--line);padding:var(--s4);}
+  .iobig .io.net{background:var(--ink);color:var(--paper);}
+  .iobig .io .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+  .iobig .io.net .k{color:#A9B6A2;}
+  .iobig .io .v{font-family:var(--serif);font-size:42px;line-height:1;margin-top:14px;}
+  .iobig .io .d{font-size:12.5px;color:var(--ink-soft);margin-top:10px;}
+  .iobig .io.net .d{color:#B4B3AC;}
+  @media(max-width:900px){.iobig{grid-template-columns:1fr;}}
+
+  /* note / recommended action */
+  .reco{display:flex;align-items:center;gap:var(--s3);background:var(--card);border:1px solid var(--line);border-left:3px solid var(--sage);padding:var(--s3) var(--s4);margin-bottom:var(--s5);}
+  .reco .tx{flex:1;}
+  .reco .tx b{font-weight:600;}
+  .reco .tx span{color:var(--ink-soft);font-size:13.5px;}
+
+  /* accounts mini */
+  .acct{display:flex;align-items:center;gap:14px;padding:14px var(--s3);border-bottom:1px solid var(--line-soft);}
+  .acct:last-child{border-bottom:0;}
+  .acct .ic{width:34px;height:34px;border:1px solid var(--line);display:grid;place-items:center;color:var(--sage-deep);flex:0 0 34px;}
+  .acct .nm{font-size:14px;}.acct .nm span{display:block;font-size:11.5px;color:var(--ink-faint);}
+  .acct .bal{margin-left:auto;font-family:var(--serif);font-size:20px;}
+
+  /* slide-over (registrar pago) */
+  .scrim{position:fixed;inset:0;background:rgba(20,24,26,.32);opacity:0;pointer-events:none;transition:opacity .3s;z-index:90;}
+  .scrim.open{opacity:1;pointer-events:auto;}
+  .sheet{position:fixed;top:0;right:0;height:100vh;width:440px;max-width:92vw;background:var(--paper);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .35s cubic-bezier(.3,.7,.2,1);z-index:91;display:flex;flex-direction:column;}
+  .sheet.open{transform:none;}
+  .sheet .sh{display:flex;justify-content:space-between;align-items:center;padding:var(--s4);border-bottom:1px solid var(--line);}
+  .sheet .sh h3{font-family:var(--serif);font-size:24px;font-weight:600;}
+  .sheet .sh .close{font-size:20px;color:var(--ink-faint);width:34px;height:34px;}
+  .sheet .body{padding:var(--s4);overflow-y:auto;flex:1;}
+  .field{margin-bottom:var(--s3);}
+  .field label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:7px;}
+  .field input,.field select{width:100%;border:1px solid var(--line);background:var(--card);padding:11px 13px;font-family:inherit;font-size:14px;color:var(--ink);}
+  .field .seg{display:flex;gap:8px;}
+  .field .seg button{flex:1;border:1px solid var(--line);background:var(--card);padding:10px;font-size:13px;color:var(--ink-soft);}
+  .field .seg button.on{border-color:var(--ink);background:var(--paper-2);color:var(--ink);font-weight:500;}
+  .applybox{background:var(--card);border:1px solid var(--line);padding:var(--s3);margin-top:var(--s2);}
+  .applybox .ar{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line);}
+  .applybox .ar:last-child{border-bottom:0;}
+  .applybox .tot{display:flex;justify-content:space-between;font-weight:600;margin-top:8px;padding-top:8px;border-top:1px solid var(--ink);}
+  .sheet .sf{padding:var(--s4);border-top:1px solid var(--line);display:flex;gap:10px;}
+  .sheet .sf .btn{flex:1;text-align:center;}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:14px 22px;font-size:14px;display:flex;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:.3s;z-index:95;}
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+  .toast i{width:8px;height:8px;border-radius:50%;background:var(--g);}
+
+  .hint{font-size:12px;color:var(--ink-faint);text-align:center;padding:var(--s4) 0 0;}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand">Residia</div>
+    <button class="cluster">
+      <div class="mk">L</div>
+      <div class="info"><b>Loma Chica</b><span>77 unidades</span></div>
+      <div class="chev">▾</div>
+    </button>
+
+    <div class="navlbl">Administración</div>
+    <nav id="nav">
+      <button class="navitem on" data-screen="home"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 6.5 8 2l6 4.5V14H2z"/></svg>Inicio</button>
+      <button class="navitem" data-screen="unidad"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2.5" y="2.5" width="11" height="11"/><path d="M2.5 6h11M6 13.5v-7"/></svg>Unidades</button>
+      <button class="navitem" data-screen="cobro"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="4" width="12" height="8"/><path d="M2 7h12"/></svg>Cobranza</button>
+      <button class="navitem" data-screen="morosidad"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 2v7M8 12v.5"/><circle cx="8" cy="8" r="6"/></svg>Morosidad<span class="badge">35</span></button>
+      <button class="navitem" data-screen="finanzas"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 13h12M4 13V7M8 13V4M12 13V9"/></svg>Tesorería</button>
+    </nav>
+
+    <div class="navlbl">Más</div>
+    <nav>
+      <button class="navitem" data-screen="finanzas"><svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2.5" y="2.5" width="11" height="11"/><path d="M5 6h6M5 9h4"/></svg>Reportes</button>
+    </nav>
+
+    <div class="foot">
+      <div class="av"></div>
+      <div class="who"><b>Alberto González</b><span>Tesorero</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="crumb" id="crumb">Residia · Loma Chica · <b>Inicio</b></div>
+      <div class="search"><span>⌕</span> Buscar unidad, persona…</div>
+      <div class="ico">◔</div>
+    </div>
+
+    <div class="content">
+
+      <!-- ============ HOME ============ -->
+      <section class="screen active" id="screen-home">
+        <div class="phead">
+          <div>
+            <div class="eyebrow">Marzo 2026</div>
+            <h1>Buenos días, Alberto.</h1>
+            <div class="sub">Loma Chica · 77 unidades · Esto es lo que pasa hoy en tu clúster.</div>
+          </div>
+          <div class="acts">
+            <button class="btn ghost">Exportar</button>
+            <button class="btn">Generar cierre mensual</button>
+          </div>
+        </div>
+
+        <div class="reco">
+          <div class="tx"><b>27 cargos vencieron esta semana.</b> <span>Envía un recordatorio amable antes de que se acumulen.</span></div>
+          <button class="btn ghost sm" data-go="morosidad">Ver morosidad →</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat sage">
+            <div class="k">Recaudado este mes</div>
+            <div class="v">$35,000 <small>/ 53.9k</small></div>
+            <div class="d">65% del esperado · <span class="up">▲ 8%</span> vs feb</div>
+          </div>
+          <div class="stat">
+            <div class="k">Saldo en cuentas</div>
+            <div class="v">$231,400</div>
+            <div class="d">Operativa · Reserva · Caja</div>
+          </div>
+          <div class="stat red">
+            <div class="k">Adeudo total</div>
+            <div class="v">$89,300</div>
+            <div class="d">35 de 77 unidades con saldo</div>
+          </div>
+          <div class="stat">
+            <div class="k">Neto del mes</div>
+            <div class="v">+$30,348</div>
+            <div class="d">Ingresos $45.2k · Egresos $14.9k</div>
+          </div>
+        </div>
+
+        <div class="cols">
+          <div class="card">
+            <div class="ch"><h3>Pagos recientes</h3><a href="#" data-go="cobro">Ver cobranza →</a></div>
+            <table>
+              <thead><tr><th>Unidad</th><th class="num">Monto</th><th>Fecha</th><th>Estado</th></tr></thead>
+              <tbody>
+                <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 1</span> · Héctor Reyes</td><td class="num tnum">$700</td><td class="mut">15 mar</td><td><span class="chip g"><i></i>Al corriente</span></td></tr>
+                <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 23</span> · Rosa Huerta</td><td class="num tnum">$500</td><td class="mut">15 mar</td><td><span class="chip y"><i></i>Parcial</span></td></tr>
+                <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 63</span> · Dina Salgado</td><td class="num tnum">$8,400</td><td class="mut">12 mar</td><td><span class="chip b"><i></i>Saldo a favor</span></td></tr>
+                <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 4</span> · Sergio Sandoval</td><td class="num tnum">$700</td><td class="mut">12 mar</td><td><span class="chip g"><i></i>Al corriente</span></td></tr>
+                <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 3</span> · Jaime Martínez</td><td class="num tnum">$0</td><td class="mut">—</td><td><span class="chip r"><i></i>Vencido</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="ch"><h3>Cuentas</h3><a href="#" data-go="finanzas">Tesorería →</a></div>
+            <div class="acct"><div class="ic">🏦</div><div class="nm">HSBC Principal<span>Operativa · ****1234</span></div><div class="bal tnum">$145,200</div></div>
+            <div class="acct"><div class="ic">🏦</div><div class="nm">HSBC Reserva<span>Fondo de reserva · ****5678</span></div><div class="bal tnum">$82,000</div></div>
+            <div class="acct"><div class="ic">💵</div><div class="nm">Caja efectivo<span>En caja</span></div><div class="bal tnum">$4,200</div></div>
+            <div style="padding:16px var(--s3);border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)">Total estimado</span>
+              <span class="serif" style="font-size:24px">$231,400</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ESTADO DE CUENTA UNIDAD (8.6.2) ============ -->
+      <section class="screen" id="screen-unidad">
+        <div class="crumb" style="margin-bottom:var(--s4);font-size:12.5px;color:var(--ink-faint)"><a href="#" data-go="home" style="color:var(--sage-deep);text-decoration:none">Unidades</a> / Casa 23</div>
+        <div class="uhead">
+          <div class="badge-lg">23<span class="dotc" style="background:var(--y)"></span></div>
+          <div class="meta">
+            <h1>Casa 23</h1>
+            <div class="who">Rosa Huerta Navarro · Propietaria · Titular de pago</div>
+          </div>
+          <div class="figs">
+            <div class="f"><div class="k">Adeudo total</div><div class="v r">$1,100</div></div>
+            <div class="f"><div class="k">Saldo a favor</div><div class="v b">$0</div></div>
+          </div>
+        </div>
+
+        <div class="phead" style="margin-bottom:var(--s3)">
+          <div class="filters" style="margin:0">
+            <span class="fchip on">2026 <span class="x">▾</span></span>
+            <span class="fchip">Concepto <span class="x">▾</span></span>
+            <span class="fchip">Estado <span class="x">▾</span></span>
+          </div>
+          <div class="acts">
+            <button class="btn ghost sm">Generar PDF</button>
+            <button class="btn ghost sm">Enviar recordatorio</button>
+            <button class="btn sm" data-pay="Casa 23">Registrar pago</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <table>
+            <thead><tr><th>Concepto</th><th>Periodo</th><th class="num">Esperado</th><th class="num">Pagado</th><th class="num">Saldo</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td><span class="nm">Mantenimiento</span></td><td class="mut">Ene 2026</td><td class="num tnum">$700</td><td class="num tnum">$700</td><td class="num tnum">$0</td><td><span class="chip g"><i></i>Completo</span></td></tr>
+              <tr><td><span class="nm">Mantenimiento</span></td><td class="mut">Feb 2026</td><td class="num tnum">$700</td><td class="num tnum">$500</td><td class="num tnum">$200</td><td><span class="chip y"><i></i>Parcial</span></td></tr>
+              <tr><td><span class="nm">Mantenimiento</span></td><td class="mut">Mar 2026</td><td class="num tnum">$700</td><td class="num tnum">$0</td><td class="num tnum">$700</td><td><span class="chip r"><i></i>Vencido</span></td></tr>
+              <tr><td><span class="nm">Aguinaldo empleados</span></td><td class="mut">Dic 2025</td><td class="num tnum">$240</td><td class="num tnum">$240</td><td class="num tnum">$0</td><td><span class="chip g"><i></i>Completo</span></td></tr>
+              <tr><td><span class="nm">Cobro especial · Pintura fachada</span></td><td class="mut">Eventual</td><td class="num tnum">$500</td><td class="num tnum">$300</td><td class="num tnum">$200</td><td><span class="chip y"><i></i>Parcial</span></td></tr>
+            </tbody>
+            <tfoot><tr><td colspan="2">Total</td><td class="num tnum">$2,840</td><td class="num tnum">$1,740</td><td class="num tnum">$1,100</td><td></td></tr></tfoot>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ DETALLE DE COBRO (8.4.4) ============ -->
+      <section class="screen" id="screen-cobro">
+        <div class="crumb" style="margin-bottom:var(--s4);font-size:12.5px;color:var(--ink-faint)"><a href="#" data-go="home" style="color:var(--sage-deep);text-decoration:none">Cobranza</a> / Mantenimiento Marzo 2026</div>
+        <div class="phead">
+          <div>
+            <div class="eyebrow">MANT_MENSUAL · $700 fijo · Vence 15 mar 2026</div>
+            <h1>Mantenimiento Marzo 2026</h1>
+            <div class="sub" style="display:flex;align-items:center;gap:12px;margin-top:12px;">
+              <div class="prog tall" style="width:220px"><i style="width:65%"></i></div>
+              <span style="color:var(--ink)"><b style="font-weight:600">65%</b> recaudado</span>
+            </div>
+          </div>
+          <div class="acts">
+            <button class="btn ghost">Recordatorio a morosos</button>
+            <button class="btn ghost">Exportar</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat sage"><div class="k">Total esperado</div><div class="v">$53,900</div><div class="d">77 cargos generados</div></div>
+          <div class="stat"><div class="k">Total pagado</div><div class="v">$35,000</div><div class="d">65% del esperado</div></div>
+          <div class="stat red"><div class="k">Total faltante</div><div class="v">$18,900</div><div class="d">42 cargos sin completar</div></div>
+          <div class="stat"><div class="k">Vencen hoy</div><div class="v">27</div><div class="d">Cargos sin pago</div></div>
+        </div>
+
+        <div class="minirow">
+          <div class="m"><i style="background:var(--g)"></i><b>35</b> completos</div>
+          <div class="m"><i style="background:var(--y)"></i><b>15</b> parciales</div>
+          <div class="m"><i style="background:var(--r)"></i><b>27</b> vencidos</div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab on" data-tab="unidad">Por unidad</button>
+          <button class="tab" data-tab="estado">Por estado</button>
+          <button class="tab" data-tab="pagos">Pagos recibidos</button>
+        </div>
+
+        <div class="tabpane on" data-pane="unidad">
+          <div class="card">
+            <table>
+              <thead><tr><th>Casa</th><th>Titular</th><th class="num">Esperado</th><th class="num">Pagado</th><th class="num">Faltante</th><th>Estado</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><span class="nm">Casa 1</span></td><td class="mut">Héctor Reyes</td><td class="num tnum">$700</td><td class="num tnum">$700</td><td class="num tnum">$0</td><td><span class="chip g"><i></i>Completo</span></td><td class="num"><button class="btn ghost sm">Ver pago</button></td></tr>
+                <tr><td><span class="nm">Casa 2</span></td><td class="mut">José Alcázar</td><td class="num tnum">$700</td><td class="num tnum">$500</td><td class="num tnum">$200</td><td><span class="chip y"><i></i>Parcial</span></td><td class="num"><button class="btn sm" data-pay="Casa 2">Cobrar</button></td></tr>
+                <tr><td><span class="nm">Casa 3</span></td><td class="mut">Jaime Martínez</td><td class="num tnum">$700</td><td class="num tnum">$0</td><td class="num tnum">$700</td><td><span class="chip r"><i></i>Vencido</span></td><td class="num"><button class="btn sm" data-pay="Casa 3">Cobrar</button></td></tr>
+                <tr><td><span class="nm">Casa 4</span></td><td class="mut">Sergio Sandoval</td><td class="num tnum">$700</td><td class="num tnum">$700</td><td class="num tnum">$0</td><td><span class="chip g"><i></i>Completo</span></td><td class="num"><button class="btn ghost sm">Ver pago</button></td></tr>
+                <tr><td><span class="nm">Casa 5</span></td><td class="mut">Hortencia Meza</td><td class="num tnum">$700</td><td class="num tnum">$200</td><td class="num tnum">$500</td><td><span class="chip y"><i></i>Parcial</span></td><td class="num"><button class="btn sm" data-pay="Casa 5">Cobrar</button></td></tr>
+                <tr><td><span class="nm">Casa 6</span></td><td class="mut">(sin asignar)</td><td class="num tnum">$700</td><td class="num tnum">$0</td><td class="num tnum">$700</td><td><span class="chip r"><i></i>Vencido</span></td><td class="num"><button class="btn sm" data-pay="Casa 6">Cobrar</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tabpane" data-pane="estado">
+          <div class="card" style="padding:var(--s5)"><div class="catbars">
+            <div class="c"><div class="top"><span><span class="chip g"><i></i>Completos</span></span><span class="amt"><b>35</b> · $24,500</span></div><div class="prog"><i style="width:45%;background:var(--g)"></i></div></div>
+            <div class="c"><div class="top"><span><span class="chip y"><i></i>Parciales</span></span><span class="amt"><b>15</b> · $10,500</span></div><div class="prog"><i style="width:19%;background:var(--y)"></i></div></div>
+            <div class="c"><div class="top"><span><span class="chip r"><i></i>Vencidos</span></span><span class="amt"><b>27</b> · $18,900</span></div><div class="prog"><i style="width:35%;background:var(--r)"></i></div></div>
+          </div></div>
+        </div>
+        <div class="tabpane" data-pane="pagos">
+          <div class="card"><table>
+            <thead><tr><th>Folio</th><th>Unidad</th><th class="num">Monto</th><th>Método</th><th>Fecha</th></tr></thead>
+            <tbody>
+              <tr><td class="mut">R-2026-000145</td><td><span class="nm">Casa 1</span></td><td class="num tnum">$700</td><td class="mut">Transferencia</td><td class="mut">15 mar</td></tr>
+              <tr><td class="mut">R-2026-000146</td><td><span class="nm">Casa 2</span></td><td class="num tnum">$500</td><td class="mut">Efectivo</td><td class="mut">15 mar</td></tr>
+              <tr><td class="mut">R-2026-000151</td><td><span class="nm">Casa 4</span></td><td class="num tnum">$700</td><td class="mut">Transferencia</td><td class="mut">12 mar</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- ============ MOROSIDAD (8.6.3) ============ -->
+      <section class="screen" id="screen-morosidad">
+        <div class="phead">
+          <div>
+            <div class="eyebrow">Cobranza</div>
+            <h1>Morosidad</h1>
+            <div class="sub">35 de 77 unidades con saldo pendiente · actualizado hoy</div>
+          </div>
+          <div class="acts">
+            <button class="btn ghost">Reporte legal</button>
+            <button class="btn">Recordatorio masivo</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat red"><div class="k">Adeudo total</div><div class="v">$89,300</div><div class="d">35 unidades con saldo</div></div>
+          <div class="stat"><div class="k">Adeudo promedio</div><div class="v">$2,551</div><div class="d">por unidad morosa</div></div>
+          <div class="stat"><div class="k">Más morosa</div><div class="v" style="font-size:28px">Casa 6</div><div class="d">$11,840 · desde ago 2024</div></div>
+          <div class="stat"><div class="k">Antigüedad prom.</div><div class="v">4.2 <small>meses</small></div><div class="d">del cargo más antiguo</div></div>
+        </div>
+
+        <div class="filters">
+          <span class="fchip on">Antigüedad <span class="x">▾</span></span>
+          <span class="fchip">Monto <span class="x">▾</span></span>
+          <span class="fchip">Tipo de cargo <span class="x">▾</span></span>
+          <span class="fsearch">⌕ Buscar unidad o titular…</span>
+        </div>
+
+        <div class="card">
+          <table>
+            <thead><tr><th>Casa</th><th>Titular</th><th class="num">Adeudo</th><th>Más antiguo</th><th>Antigüedad</th><th></th></tr></thead>
+            <tbody>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 6</span></td><td class="mut">(sin asignar)</td><td class="num tnum" style="color:var(--r);font-weight:600">$11,840</td><td class="mut">Ago 2024</td><td><span class="chip r"><i></i>19 meses</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 8</span></td><td class="mut">Karla Ocampo</td><td class="num tnum" style="color:var(--r);font-weight:600">$8,200</td><td class="mut">Dic 2024</td><td><span class="chip r"><i></i>15 meses</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 13</span></td><td class="mut">Jessica Rubio</td><td class="num tnum" style="font-weight:600">$7,500</td><td class="mut">Ene 2025</td><td><span class="chip r"><i></i>14 meses</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 22</span></td><td class="mut">Antonia Huerta</td><td class="num tnum" style="font-weight:600">$6,800</td><td class="mut">Mar 2025</td><td><span class="chip y"><i></i>12 meses</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 31</span></td><td class="mut">Luis Pacheco</td><td class="num tnum">$4,200</td><td class="mut">Jul 2025</td><td><span class="chip y"><i></i>8 meses</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 44</span></td><td class="mut">Marcela Ríos</td><td class="num tnum">$2,100</td><td class="mut">Dic 2025</td><td><span class="chip y"><i></i>3 meses</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+              <tr class="clickable" data-go="unidad"><td><span class="nm">Casa 23</span></td><td class="mut">Rosa Huerta</td><td class="num tnum">$1,100</td><td class="mut">Feb 2026</td><td><span class="chip y"><i></i>1 mes</span></td><td class="num"><button class="btn ghost sm">Recordar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ TESORERÍA / TRANSPARENCIA (9.5) ============ -->
+      <section class="screen" id="screen-finanzas">
+        <div class="phead">
+          <div>
+            <div class="eyebrow">Marzo 2026</div>
+            <h1>Tesorería</h1>
+            <div class="sub">Ingresos, egresos y el neto del mes · Loma Chica</div>
+          </div>
+          <div class="acts">
+            <button class="btn ghost">Periodo: Marzo 2026 ▾</button>
+            <button class="btn">Estado de resultados</button>
+          </div>
+        </div>
+
+        <div class="iobig">
+          <div class="io"><div class="k">Ingresos del mes</div><div class="v">$45,200</div><div class="d">▲ 5% vs febrero · 65% de la meta</div></div>
+          <div class="io"><div class="k">Egresos del mes</div><div class="v">$14,852</div><div class="d">▼ 3% vs febrero</div></div>
+          <div class="io net"><div class="k">Neto del mes</div><div class="v">+$30,348</div><div class="d">Superávit · va al fondo de reserva</div></div>
+        </div>
+
+        <div class="cols">
+          <div class="card">
+            <div class="ch"><h3>Egresos por categoría</h3><a href="#">Ver detalle →</a></div>
+            <div style="padding:var(--s3) var(--s3) var(--s4)">
+              <div class="catbars">
+                <div class="c"><div class="top"><span>Salarios</span><span class="amt"><b>$14,000</b> · 80%</span></div><div class="prog"><i style="width:80%"></i></div></div>
+                <div class="c"><div class="top"><span>Servicios públicos</span><span class="amt"><b>$1,200</b> · 7%</span></div><div class="prog"><i style="width:7%"></i></div></div>
+                <div class="c"><div class="top"><span>Insumos</span><span class="amt"><b>$452</b> · 3%</span></div><div class="prog"><i style="width:3%"></i></div></div>
+                <div class="c"><div class="top"><span>Mantenimiento</span><span class="amt"><b>$1,500</b> · 10%</span></div><div class="prog"><i style="width:10%"></i></div></div>
+                <div class="c"><div class="top"><span>Bancarias</span><span class="amt"><b>$45</b> · 0%</span></div><div class="prog"><i style="width:1.5%"></i></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="ch"><h3>Últimos egresos</h3><a href="#">Nuevo egreso →</a></div>
+            <table>
+              <thead><tr><th>Concepto</th><th class="num">Monto</th></tr></thead>
+              <tbody>
+                <tr><td><span class="nm">1ra qna marzo · Venancio</span><span class="mut" style="display:block;font-size:12px">Salarios</span></td><td class="num tnum">–$3,500</td></tr>
+                <tr><td><span class="nm">1ra qna marzo · Mateo</span><span class="mut" style="display:block;font-size:12px">Salarios</span></td><td class="num tnum">–$3,500</td></tr>
+                <tr><td><span class="nm">Recolección basura</span><span class="mut" style="display:block;font-size:12px">Servicios · M. Armando</span></td><td class="num tnum">–$1,200</td></tr>
+                <tr><td><span class="nm">Insumos limpieza</span><span class="mut" style="display:block;font-size:12px">Insumos · Sabino</span></td><td class="num tnum">–$452</td></tr>
+                <tr><td><span class="nm">Comisión bancaria</span><span class="mut" style="display:block;font-size:12px">Bancarias · HSBC</span></td><td class="num tnum">–$45</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="hint">ⓘ Esta vista alimenta la pantalla pública de Transparencia que ven todos los residentes — solo totales, sin detalle sensible.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE-OVER: REGISTRAR PAGO -->
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet">
+  <div class="sh"><h3>Registrar pago</h3><button class="close" id="sheetClose">✕</button></div>
+  <div class="body">
+    <div class="field"><label>Unidad</label><input id="payUnit" value="Casa 23" readonly></div>
+    <div class="field"><label>Persona que paga</label><select><option>Rosa Huerta Navarro (titular)</option><option>Juan Huerta García</option></select></div>
+    <div class="field"><label>Monto del pago</label><input value="$1,500" inputmode="decimal"></div>
+    <div class="field"><label>Método de pago</label><div class="seg"><button class="on">Efectivo</button><button>Transferencia</button><button>Cheque</button></div></div>
+    <div class="field"><label>Cuenta destino</label><select><option>Caja efectivo</option><option>HSBC Principal</option><option>HSBC Reserva</option></select></div>
+    <div class="field" style="margin-bottom:8px"><label>Aplicación (FIFO automático)</label></div>
+    <div class="applybox">
+      <div class="ar"><span>Mant. Feb 2026 · falta $200</span><span class="tnum">$200</span></div>
+      <div class="ar"><span>Mant. Mar 2026 · falta $700</span><span class="tnum">$700</span></div>
+      <div class="ar"><span>Pintura fachada · falta $200</span><span class="tnum">$200</span></div>
+      <div class="tot"><span>Aplicado · saldo a favor $400</span><span class="tnum">$1,100</span></div>
+    </div>
+  </div>
+  <div class="sf"><button class="btn ghost" id="sheetCancel">Cancelar</button><button class="btn" id="sheetSave">Registrar pago</button></div>
+</aside>
+
+<div class="toast" id="toast"><i></i> <span id="toastMsg">Pago registrado</span></div>
+
+<script>
+  const screens = ['home','unidad','cobro','morosidad','finanzas'];
+  const titles = {home:'Inicio',unidad:'Casa 23',cobro:'Mantenimiento Marzo 2026',morosidad:'Morosidad',finanzas:'Tesorería'};
+  function go(name){
+    if(!screens.includes(name)) return;
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-'+name).classList.add('active');
+    document.querySelectorAll('#nav .navitem, nav .navitem').forEach(n=>n.classList.toggle('on', n.dataset.screen===name));
+    document.getElementById('crumb').innerHTML = 'Residia · Loma Chica · <b>'+titles[name]+'</b>';
+    document.querySelector('.content').scrollTo?.(0,0);
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('[data-screen]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.screen)));
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',(e)=>{e.preventDefault();go(b.dataset.go);}));
+
+  // tabs (cobro)
+  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('on',p.dataset.pane===t.dataset.tab));
+  }));
+
+  // slide-over
+  const scrim=document.getElementById('scrim'), sheet=document.getElementById('sheet');
+  function openSheet(unit){ if(unit) document.getElementById('payUnit').value=unit; scrim.classList.add('open'); sheet.classList.add('open'); }
+  function closeSheet(){ scrim.classList.remove('open'); sheet.classList.remove('open'); }
+  document.querySelectorAll('[data-pay]').forEach(b=>b.addEventListener('click',()=>openSheet(b.dataset.pay)));
+  document.getElementById('sheetClose').addEventListener('click',closeSheet);
+  document.getElementById('sheetCancel').addEventListener('click',closeSheet);
+  scrim.addEventListener('click',closeSheet);
+  // segmented control in sheet
+  sheet.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+    b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  }));
+  const toast=document.getElementById('toast');
+  document.getElementById('sheetSave').addEventListener('click',()=>{
+    closeSheet();
+    document.getElementById('toastMsg').textContent='Pago registrado · folio R-2026-000152';
+    toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2600);
+  });
+</script>
+</body>
+</html>
