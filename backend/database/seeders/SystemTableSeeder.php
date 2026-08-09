@@ -241,6 +241,21 @@ class SystemTableSeeder extends Seeder
             'Categorías de Incidencia' => 'update:complaint_category',
             'Prioridades de Incidencia' => 'update:complaint_priority',
             'Estados de Incidencia' => 'complaint_status',
+            // ChildRecord / Clinic (EDI clinic-and-child-registry). Cuidadores has
+            // permissions but no sidebar page (D11/D17): managed from the Child
+            // detail. Sex/PopulationType are central FSM-adjacent catalogs
+            // (read-only for tenant roles); the three tenant-scoped catalogs use
+            // the 'update:' gate like every other autoadministrable catalog.
+            'Centros de Salud' => 'health_center',
+            'Profesionales de Salud' => 'practitioner_profile',
+            'Niños' => 'child',
+            'Cuidadores' => 'caregiver',
+            'Visitas' => 'visit',
+            'Sexos' => 'sex',
+            'Tipos de Población' => 'population_type',
+            'Parentescos' => 'update:caregiver_relationship',
+            'Escolaridades' => 'update:education_level',
+            'Ocupaciones' => 'update:occupation',
         ];
 
         foreach ($mapping as $moduleName => $entity) {
@@ -345,6 +360,15 @@ class SystemTableSeeder extends Seeder
             'Incidencias' => '/complaint',
             'Categorías de Incidencia' => '/complaint-category',
             'Prioridades de Incidencia' => '/complaint-priority',
+            // ChildRecord / Clinic. Hidden modules (Cuidadores, Sexos, Tipos de
+            // Población) need no route.
+            'Centros de Salud' => '/health-center',
+            'Profesionales de Salud' => '/practitioner',
+            'Niños' => '/child',
+            'Visitas' => '/visit',
+            'Parentescos' => '/caregiver-relationship',
+            'Escolaridades' => '/education-level',
+            'Ocupaciones' => '/occupation',
         ];
 
         foreach ($routes as $moduleName => $route) {
@@ -411,6 +435,12 @@ class SystemTableSeeder extends Seeder
             // Incidencias — catálogo central FSM oculto; Categorías y Prioridades son
             // autoadministrables y tienen páginas CRUD — visibles en el sidebar.
             'Estados de Incidencia',
+            // ChildRecord / Clinic (D11/D17): Cuidadores is managed from the
+            // Child detail, not a standalone page. Sex/PopulationType are
+            // central catalogs, read-only for tenant roles.
+            'Cuidadores',
+            'Sexos',
+            'Tipos de Población',
         ];
 
         DB::table('module')->whereIn('name', $hidden)->update(['visible' => false]);
@@ -535,6 +565,17 @@ class SystemTableSeeder extends Seeder
             'Categorías de Incidencia' => 'IconCategory',
             'Prioridades de Incidencia' => 'IconFlag',
             'Estados de Incidencia' => 'IconCircleCheck',
+            // ChildRecord / Clinic
+            'Centros de Salud' => 'IconBuilding',
+            'Profesionales de Salud' => 'IconUserCheck',
+            'Niños' => 'IconUsers',
+            'Cuidadores' => 'IconUsers',
+            'Visitas' => 'IconCalendarEvent',
+            'Sexos' => 'IconCategory',
+            'Tipos de Población' => 'IconCategory',
+            'Parentescos' => 'IconUsers',
+            'Escolaridades' => 'IconCategory',
+            'Ocupaciones' => 'IconBriefcase',
         ];
 
         foreach ($icons as $moduleName => $icon) {

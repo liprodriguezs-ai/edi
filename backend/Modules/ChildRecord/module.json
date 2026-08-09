@@ -1,0 +1,11 @@
+{
+    "name": "ChildRecord",
+    "alias": "childrecord",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ChildRecord\\Providers\\ChildRecordServiceProvider"
+    ],
+    "files": []
+}

@@ -68,6 +68,37 @@ const UserListPage = lazy(() =>
   import('@/modules/user/UserListPage').then((m) => ({ default: m.UserListPage }))
 )
 // Catálogos EDI
+const HealthCenterListPage = lazy(() =>
+  import('@/modules/healthCenter/HealthCenterListPage').then((m) => ({
+    default: m.HealthCenterListPage,
+  }))
+)
+const PractitionerListPage = lazy(() =>
+  import('@/modules/practitioner/PractitionerListPage').then((m) => ({
+    default: m.PractitionerListPage,
+  }))
+)
+const ChildListPage = lazy(() =>
+  import('@/modules/child/ChildListPage').then((m) => ({ default: m.ChildListPage }))
+)
+const ChildFormPage = lazy(() =>
+  import('@/modules/child/ChildFormPage').then((m) => ({ default: m.ChildFormPage }))
+)
+const ChildDetailPage = lazy(() =>
+  import('@/modules/child/ChildDetailPage').then((m) => ({ default: m.ChildDetailPage }))
+)
+const VisitListPage = lazy(() =>
+  import('@/modules/visit/VisitListPage').then((m) => ({ default: m.VisitListPage }))
+)
+const CaregiverRelationshipPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.CaregiverRelationshipPage }))
+)
+const EducationLevelPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.EducationLevelPage }))
+)
+const OccupationPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.OccupationPage }))
+)
 // Paquetería — módulo principal + catálogos
 // Incidencias — módulo principal + catálogos
 // Housing
@@ -193,6 +224,32 @@ function App() {
 
                 <Route element={<PermissionRoute permissionEntity='audit' />}>
                   <Route path='/audit' element={<AuditListPage />} />
+                </Route>
+
+                {/* Clinic + ChildRecord (edi-clinic-and-child-registry) */}
+                <Route element={<PermissionRoute permissionEntity='health_center' />}>
+                  <Route path='/health-center' element={<HealthCenterListPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='practitioner_profile' />}>
+                  <Route path='/practitioner' element={<PractitionerListPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='child' />}>
+                  <Route path='/child' element={<ChildListPage />} />
+                  <Route path='/child/new' element={<ChildFormPage />} />
+                  <Route path='/child/:id' element={<ChildDetailPage />} />
+                  <Route path='/child/:id/edit' element={<ChildFormPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='visit' />}>
+                  <Route path='/visit' element={<VisitListPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='caregiver_relationship' />}>
+                  <Route path='/caregiver-relationship' element={<CaregiverRelationshipPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='education_level' />}>
+                  <Route path='/education-level' element={<EducationLevelPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='occupation' />}>
+                  <Route path='/occupation' element={<OccupationPage />} />
                 </Route>
               </Route>
             </Route>

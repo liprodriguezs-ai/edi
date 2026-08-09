@@ -7,6 +7,13 @@ use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Modules\ChildRecord\Models\CaregiverRelationship;
+use Modules\ChildRecord\Models\EducationLevel;
+use Modules\ChildRecord\Models\Occupation;
+use Modules\ChildRecord\Models\PopulationType;
+use Modules\ChildRecord\Models\Sex;
+use Modules\Clinic\Models\HealthCenter;
+use Modules\Clinic\Models\PractitionerProfile;
 use Modules\Company\Models\Company;
 use Modules\Country\Models\Country;
 use Modules\Municipality\Models\Municipality;
@@ -31,6 +38,16 @@ class AngularController extends Controller
         'Company' => Company::class,
         'Permission' => Permission::class,
         'TenantPaymentType' => TenantPaymentType::class,
+        // ChildRecord / Clinic (edi-clinic-and-child-registry). No 'Child' entry
+        // (D12): child search for visit creation goes through the child list
+        // endpoint, not /selects (PII/volume smell).
+        'Sex' => Sex::class,
+        'PopulationType' => PopulationType::class,
+        'CaregiverRelationship' => CaregiverRelationship::class,
+        'EducationLevel' => EducationLevel::class,
+        'Occupation' => Occupation::class,
+        'HealthCenter' => HealthCenter::class,
+        'PractitionerProfile' => PractitionerProfile::class,
     ];
 
     protected $filterEspecial = [];

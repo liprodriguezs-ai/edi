@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\ChildRecord\Models\CaregiverRelationship;
+use Modules\ChildRecord\Models\EducationLevel;
+use Modules\ChildRecord\Models\Occupation;
 
 /**
  * Carga inicial de los catálogos AUTOADMINISTRABLES (tenant-scoped).
@@ -17,12 +20,10 @@ use Illuminate\Database\Seeder;
  * (HasCatalogKey). Los catálogos con FSM/comportamiento NO viven aquí — son
  * centrales y los siembra CatalogSeeder una sola vez.
  *
- * ESTADO: vacío a propósito. La plantilla traía 12 catálogos del dominio de
- * organizaciones (tipos de unidad, puestos de empleado, categorías de cargo…) que
- * se borraron junto con sus módulos. Los catálogos EDI —parentesco del cuidador,
- * escolaridad, ocupación, zonas corporales, movimientos de masaje, especialidades
- * de referencia— se agregan a CATALOGS a medida que se construyen sus módulos.
- * El mecanismo de siembra ya funciona: sólo hay que llenar el arreglo.
+ * ESTADO: los catálogos ChildRecord (parentesco del cuidador, escolaridad,
+ * ocupación) fueron los primeros en llenar CATALOGS. Los siguientes catálogos
+ * EDI —zonas corporales, movimientos de masaje, especialidades de referencia—
+ * se agregan a medida que se construyen sus módulos.
  */
 class TenantCatalogSeeder extends Seeder
 {
@@ -32,7 +33,34 @@ class TenantCatalogSeeder extends Seeder
      *
      * @var array<class-string, array<int, array<string, mixed>>>
      */
-    public const CATALOGS = [];
+    public const CATALOGS = [
+        CaregiverRelationship::class => [
+            ['name' => 'Madre'],
+            ['name' => 'Padre'],
+            ['name' => 'Abuela'],
+            ['name' => 'Abuelo'],
+            ['name' => 'Tutor legal'],
+            ['name' => 'Otro'],
+        ],
+        EducationLevel::class => [
+            ['name' => 'Ninguna'],
+            ['name' => 'Primaria incompleta'],
+            ['name' => 'Primaria'],
+            ['name' => 'Secundaria'],
+            ['name' => 'Bachillerato'],
+            ['name' => 'Licenciatura'],
+            ['name' => 'Posgrado'],
+        ],
+        Occupation::class => [
+            ['name' => 'Hogar'],
+            ['name' => 'Empleada/o'],
+            ['name' => 'Comerciante'],
+            ['name' => 'Campo'],
+            ['name' => 'Estudiante'],
+            ['name' => 'Desempleada/o'],
+            ['name' => 'Otra'],
+        ],
+    ];
 
     public function run(): void
     {

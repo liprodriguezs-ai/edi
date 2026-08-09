@@ -25,13 +25,13 @@ el trait `BelongsToTenant`, no la carpeta ni ninguna clave de `module.json`.
 | `Tracking` | Analytics (pixels + eventos server-side) |
 | `User` | Usuarios e invitaciones |
 | `UserProfile` | Perfil por tenant |
+| `Clinic` | `health_center`, `practitioner_profile` — estructura organizacional (centros de salud, profesionales que aplican tamizajes) |
+| `ChildRecord` | `sex`, `population_type` (catálogos centrales), `caregiver_relationship`, `education_level`, `occupation` (catálogos tenant-scoped), `child`, `caregiver`, `child_caregiver`, `birth_record`, `visit` — expediente clínico del niño. PII de menores: auditoría completa vía `audits`, nunca en logs de aplicación (REQ-XC-005) |
 
 ### Dominio EDI — a construir
 
 | Módulo | Posee | Por qué separado |
 |---|---|---|
-| `Clinic` | `health_center`, `practitioner_profile` | Estructura organizacional. No depende de nadie |
-| `ChildRecord` | `child`, `caregiver`, `child_caregiver`, `birth_record`, `visit` | PII de menores: retención y privacidad distintas al resto |
 | `Instrument` | `instrument_version`, `age_group`, `screening_item`, `screening_item_option`, `risk_factor`, `head_circumference_reference`, `area_scoring_rule`, `global_scoring_rule` | El libro de reglas. CENTRAL, read-only, inmutable tras publicar |
 | `Screening` | `screening`, `screening_answer`, `screening_area_result`, `screening_risk_factor_answer`, `screening_finding`, `screening_score_run`, `confirmatory_test` | Alto volumen, tenant-scoped, append-only. Acá vive el motor de calificación |
 | `Stimulation` | `stimulation_session`, `stimulation_group`, `stimulation_attendance` | Segundo alcance, vendible por separado |
@@ -45,10 +45,16 @@ Dependencias (acíclicas):
 
 Existentes: `audit`, `billingPackage`, `catalogs`, `checkoutSubscription`, `company`,
 `dashboard`, `notification`, `onboarding`, `role`, `system`, `tenant`, `user`,
-`userProfile`.
+`userProfile`, `healthCenter`, `practitioner`, `child`, `caregiver`, `visit`.
 
-A construir: `child`, `caregiver`, `healthCenter`, `screening`, `stimulation`,
-`stimulationGroup`, `followUp`, `instrument`, `reports`.
+`caregiver_relationship`, `education_level` y `occupation` no tienen módulo propio:
+son 3 registros en `catalogs/pages.tsx` (`createSimpleCatalogPage`, variante sin
+columna `order` de `createCatalogPage`). `caregiver`/`child_caregiver` no tienen
+página de listado propia (D11/D17 del diseño de `edi-clinic-and-child-registry`):
+se gestionan desde `ChildDetailPage` (tab "Cuidadores").
+
+A construir: `screening`, `stimulation`, `stimulationGroup`, `followUp`,
+`instrument`, `reports`.
 
 Casi todo es CRUD con el andamiaje compartido (`createEntityStore`, `createCrudApi`,
 `useBaseList`, `useBaseCrud`). Sólo dos pantallas necesitan lógica propia:

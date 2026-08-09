@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Notifications\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Modules\ChildRecord\Models\PopulationType;
+use Modules\ChildRecord\Models\Sex;
 use Modules\Notification\Models\NotificationEvent;
 use Modules\Tenant\Models\TenantPaymentType;
 
@@ -31,8 +33,12 @@ class CatalogSeeder extends Seeder
 
         // Notification event catalog (drives the per-tenant notification settings)
         $this->seedNotificationEvents();
-    }
 
+        // ChildRecord central catalogs (D4): CURP cross-check and future
+        // official exports branch on these fixed UUIDs.
+        $this->seedSexes();
+        $this->seedPopulationTypes();
+    }
 
     // =========================================================================
     // Helper
@@ -69,6 +75,27 @@ class CatalogSeeder extends Seeder
             ['id' => TenantPaymentType::CASH, 'name' => 'Efectivo', 'description' => 'Pago en efectivo'],
             ['id' => TenantPaymentType::SUBSCRIPTION, 'name' => 'Suscripción', 'description' => 'Pago por suscripción'],
             ['id' => TenantPaymentType::BANK_TRANSFER, 'name' => 'Transferencia bancaria', 'description' => 'Pago por transferencia bancaria'],
+        ]);
+    }
+
+    // =========================================================================
+    // ChildRecord catalogs (central, fixed UUID)
+    // =========================================================================
+
+    private function seedSexes(): void
+    {
+        $this->upsertCatalog(Sex::class, [
+            ['id' => Sex::MALE, 'key' => 'male', 'name' => 'Masculino', 'description' => null],
+            ['id' => Sex::FEMALE, 'key' => 'female', 'name' => 'Femenino', 'description' => null],
+        ]);
+    }
+
+    private function seedPopulationTypes(): void
+    {
+        $this->upsertCatalog(PopulationType::class, [
+            ['id' => PopulationType::URBAN, 'key' => 'urban', 'name' => 'Urbana', 'description' => null],
+            ['id' => PopulationType::RURAL, 'key' => 'rural', 'name' => 'Rural', 'description' => null],
+            ['id' => PopulationType::INDIGENOUS, 'key' => 'indigenous', 'name' => 'Indígena', 'description' => null],
         ]);
     }
 

@@ -14,5 +14,7 @@
     "Tenant": true,
     "User": true,
     "UserProfile": true,
-    "Tracking": true
+    "Tracking": true,
+    "Clinic": true,
+    "ChildRecord": true
 }

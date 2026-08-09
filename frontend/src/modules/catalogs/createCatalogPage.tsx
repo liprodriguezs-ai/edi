@@ -126,3 +126,82 @@ export function createCatalogPage(config: CatalogPageConfig) {
     )
   }
 }
+
+export interface ISimpleCatalogRow extends IEntity {
+  name: string
+  is_active?: boolean
+  /** Fila de sistema (HasCatalogKey): usada por flujos automáticos, no eliminable */
+  is_system?: boolean
+}
+
+const simpleCatalogFormSchema = z.object({
+  name: z.string().min(1, 'El nombre es requerido'),
+  description: z.string().optional(),
+  is_active: z.boolean(),
+})
+
+export type SimpleCatalogFormValues = z.infer<typeof simpleCatalogFormSchema>
+
+export interface SimpleCatalogPageConfig {
+  title: string
+  description: string
+  /** Sustantivo del registro, ej. 'parentesco' → "Nuevo parentesco" */
+  itemLabel: string
+  /** Entidad de permisos y base del endpoint (snake_case), ej. 'caregiver_relationship' */
+  entity: string
+}
+
+/**
+ * Variante de {@link createCatalogPage} para catálogos SIN columna `order`
+ * (name/description/is_active únicamente — design.md §3.2 de
+ * edi-clinic-and-child-registry: caregiver_relationship, education_level,
+ * occupation). Ordena por `name` en vez de `order`.
+ */
+export function createSimpleCatalogPage(config: SimpleCatalogPageConfig) {
+  const resource = createCrudApi<ISimpleCatalogRow, SimpleCatalogFormValues>({
+    basePath: `/${config.entity}`,
+  })
+  const store = createEntityStore<ISimpleCatalogRow>(`catalog_${config.entity}`)
+
+  const fields: CatalogFieldConfig[] = [
+    { name: 'name', label: 'Nombre', required: true },
+    { name: 'description', label: 'Descripción', type: 'textarea' },
+    { name: 'is_active', label: 'Activo', type: 'switch', colSpan: 6 },
+  ]
+
+  const columns: CatalogColumn<ISimpleCatalogRow>[] = [
+    {
+      key: 'is_active',
+      label: 'Estado',
+      render: (row) => (
+        <StatusPill tone={row.is_active ? 'g' : 'r'}>{row.is_active ? 'Activo' : 'Inactivo'}</StatusPill>
+      ),
+    },
+  ]
+
+  const buildDefaults = (entity?: ISimpleCatalogRow | null): SimpleCatalogFormValues => ({
+    name: entity?.name ?? '',
+    description: entity?.description ?? '',
+    is_active: entity?.is_active ?? true,
+  })
+
+  return function SimpleCatalogPage() {
+    return (
+      <CatalogCrudModule<ISimpleCatalogRow, SimpleCatalogFormValues>
+        title={config.title}
+        description={config.description}
+        newLabel={`Nuevo ${config.itemLabel}`}
+        editLabel={`Editar ${config.itemLabel}`}
+        searchPlaceholder="Buscar…"
+        permissionEntity={config.entity}
+        store={store}
+        resource={resource}
+        schema={simpleCatalogFormSchema}
+        fields={fields}
+        columns={columns}
+        buildDefaults={buildDefaults}
+        initialSearch={{ sort: [{ field: 'name', direction: 'asc' }] }}
+      />
+    )
+  }
+}

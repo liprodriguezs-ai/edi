@@ -66,3 +66,63 @@ uuid,description,name,guard_name,module_id
 ,Restauración Planes y Precios,restore.billing_package,api,b4001001-0000-4000-8000-000000000001
 ,Reporte Planes y Precios,report.billing_package,api,b4001001-0000-4000-8000-000000000001
 ,Gestionar Suscripción,manage.subscription,api,b4001001-0000-4000-8000-000000000001
+,Lectura Centro de Salud,read.health_center,api,ed000001-0000-4000-8000-000000000001
+,Creación Centro de Salud,create.health_center,api,ed000001-0000-4000-8000-000000000001
+,Edicion Centro de Salud,update.health_center,api,ed000001-0000-4000-8000-000000000001
+,Inactivar Centro de Salud,delete.health_center,api,ed000001-0000-4000-8000-000000000001
+,Activar Centro de Salud,restore.health_center,api,ed000001-0000-4000-8000-000000000001
+,Reporte Centro de Salud,report.health_center,api,ed000001-0000-4000-8000-000000000001
+,Lectura Profesional de Salud,read.practitioner_profile,api,ed000001-0000-4000-8000-000000000002
+,Creación Profesional de Salud,create.practitioner_profile,api,ed000001-0000-4000-8000-000000000002
+,Edicion Profesional de Salud,update.practitioner_profile,api,ed000001-0000-4000-8000-000000000002
+,Inactivar Profesional de Salud,delete.practitioner_profile,api,ed000001-0000-4000-8000-000000000002
+,Activar Profesional de Salud,restore.practitioner_profile,api,ed000001-0000-4000-8000-000000000002
+,Reporte Profesional de Salud,report.practitioner_profile,api,ed000001-0000-4000-8000-000000000002
+,Lectura Niño,read.child,api,ed000001-0000-4000-8000-000000000003
+,Creación Niño,create.child,api,ed000001-0000-4000-8000-000000000003
+,Edicion Niño,update.child,api,ed000001-0000-4000-8000-000000000003
+,Inactivar Niño,delete.child,api,ed000001-0000-4000-8000-000000000003
+,Activar Niño,restore.child,api,ed000001-0000-4000-8000-000000000003
+,Reporte Niño,report.child,api,ed000001-0000-4000-8000-000000000003
+,Lectura Cuidador,read.caregiver,api,ed000001-0000-4000-8000-000000000004
+,Creación Cuidador,create.caregiver,api,ed000001-0000-4000-8000-000000000004
+,Edicion Cuidador,update.caregiver,api,ed000001-0000-4000-8000-000000000004
+,Inactivar Cuidador,delete.caregiver,api,ed000001-0000-4000-8000-000000000004
+,Activar Cuidador,restore.caregiver,api,ed000001-0000-4000-8000-000000000004
+,Reporte Cuidador,report.caregiver,api,ed000001-0000-4000-8000-000000000004
+,Lectura Visita,read.visit,api,ed000001-0000-4000-8000-000000000005
+,Creación Visita,create.visit,api,ed000001-0000-4000-8000-000000000005
+,Edicion Visita,update.visit,api,ed000001-0000-4000-8000-000000000005
+,Inactivar Visita,delete.visit,api,ed000001-0000-4000-8000-000000000005
+,Activar Visita,restore.visit,api,ed000001-0000-4000-8000-000000000005
+,Reporte Visita,report.visit,api,ed000001-0000-4000-8000-000000000005
+,Lectura Sexo,read.sex,api,ed000001-0000-4000-8000-000000000006
+,Creación Sexo,create.sex,api,ed000001-0000-4000-8000-000000000006
+,Edicion Sexo,update.sex,api,ed000001-0000-4000-8000-000000000006
+,Inactivar Sexo,delete.sex,api,ed000001-0000-4000-8000-000000000006
+,Activar Sexo,restore.sex,api,ed000001-0000-4000-8000-000000000006
+,Reporte Sexo,report.sex,api,ed000001-0000-4000-8000-000000000006
+,Lectura Tipo de Población,read.population_type,api,ed000001-0000-4000-8000-000000000007
+,Creación Tipo de Población,create.population_type,api,ed000001-0000-4000-8000-000000000007
+,Edicion Tipo de Población,update.population_type,api,ed000001-0000-4000-8000-000000000007
+,Inactivar Tipo de Población,delete.population_type,api,ed000001-0000-4000-8000-000000000007
+,Activar Tipo de Población,restore.population_type,api,ed000001-0000-4000-8000-000000000007
+,Reporte Tipo de Población,report.population_type,api,ed000001-0000-4000-8000-000000000007
+,Lectura Parentesco,read.caregiver_relationship,api,ed000001-0000-4000-8000-000000000008
+,Creación Parentesco,create.caregiver_relationship,api,ed000001-0000-4000-8000-000000000008
+,Edicion Parentesco,update.caregiver_relationship,api,ed000001-0000-4000-8000-000000000008
+,Inactivar Parentesco,delete.caregiver_relationship,api,ed000001-0000-4000-8000-000000000008
+,Activar Parentesco,restore.caregiver_relationship,api,ed000001-0000-4000-8000-000000000008
+,Reporte Parentesco,report.caregiver_relationship,api,ed000001-0000-4000-8000-000000000008
+,Lectura Escolaridad,read.education_level,api,ed000001-0000-4000-8000-000000000009
+,Creación Escolaridad,create.education_level,api,ed000001-0000-4000-8000-000000000009
+,Edicion Escolaridad,update.education_level,api,ed000001-0000-4000-8000-000000000009
+,Inactivar Escolaridad,delete.education_level,api,ed000001-0000-4000-8000-000000000009
+,Activar Escolaridad,restore.education_level,api,ed000001-0000-4000-8000-000000000009
+,Reporte Escolaridad,report.education_level,api,ed000001-0000-4000-8000-000000000009
+,Lectura Ocupación,read.occupation,api,ed000001-0000-4000-8000-000000000010
+,Creación Ocupación,create.occupation,api,ed000001-0000-4000-8000-000000000010
+,Edicion Ocupación,update.occupation,api,ed000001-0000-4000-8000-000000000010
+,Inactivar Ocupación,delete.occupation,api,ed000001-0000-4000-8000-000000000010
+,Activar Ocupación,restore.occupation,api,ed000001-0000-4000-8000-000000000010
+,Reporte Ocupación,report.occupation,api,ed000001-0000-4000-8000-000000000010

@@ -44,6 +44,10 @@ class RolePermissionTableSeeder extends Seeder
             'chat_channel_type',
             'visitor_status', 'qr_type', 'access_entry_type', 'access_verification', 'blacklist_type',
             'complaint_status',
+            // ChildRecord (EDI): sex/population_type are FSM-adjacent central catalogs
+            // (D4 in edi-clinic-and-child-registry design) — CURP cross-check and the
+            // future Secretaría export branch on them, so writes stay super-admin only.
+            'sex', 'population_type',
         ];
 
         $centralCatalogWrites = [];
@@ -164,6 +168,17 @@ class RolePermissionTableSeeder extends Seeder
             // treasurer, granted to president/administrator (same pattern as
             // discount.charge).
             'cancel.charge', 'void.expense',
+            // ChildRecord / Clinic (edi-clinic-and-child-registry)
+            'read.health_center', 'update.health_center', 'delete.health_center', 'create.health_center', 'restore.health_center', 'report.health_center',
+            'read.practitioner_profile', 'update.practitioner_profile', 'delete.practitioner_profile', 'create.practitioner_profile', 'restore.practitioner_profile', 'report.practitioner_profile',
+            'read.child', 'update.child', 'delete.child', 'create.child', 'restore.child', 'report.child',
+            'read.caregiver', 'update.caregiver', 'delete.caregiver', 'create.caregiver', 'restore.caregiver', 'report.caregiver',
+            'read.visit', 'update.visit', 'delete.visit', 'create.visit', 'restore.visit', 'report.visit',
+            'read.sex', 'update.sex', 'delete.sex', 'create.sex', 'restore.sex', 'report.sex',
+            'read.population_type', 'update.population_type', 'delete.population_type', 'create.population_type', 'restore.population_type', 'report.population_type',
+            'read.caregiver_relationship', 'update.caregiver_relationship', 'delete.caregiver_relationship', 'create.caregiver_relationship', 'restore.caregiver_relationship', 'report.caregiver_relationship',
+            'read.education_level', 'update.education_level', 'delete.education_level', 'create.education_level', 'restore.education_level', 'report.education_level',
+            'read.occupation', 'update.occupation', 'delete.occupation', 'create.occupation', 'restore.occupation', 'report.occupation',
         ];
 
         // Super admin: only their exclusive permissions + common ones.

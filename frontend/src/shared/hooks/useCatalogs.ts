@@ -18,6 +18,16 @@ export enum CatalogType {
   PERMISSION = 'permission',
   TENANT_PAYMENT_TYPE = 'tenant_payment_type',
   USER = 'user',
+  // ChildRecord / Clinic (edi-clinic-and-child-registry). No CHILD member
+  // (D12): child search for visit creation goes through the child list
+  // endpoint, not /selects (PII/volume smell).
+  SEX = 'sex',
+  POPULATION_TYPE = 'population_type',
+  CAREGIVER_RELATIONSHIP = 'caregiver_relationship',
+  EDUCATION_LEVEL = 'education_level',
+  OCCUPATION = 'occupation',
+  HEALTH_CENTER = 'health_center',
+  PRACTITIONER_PROFILE = 'practitioner_profile',
 }
 
 export interface CatalogParams {

@@ -1,4 +1,4 @@
-import { createCatalogPage } from '@/modules/catalogs/createCatalogPage'
+import { createCatalogPage, createSimpleCatalogPage } from '@/modules/catalogs/createCatalogPage'
 
 /**
  * Páginas CRUD de los catálogos autoadministrables del organización (tenant-scoped).
@@ -76,4 +76,27 @@ export const AnnouncementTypePage = createCatalogPage({
   itemLabel: 'tipo de aviso',
   entity: 'announcement_type',
   withIcon: true,
+})
+
+// ChildRecord (edi-clinic-and-child-registry) — catálogos tenant-scoped SIN
+// columna `order` (design.md §3.2).
+export const CaregiverRelationshipPage = createSimpleCatalogPage({
+  title: 'Parentescos',
+  description: 'Parentescos entre un niño y sus cuidadores (madre, padre, tutor legal…)',
+  itemLabel: 'parentesco',
+  entity: 'caregiver_relationship',
+})
+
+export const EducationLevelPage = createSimpleCatalogPage({
+  title: 'Escolaridades',
+  description: 'Niveles de escolaridad de los cuidadores',
+  itemLabel: 'escolaridad',
+  entity: 'education_level',
+})
+
+export const OccupationPage = createSimpleCatalogPage({
+  title: 'Ocupaciones',
+  description: 'Ocupaciones de los cuidadores',
+  itemLabel: 'ocupación',
+  entity: 'occupation',
 })
