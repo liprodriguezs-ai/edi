@@ -9,7 +9,7 @@ use App\Notifications\Channels\FirebasePushChannel;
 use App\Notifications\Channels\LogChannel;
 use App\Notifications\Channels\ResendEmailChannel;
 use App\Notifications\Channels\SmsChannel;
-use App\Notifications\Concerns\NotifiesResidents;
+use App\Notifications\Concerns\DispatchesNotifications;
 use App\Notifications\Contracts\NotificationChannelInterface;
 use App\Notifications\Services\NotificationDispatcher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -167,13 +167,13 @@ final class NotificationDeliveryTest extends TestCase
     // =========================================================================
 
     /**
-     * @return object harness exposing NotifiesResidents::notifyUsers
+     * @return object harness exposing DispatchesNotifications::notifyUsers
      */
     private function notifierHarness(): object
     {
         return new class
         {
-            use NotifiesResidents;
+            use DispatchesNotifications;
 
             /**
              * @param  array<int, string>  $userIds

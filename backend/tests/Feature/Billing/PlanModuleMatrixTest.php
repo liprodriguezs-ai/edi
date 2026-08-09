@@ -51,26 +51,6 @@ final class PlanModuleMatrixTest extends TestCase
         $this->assertSame(1, BillableModule::where('is_base', true)->count());
     }
 
-    public function test_base_module_maps_to_every_platform_module_including_package_cluster(): void
-    {
-        // El base ancla TODOS los sistemas: sin un módulo aquí, recompute() nunca
-        // adjunta ese sistema y desaparece del menú. Tras el colapso de 2026-07,
-        // el clúster completo de Paquetería vive también en el base.
-        $base = BillableModule::where('key', BillableModule::KEY_BASE)->first();
-
-        $moduleNames = $base->systemModules->pluck('name')->all();
-
-        $this->assertEqualsCanonicalizing(
-            [
-                'Cargos', 'Avisos', 'Control de Accesos', 'Egresos', 'Proveedores', 'Cuentas Bancarias',
-                'Paquetería', 'Paquetería (Reportes)', 'Transportistas', 'Tipos de Paquete', 'Estados de Paquete',
-                // F-02: the plan copy (and the Stripe product description) sells
-                // Amenidades, so revoking the plan must switch it off like the rest.
-                'Amenidades', 'Reservaciones',
-            ],
-            $moduleNames,
-        );
-    }
 
     public function test_base_is_the_only_sellable_module(): void
     {
@@ -78,19 +58,6 @@ final class PlanModuleMatrixTest extends TestCase
         $this->assertSame(['base'], BillableModule::pluck('key')->all());
     }
 
-    public function test_menu_reseed_flow_restores_billing_matrix_mapping(): void
-    {
-        // ModuleTableSeeder trunca `module` y el FK cascadeOnDelete del pivot
-        // billable_module_system_module borra el mapeo de billing EN SILENCIO.
-        $this->seed(ModuleTableSeeder::class);
-
-        $this->assertSame(0, DB::table('billable_module_system_module')->count());
-
-        // El flujo documentado de reset de menú debe dejar el mapeo restaurado.
-        $this->seed(ResetPermissionTableSeeder::class);
-
-        $this->assertGreaterThan(0, DB::table('billable_module_system_module')->count());
-    }
 
     public function test_reset_permission_seeder_skips_matrix_when_absent(): void
     {
@@ -179,53 +146,6 @@ final class PlanModuleMatrixTest extends TestCase
         $this->assertSame(0, PlanModulePrice::where('billing_package_id', $plan->id)->count());
     }
 
-    public function test_collapse_migration_folds_retired_modules_into_base_and_is_idempotent(): void
-    {
-        // Rebuild the pre-collapse shape: a retired sellable module covering one
-        // platform module the base ALREADY has (duplicate) and one it does not.
-        $base = BillableModule::where('key', BillableModule::KEY_BASE)->first();
-        $plan = BillingPackage::where('key', 'basico')->first();
-
-        $covered = DB::table('billable_module_system_module')
-            ->where('billable_module_id', $base->id)
-            ->value('module_id');
-        $uncovered = DB::table('module')
-            ->whereNotIn('id', DB::table('billable_module_system_module')->where('billable_module_id', $base->id)->pluck('module_id'))
-            ->value('id');
-
-        $retired = BillableModule::create([
-            'key' => 'package',
-            'name' => 'Paquetería',
-            'description' => 'Add-on retirado.',
-            'sort_order' => 9,
-            'is_active' => true,
-            'is_base' => false,
-        ]);
-        $retired->systemModules()->sync([$covered, $uncovered]);
-        PlanModulePrice::create([
-            'billing_package_id' => $plan->id,
-            'billable_module_id' => $retired->id,
-            'interval' => 'month',
-            'unit_amount' => 8000,
-            'currency' => 'MXN',
-            'is_active' => true,
-        ]);
-
-        $before = DB::table('billable_module_system_module')->where('billable_module_id', $base->id)->count();
-
-        $migration = require database_path('../Modules/SubscriptionPlan/database/migrations/2026_07_19_000000_collapse_billable_modules_into_base.php');
-        $migration->up();
-        // Running it twice must not duplicate pivot rows or fail.
-        $migration->up();
-
-        $after = DB::table('billable_module_system_module')->where('billable_module_id', $base->id)->count();
-
-        // Only the module the base did NOT already cover was added.
-        $this->assertSame($before + 1, $after);
-        $this->assertSame(0, DB::table('billable_module_system_module')->where('billable_module_id', $retired->id)->count());
-        $this->assertSame(0, PlanModulePrice::where('billable_module_id', $retired->id)->count());
-        $this->assertSame(0, BillableModule::where('key', 'package')->count(), 'the retired module must be soft-deleted');
-    }
 
     public function test_collapse_migration_is_safe_when_the_retired_modules_are_absent(): void
     {

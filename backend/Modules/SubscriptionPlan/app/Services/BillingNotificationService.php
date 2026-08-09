@@ -2,14 +2,14 @@
 
 namespace Modules\SubscriptionPlan\Services;
 
-use App\Notifications\Concerns\NotifiesResidents;
+use App\Notifications\Concerns\DispatchesNotifications;
 use App\Notifications\NotificationCategory;
 use Modules\SubscriptionPlan\Models\BillableModule;
 
 /**
  * BillingNotificationService — in-app/push notifications for billing lifecycle events.
  *
- * Uses the NotifiesResidents trait so every dispatch goes through the standard
+ * Uses the DispatchesNotifications trait so every dispatch goes through the standard
  * notification engine (per-event channel config, in-app rows, push, user preferences).
  *
  * TENANT CONTEXT REQUIRED: all public methods on this service must be called
@@ -21,7 +21,7 @@ use Modules\SubscriptionPlan\Models\BillableModule;
  */
 final class BillingNotificationService
 {
-    use NotifiesResidents;
+    use DispatchesNotifications;
 
     /**
      * Notify the cluster administrator(s) that a module trial has expired.

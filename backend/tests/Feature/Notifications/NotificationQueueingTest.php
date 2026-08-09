@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Notifications;
 
 use App\Models\User;
-use App\Notifications\Concerns\NotifiesResidents;
+use App\Notifications\Concerns\DispatchesNotifications;
 use App\Notifications\Services\NotificationDispatcher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -99,7 +99,7 @@ final class NotificationQueueingTest extends TestCase
 
         $harness = new class
         {
-            use NotifiesResidents;
+            use DispatchesNotifications;
 
             /**
              * @param  array<int, string>  $ids

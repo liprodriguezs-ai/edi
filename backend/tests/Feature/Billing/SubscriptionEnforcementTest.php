@@ -38,7 +38,7 @@ final class SubscriptionEnforcementTest extends TestCase
     /** @var array<string> */
     protected $connectionsToTransact = [];
 
-    private const DATA_ENDPOINT = '/api/charge_batch';
+    private const DATA_ENDPOINT = '/api/user';
 
     protected function setUp(): void
     {

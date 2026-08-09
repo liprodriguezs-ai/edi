@@ -7,7 +7,7 @@ namespace Tests\Feature\Notifications;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\Channels\LogChannel;
-use App\Notifications\Concerns\NotifiesResidents;
+use App\Notifications\Concerns\DispatchesNotifications;
 use App\Notifications\Contracts\NotificationChannelInterface;
 use App\Notifications\Services\NotificationDispatcher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +26,7 @@ use Tests\TestCase;
  *
  *   NotificationDispatcher::tenantRoleUserIds($tenant, $roles)  → membership ∩ role
  *   NotificationDispatcher::toTenantRole($tenant, $roles, ...)  → resolve + dispatch
- *   NotifiesResidents::userIdsWithRole($roles)                  → same, current tenant
+ *   DispatchesNotifications::userIdsWithRole($roles)                  → same, current tenant
  *
  * A guard/treasurer of ANOTHER tenant with the same global role must NEVER be a
  * recipient.
@@ -111,13 +111,13 @@ final class NotificationFanOutTest extends TestCase
     }
 
     /**
-     * @return object harness exposing NotifiesResidents::userIdsWithRole
+     * @return object harness exposing DispatchesNotifications::userIdsWithRole
      */
     private function roleResolverHarness(): object
     {
         return new class
         {
-            use NotifiesResidents;
+            use DispatchesNotifications;
 
             /**
              * @param  string|array<int, string>  $roles
@@ -209,7 +209,7 @@ final class NotificationFanOutTest extends TestCase
     }
 
     // =========================================================================
-    // NotifiesResidents::userIdsWithRole — the shared helper every emitter uses
+    // DispatchesNotifications::userIdsWithRole — the shared helper every emitter uses
     // =========================================================================
 
     public function test_user_ids_with_role_is_scoped_to_the_current_tenant(): void

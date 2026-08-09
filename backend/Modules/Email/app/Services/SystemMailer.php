@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Mail;
  * domain notifications. So there is exactly ONE email transport and ONE template
  * source across the whole application; only the gating differs.
  *
- * Domain (notifiable) emails keep going through NotifiesResidents::notifyEvent()
+ * Domain (notifiable) emails keep going through DispatchesNotifications::notifyEvent()
  * → NotificationDispatcher → BladeEmailChannel, where preferences and per-tenant
  * settings still apply. Use this service ONLY for must-deliver system mail.
  */

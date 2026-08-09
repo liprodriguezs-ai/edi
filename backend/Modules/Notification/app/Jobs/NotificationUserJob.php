@@ -93,7 +93,7 @@ class NotificationUserJob implements ShouldQueue
      * bulk insert. insertOrIgnore respects the partial unique index on
      * (notification_id, user_id) WHERE deleted_at IS NULL, so a job retry does
      * not collide. The bulk insert bypasses model events, so tenant_id, id and
-     * timestamps are stamped by hand (mirrors NotifiesResidents::recordInApp).
+     * timestamps are stamped by hand (mirrors DispatchesNotifications::recordInApp).
      */
     public function createNotificationUsers(): void
     {

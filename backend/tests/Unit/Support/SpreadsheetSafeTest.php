@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Support;
 
 use App\Support\SpreadsheetSafe;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,9 +43,7 @@ final class SpreadsheetSafeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dangerousPrefixProvider
-     */
+    #[DataProvider('dangerousPrefixProvider')]
     public function test_every_dangerous_prefix_is_escaped(string $value): void
     {
         $result = SpreadsheetSafe::cell($value);
