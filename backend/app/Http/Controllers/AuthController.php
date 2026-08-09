@@ -20,8 +20,6 @@ use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
 use Modules\Company\Services\CompanyService;
 use Modules\Email\Jobs\SendAccountOwnerNotificationJob;
-use Modules\Housing\Models\Unit;
-use Modules\Housing\Models\UnitRelationship;
 use Modules\Tenant\Models\Tenant;
 use Modules\Tracking\DTO\TrackingEvent;
 use Modules\Tracking\Services\TrackingDispatcher;
@@ -635,26 +633,20 @@ class AuthController extends Controller
             'expires_at' => optional($invitation->expires_at)->toIso8601String(),
         ];
 
-        // Resident invitations carry richer context so the activation copy can name
-        // the cluster, the unit and the relationship the person is joining.
-        if ($invitation->inviteable_type === Unit::class) {
-            $tenant = Tenant::find($invitation->tenant_id);
-            if ($tenant !== null) {
-                $payload['cluster_name'] = $tenant->name;
-                $tenant->run(function () use ($invitation, &$payload): void {
-                    $unit = Unit::find($invitation->inviteable_id);
-                    $relationship = $invitation->unit_relationship_id
-                        ? UnitRelationship::find($invitation->unit_relationship_id)
-                        : null;
-                    $inviter = $invitation->invited_by_user_id
-                        ? User::withoutGlobalScope(UserTenantScope::class)->find($invitation->invited_by_user_id)
-                        : null;
+        // Invitations carry the organization name plus who invited, so the
+        // activation copy can name them. The template also resolved the unit and
+        // the relationship being joined; that context returns when EDI defines
+        // what a person is invited TO.
+        $tenant = Tenant::find($invitation->tenant_id);
+        if ($tenant !== null) {
+            $payload['organization_name'] = $tenant->name;
+            $tenant->run(function () use ($invitation, &$payload): void {
+                $inviter = $invitation->invited_by_user_id
+                    ? User::withoutGlobalScope(UserTenantScope::class)->find($invitation->invited_by_user_id)
+                    : null;
 
-                    $payload['unit_label'] = $unit?->full_identifier;
-                    $payload['relationship_name'] = $relationship?->name;
-                    $payload['inviter_name'] = $inviter?->name;
-                });
-            }
+                $payload['inviter_name'] = $inviter?->name;
+            });
         }
 
         return response()->json($payload, 200);

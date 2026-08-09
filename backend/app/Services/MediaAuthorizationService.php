@@ -6,17 +6,7 @@ use App\Models\Media;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Access\Models\Visitor;
-use Modules\Announcements\Models\Announcement;
-use Modules\Board\Models\BoardPeriod;
-use Modules\Chat\Models\ChatMessage;
-use Modules\Chat\Services\ChatService;
-use Modules\Collaborator\Models\Collaborator;
-use Modules\Collections\Models\Payment;
 use Modules\Company\Models\Company;
-use Modules\Housing\Models\UnitUser;
-use Modules\Projects\Models\CommunityProject;
-use Modules\Treasury\Models\Expense;
 use Modules\UserProfile\Models\UserProfile;
 
 /**
@@ -27,26 +17,19 @@ use Modules\UserProfile\Models\UserProfile;
  *     global TenantScope, so a media item whose owner belongs to another
  *     tenant yields a null owner and is denied. Central owners (User) are
  *     checked explicitly against shared tenant membership.
- *  2. Collection rule — a per-owner-type read ability (financial/staff roles)
- *     OR subject ownership (the resident downloading their own receipt, their
- *     unit's visitor photo, their own documents).
+ *  2. Collection rule — a per-owner-type read ability OR subject ownership
+ *     (the subject downloading their own documents).
+ *
+ * The map below only covers the owner types that survive in this project. Every
+ * new domain entity that attaches private media MUST register its read ability
+ * here, otherwise the ability layer is skipped and only the ownership fallback
+ * applies — which fails closed for owners the fallback does not understand.
  */
 class MediaAuthorizationService
 {
     private const MEDIA_READ_ABILITIES = [
         User::class => 'read.user',
         Company::class => 'read.company',
-        // Payment receipts: financial operators; the paying unit falls back to ownership.
-        Payment::class => 'read.bank_account',
-        Expense::class => 'read.expense',
-        Announcement::class => 'read.announcement',
-        // Visitor photos: caseta/board via the access log ability; the visited unit owns its photos.
-        Visitor::class => 'read.access_log',
-        // Board acta: period managers only.
-        BoardPeriod::class => 'create.board_period',
-        CommunityProject::class => 'read.community_project',
-        // Employee documents (contract/INE) — §7.5: admin, president, treasurer.
-        Collaborator::class => 'read.collaborator',
         UserProfile::class => 'read.user_profile',
     ];
 
@@ -102,8 +85,11 @@ class MediaAuthorizationService
     }
 
     /**
-     * Ownership fallback: own user/profile documents, or media whose subject
-     * belongs to one of the caller's active units (payment receipt, visitor photo).
+     * Ownership fallback: own user/profile documents.
+     *
+     * Fails closed for any other owner type. Domain entities that need a
+     * subject-ownership rule (e.g. the caregiver downloading their child's
+     * screening report) add their branch here.
      */
     private function ownsMediaSubject(User $user, Model $owner): bool
     {
@@ -115,30 +101,6 @@ class MediaAuthorizationService
             return $owner->user_id === $user->getKey();
         }
 
-        // Chat media (direct uploads AND cross-posted copies, whose owner becomes
-        // the ChatMessage via Media::copy — see design ADR-2/ADR-3): authorization
-        // is TARGET-based (per-channel membership), not a Spatie ability, so it is
-        // delegated to ChatService::canAccessChannel — the same rule that gates
-        // every other chat read. Fail closed on a soft-deleted/edge null channel.
-        if ($owner instanceof ChatMessage) {
-            $channel = $owner->channel;
-
-            return $channel !== null
-                && app(ChatService::class)->canAccessChannel($channel, (string) $user->getKey());
-        }
-
-        $unitId = ($owner instanceof Payment || $owner instanceof Visitor)
-            ? $owner->unit_id
-            : null;
-
-        if ($unitId === null) {
-            return false;
-        }
-
-        return UnitUser::query()
-            ->where('unit_id', $unitId)
-            ->where('user_id', $user->getKey())
-            ->whereNull('end_date')
-            ->exists();
+        return false;
     }
 }

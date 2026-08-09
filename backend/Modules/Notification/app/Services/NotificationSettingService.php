@@ -5,17 +5,14 @@ namespace Modules\Notification\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Modules\Board\Models\BoardRole;
 use Modules\Notification\Models\NotificationEvent;
 use Modules\Notification\Models\NotificationSetting;
-use Modules\Notification\Models\NotificationSettingBoardRole;
 
 /**
  * NotificationSettingService — resolves per-tenant notification configuration.
  *
- * Given an event key, returns whether the event is active for the current tenant,
- * which delivery channel names to pass to NotificationDispatcher, and which board
- * role IDs (from notification_setting_board_role) should receive the event.
+ * Given an event key, returns whether the event is active for the current tenant
+ * and which delivery channel names to pass to NotificationDispatcher.
  *
  * MUST be called within an initialized tenant context so that BelongsToTenant
  * scoping applies to NotificationSetting queries. When no tenant context exists
@@ -31,9 +28,9 @@ class NotificationSettingService
      *
      * NotificationEvent is a central catalog (safe without tenant context).
      * NotificationSetting is tenant-scoped — only queried after confirming
-     * that tenancy is initialized, mirroring the guard in NotifiesResidents::userIdsWithRole().
+     * that tenancy is initialized.
      *
-     * @return array{is_active: bool, channels: string[], board_role_ids: string[]}
+     * @return array{is_active: bool, channels: string[]}
      */
     public function resolve(string $eventKey): array
     {
@@ -47,7 +44,6 @@ class NotificationSettingService
             return [
                 'is_active' => false,
                 'channels' => ['log'],
-                'board_role_ids' => [],
             ];
         }
 
@@ -63,12 +59,10 @@ class NotificationSettingService
             return [
                 'is_active' => true,
                 'channels' => $this->channelsFromDefaults((array) $event->default_channels),
-                'board_role_ids' => [],
             ];
         }
 
         $setting = NotificationSetting::where('notification_event_id', $event->id)
-            ->with('board_roles')
             ->first();
 
         if ($setting === null) {
@@ -76,17 +70,12 @@ class NotificationSettingService
             return [
                 'is_active' => true,
                 'channels' => $this->channelsFromDefaults((array) $event->default_channels),
-                'board_role_ids' => [],
             ];
         }
 
         return [
             'is_active' => ($event->is_mandatory || $event->is_hidden) ? true : $setting->is_active,
             'channels' => $this->channelsFromSetting($setting),
-            'board_role_ids' => $setting->board_roles
-                ->pluck('board_role_id')
-                ->values()
-                ->all(),
         ];
     }
 
@@ -94,12 +83,12 @@ class NotificationSettingService
 
     /**
      * Return all notification events LEFT-merged with the current tenant's
-     * per-event settings plus the active board-role catalog.
+     * per-event settings.
      *
      * Must be called inside an initialized tenant context so TenantScope
      * applies to NotificationSetting queries.
      *
-     * @return array{events: array<int, array<string, mixed>>, board_roles: array<int, array<string, mixed>>}
+     * @return array{events: array<int, array<string, mixed>>}
      */
     public function allForTenant(): array
     {
@@ -109,7 +98,7 @@ class NotificationSettingService
 
         // Load this tenant's existing settings keyed by notification_event_id.
         /** @var Collection<string, NotificationSetting> $settingsMap */
-        $settingsMap = NotificationSetting::with('board_roles')
+        $settingsMap = NotificationSetting::query()
             ->get()
             ->keyBy('notification_event_id');
 
@@ -128,10 +117,6 @@ class NotificationSettingService
                 ? (bool) $setting->channel_whatsapp
                 : in_array('whatsapp', (array) $event->default_channels, true);
 
-            $boardRoleIds = $setting !== null
-                ? $setting->board_roles->pluck('board_role_id')->values()->all()
-                : [];
-
             return [
                 'key' => $event->key,
                 'name' => $event->name,
@@ -145,33 +130,21 @@ class NotificationSettingService
                 'channel_email' => $channelEmail,
                 'channel_push' => $channelPush,
                 'channel_whatsapp' => $channelWhatsapp,
-                'board_role_ids' => $boardRoleIds,
             ];
         })->values()->all();
 
-        // Only active board roles are relevant as options for the admin.
-        $boardRoles = BoardRole::where('is_active', true)
-            ->orderBy('order')
-            ->get(['id', 'name'])
-            ->map(fn (BoardRole $r): array => ['id' => $r->id, 'name' => $r->name])
-            ->values()
-            ->all();
-
         return [
             'events' => $payload,
-            'board_roles' => $boardRoles,
         ];
     }
 
     /**
      * Upsert per-tenant notification settings from the PUT /config/notifications body.
      *
-     * For each event entry:
-     *  - Creates or updates the NotificationSetting row for the current tenant.
-     *  - Syncs notification_setting_board_role rows (only for audience=board events;
-     *    board_role_ids is silently ignored for audience=resident events).
+     * For each event entry, creates or updates the NotificationSetting row for the
+     * current tenant.
      *
-     * @param  array<int, array{key: string, is_active: bool, channel_email: bool, channel_push: bool, channel_whatsapp: bool, board_role_ids: string[]}>  $events
+     * @param  array<int, array{key: string, is_active: bool, channel_email: bool, channel_push: bool, channel_whatsapp: bool}>  $events
      */
     public function updateForTenant(array $events): void
     {
@@ -203,33 +176,6 @@ class NotificationSettingService
                 $setting->channel_whatsapp = (bool) ($entry['channel_whatsapp'] ?? false);
                 $setting->save();
 
-                // Sync board role recipients — only meaningful for board-audience events.
-                // Silently ignoring board_role_ids for resident-audience events avoids
-                // storing orphaned pivots that would never be used.
-                if ($event->audience === 'board') {
-                    $incomingRoleIds = array_values(
-                        array_filter((array) ($entry['board_role_ids'] ?? []), 'is_string')
-                    );
-
-                    // Delete removed roles.
-                    NotificationSettingBoardRole::where('notification_setting_id', $setting->id)
-                        ->whereNotIn('board_role_id', $incomingRoleIds)
-                        ->delete();
-
-                    // Insert new roles (skip duplicates).
-                    $existingIds = NotificationSettingBoardRole::where('notification_setting_id', $setting->id)
-                        ->pluck('board_role_id')
-                        ->all();
-
-                    foreach ($incomingRoleIds as $roleId) {
-                        if (! in_array($roleId, $existingIds, true)) {
-                            NotificationSettingBoardRole::create([
-                                'notification_setting_id' => $setting->id,
-                                'board_role_id' => $roleId,
-                            ]);
-                        }
-                    }
-                }
             }
         });
     }

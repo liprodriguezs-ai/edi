@@ -20,7 +20,7 @@ use Modules\SubscriptionPlan\Services\UnitLimitCheck;
  *   current active unit count doesn't fit the TARGET plan's band
  *   (ConfigurationController::changeBillingPlan — plan-downgrade-guard).
  *
- * Modeled directly on Modules\Collections\Exceptions\DelinquencyRestrictedException:
+ * Modeled on the template's domain-restriction exception:
  * a single named constructor per business event builds the full payload
  * (message + numbers) so it never needs to be duplicated across HTTP
  * surfaces, and `render()` returns the response itself instead of relying on

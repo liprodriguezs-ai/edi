@@ -5,25 +5,24 @@ declare(strict_types=1);
 namespace Modules\SubscriptionPlan\Services;
 
 use InvalidArgumentException;
-use Modules\Housing\Models\Unit;
+use Modules\SubscriptionPlan\Contracts\QuotaSubjectCounter;
 use Modules\SubscriptionPlan\Exceptions\UnitLimitExceededException;
 use Modules\SubscriptionPlan\Models\BillingPackage;
 use Modules\SubscriptionPlan\Models\TenantEntitlement;
 use RuntimeException;
 
 /**
- * Guards a tenant's active unit count against a billing-band cap
+ * Guards a tenant's billed-subject count against a billing-band cap
  * (`billing_package.suggested_unit_max`). Two independent guards live here:
  *
  * - checkIncrease()/assertCanIncrease() — the ENTRY door (unit-limit-enforcement,
- *   shipped `f25114e`): can the tenant's CURRENT band absorb $delta more units?
- *   Enforced on every path that can increase that count — see
- *   UnitObserver::creating()/restoring(), UnitController's batch pre-flights,
- *   and ImportRunner::validate()'s preview.
+ *   shipped `f25114e`): can the tenant's CURRENT band absorb $delta more?
+ *   Enforced on every path that can increase that count (the observer and
+ *   batch pre-flights of whichever entity ends up being the billed subject).
  * - checkPlanFits()/assertPlanFits() — the EXIT door (plan-downgrade-guard):
- *   does the tenant's CURRENT active unit count fit a TARGET plan's band?
- *   Enforced ONLY at `ConfigurationController::changeBillingPlan`/
- *   `previewBillingPlanChange` (REQ-08) — deliberately NOT here as a
+ *   does the tenant's CURRENT count fit a TARGET plan's band?
+ *   Enforced ONLY at the billing-plan change/preview endpoints (REQ-08) —
+ *   deliberately NOT here as a
  *   tenancy-wide choke point, because `PreferentialSwapService` (the shared
  *   apply engine both the cluster-admin AND the super-admin preferential swap
  *   call into) must stay exempt for the super-admin actor. See
@@ -44,6 +43,7 @@ class UnitLimitService
 {
     public function __construct(
         private readonly PlanPricingService $planPricingService,
+        private readonly QuotaSubjectCounter $quotaSubjectCounter,
     ) {}
 
     /**
@@ -94,14 +94,16 @@ class UnitLimitService
     }
 
     /**
-     * The tenant's active unit count. `Unit::count()` is scoped by both
-     * `BelongsToTenant` and the default SoftDeletes scope, so this is exactly
-     * `deleted_at IS NULL` for the current tenant — the same liveness rule
-     * `unit_identity_unique` uses (REQ-06).
+     * The tenant's live count of whatever the billing band measures.
+     *
+     * WHAT is counted is delegated to {@see QuotaSubjectCounter} so this service
+     * never depends on a domain model. While EDI has no billed subject the bound
+     * implementation returns 0 and every band check passes — see
+     * NullQuotaSubjectCounter.
      */
     public function activeUnitCount(): int
     {
-        return Unit::count();
+        return $this->quotaSubjectCounter->count();
     }
 
     /**
@@ -170,7 +172,7 @@ class UnitLimitService
     public function buildImportPreviewMessage(UnitLimitCheck $check): string
     {
         $base = sprintf(
-            'Tu plan %s permite hasta %d unidades activas y ya tienes %d; este archivo crearía %d unidades nuevas.',
+            'Tu plan %s permite hasta %d registros activos y ya tienes %d; este archivo crearía %d nuevos.',
             $check->planName,
             $check->unitLimit,
             $check->activeUnits,
@@ -247,7 +249,7 @@ class UnitLimitService
     public function buildPlanChangeMessage(UnitLimitCheck $check): string
     {
         $base = sprintf(
-            'Tu condominio tiene %d unidades activas y el plan %s admite hasta %d.',
+            'Tu organización tiene %d registros activos y el plan %s admite hasta %d.',
             $check->activeUnits,
             $check->planName,
             $check->unitLimit,

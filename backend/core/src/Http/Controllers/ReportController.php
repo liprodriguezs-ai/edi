@@ -14,25 +14,10 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Access\Models\AccessLog;
-use Modules\Access\Models\BlacklistEntry;
-use Modules\Access\Models\Visitor;
 use Modules\Audit\Models\Audit;
-use Modules\Collaborator\Services\CollaboratorExportService;
-use Modules\Collections\Models\Charge;
-use Modules\Collections\Models\ChargeBatch;
-use Modules\Collections\Models\Payment;
 use Modules\Event\Entities\EventServicePerson;
-use Modules\Housing\Models\Unit;
-use Modules\Housing\Models\UnitUser;
-use Modules\Housing\Models\Vehicle;
 use Modules\Person\Entities\Person;
 use Modules\Person\Entities\PersonVisit;
-use Modules\Projects\Models\CommunityProject;
-use Modules\Projects\Models\ProjectContribution;
-use Modules\Providers\Models\Provider;
-use Modules\Treasury\Models\BankAccount;
-use Modules\Treasury\Models\Expense;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -52,23 +37,18 @@ class ReportController extends BaseController
      * method name (verified per model). Models NOT listed fall through to the
      * legacy resolution below.
      */
-    private const REPORT_MODEL_MAP = [
-        'Charge' => ['class' => Charge::class, 'with' => ['unit.unitType', 'unit.tower', 'concept', 'batch', 'charge_status']],
-        'ChargeBatch' => ['class' => ChargeBatch::class, 'with' => ['policy', 'status']],
-        'Payment' => ['class' => Payment::class, 'with' => ['unit.unitType', 'unit.tower', 'payer_user', 'payment_method', 'bank_account', 'payment_status']],
-        'Expense' => ['class' => Expense::class, 'with' => ['category', 'provider', 'employee', 'payment_method', 'bank_account', 'status']],
-        'BankAccount' => ['class' => BankAccount::class, 'with' => ['type', 'purpose']],
-        'Unit' => ['class' => Unit::class, 'with' => ['unitType', 'unitStatus', 'tower', 'section']],
-        'Vehicle' => ['class' => Vehicle::class, 'with' => ['unit.unitType', 'unit.tower']],
-        'UnitUser' => ['class' => UnitUser::class, 'with' => ['unit.unitType', 'unit.tower', 'user', 'unitRelationship']],
-        'AccessLog' => ['class' => AccessLog::class, 'with' => ['visitor', 'unit.unitType', 'unit.tower', 'access_entry_type', 'access_verification', 'visitor_motive', 'guard_user']],
-        'Visitor' => ['class' => Visitor::class, 'with' => ['unit.unitType', 'unit.tower', 'visitor_motive', 'qr_type', 'visitor_status']],
-        'BlacklistEntry' => ['class' => BlacklistEntry::class, 'with' => ['blacklist_type']],
-        'Provider' => ['class' => Provider::class, 'with' => ['providerType', 'serviceType']],
-        'CommunityProject' => ['class' => CommunityProject::class, 'with' => ['status', 'category', 'participationType', 'amount_mode', 'responsibleUser']],
-        'ProjectContribution' => ['class' => ProjectContribution::class, 'with' => ['project', 'unit.unitType', 'unit.tower', 'contributionStatus']],
-        'Audit' => ['class' => Audit::class, 'with' => ['user']],
-    ];
+    /**
+     * Whitelist of exportable models for the generic report engine.
+     *
+     * Empty on purpose: the template mapped the condominium entities (charges,
+     * payments, units, visitors...), all of which are gone. Register the EDI
+     * entities here as their modules are built — the export machinery below
+     * (filters, sorting, Excel/PDF, async generation) is domain-agnostic and
+     * needs no change.
+     *
+     * @var array<string, array{class: class-string, with: string[]}>
+     */
+    private const REPORT_MODEL_MAP = [];
 
     protected function checkPermission($type)
     {

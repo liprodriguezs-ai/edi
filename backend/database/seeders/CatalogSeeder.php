@@ -5,111 +5,34 @@ namespace Database\Seeders;
 use App\Notifications\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
-use Modules\Access\Models\AccessEntryType;
-use Modules\Access\Models\AccessVerification;
-use Modules\Access\Models\BlacklistType;
-use Modules\Access\Models\QrType;
-use Modules\Access\Models\VisitorStatus;
-use Modules\AmenityReservations\Models\ReservationMode;
-use Modules\AmenityReservations\Models\ReservationStatus;
-use Modules\Announcements\Models\AnnouncementPriority;
-use Modules\Announcements\Models\AnnouncementStatus;
-use Modules\Board\Models\BoardPeriodStatus;
-use Modules\Board\Models\BoardRole;
-use Modules\Chat\Models\ChatChannelType;
-use Modules\Collections\Models\AmountMode;
-use Modules\Collections\Models\ChargeBatchStatus;
-use Modules\Collections\Models\ChargeStatus;
-use Modules\Collections\Models\PaymentMethod;
-use Modules\Collections\Models\PaymentStatus;
-use Modules\Collections\Models\Periodicity;
-use Modules\Collections\Models\SurchargeMode;
-use Modules\Complaint\Models\ComplaintStatus;
-use Modules\Housing\Models\UnitRelationship;
 use Modules\Notification\Models\NotificationEvent;
-use Modules\Package\Models\PackageStatus;
-use Modules\Projects\Models\CommunityProjectStatus;
-use Modules\Projects\Models\ParticipationType;
-use Modules\Projects\Models\ProjectContributionStatus;
 use Modules\Tenant\Models\TenantPaymentType;
-use Modules\Treasury\Models\BankAccountType;
-use Modules\Treasury\Models\BeneficiaryType;
-use Modules\Treasury\Models\ExpenseStatus;
 
 /**
- * Seeds the central fixed-enum catalogs (UUID-keyed, no tenant_id):
- * FSM statuses + behavior selectors + tenant_payment_type. The 12
- * self-administrable catalogs are tenant-scoped and live in
- * TenantCatalogSeeder (per-tenant initial load).
+ * Seeds the central fixed-enum catalogs (UUID-keyed, no tenant_id).
  *
  * These catalogs are shared across all tenants in the single-database
- * multi-tenant setup. Every row is idempotent (upsert by fixed id),
- * so this seeder is safe to call multiple times from both the central
- * DatabaseSeeder (migrate:fresh --seed) and from TenantDatabaseSeeder
- * (runtime tenant creation via TenantCreated → tenants:seed).
+ * multi-tenant setup. Every row is idempotent (upsert by fixed id), so this
+ * seeder is safe to call multiple times from both the central DatabaseSeeder
+ * (migrate:fresh --seed) and from TenantDatabaseSeeder (runtime tenant
+ * creation via TenantCreated -> tenants:seed).
+ *
+ * NOTE: the template seeded ~30 catalogs for the condominium domain (charges,
+ * payments, housing, board, access, amenities...). Those modules are gone. The
+ * EDI catalogs -- result colours, screening statuses, development areas,
+ * age-group scoring rules -- are added here as their modules are built.
  */
 class CatalogSeeder extends Seeder
 {
     public function run(): void
     {
-        // TenantPaymentType (central fixed-UUID rows — no tenant_id)
+        // TenantPaymentType (central fixed-UUID rows -- no tenant_id)
         $this->seedTenantPaymentTypes();
 
-        // Housing (Module 2)
-        $this->seedUnitRelationships();
-
-        // Board & Staff (Module 3)
-        $this->seedBoardRoles();
-        $this->seedBoardPeriodStatuses();
-
-        // Treasury (Module 5)
-        $this->seedBankAccountTypes();
-        $this->seedExpenseStatuses();
-        $this->seedBeneficiaryTypes();
-
-        // Collections (Module 4)
-        $this->seedChargeStatuses();
-        $this->seedPaymentStatuses();
-        $this->seedChargeBatchStatuses();
-        $this->seedAmountModes();
-        $this->seedPeriodicities();
-        $this->seedPaymentMethods();
-        $this->seedSurchargeModes();
-
-        // Providers (Module 6)
-
-        // Projects (Module 7)
-        $this->seedCommunityProjectStatuses();
-        $this->seedParticipationTypes();
-        $this->seedProjectContributionStatuses();
-
-        // Announcements (Module 8)
-        $this->seedAnnouncementPriorities();
-        $this->seedAnnouncementStatuses();
-
-        // Chat (Module 9)
-        $this->seedChatChannelTypes();
-
-        // Notification (cross-module)
+        // Notification event catalog (drives the per-tenant notification settings)
         $this->seedNotificationEvents();
-
-        // Access (Module 10)
-        $this->seedVisitorStatuses();
-        $this->seedQrTypes();
-        $this->seedAccessEntryTypes();
-        $this->seedAccessVerifications();
-        $this->seedBlacklistTypes();
-
-        // Portería — Package (Module 15)
-        $this->seedPackageStatuses();
-
-        // Amenity Reservations (new module — S1, S3)
-        $this->seedReservationStatuses();
-        $this->seedReservationModes();
-
-        // Complaint (Incidencias)
-        $this->seedComplaintStatuses();
     }
+
 
     // =========================================================================
     // Helper
@@ -148,275 +71,6 @@ class CatalogSeeder extends Seeder
             ['id' => TenantPaymentType::BANK_TRANSFER, 'name' => 'Transferencia bancaria', 'description' => 'Pago por transferencia bancaria'],
         ]);
     }
-
-    // =========================================================================
-    // Housing (Module 2) catalogs
-    // =========================================================================
-
-    private function seedUnitRelationships(): void
-    {
-        $this->upsertCatalog(UnitRelationship::class, [
-            ['id' => UnitRelationship::OWNER, 'name' => 'Propietario', 'order' => 0, 'is_active' => true],
-            ['id' => UnitRelationship::CO_OWNER, 'name' => 'Copropietario', 'order' => 1, 'is_active' => true],
-            ['id' => UnitRelationship::RENTER, 'name' => 'Inquilino', 'order' => 2, 'is_active' => true],
-            ['id' => UnitRelationship::FAMILY_RESIDENT, 'name' => 'Familiar residente', 'order' => 3, 'is_active' => true],
-            ['id' => UnitRelationship::BILLING_CONTACT, 'name' => 'Contacto de pago', 'order' => 4, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Board & Staff (Module 3) catalogs
-    // =========================================================================
-
-    private function seedBoardRoles(): void
-    {
-        $this->upsertCatalog(BoardRole::class, [
-            ['id' => BoardRole::PRESIDENT, 'name' => 'Presidente', 'spatie_role_slug' => 'president', 'order' => 0, 'is_active' => true],
-            ['id' => BoardRole::TREASURER, 'name' => 'Tesorero', 'spatie_role_slug' => 'treasurer', 'order' => 1, 'is_active' => true],
-            ['id' => BoardRole::SECRETARY, 'name' => 'Secretario', 'spatie_role_slug' => 'secretary', 'order' => 2, 'is_active' => true],
-            ['id' => BoardRole::VOCAL, 'name' => 'Vocal', 'spatie_role_slug' => 'vocal', 'order' => 3, 'is_active' => true],
-            ['id' => BoardRole::OVERSIGHT_COMMITTEE, 'name' => 'Comité de Vigilancia', 'spatie_role_slug' => 'oversight_committee', 'order' => 4, 'is_active' => true],
-        ]);
-    }
-
-    private function seedBoardPeriodStatuses(): void
-    {
-        $this->upsertCatalog(BoardPeriodStatus::class, [
-            ['id' => BoardPeriodStatus::CURRENT, 'name' => 'Vigente', 'color' => '#22C55E', 'order' => 0, 'is_active' => true],
-            ['id' => BoardPeriodStatus::CLOSED, 'name' => 'Cerrado', 'color' => '#6B7280', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Treasury (Module 5) catalogs
-    // =========================================================================
-
-    private function seedBankAccountTypes(): void
-    {
-        $this->upsertCatalog(BankAccountType::class, [
-            ['id' => BankAccountType::BANK, 'name' => 'Cuenta bancaria', 'order' => 0, 'is_active' => true],
-            ['id' => BankAccountType::CASH, 'name' => 'Caja de efectivo', 'order' => 1, 'is_active' => true],
-            ['id' => BankAccountType::INVESTMENT, 'name' => 'Inversión', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    private function seedExpenseStatuses(): void
-    {
-        $this->upsertCatalog(ExpenseStatus::class, [
-            ['id' => ExpenseStatus::PAID, 'name' => 'Pagado', 'color' => '#22C55E', 'order' => 0, 'is_active' => true],
-            ['id' => ExpenseStatus::VOIDED, 'name' => 'Anulado', 'color' => '#6B7280', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    private function seedBeneficiaryTypes(): void
-    {
-        $this->upsertCatalog(BeneficiaryType::class, [
-            ['id' => BeneficiaryType::EMPLOYEE, 'name' => 'Empleado', 'order' => 0, 'is_active' => true],
-            ['id' => BeneficiaryType::PROVIDER, 'name' => 'Proveedor', 'order' => 1, 'is_active' => true],
-            ['id' => BeneficiaryType::OTHER, 'name' => 'Otro', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Collections (Module 4) catalogs
-    // =========================================================================
-
-    private function seedChargeStatuses(): void
-    {
-        $this->upsertCatalog(ChargeStatus::class, [
-            ['id' => ChargeStatus::COMPLETED, 'name' => 'Completo', 'color' => '#22C55E', 'order' => 0, 'is_active' => true],
-            ['id' => ChargeStatus::PARTIAL, 'name' => 'Parcial', 'color' => '#EAB308', 'order' => 1, 'is_active' => true],
-            ['id' => ChargeStatus::OVERDUE, 'name' => 'Vencido', 'color' => '#EF4444', 'order' => 2, 'is_active' => true],
-            ['id' => ChargeStatus::DUE_SOON, 'name' => 'Por vencer', 'color' => '#F97316', 'order' => 3, 'is_active' => true],
-            ['id' => ChargeStatus::OVERPAID, 'name' => 'Saldo a favor', 'color' => '#3B82F6', 'order' => 4, 'is_active' => true],
-            ['id' => ChargeStatus::PENDING, 'name' => 'Pendiente', 'color' => '#D1D5DB', 'order' => 5, 'is_active' => true],
-            ['id' => ChargeStatus::PAYMENT_PLAN, 'name' => 'En convenio', 'color' => '#A855F7', 'order' => 6, 'is_active' => true],
-        ]);
-    }
-
-    private function seedPaymentStatuses(): void
-    {
-        $this->upsertCatalog(PaymentStatus::class, [
-            ['id' => PaymentStatus::CONFIRMED, 'name' => 'Confirmado', 'color' => '#22C55E', 'order' => 0, 'is_active' => true],
-            ['id' => PaymentStatus::PENDING_VALIDATION, 'name' => 'Pendiente de validación', 'color' => '#EAB308', 'order' => 1, 'is_active' => true],
-            ['id' => PaymentStatus::CANCELLED, 'name' => 'Cancelado', 'color' => '#6B7280', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    private function seedChargeBatchStatuses(): void
-    {
-        $this->upsertCatalog(ChargeBatchStatus::class, [
-            ['id' => ChargeBatchStatus::DRAFT, 'name' => 'Borrador', 'color' => '#6B7280', 'order' => 0, 'is_active' => true],
-            ['id' => ChargeBatchStatus::ACTIVE, 'name' => 'Activa', 'color' => '#22C55E', 'order' => 1, 'is_active' => true],
-            ['id' => ChargeBatchStatus::CANCELLED, 'name' => 'Cancelada', 'color' => '#EF4444', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    private function seedAmountModes(): void
-    {
-        $this->upsertCatalog(AmountMode::class, [
-            ['id' => AmountMode::FIXED_REQUIRED, 'name' => 'Fijo obligatorio', 'order' => 0, 'is_active' => true],
-            ['id' => AmountMode::FIXED_OPTIONAL, 'name' => 'Fijo opcional', 'order' => 1, 'is_active' => true],
-            ['id' => AmountMode::RANGE, 'name' => 'Rango', 'order' => 2, 'is_active' => true],
-            ['id' => AmountMode::FREE, 'name' => 'Libre', 'order' => 3, 'is_active' => true],
-            ['id' => AmountMode::BY_SHARE, 'name' => 'Por indiviso', 'order' => 4, 'is_active' => true],
-        ]);
-    }
-
-    private function seedPeriodicities(): void
-    {
-        // USER DECISION: ALL recurring periodicities are automatic (is_automatic=true).
-        // Only EVENTUAL is manual-only (is_automatic=false).
-        // WEEKLY and BIWEEKLY are new rows; UUIDs must match Periodicity constants + frontend enum.
-        $this->upsertCatalog(Periodicity::class, [
-            ['id' => Periodicity::MONTHLY, 'name' => 'Mensual', 'order' => 0, 'is_active' => true, 'is_automatic' => true],
-            // ['id' => Periodicity::BIMONTHLY, 'name' => 'Bimestral', 'order' => 1, 'is_active' => true, 'is_automatic' => true],
-            ['id' => Periodicity::YEARLY, 'name' => 'Anual', 'order' => 2, 'is_active' => true, 'is_automatic' => true],
-            ['id' => Periodicity::EVENTUAL, 'name' => 'Eventual', 'order' => 3, 'is_active' => true, 'is_automatic' => false],
-            // ['id' => Periodicity::WEEKLY, 'name' => 'Semanal', 'order' => 4, 'is_active' => true, 'is_automatic' => true],
-            // ['id' => Periodicity::BIWEEKLY, 'name' => 'Quincenal', 'order' => 5, 'is_active' => true, 'is_automatic' => true],
-            // QA-only compressed cadence: seeded everywhere (central-catalog contract) but
-            // gated out of catalog serving, policy validation and the cron in production.
-            ['id' => Periodicity::EVERY_TWO_DAYS, 'name' => 'Cada 2 días (pruebas)', 'order' => 6, 'is_active' => true, 'is_automatic' => true],
-        ]);
-    }
-
-    private function seedPaymentMethods(): void
-    {
-        $this->upsertCatalog(PaymentMethod::class, [
-            ['id' => PaymentMethod::CASH, 'name' => 'Efectivo', 'order' => 0, 'is_active' => true],
-            ['id' => PaymentMethod::TRANSFER, 'name' => 'Transferencia', 'order' => 1, 'is_active' => true],
-            ['id' => PaymentMethod::DEPOSIT, 'name' => 'Depósito', 'order' => 2, 'is_active' => true],
-            ['id' => PaymentMethod::CHECK, 'name' => 'Cheque', 'order' => 3, 'is_active' => true],
-        ]);
-    }
-
-    private function seedSurchargeModes(): void
-    {
-        $this->upsertCatalog(SurchargeMode::class, [
-            ['id' => SurchargeMode::PERCENT, 'name' => 'Porcentaje', 'order' => 0, 'is_active' => true],
-            ['id' => SurchargeMode::FIXED, 'name' => 'Monto fijo', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Providers (Module 6) catalogs
-    // =========================================================================
-
-    // =========================================================================
-    // Projects (Module 7) catalogs
-    // =========================================================================
-
-    private function seedCommunityProjectStatuses(): void
-    {
-        $this->upsertCatalog(CommunityProjectStatus::class, [
-            ['id' => CommunityProjectStatus::DRAFT, 'name' => 'Borrador', 'color' => '#6B7280', 'order' => 0, 'is_active' => true],
-            ['id' => CommunityProjectStatus::ACTIVE, 'name' => 'Activo', 'color' => '#22C55E', 'order' => 1, 'is_active' => true],
-            ['id' => CommunityProjectStatus::FULLY_FUNDED, 'name' => 'Recaudación completa', 'color' => '#3B82F6', 'order' => 2, 'is_active' => true],
-            ['id' => CommunityProjectStatus::EXECUTED, 'name' => 'Ejecutado', 'color' => '#A855F7', 'order' => 3, 'is_active' => true],
-            ['id' => CommunityProjectStatus::CANCELLED, 'name' => 'Cancelado', 'color' => '#EF4444', 'order' => 4, 'is_active' => true],
-        ]);
-    }
-
-    private function seedParticipationTypes(): void
-    {
-        $this->upsertCatalog(ParticipationType::class, [
-            ['id' => ParticipationType::MANDATORY, 'name' => 'Obligatorio', 'order' => 0, 'is_active' => true],
-            ['id' => ParticipationType::VOLUNTARY, 'name' => 'Voluntario', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    private function seedProjectContributionStatuses(): void
-    {
-        $this->upsertCatalog(ProjectContributionStatus::class, [
-            ['id' => ProjectContributionStatus::PENDING, 'name' => 'Pendiente', 'color' => '#D1D5DB', 'order' => 0, 'is_active' => true],
-            ['id' => ProjectContributionStatus::PARTIAL, 'name' => 'Parcial', 'color' => '#EAB308', 'order' => 1, 'is_active' => true],
-            ['id' => ProjectContributionStatus::IDEAL, 'name' => 'Ideal', 'color' => '#22C55E', 'order' => 2, 'is_active' => true],
-            ['id' => ProjectContributionStatus::GENEROUS, 'name' => 'Generoso', 'color' => '#3B82F6', 'order' => 3, 'is_active' => true],
-            ['id' => ProjectContributionStatus::BELOW_MIN, 'name' => 'Bajo el mínimo', 'color' => '#F97316', 'order' => 4, 'is_active' => true],
-            ['id' => ProjectContributionStatus::DECLINED, 'name' => 'Declinó', 'color' => '#6B7280', 'order' => 5, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Announcements (Module 8) catalogs
-    // =========================================================================
-
-    private function seedAnnouncementPriorities(): void
-    {
-        $this->upsertCatalog(AnnouncementPriority::class, [
-            ['id' => AnnouncementPriority::NORMAL, 'name' => 'Normal', 'color' => '#6B7280', 'order' => 0, 'is_active' => true],
-            ['id' => AnnouncementPriority::IMPORTANT, 'name' => 'Importante', 'color' => '#F59E0B', 'order' => 1, 'is_active' => true],
-            ['id' => AnnouncementPriority::URGENT, 'name' => 'Urgente', 'color' => '#EF4444', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    private function seedAnnouncementStatuses(): void
-    {
-        $this->upsertCatalog(AnnouncementStatus::class, [
-            ['id' => AnnouncementStatus::DRAFT, 'name' => 'Borrador', 'color' => '#6B7280', 'order' => 0, 'is_active' => true],
-            ['id' => AnnouncementStatus::PUBLISHED, 'name' => 'Publicado', 'color' => '#22C55E', 'order' => 1, 'is_active' => true],
-            ['id' => AnnouncementStatus::ARCHIVED, 'name' => 'Archivado', 'color' => '#D1D5DB', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Chat (Module 9) catalogs
-    // =========================================================================
-
-    private function seedChatChannelTypes(): void
-    {
-        $this->upsertCatalog(ChatChannelType::class, [
-            ['id' => ChatChannelType::OFFICIAL, 'name' => 'Oficial', 'order' => 0, 'is_active' => true],
-            ['id' => ChatChannelType::GENERAL, 'name' => 'General', 'order' => 1, 'is_active' => true],
-            ['id' => ChatChannelType::CUSTOM, 'name' => 'Personalizado', 'order' => 2, 'is_active' => true],
-            ['id' => ChatChannelType::DIRECT, 'name' => 'Directo (1:1)', 'order' => 3, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Access (Module 10) catalogs
-    // =========================================================================
-
-    private function seedVisitorStatuses(): void
-    {
-        $this->upsertCatalog(VisitorStatus::class, [
-            ['id' => VisitorStatus::PENDING, 'name' => 'Pendiente', 'color' => '#D1D5DB', 'order' => 0, 'is_active' => true],
-            ['id' => VisitorStatus::USED, 'name' => 'Utilizado', 'color' => '#22C55E', 'order' => 1, 'is_active' => true],
-            ['id' => VisitorStatus::CANCELLED, 'name' => 'Cancelado', 'color' => '#EF4444', 'order' => 2, 'is_active' => true],
-            ['id' => VisitorStatus::EXPIRED, 'name' => 'Expirado', 'color' => '#6B7280', 'order' => 3, 'is_active' => true],
-        ]);
-    }
-
-    private function seedQrTypes(): void
-    {
-        $this->upsertCatalog(QrType::class, [
-            ['id' => QrType::SINGLE_ENTRY, 'name' => 'Una sola entrada', 'order' => 0, 'is_active' => true],
-            ['id' => QrType::TIME_BASED, 'name' => 'Válido por tiempo', 'order' => 1, 'is_active' => true],
-            ['id' => QrType::EVENT, 'name' => 'Por evento', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    private function seedAccessEntryTypes(): void
-    {
-        $this->upsertCatalog(AccessEntryType::class, [
-            ['id' => AccessEntryType::QR, 'name' => 'QR', 'order' => 0, 'is_active' => true],
-            ['id' => AccessEntryType::MANUAL, 'name' => 'Manual', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    private function seedAccessVerifications(): void
-    {
-        $this->upsertCatalog(AccessVerification::class, [
-            ['id' => AccessVerification::QR, 'name' => 'QR escaneado', 'order' => 0, 'is_active' => true],
-            ['id' => AccessVerification::APP_REMOTE, 'name' => 'Aprobación remota (app)', 'order' => 1, 'is_active' => true],
-            ['id' => AccessVerification::PHONE_CALL, 'name' => 'Llamada telefónica', 'order' => 2, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Notification (cross-module) catalogs
-    // =========================================================================
 
     private function seedNotificationEvents(): void
     {
@@ -850,68 +504,6 @@ class CatalogSeeder extends Seeder
                 'is_mandatory' => false,
                 'is_hidden' => false,
             ],
-        ]);
-    }
-
-    private function seedBlacklistTypes(): void
-    {
-        $this->upsertCatalog(BlacklistType::class, [
-            ['id' => BlacklistType::VISITOR, 'name' => 'Visitante', 'order' => 0, 'is_active' => true],
-            ['id' => BlacklistType::VEHICLE, 'name' => 'Vehículo', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Portería — Package (Module 15)
-    // =========================================================================
-
-    private function seedPackageStatuses(): void
-    {
-        $this->upsertCatalog(PackageStatus::class, [
-            ['id' => PackageStatus::RECEIVED, 'name' => 'Recibido', 'key' => 'received', 'color' => '#6B7280'],
-            ['id' => PackageStatus::READY, 'name' => 'Listo para recoger', 'key' => 'ready', 'color' => '#3B82F6'],
-            ['id' => PackageStatus::PICKED_UP, 'name' => 'Entregado', 'key' => 'picked_up', 'color' => '#10B981'],
-            ['id' => PackageStatus::RETURNED, 'name' => 'Devuelto', 'key' => 'returned', 'color' => '#F59E0B'],
-            ['id' => PackageStatus::INCIDENT, 'name' => 'Incidencia', 'key' => 'incident', 'color' => '#EF4444'],
-        ]);
-    }
-
-    // =========================================================================
-    // Amenity Reservations (new module)
-    // =========================================================================
-
-    private function seedReservationStatuses(): void
-    {
-        $this->upsertCatalog(ReservationStatus::class, [
-            ['id' => ReservationStatus::PENDING_APPROVAL, 'name' => 'Pendiente de aprobación', 'color' => '#EAB308', 'order' => 0, 'is_active' => true],
-            ['id' => ReservationStatus::PENDING_PAYMENT, 'name' => 'Pendiente de pago', 'color' => '#F97316', 'order' => 1, 'is_active' => true],
-            ['id' => ReservationStatus::CONFIRMED, 'name' => 'Confirmada', 'color' => '#22C55E', 'order' => 2, 'is_active' => true],
-            ['id' => ReservationStatus::CANCELLED, 'name' => 'Cancelada', 'color' => '#6B7280', 'order' => 3, 'is_active' => true],
-            ['id' => ReservationStatus::REJECTED, 'name' => 'Rechazada', 'color' => '#EF4444', 'order' => 4, 'is_active' => true],
-            ['id' => ReservationStatus::COMPLETED, 'name' => 'Completada', 'color' => '#3B82F6', 'order' => 5, 'is_active' => true],
-            ['id' => ReservationStatus::NO_SHOW, 'name' => 'No presentado', 'color' => '#D1D5DB', 'order' => 6, 'is_active' => true],
-        ]);
-    }
-
-    private function seedReservationModes(): void
-    {
-        $this->upsertCatalog(ReservationMode::class, [
-            ['id' => ReservationMode::BY_DAY, 'name' => 'Por día', 'order' => 0, 'is_active' => true],
-            ['id' => ReservationMode::BY_SLOT, 'name' => 'Por horario', 'order' => 1, 'is_active' => true],
-        ]);
-    }
-
-    // =========================================================================
-    // Complaint — Incidencias
-    // =========================================================================
-
-    private function seedComplaintStatuses(): void
-    {
-        $this->upsertCatalog(ComplaintStatus::class, [
-            ['id' => ComplaintStatus::OPEN, 'name' => 'Registrada', 'key' => 'open', 'color' => '#3B82F6'],
-            ['id' => ComplaintStatus::IN_REVIEW, 'name' => 'En revisión', 'key' => 'in_review', 'color' => '#EAB308'],
-            ['id' => ComplaintStatus::RESOLVED, 'name' => 'Resuelta', 'key' => 'resolved', 'color' => '#22C55E'],
-            ['id' => ComplaintStatus::DISMISSED, 'name' => 'Desestimada', 'key' => 'dismissed', 'color' => '#6B7280'],
         ]);
     }
 }

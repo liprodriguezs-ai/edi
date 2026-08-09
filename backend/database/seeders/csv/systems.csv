@@ -1,4 +1,3 @@
 id,name,slug,description,icon,sort_order
 af21b731-78d5-4ca1-9bc0-4b4e4bdeadf2,Core,core,Administracion de la plataforma (solo super admin),IconSettings,0
-b266838b-4cb0-4eb1-aa76-242cf96df41a,Fraccionamiento,fraccionamiento,Gestión del fraccionamiento residencial,IconBuilding,2
-c3d4e5f6-a7b8-9012-cdef-123456789001,Tesorería,tesoreria,Gestión financiera del fraccionamiento,IconCash,3
+b266838b-4cb0-4eb1-aa76-242cf96df41a,Evaluación,evaluacion,Evaluación del Desarrollo Infantil y estimulación temprana,IconClipboardHeart,2

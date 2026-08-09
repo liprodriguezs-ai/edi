@@ -6,22 +6,16 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Modules\Collaborator\Models\Collaborator;
-use Modules\Collaborator\Services\EmployeeService;
-use Modules\Email\Emails\ResidentInvitationMail;
 use Modules\Email\Emails\UserInvitationMail;
 use Modules\Email\Services\SystemMailer;
-use Modules\Housing\Models\Unit;
-use Modules\Housing\Services\ResidentInvitationService;
 use Modules\Tenant\Models\Tenant;
 use Modules\User\Models\UserInvitation;
-use QCH\Core\Models\Role;
 
 class UserInvitationService
 {
     /**
      * Create (or reuse) an invitation for the given inviteable and send the email.
-     * Backwards-compatible entry point used by the Collaborator flow; derives the
+     * Convenience entry point: derives the
      * email from the inviteable and delegates to createAndSend().
      */
     public function createAndSendInvitation(Model $inviteable): ?UserInvitation
@@ -88,15 +82,13 @@ class UserInvitationService
     }
 
     /**
-     * @param  array<string, mixed>  $context
+     * @param  array<string, mixed>  $context  Reserved for per-flavour mail context.
      */
     public function sendInvitationEmail(UserInvitation $invitation, string $plainToken, array $context = []): void
     {
         $acceptUrl = rtrim(config('app.frontend_url'), '/').'/auth/accept-invitation/'.$plainToken;
 
-        $mailable = $invitation->inviteable_type === Unit::class
-            ? new ResidentInvitationMail($acceptUrl, $context)
-            : new UserInvitationMail($acceptUrl);
+        $mailable = new UserInvitationMail($acceptUrl);
 
         // Invitations are system email: always delivered via the canonical
         // SystemMailer, bypassing the gated notification engine (a tenant toggle
@@ -143,15 +135,7 @@ class UserInvitationService
             // succeed or fail together, otherwise a half-applied accept could leave
             // the token unconsumed and replayable.
             $user = DB::transaction(function () use ($invitation, $password) {
-                $inviteableType = $invitation->inviteable_type;
-
-                if ($inviteableType === Collaborator::class) {
-                    $resolved = $this->acceptInvitationFromCollaborator($invitation, $password);
-                } elseif ($inviteableType === Unit::class) {
-                    $resolved = app(ResidentInvitationService::class)->acceptToUnit($invitation, $password, null);
-                } else {
-                    throw new \InvalidArgumentException(__('Token inválido o expirado.'), 400);
-                }
+                $resolved = $this->createUserFromInvitation($invitation, $password);
 
                 $invitation->forceFill(['accepted_at' => now()])->save();
 
@@ -166,19 +150,15 @@ class UserInvitationService
 
     /**
      * Link an ALREADY-AUTHENTICATED user (existing account, possibly from another
-     * tenant) to the unit named by a resident invitation. The caller must have
-     * verified the session; we additionally require the session email to match the
-     * invitation email so mere possession of the token cannot attach a stranger.
+     * tenant) to the invitation's tenant. The caller must have verified the
+     * session; we additionally require the session email to match the invitation
+     * email so mere possession of the token cannot attach a stranger.
      */
     public function acceptInvitationWithAccount(string $token, User $authUser): User
     {
         $invitation = $this->findValidByToken($token);
         if ($invitation === null) {
             throw new \InvalidArgumentException(__('Token inválido o expirado.'), 400);
-        }
-
-        if ($invitation->inviteable_type !== Unit::class) {
-            throw new \InvalidArgumentException(__('Esta invitación no admite vinculación de cuenta.'), 400);
         }
 
         if (mb_strtolower(trim((string) $authUser->email)) !== mb_strtolower(trim((string) $invitation->email))) {
@@ -194,10 +174,10 @@ class UserInvitationService
 
         try {
             $user = DB::transaction(function () use ($invitation, $authUser) {
-                $resolved = app(ResidentInvitationService::class)->acceptToUnit($invitation, null, $authUser);
+                $authUser->tenants()->syncWithoutDetaching([tenant()->getTenantKey()]);
                 $invitation->forceFill(['accepted_at' => now()])->save();
 
-                return $resolved;
+                return $authUser;
             });
         } finally {
             tenancy()->end();
@@ -260,45 +240,38 @@ class UserInvitationService
         return null;
     }
 
-    private function acceptInvitationFromCollaborator(UserInvitation $invitation, string $password): User
+    /**
+     * Create the account named by the invitation and attach it to the current
+     * tenant.
+     *
+     * The template branched per inviteable flavour (employee, resident) and
+     * copied the person's data off that record. Those modules are gone, so the
+     * generic path uses the invitation's own email and links the inviteable back
+     * to the new user when it carries a `user_id` column.
+     */
+    private function createUserFromInvitation(UserInvitation $invitation, string $password): User
     {
-        $collaborator = Collaborator::find($invitation->inviteable_id);
-        if ($collaborator === null || $collaborator->user_id !== null) {
-            throw new \InvalidArgumentException(__('Token inválido o expirado.'), 400);
-        }
-
-        $email = $collaborator->email ? trim((string) $collaborator->email) : '';
+        $email = trim((string) $invitation->email);
         if ($email === '') {
             throw new \InvalidArgumentException(__('Token inválido o expirado.'), 400);
         }
 
         $user = User::create([
-            'name' => $collaborator->name ?? '',
-            'last_name' => $collaborator->last_name ?? '',
-            'second_last_name' => $collaborator->second_last_name,
+            'name' => '',
+            'last_name' => '',
             'email' => $email,
-            'phone' => $collaborator->phone,
             'password' => Hash::make($password),
         ]);
 
-        // §7.4.2: the employee's app access carries the Kivo7 role mapped from
-        // the position (security guard → security, administrator → administrator,
-        // rest → operations_staff) — NOT the legacy CRM 'collaborator' role, which
-        // carries zero Kivo7 permissions. Legacy fallback only if the Kivo7
-        // role is not seeded in this environment.
-        $veciniaRole = app(EmployeeService::class)
-            ->resolveKivo7Role($collaborator);
-
-        if ($veciniaRole !== null) {
-            $user->assignRole($veciniaRole);
-        } else {
-            $user->assignRole(Role::SLUG_COLLABORATOR);
-        }
-
         $user->tenants()->attach(tenant()->getTenantKey());
 
-        $collaborator->user_id = $user->id;
-        $collaborator->saveQuietly();
+        $inviteable = $invitation->inviteable;
+        if ($inviteable instanceof Model
+            && $inviteable->getConnection()->getSchemaBuilder()->hasColumn($inviteable->getTable(), 'user_id')
+            && $inviteable->getAttribute('user_id') === null) {
+            $inviteable->setAttribute('user_id', $user->id);
+            $inviteable->saveQuietly();
+        }
 
         return $user;
     }

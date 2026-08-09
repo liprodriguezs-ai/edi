@@ -8,6 +8,8 @@ use Modules\SubscriptionPlan\Console\Commands\ExpireManualEntitlementsCommand;
 use Modules\SubscriptionPlan\Console\Commands\RecomputeEntitlementsCommand;
 use Modules\SubscriptionPlan\Console\Commands\SyncBillingStripeCommand;
 use Modules\SubscriptionPlan\Console\Commands\VerifyBillingCatalogCommand;
+use Modules\SubscriptionPlan\Contracts\QuotaSubjectCounter;
+use Modules\SubscriptionPlan\Services\NullQuotaSubjectCounter;
 use Modules\SubscriptionPlan\Services\QuotaService;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
@@ -41,12 +43,16 @@ class SubscriptionPlanServiceProvider extends ServiceProvider
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
 
-        // scoped(), never singleton(): one instance per request, same
-        // precedent as CollectionsServiceProvider's
-        // DelinquencyRestrictionService binding — QuotaService resolves
-        // tenant-scoped state (plan_quota/tenant_quota_usage) that must never
-        // pin one tenant's data across Octane-reused requests.
+        // scoped(), never singleton(): one instance per request — QuotaService
+        // resolves tenant-scoped state (plan_quota/tenant_quota_usage) that must
+        // never pin one tenant's data across Octane-reused requests.
         $this->app->scoped(QuotaService::class);
+
+        // WHAT the billing band counts is a domain decision. EDI has no billed
+        // subject yet, so the null counter keeps every band check fail-open
+        // while the rest of the billing machinery stays wired and tested.
+        // Swap this binding — never UnitLimitService — once the subject exists.
+        $this->app->bind(QuotaSubjectCounter::class, NullQuotaSubjectCounter::class);
     }
 
     /**

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
-use Modules\Housing\Models\UnitRelationship;
 use Modules\Tenant\Models\Tenant;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -64,11 +63,6 @@ class UserInvitation extends Model implements Auditable
     public function inviteable(): MorphTo
     {
         return $this->morphTo('inviteable');
-    }
-
-    public function unit_relationship(): BelongsTo
-    {
-        return $this->belongsTo(UnitRelationship::class, 'unit_relationship_id');
     }
 
     public function isExpired(): bool

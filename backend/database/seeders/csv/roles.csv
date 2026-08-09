@@ -1,18 +1,5 @@
 uuid,description,name,guard_name
-61f7eafd-9f7e-436c-936b-adda37dd10e3,"Super Admin",admin.super,api
-47c151b4-1cf7-4e97-b7f6-5539b8b3f379,"Propietario",account.owner,api
-fa5789eb-a28a-40d4-aeba-20fdd7b0a941,"Admin Empresa",company.admin,api
-2b532c6f-a2e0-4415-833d-46bb22f930dc,"RH",admin.rh,api
-fb02f264-d385-4279-a274-9461f4c83faa,"Colaborador",collaborator,api
-c799c133-f930-4e97-97ce-28db37c354e7,"Afiliado",affiliate,api
-019d4508-00c1-714c-a0ec-181671ef4fa6,"Abogado",lawyer,api
-1a2b3c4d-0001-0000-0000-000000000001,"Administrador",administrator,api
-1a2b3c4d-0002-0000-0000-000000000002,"Presidente",president,api
-1a2b3c4d-0003-0000-0000-000000000003,"Tesorero",treasurer,api
-1a2b3c4d-0004-0000-0000-000000000004,"Secretario",secretary,api
-1a2b3c4d-0005-0000-0000-000000000005,"Vocal",vocal,api
-1a2b3c4d-0006-0000-0000-000000000006,"Comité de Vigilancia",oversight_committee,api
-1a2b3c4d-0007-0000-0000-000000000007,"Seguridad",security,api
-1a2b3c4d-0008-0000-0000-000000000008,"Personal Operativo",operations_staff,api
-1a2b3c4d-0009-0000-0000-000000000009,"Residente",resident,api
-1a2b3c4d-000a-0000-0000-000000000010,"Arrendatario",renter,api
+61f7eafd-9f7e-436c-936b-adda37dd10e3,Super Admin,admin.super,api
+47c151b4-1cf7-4e97-b7f6-5539b8b3f379,Propietario,account.owner,api
+fa5789eb-a28a-40d4-aeba-20fdd7b0a941,Admin Empresa,company.admin,api
+1a2b3c4d-0001-0000-0000-000000000001,Administrador,administrator,api

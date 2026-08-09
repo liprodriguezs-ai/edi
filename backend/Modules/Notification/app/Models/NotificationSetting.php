@@ -5,7 +5,6 @@ namespace Modules\Notification\Models;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use QCH\Core\Models\BaseModel;
 use QCH\Core\Models\GlobalObserver;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
@@ -62,11 +61,4 @@ class NotificationSetting extends BaseModel
         return $this->belongsTo(NotificationEvent::class, 'notification_event_id');
     }
 
-    /**
-     * Board roles that receive this notification (only for audience=board events).
-     */
-    public function board_roles(): HasMany
-    {
-        return $this->hasMany(NotificationSettingBoardRole::class, 'notification_setting_id');
-    }
 }

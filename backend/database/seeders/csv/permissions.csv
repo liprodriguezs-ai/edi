@@ -1,554 +1,68 @@
 uuid,description,name,guard_name,module_id
-,"Lectura User",read.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
-,"Creación User",create.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
-,"Edicion User",update.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
-,"Inactivar User",delete.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
-,"Activar User",restore.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
-,"Reporte User",report.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
-,"Lectura Role",read.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
-,"Creación Role",create.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
-,"Edicion Role",update.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
-,"Inactivar Role",delete.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
-,"Activar Role",restore.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
-,"Reporte Role",report.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
-,"Lectura Setting",read.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
-,"Creación Setting",create.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
-,"Edicion Setting",update.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
-,"Inactivar Setting",delete.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
-,"Activar Setting",restore.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
-,"Reporte Setting",report.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
-,"Lectura Tenant",read.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
-,"Creación Tenant",create.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
-,"Edicion Tenant",update.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
-,"Inactivar Tenant",delete.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
-,"Activar Tenant",restore.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
-,"Reporte Tenant",report.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
-,"Lectura Company",read.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
-,"Creación Company",create.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
-,"Edicion Company",update.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
-,"Inactivar Company",delete.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
-,"Activar Company",restore.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
-,"Reporte Company",report.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
-,"Lectura Audit",read.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
-,"Creación Audit",create.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
-,"Edicion Audit",update.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
-,"Inactivar Audit",delete.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
-,"Activar Audit",restore.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
-,"Reporte Audit",report.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
-,"Lectura Dashboard",read.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
-,"Creación Dashboard",create.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
-,"Edicion Dashboard",update.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
-,"Inactivar Dashboard",delete.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
-,"Activar Dashboard",restore.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
-,"Reporte Dashboard",report.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
-,"Lectura Collaborator",read.collaborator,api,107494c9-b2df-4324-9d9c-0233a3ab0182
-,"Creación Collaborator",create.collaborator,api,107494c9-b2df-4324-9d9c-0233a3ab0182
-,"Edicion Collaborator",update.collaborator,api,107494c9-b2df-4324-9d9c-0233a3ab0182
-,"Inactivar Collaborator",delete.collaborator,api,107494c9-b2df-4324-9d9c-0233a3ab0182
-,"Activar Collaborator",restore.collaborator,api,107494c9-b2df-4324-9d9c-0233a3ab0182
-,"Reporte Collaborator",report.collaborator,api,107494c9-b2df-4324-9d9c-0233a3ab0182
-,"Lectura Email",read.email,api,90258619-8251-450c-b25f-510216be2c9d
-,"Creación Email",create.email,api,90258619-8251-450c-b25f-510216be2c9d
-,"Edicion Email",update.email,api,90258619-8251-450c-b25f-510216be2c9d
-,"Inactivar Email",delete.email,api,90258619-8251-450c-b25f-510216be2c9d
-,"Activar Email",restore.email,api,90258619-8251-450c-b25f-510216be2c9d
-,"Reporte Email",report.email,api,90258619-8251-450c-b25f-510216be2c9d
-,"Lectura Notification",read.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
-,"Creación Notification",create.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
-,"Edicion Notification",update.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
-,"Inactivar Notification",delete.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
-,"Activar Notification",restore.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
-,"Reporte Notification",report.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
-,"Lectura Tower",read.tower,api,4e711b1d-33a7-46e6-b3db-152a8bfbca22
-,"Creación Tower",create.tower,api,4e711b1d-33a7-46e6-b3db-152a8bfbca22
-,"Edicion Tower",update.tower,api,4e711b1d-33a7-46e6-b3db-152a8bfbca22
-,"Inactivar Tower",delete.tower,api,4e711b1d-33a7-46e6-b3db-152a8bfbca22
-,"Activar Tower",restore.tower,api,4e711b1d-33a7-46e6-b3db-152a8bfbca22
-,"Reporte Tower",report.tower,api,4e711b1d-33a7-46e6-b3db-152a8bfbca22
-,"Lectura Section",read.section,api,66773877-afcd-42de-80d6-b7a8ae136f0c
-,"Creación Section",create.section,api,66773877-afcd-42de-80d6-b7a8ae136f0c
-,"Edicion Section",update.section,api,66773877-afcd-42de-80d6-b7a8ae136f0c
-,"Inactivar Section",delete.section,api,66773877-afcd-42de-80d6-b7a8ae136f0c
-,"Activar Section",restore.section,api,66773877-afcd-42de-80d6-b7a8ae136f0c
-,"Reporte Section",report.section,api,66773877-afcd-42de-80d6-b7a8ae136f0c
-,"Lectura Unit Feature",read.unit_feature,api,95669962-1117-4806-9a87-ff42f75a93a8
-,"Creación Unit Feature",create.unit_feature,api,95669962-1117-4806-9a87-ff42f75a93a8
-,"Edicion Unit Feature",update.unit_feature,api,95669962-1117-4806-9a87-ff42f75a93a8
-,"Inactivar Unit Feature",delete.unit_feature,api,95669962-1117-4806-9a87-ff42f75a93a8
-,"Activar Unit Feature",restore.unit_feature,api,95669962-1117-4806-9a87-ff42f75a93a8
-,"Reporte Unit Feature",report.unit_feature,api,95669962-1117-4806-9a87-ff42f75a93a8
-,"Lectura Perfil Residente",read.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
-,"Creación Perfil Residente",create.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
-,"Edicion Perfil Residente",update.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
-,"Inactivar Perfil Residente",delete.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
-,"Activar Perfil Residente",restore.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
-,"Reporte Perfil Residente",report.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
-,"Lectura Unidad",read.unit,api,2d095b90-8c81-4172-98d0-ac88f1c78746
-,"Creación Unidad",create.unit,api,2d095b90-8c81-4172-98d0-ac88f1c78746
-,"Edicion Unidad",update.unit,api,2d095b90-8c81-4172-98d0-ac88f1c78746
-,"Inactivar Unidad",delete.unit,api,2d095b90-8c81-4172-98d0-ac88f1c78746
-,"Activar Unidad",restore.unit,api,2d095b90-8c81-4172-98d0-ac88f1c78746
-,"Reporte Unidad",report.unit,api,2d095b90-8c81-4172-98d0-ac88f1c78746
-,"Lectura Vehículo",read.vehicle,api,020898a5-d32c-4fc7-8b2d-ece50448cccc
-,"Creación Vehículo",create.vehicle,api,020898a5-d32c-4fc7-8b2d-ece50448cccc
-,"Edicion Vehículo",update.vehicle,api,020898a5-d32c-4fc7-8b2d-ece50448cccc
-,"Inactivar Vehículo",delete.vehicle,api,020898a5-d32c-4fc7-8b2d-ece50448cccc
-,"Activar Vehículo",restore.vehicle,api,020898a5-d32c-4fc7-8b2d-ece50448cccc
-,"Reporte Vehículo",report.vehicle,api,020898a5-d32c-4fc7-8b2d-ece50448cccc
-,"Lectura Tipo Unidad",read.unit_type,api,ac1ea2f5-3c55-4944-a24d-34f6a4b38d9d
-,"Creación Tipo Unidad",create.unit_type,api,ac1ea2f5-3c55-4944-a24d-34f6a4b38d9d
-,"Edicion Tipo Unidad",update.unit_type,api,ac1ea2f5-3c55-4944-a24d-34f6a4b38d9d
-,"Inactivar Tipo Unidad",delete.unit_type,api,ac1ea2f5-3c55-4944-a24d-34f6a4b38d9d
-,"Activar Tipo Unidad",restore.unit_type,api,ac1ea2f5-3c55-4944-a24d-34f6a4b38d9d
-,"Reporte Tipo Unidad",report.unit_type,api,ac1ea2f5-3c55-4944-a24d-34f6a4b38d9d
-,"Lectura Estado Unidad",read.unit_status,api,c1efd3d9-b2e9-4070-8aad-0e78ca856707
-,"Creación Estado Unidad",create.unit_status,api,c1efd3d9-b2e9-4070-8aad-0e78ca856707
-,"Edicion Estado Unidad",update.unit_status,api,c1efd3d9-b2e9-4070-8aad-0e78ca856707
-,"Inactivar Estado Unidad",delete.unit_status,api,c1efd3d9-b2e9-4070-8aad-0e78ca856707
-,"Activar Estado Unidad",restore.unit_status,api,c1efd3d9-b2e9-4070-8aad-0e78ca856707
-,"Reporte Estado Unidad",report.unit_status,api,c1efd3d9-b2e9-4070-8aad-0e78ca856707
-,"Lectura Relación Unidad",read.unit_relationship,api,6f54bf5a-b8a8-4ccc-996a-64553ccde785
-,"Creación Relación Unidad",create.unit_relationship,api,6f54bf5a-b8a8-4ccc-996a-64553ccde785
-,"Edicion Relación Unidad",update.unit_relationship,api,6f54bf5a-b8a8-4ccc-996a-64553ccde785
-,"Inactivar Relación Unidad",delete.unit_relationship,api,6f54bf5a-b8a8-4ccc-996a-64553ccde785
-,"Activar Relación Unidad",restore.unit_relationship,api,6f54bf5a-b8a8-4ccc-996a-64553ccde785
-,"Reporte Relación Unidad",report.unit_relationship,api,6f54bf5a-b8a8-4ccc-996a-64553ccde785
-,"Lectura Asignación Unidad",read.unit_user,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Creación Asignación Unidad",create.unit_user,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Edicion Asignación Unidad",update.unit_user,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Inactivar Asignación Unidad",delete.unit_user,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Activar Asignación Unidad",restore.unit_user,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Reporte Asignación Unidad",report.unit_user,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Lectura Invitación Residente",read.resident_invitation,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Creación Invitación Residente",create.resident_invitation,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Cancelar Invitación Residente",delete.resident_invitation,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Bloquear Residente",block.resident,api,86c89dda-5136-4273-923d-d6e23afa6f45
-,"Lectura Mesa Directiva",read.board_period,api,a1b2c3d4-e5f6-7890-abcd-ef1234560001
-,"Creación Mesa Directiva",create.board_period,api,a1b2c3d4-e5f6-7890-abcd-ef1234560001
-,"Edicion Mesa Directiva",update.board_period,api,a1b2c3d4-e5f6-7890-abcd-ef1234560001
-,"Inactivar Mesa Directiva",delete.board_period,api,a1b2c3d4-e5f6-7890-abcd-ef1234560001
-,"Activar Mesa Directiva",restore.board_period,api,a1b2c3d4-e5f6-7890-abcd-ef1234560001
-,"Reporte Mesa Directiva",report.board_period,api,a1b2c3d4-e5f6-7890-abcd-ef1234560001
-,"Lectura Miembros Mesa",read.board_member,api,a1b2c3d4-e5f6-7890-abcd-ef1234560002
-,"Creación Miembros Mesa",create.board_member,api,a1b2c3d4-e5f6-7890-abcd-ef1234560002
-,"Edicion Miembros Mesa",update.board_member,api,a1b2c3d4-e5f6-7890-abcd-ef1234560002
-,"Inactivar Miembros Mesa",delete.board_member,api,a1b2c3d4-e5f6-7890-abcd-ef1234560002
-,"Activar Miembros Mesa",restore.board_member,api,a1b2c3d4-e5f6-7890-abcd-ef1234560002
-,"Reporte Miembros Mesa",report.board_member,api,a1b2c3d4-e5f6-7890-abcd-ef1234560002
-,"Lectura Cargos Mesa",read.board_role,api,a1b2c3d4-e5f6-7890-abcd-ef1234560003
-,"Creación Cargos Mesa",create.board_role,api,a1b2c3d4-e5f6-7890-abcd-ef1234560003
-,"Edicion Cargos Mesa",update.board_role,api,a1b2c3d4-e5f6-7890-abcd-ef1234560003
-,"Inactivar Cargos Mesa",delete.board_role,api,a1b2c3d4-e5f6-7890-abcd-ef1234560003
-,"Activar Cargos Mesa",restore.board_role,api,a1b2c3d4-e5f6-7890-abcd-ef1234560003
-,"Reporte Cargos Mesa",report.board_role,api,a1b2c3d4-e5f6-7890-abcd-ef1234560003
-,"Lectura Estados Periodo",read.board_period_status,api,a1b2c3d4-e5f6-7890-abcd-ef1234560004
-,"Creación Estados Periodo",create.board_period_status,api,a1b2c3d4-e5f6-7890-abcd-ef1234560004
-,"Edicion Estados Periodo",update.board_period_status,api,a1b2c3d4-e5f6-7890-abcd-ef1234560004
-,"Inactivar Estados Periodo",delete.board_period_status,api,a1b2c3d4-e5f6-7890-abcd-ef1234560004
-,"Activar Estados Periodo",restore.board_period_status,api,a1b2c3d4-e5f6-7890-abcd-ef1234560004
-,"Reporte Estados Periodo",report.board_period_status,api,a1b2c3d4-e5f6-7890-abcd-ef1234560004
-,"Lectura Puestos Empleado",read.employee_position,api,a1b2c3d4-e5f6-7890-abcd-ef1234560006
-,"Creación Puestos Empleado",create.employee_position,api,a1b2c3d4-e5f6-7890-abcd-ef1234560006
-,"Edicion Puestos Empleado",update.employee_position,api,a1b2c3d4-e5f6-7890-abcd-ef1234560006
-,"Inactivar Puestos Empleado",delete.employee_position,api,a1b2c3d4-e5f6-7890-abcd-ef1234560006
-,"Activar Puestos Empleado",restore.employee_position,api,a1b2c3d4-e5f6-7890-abcd-ef1234560006
-,"Reporte Puestos Empleado",report.employee_position,api,a1b2c3d4-e5f6-7890-abcd-ef1234560006
-,"Lectura Frecuencia Pago",read.pay_frequency,api,a1b2c3d4-e5f6-7890-abcd-ef1234560007
-,"Creación Frecuencia Pago",create.pay_frequency,api,a1b2c3d4-e5f6-7890-abcd-ef1234560007
-,"Edicion Frecuencia Pago",update.pay_frequency,api,a1b2c3d4-e5f6-7890-abcd-ef1234560007
-,"Inactivar Frecuencia Pago",delete.pay_frequency,api,a1b2c3d4-e5f6-7890-abcd-ef1234560007
-,"Activar Frecuencia Pago",restore.pay_frequency,api,a1b2c3d4-e5f6-7890-abcd-ef1234560007
-,"Reporte Frecuencia Pago",report.pay_frequency,api,a1b2c3d4-e5f6-7890-abcd-ef1234560007
-,"Lectura Turnos Empleado",read.employee_shift,api,a1b2c3d4-e5f6-7890-abcd-ef1234560008
-,"Creación Turnos Empleado",create.employee_shift,api,a1b2c3d4-e5f6-7890-abcd-ef1234560008
-,"Edicion Turnos Empleado",update.employee_shift,api,a1b2c3d4-e5f6-7890-abcd-ef1234560008
-,"Inactivar Turnos Empleado",delete.employee_shift,api,a1b2c3d4-e5f6-7890-abcd-ef1234560008
-,"Activar Turnos Empleado",restore.employee_shift,api,a1b2c3d4-e5f6-7890-abcd-ef1234560008
-,"Reporte Turnos Empleado",report.employee_shift,api,a1b2c3d4-e5f6-7890-abcd-ef1234560008
-,"Lectura Cuentas Bancarias",read.bank_account,api,b2c3d4e5-f6a7-8901-bcde-f12345678001
-,"Creación Cuentas Bancarias",create.bank_account,api,b2c3d4e5-f6a7-8901-bcde-f12345678001
-,"Edicion Cuentas Bancarias",update.bank_account,api,b2c3d4e5-f6a7-8901-bcde-f12345678001
-,"Inactivar Cuentas Bancarias",delete.bank_account,api,b2c3d4e5-f6a7-8901-bcde-f12345678001
-,"Activar Cuentas Bancarias",restore.bank_account,api,b2c3d4e5-f6a7-8901-bcde-f12345678001
-,"Reporte Cuentas Bancarias",report.bank_account,api,b2c3d4e5-f6a7-8901-bcde-f12345678001
-,"Lectura Categorías Egreso",read.expense_category,api,b2c3d4e5-f6a7-8901-bcde-f12345678002
-,"Creación Categorías Egreso",create.expense_category,api,b2c3d4e5-f6a7-8901-bcde-f12345678002
-,"Edicion Categorías Egreso",update.expense_category,api,b2c3d4e5-f6a7-8901-bcde-f12345678002
-,"Inactivar Categorías Egreso",delete.expense_category,api,b2c3d4e5-f6a7-8901-bcde-f12345678002
-,"Activar Categorías Egreso",restore.expense_category,api,b2c3d4e5-f6a7-8901-bcde-f12345678002
-,"Reporte Categorías Egreso",report.expense_category,api,b2c3d4e5-f6a7-8901-bcde-f12345678002
-,"Lectura Tipos Cuenta",read.bank_account_type,api,b2c3d4e5-f6a7-8901-bcde-f12345678003
-,"Creación Tipos Cuenta",create.bank_account_type,api,b2c3d4e5-f6a7-8901-bcde-f12345678003
-,"Edicion Tipos Cuenta",update.bank_account_type,api,b2c3d4e5-f6a7-8901-bcde-f12345678003
-,"Inactivar Tipos Cuenta",delete.bank_account_type,api,b2c3d4e5-f6a7-8901-bcde-f12345678003
-,"Activar Tipos Cuenta",restore.bank_account_type,api,b2c3d4e5-f6a7-8901-bcde-f12345678003
-,"Reporte Tipos Cuenta",report.bank_account_type,api,b2c3d4e5-f6a7-8901-bcde-f12345678003
-,"Lectura Propósitos Cuenta",read.bank_account_purpose,api,b2c3d4e5-f6a7-8901-bcde-f12345678004
-,"Creación Propósitos Cuenta",create.bank_account_purpose,api,b2c3d4e5-f6a7-8901-bcde-f12345678004
-,"Edicion Propósitos Cuenta",update.bank_account_purpose,api,b2c3d4e5-f6a7-8901-bcde-f12345678004
-,"Inactivar Propósitos Cuenta",delete.bank_account_purpose,api,b2c3d4e5-f6a7-8901-bcde-f12345678004
-,"Activar Propósitos Cuenta",restore.bank_account_purpose,api,b2c3d4e5-f6a7-8901-bcde-f12345678004
-,"Reporte Propósitos Cuenta",report.bank_account_purpose,api,b2c3d4e5-f6a7-8901-bcde-f12345678004
-,"Lectura Conceptos Cobro",read.charge_concept,api,c4001001-0000-4000-8000-000000000001
-,"Creación Conceptos Cobro",create.charge_concept,api,c4001001-0000-4000-8000-000000000001
-,"Edicion Conceptos Cobro",update.charge_concept,api,c4001001-0000-4000-8000-000000000001
-,"Inactivar Conceptos Cobro",delete.charge_concept,api,c4001001-0000-4000-8000-000000000001
-,"Activar Conceptos Cobro",restore.charge_concept,api,c4001001-0000-4000-8000-000000000001
-,"Reporte Conceptos Cobro",report.charge_concept,api,c4001001-0000-4000-8000-000000000001
-,"Lectura Políticas Cobro",read.charge_policy,api,c4001014-0000-4000-8000-000000000014
-,"Creación Políticas Cobro",create.charge_policy,api,c4001014-0000-4000-8000-000000000014
-,"Edicion Políticas Cobro",update.charge_policy,api,c4001014-0000-4000-8000-000000000014
-,"Inactivar Políticas Cobro",delete.charge_policy,api,c4001014-0000-4000-8000-000000000014
-,"Activar Políticas Cobro",restore.charge_policy,api,c4001014-0000-4000-8000-000000000014
-,"Reporte Políticas Cobro",report.charge_policy,api,c4001014-0000-4000-8000-000000000014
-,"Lectura Cobros",read.charge_batch,api,c4001002-0000-4000-8000-000000000002
-,"Creación Cobros",create.charge_batch,api,c4001002-0000-4000-8000-000000000002
-,"Edicion Cobros",update.charge_batch,api,c4001002-0000-4000-8000-000000000002
-,"Inactivar Cobros",delete.charge_batch,api,c4001002-0000-4000-8000-000000000002
-,"Activar Cobros",restore.charge_batch,api,c4001002-0000-4000-8000-000000000002
-,"Reporte Cobros",report.charge_batch,api,c4001002-0000-4000-8000-000000000002
-,"Lectura Cargos",read.charge,api,c4001003-0000-4000-8000-000000000003
-,"Creación Cargos",create.charge,api,c4001003-0000-4000-8000-000000000003
-,"Edicion Cargos",update.charge,api,c4001003-0000-4000-8000-000000000003
-,"Inactivar Cargos",delete.charge,api,c4001003-0000-4000-8000-000000000003
-,"Activar Cargos",restore.charge,api,c4001003-0000-4000-8000-000000000003
-,"Reporte Cargos",report.charge,api,c4001003-0000-4000-8000-000000000003
-,"Condonar Cargo",discount.charge,api,c4001003-0000-4000-8000-000000000003
-,"Cancelar Cargo",cancel.charge,api,c4001003-0000-4000-8000-000000000003
-,"Lectura Pagos",read.payment,api,c4001004-0000-4000-8000-000000000004
-,"Creación Pagos",create.payment,api,c4001004-0000-4000-8000-000000000004
-,"Edicion Pagos",update.payment,api,c4001004-0000-4000-8000-000000000004
-,"Inactivar Pagos",delete.payment,api,c4001004-0000-4000-8000-000000000004
-,"Activar Pagos",restore.payment,api,c4001004-0000-4000-8000-000000000004
-,"Reporte Pagos",report.payment,api,c4001004-0000-4000-8000-000000000004
-,"Capturar Pago Propio",create.payment_submission,api,c4001004-0000-4000-8000-000000000004
-,"Lectura Estado Cuenta",read.payment_application,api,c4001005-0000-4000-8000-000000000005
-,"Creación Estado Cuenta",create.payment_application,api,c4001005-0000-4000-8000-000000000005
-,"Edicion Estado Cuenta",update.payment_application,api,c4001005-0000-4000-8000-000000000005
-,"Inactivar Estado Cuenta",delete.payment_application,api,c4001005-0000-4000-8000-000000000005
-,"Activar Estado Cuenta",restore.payment_application,api,c4001005-0000-4000-8000-000000000005
-,"Reporte Estado Cuenta",report.payment_application,api,c4001005-0000-4000-8000-000000000005
-,"Lectura Morosidad",read.credit_balance,api,c4001006-0000-4000-8000-000000000006
-,"Creación Morosidad",create.credit_balance,api,c4001006-0000-4000-8000-000000000006
-,"Edicion Morosidad",update.credit_balance,api,c4001006-0000-4000-8000-000000000006
-,"Inactivar Morosidad",delete.credit_balance,api,c4001006-0000-4000-8000-000000000006
-,"Activar Morosidad",restore.credit_balance,api,c4001006-0000-4000-8000-000000000006
-,"Reporte Morosidad",report.credit_balance,api,c4001006-0000-4000-8000-000000000006
-,"Lectura Estados Cargo",read.charge_status,api,c4001007-0000-4000-8000-000000000007
-,"Creación Estados Cargo",create.charge_status,api,c4001007-0000-4000-8000-000000000007
-,"Edicion Estados Cargo",update.charge_status,api,c4001007-0000-4000-8000-000000000007
-,"Inactivar Estados Cargo",delete.charge_status,api,c4001007-0000-4000-8000-000000000007
-,"Activar Estados Cargo",restore.charge_status,api,c4001007-0000-4000-8000-000000000007
-,"Reporte Estados Cargo",report.charge_status,api,c4001007-0000-4000-8000-000000000007
-,"Lectura Estados Pago",read.payment_status,api,c4001008-0000-4000-8000-000000000008
-,"Creación Estados Pago",create.payment_status,api,c4001008-0000-4000-8000-000000000008
-,"Edicion Estados Pago",update.payment_status,api,c4001008-0000-4000-8000-000000000008
-,"Inactivar Estados Pago",delete.payment_status,api,c4001008-0000-4000-8000-000000000008
-,"Activar Estados Pago",restore.payment_status,api,c4001008-0000-4000-8000-000000000008
-,"Reporte Estados Pago",report.payment_status,api,c4001008-0000-4000-8000-000000000008
-,"Lectura Estados Cobro",read.charge_batch_status,api,c4001009-0000-4000-8000-000000000009
-,"Creación Estados Cobro",create.charge_batch_status,api,c4001009-0000-4000-8000-000000000009
-,"Edicion Estados Cobro",update.charge_batch_status,api,c4001009-0000-4000-8000-000000000009
-,"Inactivar Estados Cobro",delete.charge_batch_status,api,c4001009-0000-4000-8000-000000000009
-,"Activar Estados Cobro",restore.charge_batch_status,api,c4001009-0000-4000-8000-000000000009
-,"Reporte Estados Cobro",report.charge_batch_status,api,c4001009-0000-4000-8000-000000000009
-,"Lectura Categorías Concepto",read.charge_concept_category,api,c4001010-0000-4000-8000-000000000010
-,"Creación Categorías Concepto",create.charge_concept_category,api,c4001010-0000-4000-8000-000000000010
-,"Edicion Categorías Concepto",update.charge_concept_category,api,c4001010-0000-4000-8000-000000000010
-,"Inactivar Categorías Concepto",delete.charge_concept_category,api,c4001010-0000-4000-8000-000000000010
-,"Activar Categorías Concepto",restore.charge_concept_category,api,c4001010-0000-4000-8000-000000000010
-,"Reporte Categorías Concepto",report.charge_concept_category,api,c4001010-0000-4000-8000-000000000010
-,"Lectura Modos Monto",read.amount_mode,api,c4001011-0000-4000-8000-000000000011
-,"Creación Modos Monto",create.amount_mode,api,c4001011-0000-4000-8000-000000000011
-,"Edicion Modos Monto",update.amount_mode,api,c4001011-0000-4000-8000-000000000011
-,"Inactivar Modos Monto",delete.amount_mode,api,c4001011-0000-4000-8000-000000000011
-,"Activar Modos Monto",restore.amount_mode,api,c4001011-0000-4000-8000-000000000011
-,"Reporte Modos Monto",report.amount_mode,api,c4001011-0000-4000-8000-000000000011
-,"Lectura Periodicidades",read.periodicity,api,c4001012-0000-4000-8000-000000000012
-,"Creación Periodicidades",create.periodicity,api,c4001012-0000-4000-8000-000000000012
-,"Edicion Periodicidades",update.periodicity,api,c4001012-0000-4000-8000-000000000012
-,"Inactivar Periodicidades",delete.periodicity,api,c4001012-0000-4000-8000-000000000012
-,"Activar Periodicidades",restore.periodicity,api,c4001012-0000-4000-8000-000000000012
-,"Reporte Periodicidades",report.periodicity,api,c4001012-0000-4000-8000-000000000012
-,"Lectura Métodos Pago",read.payment_method,api,c4001013-0000-4000-8000-000000000013
-,"Creación Métodos Pago",create.payment_method,api,c4001013-0000-4000-8000-000000000013
-,"Edicion Métodos Pago",update.payment_method,api,c4001013-0000-4000-8000-000000000013
-,"Inactivar Métodos Pago",delete.payment_method,api,c4001013-0000-4000-8000-000000000013
-,"Activar Métodos Pago",restore.payment_method,api,c4001013-0000-4000-8000-000000000013
-,"Reporte Métodos Pago",report.payment_method,api,c4001013-0000-4000-8000-000000000013
-,"Lectura Modos Recargo",read.surcharge_mode,api,c4001015-0000-4000-8000-000000000015
-,"Creación Modos Recargo",create.surcharge_mode,api,c4001015-0000-4000-8000-000000000015
-,"Edicion Modos Recargo",update.surcharge_mode,api,c4001015-0000-4000-8000-000000000015
-,"Inactivar Modos Recargo",delete.surcharge_mode,api,c4001015-0000-4000-8000-000000000015
-,"Activar Modos Recargo",restore.surcharge_mode,api,c4001015-0000-4000-8000-000000000015
-,"Reporte Modos Recargo",report.surcharge_mode,api,c4001015-0000-4000-8000-000000000015
-,"Lectura Egresos",read.expense,api,e5001001-0000-4000-8000-000000000001
-,"Creación Egresos",create.expense,api,e5001001-0000-4000-8000-000000000001
-,"Edicion Egresos",update.expense,api,e5001001-0000-4000-8000-000000000001
-,"Inactivar Egresos",delete.expense,api,e5001001-0000-4000-8000-000000000001
-,"Activar Egresos",restore.expense,api,e5001001-0000-4000-8000-000000000001
-,"Reporte Egresos",report.expense,api,e5001001-0000-4000-8000-000000000001
-,"Anular Egreso",void.expense,api,e5001001-0000-4000-8000-000000000001
-,"Lectura Estados Egreso",read.expense_status,api,e5001002-0000-4000-8000-000000000002
-,"Creación Estados Egreso",create.expense_status,api,e5001002-0000-4000-8000-000000000002
-,"Edicion Estados Egreso",update.expense_status,api,e5001002-0000-4000-8000-000000000002
-,"Inactivar Estados Egreso",delete.expense_status,api,e5001002-0000-4000-8000-000000000002
-,"Activar Estados Egreso",restore.expense_status,api,e5001002-0000-4000-8000-000000000002
-,"Reporte Estados Egreso",report.expense_status,api,e5001002-0000-4000-8000-000000000002
-,"Lectura Tipos Beneficiario",read.beneficiary_type,api,e5001003-0000-4000-8000-000000000003
-,"Creación Tipos Beneficiario",create.beneficiary_type,api,e5001003-0000-4000-8000-000000000003
-,"Edicion Tipos Beneficiario",update.beneficiary_type,api,e5001003-0000-4000-8000-000000000003
-,"Inactivar Tipos Beneficiario",delete.beneficiary_type,api,e5001003-0000-4000-8000-000000000003
-,"Activar Tipos Beneficiario",restore.beneficiary_type,api,e5001003-0000-4000-8000-000000000003
-,"Reporte Tipos Beneficiario",report.beneficiary_type,api,e5001003-0000-4000-8000-000000000003
-,"Lectura Proveedores",read.provider,api,f6001001-0000-4000-8000-000000000001
-,"Creación Proveedores",create.provider,api,f6001001-0000-4000-8000-000000000001
-,"Edicion Proveedores",update.provider,api,f6001001-0000-4000-8000-000000000001
-,"Inactivar Proveedores",delete.provider,api,f6001001-0000-4000-8000-000000000001
-,"Activar Proveedores",restore.provider,api,f6001001-0000-4000-8000-000000000001
-,"Reporte Proveedores",report.provider,api,f6001001-0000-4000-8000-000000000001
-,"Lectura Tipos Proveedor",read.provider_type,api,f6001002-0000-4000-8000-000000000002
-,"Creación Tipos Proveedor",create.provider_type,api,f6001002-0000-4000-8000-000000000002
-,"Edicion Tipos Proveedor",update.provider_type,api,f6001002-0000-4000-8000-000000000002
-,"Inactivar Tipos Proveedor",delete.provider_type,api,f6001002-0000-4000-8000-000000000002
-,"Activar Tipos Proveedor",restore.provider_type,api,f6001002-0000-4000-8000-000000000002
-,"Reporte Tipos Proveedor",report.provider_type,api,f6001002-0000-4000-8000-000000000002
-,"Lectura Tipos Servicio",read.provider_service_type,api,f6001003-0000-4000-8000-000000000003
-,"Creación Tipos Servicio",create.provider_service_type,api,f6001003-0000-4000-8000-000000000003
-,"Edicion Tipos Servicio",update.provider_service_type,api,f6001003-0000-4000-8000-000000000003
-,"Inactivar Tipos Servicio",delete.provider_service_type,api,f6001003-0000-4000-8000-000000000003
-,"Activar Tipos Servicio",restore.provider_service_type,api,f6001003-0000-4000-8000-000000000003
-,"Reporte Tipos Servicio",report.provider_service_type,api,f6001003-0000-4000-8000-000000000003
-,"Lectura Proyectos Comunitarios",read.community_project,api,1390f83e-9b07-5550-9374-853ad299109c
-,"Creación Proyectos Comunitarios",create.community_project,api,1390f83e-9b07-5550-9374-853ad299109c
-,"Edición Proyectos Comunitarios",update.community_project,api,1390f83e-9b07-5550-9374-853ad299109c
-,"Eliminación Proyectos Comunitarios",delete.community_project,api,1390f83e-9b07-5550-9374-853ad299109c
-,"Restauración Proyectos Comunitarios",restore.community_project,api,1390f83e-9b07-5550-9374-853ad299109c
-,"Reportes Proyectos Comunitarios",report.community_project,api,1390f83e-9b07-5550-9374-853ad299109c
-,"Lectura Estados de Proyecto",read.community_project_status,api,92c9a7b7-a858-5cfa-ab1c-969a922e3227
-,"Creación Estados de Proyecto",create.community_project_status,api,92c9a7b7-a858-5cfa-ab1c-969a922e3227
-,"Edición Estados de Proyecto",update.community_project_status,api,92c9a7b7-a858-5cfa-ab1c-969a922e3227
-,"Eliminación Estados de Proyecto",delete.community_project_status,api,92c9a7b7-a858-5cfa-ab1c-969a922e3227
-,"Restauración Estados de Proyecto",restore.community_project_status,api,92c9a7b7-a858-5cfa-ab1c-969a922e3227
-,"Reportes Estados de Proyecto",report.community_project_status,api,92c9a7b7-a858-5cfa-ab1c-969a922e3227
-,"Lectura Categorías de Proyecto",read.community_project_category,api,62129fcd-d5c2-5119-b934-112d9f329edf
-,"Creación Categorías de Proyecto",create.community_project_category,api,62129fcd-d5c2-5119-b934-112d9f329edf
-,"Edición Categorías de Proyecto",update.community_project_category,api,62129fcd-d5c2-5119-b934-112d9f329edf
-,"Eliminación Categorías de Proyecto",delete.community_project_category,api,62129fcd-d5c2-5119-b934-112d9f329edf
-,"Restauración Categorías de Proyecto",restore.community_project_category,api,62129fcd-d5c2-5119-b934-112d9f329edf
-,"Reportes Categorías de Proyecto",report.community_project_category,api,62129fcd-d5c2-5119-b934-112d9f329edf
-,"Lectura Tipos de Participación",read.participation_type,api,f37e1824-a9d4-542b-870c-72d01d81ba09
-,"Creación Tipos de Participación",create.participation_type,api,f37e1824-a9d4-542b-870c-72d01d81ba09
-,"Edición Tipos de Participación",update.participation_type,api,f37e1824-a9d4-542b-870c-72d01d81ba09
-,"Eliminación Tipos de Participación",delete.participation_type,api,f37e1824-a9d4-542b-870c-72d01d81ba09
-,"Restauración Tipos de Participación",restore.participation_type,api,f37e1824-a9d4-542b-870c-72d01d81ba09
-,"Reportes Tipos de Participación",report.participation_type,api,f37e1824-a9d4-542b-870c-72d01d81ba09
-,"Lectura Estados de Aportación",read.project_contribution_status,api,779abcc0-4a35-59da-ab34-906cbf72a308
-,"Creación Estados de Aportación",create.project_contribution_status,api,779abcc0-4a35-59da-ab34-906cbf72a308
-,"Edición Estados de Aportación",update.project_contribution_status,api,779abcc0-4a35-59da-ab34-906cbf72a308
-,"Eliminación Estados de Aportación",delete.project_contribution_status,api,779abcc0-4a35-59da-ab34-906cbf72a308
-,"Restauración Estados de Aportación",restore.project_contribution_status,api,779abcc0-4a35-59da-ab34-906cbf72a308
-,"Reportes Estados de Aportación",report.project_contribution_status,api,779abcc0-4a35-59da-ab34-906cbf72a308
-,"Lectura Aportaciones",read.project_contribution,api,ae8aeb53-ebb0-563f-bf1e-a1a185ca0b6b
-,"Creación Aportaciones",create.project_contribution,api,ae8aeb53-ebb0-563f-bf1e-a1a185ca0b6b
-,"Edición Aportaciones",update.project_contribution,api,ae8aeb53-ebb0-563f-bf1e-a1a185ca0b6b
-,"Eliminación Aportaciones",delete.project_contribution,api,ae8aeb53-ebb0-563f-bf1e-a1a185ca0b6b
-,"Restauración Aportaciones",restore.project_contribution,api,ae8aeb53-ebb0-563f-bf1e-a1a185ca0b6b
-,"Reportes Aportaciones",report.project_contribution,api,ae8aeb53-ebb0-563f-bf1e-a1a185ca0b6b
-,"Lectura Comentarios de Proyecto",read.project_comment,api,44c88277-a53e-5f48-91b9-99a9d5e00be4
-,"Creación Comentarios de Proyecto",create.project_comment,api,44c88277-a53e-5f48-91b9-99a9d5e00be4
-,"Edición Comentarios de Proyecto",update.project_comment,api,44c88277-a53e-5f48-91b9-99a9d5e00be4
-,"Eliminación Comentarios de Proyecto",delete.project_comment,api,44c88277-a53e-5f48-91b9-99a9d5e00be4
-,"Restauración Comentarios de Proyecto",restore.project_comment,api,44c88277-a53e-5f48-91b9-99a9d5e00be4
-,"Reportes Comentarios de Proyecto",report.project_comment,api,44c88277-a53e-5f48-91b9-99a9d5e00be4
-,"Lectura Avisos",read.announcement,api,0c851812-1304-4633-984a-181cd5cce951
-,"Creación Avisos",create.announcement,api,0c851812-1304-4633-984a-181cd5cce951
-,"Edición Avisos",update.announcement,api,0c851812-1304-4633-984a-181cd5cce951
-,"Eliminación Avisos",delete.announcement,api,0c851812-1304-4633-984a-181cd5cce951
-,"Restauración Avisos",restore.announcement,api,0c851812-1304-4633-984a-181cd5cce951
-,"Reporte Avisos",report.announcement,api,0c851812-1304-4633-984a-181cd5cce951
-,"Lectura Tipos de Aviso",read.announcement_type,api,32ad14fc-ffad-4783-b9ad-2e833428182a
-,"Creación Tipos de Aviso",create.announcement_type,api,32ad14fc-ffad-4783-b9ad-2e833428182a
-,"Edición Tipos de Aviso",update.announcement_type,api,32ad14fc-ffad-4783-b9ad-2e833428182a
-,"Eliminación Tipos de Aviso",delete.announcement_type,api,32ad14fc-ffad-4783-b9ad-2e833428182a
-,"Restauración Tipos de Aviso",restore.announcement_type,api,32ad14fc-ffad-4783-b9ad-2e833428182a
-,"Reporte Tipos de Aviso",report.announcement_type,api,32ad14fc-ffad-4783-b9ad-2e833428182a
-,"Lectura Prioridades de Aviso",read.announcement_priority,api,a6c75bba-c664-43df-9a50-ab48b0fd3e06
-,"Creación Prioridades de Aviso",create.announcement_priority,api,a6c75bba-c664-43df-9a50-ab48b0fd3e06
-,"Edición Prioridades de Aviso",update.announcement_priority,api,a6c75bba-c664-43df-9a50-ab48b0fd3e06
-,"Eliminación Prioridades de Aviso",delete.announcement_priority,api,a6c75bba-c664-43df-9a50-ab48b0fd3e06
-,"Restauración Prioridades de Aviso",restore.announcement_priority,api,a6c75bba-c664-43df-9a50-ab48b0fd3e06
-,"Reporte Prioridades de Aviso",report.announcement_priority,api,a6c75bba-c664-43df-9a50-ab48b0fd3e06
-,"Lectura Estados de Aviso",read.announcement_status,api,e4c5bb99-d3f3-477a-b48d-5b5f07665485
-,"Creación Estados de Aviso",create.announcement_status,api,e4c5bb99-d3f3-477a-b48d-5b5f07665485
-,"Edición Estados de Aviso",update.announcement_status,api,e4c5bb99-d3f3-477a-b48d-5b5f07665485
-,"Eliminación Estados de Aviso",delete.announcement_status,api,e4c5bb99-d3f3-477a-b48d-5b5f07665485
-,"Restauración Estados de Aviso",restore.announcement_status,api,e4c5bb99-d3f3-477a-b48d-5b5f07665485
-,"Reporte Estados de Aviso",report.announcement_status,api,e4c5bb99-d3f3-477a-b48d-5b5f07665485
-,"Lectura Canales de Chat",read.chat_channel,api,d798c39c-4010-4d70-9d44-05a054c9a8e5
-,"Creación Canales de Chat",create.chat_channel,api,d798c39c-4010-4d70-9d44-05a054c9a8e5
-,"Edición Canales de Chat",update.chat_channel,api,d798c39c-4010-4d70-9d44-05a054c9a8e5
-,"Eliminación Canales de Chat",delete.chat_channel,api,d798c39c-4010-4d70-9d44-05a054c9a8e5
-,"Restauración Canales de Chat",restore.chat_channel,api,d798c39c-4010-4d70-9d44-05a054c9a8e5
-,"Reporte Canales de Chat",report.chat_channel,api,d798c39c-4010-4d70-9d44-05a054c9a8e5
-,"Lectura Tipos de Canal",read.chat_channel_type,api,d9b11f95-d9e6-4d0b-a524-1050e7def7f9
-,"Creación Tipos de Canal",create.chat_channel_type,api,d9b11f95-d9e6-4d0b-a524-1050e7def7f9
-,"Edición Tipos de Canal",update.chat_channel_type,api,d9b11f95-d9e6-4d0b-a524-1050e7def7f9
-,"Eliminación Tipos de Canal",delete.chat_channel_type,api,d9b11f95-d9e6-4d0b-a524-1050e7def7f9
-,"Restauración Tipos de Canal",restore.chat_channel_type,api,d9b11f95-d9e6-4d0b-a524-1050e7def7f9
-,"Reporte Tipos de Canal",report.chat_channel_type,api,d9b11f95-d9e6-4d0b-a524-1050e7def7f9
-,"Lectura Mensajes de Chat",read.chat_message,api,635a4898-766a-4952-9da5-5e8dac4bde9d
-,"Creación Mensajes de Chat",create.chat_message,api,635a4898-766a-4952-9da5-5e8dac4bde9d
-,"Edición Mensajes de Chat",update.chat_message,api,635a4898-766a-4952-9da5-5e8dac4bde9d
-,"Eliminación Mensajes de Chat",delete.chat_message,api,635a4898-766a-4952-9da5-5e8dac4bde9d
-,"Restauración Mensajes de Chat",restore.chat_message,api,635a4898-766a-4952-9da5-5e8dac4bde9d
-,"Reporte Mensajes de Chat",report.chat_message,api,635a4898-766a-4952-9da5-5e8dac4bde9d
-,"Lectura Miembros de Canal",read.chat_channel_member,api,90f8496e-c192-4131-bdb4-07b68f86b43a
-,"Creación Miembros de Canal",create.chat_channel_member,api,90f8496e-c192-4131-bdb4-07b68f86b43a
-,"Edición Miembros de Canal",update.chat_channel_member,api,90f8496e-c192-4131-bdb4-07b68f86b43a
-,"Eliminación Miembros de Canal",delete.chat_channel_member,api,90f8496e-c192-4131-bdb4-07b68f86b43a
-,"Restauración Miembros de Canal",restore.chat_channel_member,api,90f8496e-c192-4131-bdb4-07b68f86b43a
-,"Reporte Miembros de Canal",report.chat_channel_member,api,90f8496e-c192-4131-bdb4-07b68f86b43a
-,"Lectura Motivos de Visita",read.visitor_motive,api,a1001002-0000-4000-8000-000000000002
-,"Creación Motivos de Visita",create.visitor_motive,api,a1001002-0000-4000-8000-000000000002
-,"Edición Motivos de Visita",update.visitor_motive,api,a1001002-0000-4000-8000-000000000002
-,"Eliminación Motivos de Visita",delete.visitor_motive,api,a1001002-0000-4000-8000-000000000002
-,"Restauración Motivos de Visita",restore.visitor_motive,api,a1001002-0000-4000-8000-000000000002
-,"Reporte Motivos de Visita",report.visitor_motive,api,a1001002-0000-4000-8000-000000000002
-,"Lectura Estados de Visitante",read.visitor_status,api,a1001003-0000-4000-8000-000000000003
-,"Creación Estados de Visitante",create.visitor_status,api,a1001003-0000-4000-8000-000000000003
-,"Edición Estados de Visitante",update.visitor_status,api,a1001003-0000-4000-8000-000000000003
-,"Eliminación Estados de Visitante",delete.visitor_status,api,a1001003-0000-4000-8000-000000000003
-,"Restauración Estados de Visitante",restore.visitor_status,api,a1001003-0000-4000-8000-000000000003
-,"Reporte Estados de Visitante",report.visitor_status,api,a1001003-0000-4000-8000-000000000003
-,"Lectura Tipos de QR",read.qr_type,api,a1001004-0000-4000-8000-000000000004
-,"Creación Tipos de QR",create.qr_type,api,a1001004-0000-4000-8000-000000000004
-,"Edición Tipos de QR",update.qr_type,api,a1001004-0000-4000-8000-000000000004
-,"Eliminación Tipos de QR",delete.qr_type,api,a1001004-0000-4000-8000-000000000004
-,"Restauración Tipos de QR",restore.qr_type,api,a1001004-0000-4000-8000-000000000004
-,"Reporte Tipos de QR",report.qr_type,api,a1001004-0000-4000-8000-000000000004
-,"Lectura Tipos de Entrada",read.access_entry_type,api,a1001005-0000-4000-8000-000000000005
-,"Creación Tipos de Entrada",create.access_entry_type,api,a1001005-0000-4000-8000-000000000005
-,"Edición Tipos de Entrada",update.access_entry_type,api,a1001005-0000-4000-8000-000000000005
-,"Eliminación Tipos de Entrada",delete.access_entry_type,api,a1001005-0000-4000-8000-000000000005
-,"Restauración Tipos de Entrada",restore.access_entry_type,api,a1001005-0000-4000-8000-000000000005
-,"Reporte Tipos de Entrada",report.access_entry_type,api,a1001005-0000-4000-8000-000000000005
-,"Lectura Verificaciones de Acceso",read.access_verification,api,a1001006-0000-4000-8000-000000000006
-,"Creación Verificaciones de Acceso",create.access_verification,api,a1001006-0000-4000-8000-000000000006
-,"Edición Verificaciones de Acceso",update.access_verification,api,a1001006-0000-4000-8000-000000000006
-,"Eliminación Verificaciones de Acceso",delete.access_verification,api,a1001006-0000-4000-8000-000000000006
-,"Restauración Verificaciones de Acceso",restore.access_verification,api,a1001006-0000-4000-8000-000000000006
-,"Reporte Verificaciones de Acceso",report.access_verification,api,a1001006-0000-4000-8000-000000000006
-,"Lectura Tipos de Lista Negra",read.blacklist_type,api,a1001007-0000-4000-8000-000000000007
-,"Creación Tipos de Lista Negra",create.blacklist_type,api,a1001007-0000-4000-8000-000000000007
-,"Edición Tipos de Lista Negra",update.blacklist_type,api,a1001007-0000-4000-8000-000000000007
-,"Eliminación Tipos de Lista Negra",delete.blacklist_type,api,a1001007-0000-4000-8000-000000000007
-,"Restauración Tipos de Lista Negra",restore.blacklist_type,api,a1001007-0000-4000-8000-000000000007
-,"Reporte Tipos de Lista Negra",report.blacklist_type,api,a1001007-0000-4000-8000-000000000007
-,"Lectura Visitantes",read.visitor,api,a1001008-0000-4000-8000-000000000008
-,"Creación Visitantes",create.visitor,api,a1001008-0000-4000-8000-000000000008
-,"Edición Visitantes",update.visitor,api,a1001008-0000-4000-8000-000000000008
-,"Eliminación Visitantes",delete.visitor,api,a1001008-0000-4000-8000-000000000008
-,"Restauración Visitantes",restore.visitor,api,a1001008-0000-4000-8000-000000000008
-,"Reporte Visitantes",report.visitor,api,a1001008-0000-4000-8000-000000000008
-,"Lectura Bitácora de Accesos",read.access_log,api,a1001009-0000-4000-8000-000000000009
-,"Creación Bitácora de Accesos",create.access_log,api,a1001009-0000-4000-8000-000000000009
-,"Edición Bitácora de Accesos",update.access_log,api,a1001009-0000-4000-8000-000000000009
-,"Eliminación Bitácora de Accesos",delete.access_log,api,a1001009-0000-4000-8000-000000000009
-,"Restauración Bitácora de Accesos",restore.access_log,api,a1001009-0000-4000-8000-000000000009
-,"Reporte Bitácora de Accesos",report.access_log,api,a1001009-0000-4000-8000-000000000009
-,"Lectura Lista Negra",read.blacklist_entry,api,a1001010-0000-4000-8000-000000000010
-,"Creación Lista Negra",create.blacklist_entry,api,a1001010-0000-4000-8000-000000000010
-,"Edición Lista Negra",update.blacklist_entry,api,a1001010-0000-4000-8000-000000000010
-,"Eliminación Lista Negra",delete.blacklist_entry,api,a1001010-0000-4000-8000-000000000010
-,"Restauración Lista Negra",restore.blacklist_entry,api,a1001010-0000-4000-8000-000000000010
-,"Reporte Lista Negra",report.blacklist_entry,api,a1001010-0000-4000-8000-000000000010
-,"Lectura Reportes",read.report,api,a1101001-0000-4000-8000-000000000001
-,"Creación Reportes",create.report,api,a1101001-0000-4000-8000-000000000001
-,"Edición Reportes",update.report,api,a1101001-0000-4000-8000-000000000001
-,"Eliminación Reportes",delete.report,api,a1101001-0000-4000-8000-000000000001
-,"Restauración Reportes",restore.report,api,a1101001-0000-4000-8000-000000000001
-,"Reporte Reportes",report.report,api,a1101001-0000-4000-8000-000000000001
-,"Lectura Reportes Programados",read.scheduled_report,api,a1101002-0000-4000-8000-000000000002
-,"Creación Reportes Programados",create.scheduled_report,api,a1101002-0000-4000-8000-000000000002
-,"Edición Reportes Programados",update.scheduled_report,api,a1101002-0000-4000-8000-000000000002
-,"Eliminación Reportes Programados",delete.scheduled_report,api,a1101002-0000-4000-8000-000000000002
-,"Restauración Reportes Programados",restore.scheduled_report,api,a1101002-0000-4000-8000-000000000002
-,"Reporte Reportes Programados",report.scheduled_report,api,a1101002-0000-4000-8000-000000000002
-,"Lectura Configuración",read.configuration,api,a1201001-0000-4000-8000-000000000001
-,"Creación Configuración",create.configuration,api,a1201001-0000-4000-8000-000000000001
-,"Edición Configuración",update.configuration,api,a1201001-0000-4000-8000-000000000001
-,"Eliminación Configuración",delete.configuration,api,a1201001-0000-4000-8000-000000000001
-,"Restauración Configuración",restore.configuration,api,a1201001-0000-4000-8000-000000000001
-,"Reporte Configuración",report.configuration,api,a1201001-0000-4000-8000-000000000001
-,"Lectura Importación de Pagos",read.data_import,api,a1301001-0000-4000-8000-000000000001
-,"Creación Importación de Pagos",create.data_import,api,a1301001-0000-4000-8000-000000000001
-,"Edición Importación de Pagos",update.data_import,api,a1301001-0000-4000-8000-000000000001
-,"Eliminación Importación de Pagos",delete.data_import,api,a1301001-0000-4000-8000-000000000001
-,"Restauración Importación de Pagos",restore.data_import,api,a1301001-0000-4000-8000-000000000001
-,"Reporte Importación de Pagos",report.data_import,api,a1301001-0000-4000-8000-000000000001
-,"Lectura Estado de Resultados",read.report_pnl,api,a1401001-0000-4000-8000-000000000001
-,"Reporte Estado de Resultados",report.report_pnl,api,a1401001-0000-4000-8000-000000000001
-,"Lectura Tesorería Tablero",read.report_treasury,api,a1401002-0000-4000-8000-000000000002
-,"Reporte Tesorería Tablero",report.report_treasury,api,a1401002-0000-4000-8000-000000000002
-,"Lectura Gastos Tablero",read.report_expenses,api,a1401003-0000-4000-8000-000000000003
-,"Reporte Gastos Tablero",report.report_expenses,api,a1401003-0000-4000-8000-000000000003
-,"Lectura Cobranza Tablero",read.report_collections,api,a1401004-0000-4000-8000-000000000004
-,"Reporte Cobranza Tablero",report.report_collections,api,a1401004-0000-4000-8000-000000000004
-,"Lectura Proyectos Tablero",read.report_projects,api,a1401005-0000-4000-8000-000000000005
-,"Reporte Proyectos Tablero",report.report_projects,api,a1401005-0000-4000-8000-000000000005
-,"Lectura Paquetería",read.package,api,b3001001-0000-4000-8000-000000000001
-,"Creación Paquetería",create.package,api,b3001001-0000-4000-8000-000000000001
-,"Edición Paquetería",update.package,api,b3001001-0000-4000-8000-000000000001
-,"Eliminación Paquetería",delete.package,api,b3001001-0000-4000-8000-000000000001
-,"Restauración Paquetería",restore.package,api,b3001001-0000-4000-8000-000000000001
-,"Reporte Paquetería",report.package,api,b3001001-0000-4000-8000-000000000001
-,"Lectura Reportes Paquetería",read.report_package,api,b3001002-0000-4000-8000-000000000002
-,"Reporte Reportes Paquetería",report.report_package,api,b3001002-0000-4000-8000-000000000002
-,"Lectura Transportistas",read.package_carrier,api,b3001003-0000-4000-8000-000000000003
-,"Creación Transportistas",create.package_carrier,api,b3001003-0000-4000-8000-000000000003
-,"Edición Transportistas",update.package_carrier,api,b3001003-0000-4000-8000-000000000003
-,"Eliminación Transportistas",delete.package_carrier,api,b3001003-0000-4000-8000-000000000003
-,"Lectura Tipos de Paquete",read.package_type,api,b3001004-0000-4000-8000-000000000004
-,"Creación Tipos de Paquete",create.package_type,api,b3001004-0000-4000-8000-000000000004
-,"Edición Tipos de Paquete",update.package_type,api,b3001004-0000-4000-8000-000000000004
-,"Eliminación Tipos de Paquete",delete.package_type,api,b3001004-0000-4000-8000-000000000004
-,"Lectura Estados de Paquete",read.package_status,api,b3001005-0000-4000-8000-000000000005
-,"Lectura Planes y Precios",read.billing_package,api,b4001001-0000-4000-8000-000000000001
-,"Creación Planes y Precios",create.billing_package,api,b4001001-0000-4000-8000-000000000001
-,"Edición Planes y Precios",update.billing_package,api,b4001001-0000-4000-8000-000000000001
-,"Eliminación Planes y Precios",delete.billing_package,api,b4001001-0000-4000-8000-000000000001
-,"Restauración Planes y Precios",restore.billing_package,api,b4001001-0000-4000-8000-000000000001
-,"Reporte Planes y Precios",report.billing_package,api,b4001001-0000-4000-8000-000000000001
-,"Gestionar Suscripción",manage.subscription,api,b4001001-0000-4000-8000-000000000001
-,"Lectura Amenidades",read.amenity,api,eca6493b-1475-491d-bd70-bca4929ad454
-,"Creación Amenidades",create.amenity,api,eca6493b-1475-491d-bd70-bca4929ad454
-,"Edición Amenidades",update.amenity,api,eca6493b-1475-491d-bd70-bca4929ad454
-,"Eliminación Amenidades",delete.amenity,api,eca6493b-1475-491d-bd70-bca4929ad454
-,"Restauración Amenidades",restore.amenity,api,eca6493b-1475-491d-bd70-bca4929ad454
-,"Reporte Amenidades",report.amenity,api,eca6493b-1475-491d-bd70-bca4929ad454
-,"Lectura Reservaciones",read.amenity_reservation,api,32b63c10-7030-452a-8ceb-8e4b01448ad8
-,"Creación Reservaciones",create.amenity_reservation,api,32b63c10-7030-452a-8ceb-8e4b01448ad8
-,"Edición Reservaciones",update.amenity_reservation,api,32b63c10-7030-452a-8ceb-8e4b01448ad8
-,"Eliminación Reservaciones",delete.amenity_reservation,api,32b63c10-7030-452a-8ceb-8e4b01448ad8
-,"Restauración Reservaciones",restore.amenity_reservation,api,32b63c10-7030-452a-8ceb-8e4b01448ad8
-,"Reporte Reservaciones",report.amenity_reservation,api,32b63c10-7030-452a-8ceb-8e4b01448ad8
-,"Lectura Incidencias",read.complaint,api,b9001001-0000-4000-8000-000000000001
-,"Creación Incidencias",create.complaint,api,b9001001-0000-4000-8000-000000000001
-,"Edición Incidencias",update.complaint,api,b9001001-0000-4000-8000-000000000001
-,"Eliminación Incidencias",delete.complaint,api,b9001001-0000-4000-8000-000000000001
-,"Restauración Incidencias",restore.complaint,api,b9001001-0000-4000-8000-000000000001
-,"Reporte Incidencias",report.complaint,api,b9001001-0000-4000-8000-000000000001
-,"Lectura Categorías de Incidencia",read.complaint_category,api,b9001002-0000-4000-8000-000000000002
-,"Creación Categorías de Incidencia",create.complaint_category,api,b9001002-0000-4000-8000-000000000002
-,"Edición Categorías de Incidencia",update.complaint_category,api,b9001002-0000-4000-8000-000000000002
-,"Eliminación Categorías de Incidencia",delete.complaint_category,api,b9001002-0000-4000-8000-000000000002
-,"Restauración Categorías de Incidencia",restore.complaint_category,api,b9001002-0000-4000-8000-000000000002
-,"Reporte Categorías de Incidencia",report.complaint_category,api,b9001002-0000-4000-8000-000000000002
-,"Lectura Prioridades de Incidencia",read.complaint_priority,api,b9001003-0000-4000-8000-000000000003
-,"Creación Prioridades de Incidencia",create.complaint_priority,api,b9001003-0000-4000-8000-000000000003
-,"Edición Prioridades de Incidencia",update.complaint_priority,api,b9001003-0000-4000-8000-000000000003
-,"Eliminación Prioridades de Incidencia",delete.complaint_priority,api,b9001003-0000-4000-8000-000000000003
-,"Restauración Prioridades de Incidencia",restore.complaint_priority,api,b9001003-0000-4000-8000-000000000003
-,"Reporte Prioridades de Incidencia",report.complaint_priority,api,b9001003-0000-4000-8000-000000000003
-,"Lectura Estados de Incidencia",read.complaint_status,api,b9001004-0000-4000-8000-000000000004
+,Lectura User,read.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
+,Creación User,create.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
+,Edicion User,update.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
+,Inactivar User,delete.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
+,Activar User,restore.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
+,Reporte User,report.user,api,a8bf21f8-c77c-4e8e-8870-3cce32a7f97b
+,Lectura Role,read.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
+,Creación Role,create.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
+,Edicion Role,update.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
+,Inactivar Role,delete.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
+,Activar Role,restore.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
+,Reporte Role,report.role,api,5b36b0c1-5ae7-479c-b459-58a06e7880f2
+,Lectura Setting,read.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
+,Creación Setting,create.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
+,Edicion Setting,update.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
+,Inactivar Setting,delete.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
+,Activar Setting,restore.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
+,Reporte Setting,report.setting,api,026e9fec-53e2-45e3-8cb1-0f7ca09f28bb
+,Lectura Tenant,read.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
+,Creación Tenant,create.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
+,Edicion Tenant,update.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
+,Inactivar Tenant,delete.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
+,Activar Tenant,restore.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
+,Reporte Tenant,report.tenant,api,88bcfd57-528b-4ebb-a164-99322935e7ea
+,Lectura Company,read.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
+,Creación Company,create.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
+,Edicion Company,update.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
+,Inactivar Company,delete.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
+,Activar Company,restore.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
+,Reporte Company,report.company,api,043403a0-c0ab-4832-af4b-314e6b7ec161
+,Lectura Audit,read.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
+,Creación Audit,create.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
+,Edicion Audit,update.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
+,Inactivar Audit,delete.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
+,Activar Audit,restore.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
+,Reporte Audit,report.audit,api,4f082083-5388-4dfb-bd65-ece0656830f1
+,Lectura Dashboard,read.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
+,Creación Dashboard,create.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
+,Edicion Dashboard,update.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
+,Inactivar Dashboard,delete.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
+,Activar Dashboard,restore.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
+,Reporte Dashboard,report.dashboard,api,32ea0d08-f810-42d6-8b1a-71bb92863173
+,Lectura Email,read.email,api,90258619-8251-450c-b25f-510216be2c9d
+,Creación Email,create.email,api,90258619-8251-450c-b25f-510216be2c9d
+,Edicion Email,update.email,api,90258619-8251-450c-b25f-510216be2c9d
+,Inactivar Email,delete.email,api,90258619-8251-450c-b25f-510216be2c9d
+,Activar Email,restore.email,api,90258619-8251-450c-b25f-510216be2c9d
+,Reporte Email,report.email,api,90258619-8251-450c-b25f-510216be2c9d
+,Lectura Notification,read.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
+,Creación Notification,create.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
+,Edicion Notification,update.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
+,Inactivar Notification,delete.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
+,Activar Notification,restore.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
+,Reporte Notification,report.notification,api,019601fa-954b-725d-b422-4cbad86b4e16
+,Lectura Perfil Residente,read.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
+,Creación Perfil Residente,create.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
+,Edicion Perfil Residente,update.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
+,Inactivar Perfil Residente,delete.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
+,Activar Perfil Residente,restore.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
+,Reporte Perfil Residente,report.user_profile,api,b1c2d3e4-f5a6-7890-abcd-ef1234567890
+,Lectura Planes y Precios,read.billing_package,api,b4001001-0000-4000-8000-000000000001
+,Creación Planes y Precios,create.billing_package,api,b4001001-0000-4000-8000-000000000001
+,Edición Planes y Precios,update.billing_package,api,b4001001-0000-4000-8000-000000000001
+,Eliminación Planes y Precios,delete.billing_package,api,b4001001-0000-4000-8000-000000000001
+,Restauración Planes y Precios,restore.billing_package,api,b4001001-0000-4000-8000-000000000001
+,Reporte Planes y Precios,report.billing_package,api,b4001001-0000-4000-8000-000000000001
+,Gestionar Suscripción,manage.subscription,api,b4001001-0000-4000-8000-000000000001
