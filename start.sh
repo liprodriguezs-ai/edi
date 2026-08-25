@@ -56,8 +56,118 @@ ENV_HINTS="COMPOSE_PROJECT_NAME=edi · DB_DATABASE=edi · DB_HOST=pgsql · DB_PO
     FORWARD_DB_PORT/APP_PORT/VITE_PORT propios, para no chocar con otros proyectos"
 
 # Chequeos de .env propios del proyecto. Sumá `problems=1` para bloquear.
+# ── Sincronización de IP de LAN ──────────────────────────────────────────────
+# Portado de kivo7/residia (mismo scaffold). Los dev servers se atan a la IP de
+# LAN, y Sanctum ata la cookie de refresh al ORIGEN: si el front y la API no
+# comparten host, la sesión se cae a /login y parece que "el backend no levanta".
+# Antes esto se arreglaba a mano y se volvía a romper al siguiente DHCP — este
+# .env llegó a acumular una IP muerta durante días.
+#
+# OJO: .env.production NO se toca — apunta a producción a propósito.
+FRONTEND_ENV_FILES=(".env" ".env.localhost" ".env.staging")
+
+detect_lan_ip() {
+  local ip='' iface
+  # macOS: la interfaz de la ruta por defecto, no la primera que aparezca
+  if command -v route >/dev/null 2>&1 && command -v ipconfig >/dev/null 2>&1; then
+    iface="$(route -n get default 2>/dev/null | awk '/interface:/{print $2; exit}')"
+    [ -n "$iface" ] && ip="$(ipconfig getifaddr "$iface" 2>/dev/null)"
+  fi
+  # Linux / WSL2
+  if [ -z "$ip" ] && command -v ip >/dev/null 2>&1; then
+    ip="$(ip -4 route get 1.1.1.1 2>/dev/null \
+      | awk '{for(i=1;i<=NF;i++) if($i=="src"){print $(i+1); exit}}')"
+  fi
+  printf '%s' "$ip"
+}
+
+# Reemplaza (o agrega) KEY=VAL. Si la clave está repetida deja SOLO la primera:
+# Laravel se queda con la ÚLTIMA, así que un duplicado olvidado gana en silencio.
+# Con awk y archivo temporal porque `sed -i` no es portable entre BSD y GNU.
+set_env_var() {
+  local file="$1" key="$2" val="$3" tmp
+  [ -f "$file" ] || return 0
+  tmp="$(mktemp)" || return 1
+  KEY="$key" VAL="$val" awk '
+    BEGIN { k = ENVIRON["KEY"]; v = ENVIRON["VAL"]; done = 0 }
+    index($0, k "=") == 1 { if (!done) { print k "=" v; done = 1 } next }
+    { print }
+    END { if (!done) print k "=" v }
+  ' "$file" > "$tmp" && cat "$tmp" > "$file"
+  rm -f "$tmp"
+}
+
+# Puerto REAL del dev server del frontend.
+#
+# NO es `VITE_PORT` de backend/.env: esa variable es la que el contenedor
+# `laravel.test` publica al host, y en este proyecto Vite NO corre en Docker sino
+# en el host, con su puerto fijado en vite.config.ts. Usar VITE_PORT deja
+# SANCTUM_STATEFUL_DOMAINS apuntando a un puerto donde no hay nada, y la sesión
+# se cae sin explicación.
+detect_frontend_port() {
+  local port=''
+  [ -f "$FRONTEND/vite.config.ts" ] && port="$(
+    grep -oE '^[[:space:]]*port:[[:space:]]*[0-9]+' "$FRONTEND/vite.config.ts" \
+      | head -1 | grep -oE '[0-9]+'
+  )"
+  [ -z "$port" ] && port="$(env_value VITE_PORT)"
+  printf '%s' "${port:-5173}"
+}
+
+sync_lan_ip() {
+  local ip app_port vite_port want_api changed=0 f
+  ip="$(detect_lan_ip)"
+  if [ -z "$ip" ]; then
+    warn "no pude detectar la IP de LAN — dejo los .env como están"
+    return 0
+  fi
+
+  app_port="$(env_value APP_PORT)"; app_port="${app_port:-80}"
+  vite_port="$(detect_frontend_port)"
+  want_api="http://${ip}:${app_port}/api"
+
+  # ¿Hace falta tocar algo?
+  [ "$(env_value APP_URL)" = "http://${ip}:${app_port}" ] || changed=1
+  [ "$(env_value APP_FRONTEND_URL)" = "http://${ip}:${vite_port}" ] || changed=1
+  for f in "${FRONTEND_ENV_FILES[@]}"; do
+    [ -f "$FRONTEND/$f" ] || continue
+    grep -qxF "VITE_API_BASE_URL=${want_api}" "$FRONTEND/$f" || changed=1
+  done
+
+  if [ "$changed" = "0" ]; then
+    skip "IP de LAN ya sincronizada ($ip)"
+    return 0
+  fi
+
+  if [ "$CHECK_ONLY" = true ]; then
+    warn "los .env apuntan a otra IP — corré ./start.sh (sin --check) para sincronizar a $ip"
+    return 0
+  fi
+
+  set_env_var "$BACKEND/.env" APP_URL          "http://${ip}:${app_port}"
+  set_env_var "$BACKEND/.env" APP_FRONTEND_URL "http://${ip}:${vite_port}"
+  set_env_var "$BACKEND/.env" SANCTUM_STATEFUL_DOMAINS \
+    "${ip}:${vite_port},localhost,localhost:${vite_port},127.0.0.1,127.0.0.1:${vite_port}"
+
+  for f in "${FRONTEND_ENV_FILES[@]}"; do
+    [ -f "$FRONTEND/$f" ] && set_env_var "$FRONTEND/$f" VITE_API_BASE_URL "$want_api"
+  done
+
+  ok "IP de LAN sincronizada: $ip (API :$app_port · front :$vite_port)"
+
+  # Si el contenedor ya estaba arriba leyó el .env viejo al bootear.
+  if docker ps --filter "name=${PROJECT_NAME}-laravel.test" --filter status=running -q 2>/dev/null | grep -q .; then
+    docker restart "${PROJECT_NAME}-laravel.test-1" >/dev/null 2>&1 \
+      && ok "backend reiniciado para tomar la IP nueva"
+  fi
+}
+
+
 project_env_checks() {
   local host
+
+  sync_lan_ip
+
   host="$(env_value DB_HOST)"
   [[ "$host" == "pgsql" ]] \
     && ok "DB_HOST=pgsql (red interna de docker)" \

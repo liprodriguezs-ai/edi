@@ -121,10 +121,23 @@ export default defineConfig(({ mode }) => {
       // relación con el fix de auth (eso es del lado backend: la cookie de
       // refresh es Secure y una IP por HTTP no es contexto seguro).
       host: true,
-      port: 5189,
+      // 5190, NO 5189: el bloque de puertos de este proyecto es la familia "90"
+      // (APP_PORT=8090, VITE_PORT=5290, FORWARD_DB_PORT=5450). El 5189 pertenece
+      // a kivo7/residia y estaba acá sólo porque este vite.config se copió de ese
+      // repo sin actualizarle los puertos — con ambos proyectos arriba, el que
+      // arrancaba segundo se quedaba sin su puerto.
+      port: 5190,
+      // `strictPort` es OBLIGATORIO, no una preferencia. Con el default (`false`)
+      // Vite se corre solo al siguiente puerto libre si el suyo está ocupado, pero
+      // `start.sh` ya escribió `SANCTUM_STATEFUL_DOMAINS` leyendo ESTE puerto: si el
+      // dev server termina en otro, el origen deja de matchear, la cookie httpOnly
+      // de refresh no viaja y la sesión se cae a /login sin un solo mensaje de error.
+      strictPort: true,
       proxy: {
         '/api': {
-          target: 'http://127.0.0.1:8089',
+          // 8090 = APP_PORT de ESTE proyecto. Antes apuntaba a 8089, que es la API
+          // de kivo7 — otro residuo de la misma copia.
+          target: 'http://127.0.0.1:8090',
           changeOrigin: true,
         },
       },
