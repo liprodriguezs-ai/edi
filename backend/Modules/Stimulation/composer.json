@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/stimulation",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Stimulation\\": "app/",
+            "Modules\\Stimulation\\Database\\Factories\\": "database/factories/",
+            "Modules\\Stimulation\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Stimulation\\Tests\\": "tests/"
+        }
+    }
+}

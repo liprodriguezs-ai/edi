@@ -1,0 +1,11 @@
+{
+    "name": "Stimulation",
+    "alias": "stimulation",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Stimulation\\Providers\\StimulationServiceProvider"
+    ],
+    "files": []
+}
