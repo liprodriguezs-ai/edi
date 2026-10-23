@@ -5,23 +5,23 @@ import AppWindow from '@/components/AppWindow.astro';
 import heroDashboard from '@/assets/system/hero-dashboard.webp';
 ---
 
-<section class="relative overflow-hidden pb-16 pt-[150px]">
+<section class="grid-bg relative overflow-hidden border-b border-line pb-20 pt-[124px]">
   <div
     class="wrap grid grid-cols-[0.95fr_1.05fr] items-center gap-x-14 gap-y-14 max-[980px]:grid-cols-1"
   >
     <!-- Texto -->
     <div class="text-left max-[980px]:text-center">
       <p
-        class="mb-7 inline-flex items-center gap-[9px] rounded-full border border-[color-mix(in_srgb,var(--color-sage)_25%,transparent)] bg-sage-bg px-4 py-[7px] text-[12px] font-semibold tracking-[0.04em] text-sage-deep"
+        class="mb-8 inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-brand-deep"
       >
-        <span class="h-1.5 w-1.5 rounded-full bg-sage" aria-hidden="true"></span>
+        <span class="h-[7px] w-[7px] bg-brand-deep" aria-hidden="true"></span>
         {hero.badge}
       </p>
 
       <h1
-        class="max-w-[15ch] font-serif text-[clamp(40px,4.8vw,68px)] font-medium leading-[1.03] tracking-[-0.015em] max-[980px]:mx-auto"
+        class="max-w-[15ch] text-[clamp(44px,6.4vw,80px)] font-extrabold leading-[0.98] tracking-[-0.045em] max-[980px]:mx-auto"
       >
-        {hero.titleLead} <em class="italic text-sage">{hero.titleEm}</em>
+        {hero.titleLead} <span class="text-brand-deep">{hero.titleEm}</span>
       </h1>
 
       <p class="mt-7 max-w-[46ch] text-[17.5px] text-ink-soft max-[980px]:mx-auto">
@@ -39,9 +39,7 @@ import heroDashboard from '@/assets/system/hero-dashboard.webp';
         {
           hero.proofs.map((proof) => (
             <li class="inline-flex items-center gap-1.5">
-              <span class="text-sage" aria-hidden="true">
-                ✓
-              </span>
+              <span class="h-1 w-1 bg-ink-faint" aria-hidden="true" />
               {proof.text}
             </li>
           ))
@@ -52,7 +50,7 @@ import heroDashboard from '@/assets/system/hero-dashboard.webp';
     <!-- Producto en capas (Dirección A) -->
     <div class="reveal reveal-d1 relative">
       <div
-        class="pointer-events-none absolute -inset-x-6 top-[12%] h-[78%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-sage)_22%,transparent),transparent_75%)] blur-[34px]"
+        class="pointer-events-none absolute -inset-x-6 top-[12%] h-[78%] bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--color-brand)_22%,transparent),transparent_75%)] blur-[34px]"
         aria-hidden="true"
       >
       </div>
@@ -63,13 +61,13 @@ import heroDashboard from '@/assets/system/hero-dashboard.webp';
           type="button"
           data-lightbox
           data-lightbox-src={heroDashboard.src}
-          data-lightbox-alt={`Panel completo de ${meta.name}: navegación del organización, resumen del mes con ingresos, saldo en cuentas, adeudo y pagos recientes, y las gráficas de ingresos contra egresos.`}
+          data-lightbox-alt={`Tablero completo de ${meta.name}: resumen del mes con los tamizajes aplicados, su distribución en el semáforo del desarrollo, las áreas donde más falla el centro y los niños que requieren seguimiento.`}
           aria-haspopup="dialog"
           aria-label="Ver el panel de EDI ampliado"
-          class="absolute inset-0 z-[1] cursor-zoom-in rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage-deep"
+          class="absolute inset-0 z-[1] cursor-zoom-in rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-deep"
         >
           <span
-            class="pointer-events-none absolute right-3 top-[54px] inline-flex items-center gap-1.5 rounded-full bg-ink/80 px-3 py-1.5 text-[11px] font-medium text-paper opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100"
+            class="pointer-events-none absolute right-3 top-[54px] inline-flex items-center gap-1.5 bg-ink/80 px-3 py-1.5 text-[11px] font-medium text-paper opacity-0 transition-opacity duration-200 group-hover:opacity-100"
           >
             <svg viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5" aria-hidden="true">
               <path
@@ -84,25 +82,9 @@ import heroDashboard from '@/assets/system/hero-dashboard.webp';
         </button>
       </div>
 
-      <!-- chip flotante: recaudación -->
-      <div
-        data-parallax="-0.05"
-        class="pointer-events-none absolute -left-4 -top-4 hidden rounded-xl border border-line bg-white/95 px-4 py-3 shadow-[0_18px_40px_-22px_rgba(20,24,26,0.4)] backdrop-blur-sm sm:block"
-      >
-        <p class="font-serif text-[20px] font-semibold leading-none text-sage-deep">
-          <span data-money="48200" data-prefix="+ $">+ $48,200</span>
-        </p>
-        <p class="mt-1 text-[11px] text-ink-faint">recaudado hoy</p>
-      </div>
+      
 
-      <!-- chip flotante: estado -->
-      <div
-        data-parallax="0.06"
-        class="pointer-events-none absolute -bottom-4 -right-4 hidden items-center gap-2 rounded-xl border border-line bg-white/95 px-4 py-3 shadow-[0_18px_40px_-22px_rgba(20,24,26,0.4)] backdrop-blur-sm sm:flex"
-      >
-        <span class="h-2 w-2 rounded-full bg-ok" aria-hidden="true"></span>
-        <span class="text-[12.5px] font-semibold text-ink">98% al día</span>
-      </div>
+      
     </div>
   </div>
 

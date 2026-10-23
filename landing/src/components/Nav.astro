@@ -3,31 +3,41 @@ import { meta, nav, navCta } from '@/data/site';
 import Button from '@/components/Button.astro';
 ---
 
-<header class="fixed inset-x-0 top-4 z-[100] px-4 sm:px-8">
+{/*
+  Barra fija con hairline, no una píldora flotante: la nav se apoya en la
+  retícula de la página en lugar de flotar sobre ella. Sin radio, sin sombra y
+  sin desenfoque — la separación la da la línea de 1px.
+*/}
+<header class="fixed inset-x-0 top-0 z-[100] border-b border-line bg-paper">
   <nav
     aria-label="Principal"
-    class="mx-auto flex max-w-page items-center justify-between rounded-full border border-line-soft bg-white/[0.78] py-2.5 pl-6 pr-3 shadow-[0_8px_30px_-18px_rgba(20,24,26,0.25)] backdrop-blur-[14px]"
+    class="mx-auto flex h-[60px] max-w-page items-center justify-between px-6 sm:px-10"
   >
-    <a href="/" class="flex items-center gap-2 font-serif text-[21px] font-semibold" aria-label={`${meta.name} — inicio`}>
-      <img src="/edi-mark.svg" alt="" class="h-6 w-auto" aria-hidden="true" />
-      {meta.name}
-      <span class="h-1.5 w-1.5 rounded-full bg-sage" aria-hidden="true"></span>
-    </a>
+    <div class="flex items-center gap-8">
+      <a
+        href="/"
+        class="flex items-center gap-2 text-[17px] font-bold tracking-[-0.035em]"
+        aria-label={`${meta.name} — inicio`}
+      >
+        <img src="/edi-mark.svg" alt="" class="h-5 w-auto" aria-hidden="true" />
+        {meta.name}
+      </a>
 
-    <ul class="hidden items-center gap-8 sm:flex">
-      {
-        nav.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class="block py-2 text-[13px] font-medium text-ink-soft transition-colors hover:text-ink"
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+      <ul class="hidden items-center gap-7 sm:flex">
+        {
+          nav.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="block font-mono text-[11.5px] uppercase tracking-[0.11em] text-ink-soft transition-colors hover:text-ink"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
     <Button href={navCta.href} label={navCta.label} size="sm" event="Lead" />
   </nav>

@@ -5,7 +5,7 @@
 @source not "../content/docs";
 
 /* =========================================================================
-   EDI — Design tokens (Dirección A · Salvia)
+   Prueba EDI — Design tokens (teal de pruebaedi.com sobre oscuro)
    Tokens live in @theme so Tailwind generates utilities (bg-paper, text-ink,
    font-serif, rounded-card, shadow-card …) AND exposes them as CSS variables
    for the handful of scoped styles that need raw values.
@@ -13,44 +13,57 @@
    16=4 · 24=6 · 32=8 · 48=12 · 64=16 · 96=24 · 128=32.
    ========================================================================= */
 @theme {
-  /* Warm paper neutrals — "espacio en blanco como señal de estatus" */
-  --color-paper: #eceae4;
-  --color-paper-2: #e4e1d9;
-  --color-paper-3: #dbd7cd;
-  --color-card: #f6f5f1;
+  /* Neutros oscuros. La jerarquía la da la LÍNEA, no la elevación: no hay
+     sombras y las superficies se separan por hairlines de 1px. */
+  --color-paper: #0b0d0f;
+  --color-paper-2: #101315;
+  --color-paper-3: #141719;
+  --color-card: #101315;
 
   /* Ink */
-  --color-ink: #14181a;
-  --color-ink-soft: #54584f;
-  /* Faint nudged from the prototype's #8A8C82 (2.83:1, fails WCAG AA) to
-     #686A60 (~4.57:1 on paper) so caption/micro text meets AA 4.5:1. */
-  --color-ink-faint: #686a60;
+  --color-ink: #ededec;
+  --color-ink-soft: #7a8180;
+  /* Faint mantiene el criterio anterior: el valor debe pasar AA 4.5:1 sobre
+     paper para que el texto de caption/micro sea legible. #8B9190 da ~5.4:1
+     sobre #0B0D0F. */
+  --color-ink-faint: #8b9190;
 
-  /* Brand — sage */
-  --color-sage: #6e7e6a;
-  --color-sage-deep: #5a6957;
-  --color-sage-bg: #e6eae2;
+  /* Marca — teal de pruebaedi.com. Dos valores y no uno: el color de fondo no alcanza el
+     contraste necesario cuando se usa como texto, y viceversa.
+       --color-brand      → fondos y texto de acento sobre paper
+       --color-brand-deep → texto de acento que necesita más peso
+     Nunca cae en los hues del semáforo (verde / ámbar / rojo). */
+  --color-brand: #0b9e97;
+  --color-brand-deep: #56d0c8;
+  --color-brand-bg: #0a2a2c;
 
   /* Hairlines */
-  --color-line: #d8d4c9;
-  --color-line-soft: #e3dfd5;
+  --color-line: #1f2427;
+  --color-line-soft: #141719;
+  --color-line-2: #2a3034;
 
-  /* Financial status (always paired with a dot/label — never color alone) */
-  --color-ok: #5e8c6a;
-  --color-warn: #c9a24b;
-  --color-bad: #b6604f;
+  /* Semáforo del tamiz EDI. ÚNICO color con significado clínico: verde =
+     desarrollo normal, ámbar = rezago, rojo = riesgo de retraso. Siempre
+     acompañado de punto o etiqueta, nunca color solo. */
+  --color-ok: #35c46e;
+  --color-warn: #f0b03c;
+  --color-bad: #f0634c;
 
   /* Type */
   --font-sans: 'Hanken Grotesk Variable', 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
   --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  /* Mono para DATO y para etiquetas: folios, edades, claves de área, kickers de
+     sección. No es decorativa — marca lo que es un dato, no una frase. */
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* Radii */
-  --radius-card: 16px;
-  --radius-soft: 10px;
-  --radius-band: 24px;
+  /* Radii — canto vivo. Las esquinas redondeadas leen como "app amable
+     genérica"; el canto vivo lee como documento e instrumento. */
+  --radius-card: 0px;
+  --radius-soft: 0px;
+  --radius-band: 0px;
 
-  /* Elevation */
-  --shadow-card: 0 1px 2px rgba(20, 24, 26, 0.04), 0 8px 24px -16px rgba(20, 24, 26, 0.12);
+  /* Sin elevación: la jerarquía es la línea, no la sombra. */
+  --shadow-card: none;
 
   /* Layout */
   --container-page: 1200px;
@@ -63,7 +76,7 @@
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
     /* Keep anchored sections clear of the fixed pill nav */
-    scroll-padding-top: 96px;
+    scroll-padding-top: 76px;
   }
 
   body {
@@ -75,13 +88,13 @@
   }
 
   ::selection {
-    background: var(--color-sage);
+    background: var(--color-brand);
     color: #fff;
   }
 
   /* Visible, on-brand focus ring for keyboard users (never remove outline). */
   :focus-visible {
-    outline: 2px solid var(--color-sage-deep);
+    outline: 2px solid var(--color-brand-deep);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -94,6 +107,15 @@
 }
 
 /* ------------------------------------------------------------ utilities -- */
+
+/* Retícula de fondo. Es la textura que hace que el contenido se apoye en una
+   cuadrícula en lugar de flotar. Sutil a propósito: se percibe, no se lee. */
+@utility grid-bg {
+  background-image:
+    linear-gradient(var(--color-line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line-soft) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
 
 /* Centered page container with responsive gutters. */
 @utility wrap {
@@ -151,7 +173,7 @@
 }
 
 /* Article prose — blog post body. Hand-rolled (no typography plugin) so it
-   stays on the paper/sage palette and the Cormorant/Hanken pairing. */
+   stays on the paper/teal palette and the Cormorant/Hanken pairing. */
 .prose {
   font-size: 16.5px;
   line-height: 1.75;
@@ -186,7 +208,7 @@
   color: var(--color-ink);
 }
 .prose a {
-  color: var(--color-sage-deep);
+  color: var(--color-brand-deep);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -207,10 +229,10 @@
   margin-top: 0.4em;
 }
 .prose li::marker {
-  color: var(--color-sage);
+  color: var(--color-brand);
 }
 .prose blockquote {
-  border-left: 3px solid var(--color-sage);
+  border-left: 3px solid var(--color-brand);
   padding-left: 1.1em;
   font-style: italic;
   color: var(--color-ink-soft);
@@ -244,7 +266,7 @@
 
 /* Lightbox backdrop (dialog#lightbox abre con showModal). */
 #lightbox::backdrop {
-  background: rgba(20, 24, 26, 0.6);
+  background: rgba(21, 23, 27, 0.6);
 }
 
 /* Safari < 18 solo soporta backdrop-filter con prefijo -webkit-, y Lightning

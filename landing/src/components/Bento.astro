@@ -32,15 +32,15 @@ const delayClass: Record<1 | 2, string> = {
           <article
             id={card.id}
             class:list={[
-              'reveal flex flex-col gap-2 overflow-hidden rounded-card border border-line bg-white p-[26px] shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-[3px] hover:shadow-[0_24px_50px_-28px_rgba(20,24,26,0.3)]',
+  'reveal flex flex-col gap-2 overflow-hidden rounded-card border border-line bg-card p-[26px] shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-[3px] hover:',
               spanClass[card.span],
               card.delay && delayClass[card.delay],
             ]}
           >
-            <p class="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sage-deep">
+            <p class="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-brand-deep">
               {card.tag}
             </p>
-            <h3 class="max-w-[18ch] font-serif text-[25px] font-semibold leading-[1.08] tracking-[-0.005em]">
+            <h3 class="max-w-[18ch] font-bold tracking-[-0.035em] text-[25px] leading-[1.08]">
               {card.title}
             </h3>
             {card.body && <p class="max-w-[42ch] text-[14px] text-ink-soft">{card.body}</p>}
@@ -52,7 +52,7 @@ const delayClass: Record<1 | 2, string> = {
                 data-lightbox-alt={card.imageAlt}
                 aria-haspopup="dialog"
                 aria-label={`Ampliar: ${card.title}`}
-                class="group/img relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-line-soft shadow-[0_18px_40px_-26px_rgba(20,24,26,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage-deep"
+                class="group/img relative block w-full cursor-zoom-in overflow-hidden border border-line-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-deep"
               >
                 <Image
                   src={card.image}
@@ -62,7 +62,7 @@ const delayClass: Record<1 | 2, string> = {
                   sizes="(max-width: 620px) 100vw, (max-width: 920px) 50vw, 40vw"
                 />
                 <span
-                  class="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/80 px-2.5 py-1 text-[10px] font-medium text-paper opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover/img:opacity-100"
+                  class="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 bg-ink/80 px-2.5 py-1 text-[10px] font-medium text-paper opacity-0 transition-opacity duration-200 group-hover/img:opacity-100"
                 >
                   <svg viewBox="0 0 24 24" fill="none" class="h-3 w-3" aria-hidden="true">
                     <path

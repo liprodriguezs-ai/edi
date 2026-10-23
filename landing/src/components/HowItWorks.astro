@@ -17,13 +17,13 @@ import SectionHead from '@/components/SectionHead.astro';
         howItWorks.steps.map((step, i) => (
           <li
             class:list={[
-              'reveal border-t border-line pt-6',
+  'reveal border-t border-line pt-6',
               i === 1 && 'reveal-d1',
               i === 2 && 'reveal-d2',
             ]}
           >
-            <span class="block font-serif text-[44px] font-medium leading-none text-sage">{step.n}</span>
-            <h3 class="mt-4 font-serif text-[24px] font-semibold leading-[1.1]">{step.title}</h3>
+            <span class="block font-bold tracking-[-0.035em] text-[44px] leading-none text-brand">{step.n}</span>
+            <h3 class="mt-4 font-bold tracking-[-0.035em] text-[24px] leading-[1.1]">{step.title}</h3>
             <p class="mt-2 max-w-[34ch] text-[15px] text-ink-soft">{step.body}</p>
           </li>
         ))

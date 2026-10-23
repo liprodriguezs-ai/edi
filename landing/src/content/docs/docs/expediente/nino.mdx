@@ -1,0 +1,97 @@
+---
+title: "Expediente del niño"
+description: "Qué muestra el expediente de cada niño en EDI: resumen, Pruebas EDI, citas, visitas, estado nutricional, datos y cuidadores."
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, LinkCard } from '@astrojs/starlight/components';
+
+El **expediente** reúne todo lo de un niño: sus Pruebas EDI, sus citas, sus
+visitas y sus datos. Ábrelo desde el menú **Niños**, seleccionando al niño, o
+desde su nombre en la [Agenda](/docs/agenda/citas/).
+
+## Quién puede usarlo
+
+| Para | Administrador | Recepción |
+|---|---|---|
+| Ver el expediente, **Editar** los datos y **Agendar cita** | Sí | Sí |
+| Ver la pestaña **Pruebas EDI** y empezar una **Nueva Prueba EDI** | Sí | No |
+| Ver la pestaña **Estado nutricional** | Sí | No |
+
+Las pestañas que tu rol no puede ver no aparecen.
+
+## El encabezado
+
+Debajo del nombre del niño están su edad y su centro de salud, y la etiqueta
+**Última Prueba EDI** con el color de la última prueba calificada.
+
+A la derecha están los botones:
+
+- **Editar**: los datos generales del niño.
+- **Agendar cita**: abre el formulario de cita con el niño ya elegido. Ver
+  [Agendar una cita](/docs/agenda/citas/#agendar-una-cita).
+- **Nueva Prueba EDI**: ver [Empezar una Prueba EDI](#empezar-una-prueba-edi).
+
+## Las pestañas
+
+| Pestaña | Qué tiene |
+|---|---|
+| **Resumen** | Abre por omisión. Tarjetas de **Próxima cita**, **Última Prueba EDI** y **Seguimientos abiertos**, cada una con su enlace (**Ver citas**, **Ver pruebas**, **Ver seguimientos**). |
+| **Pruebas EDI** | Todas las pruebas del niño, de la más reciente a la más antigua. |
+| **Citas** | La próxima cita sugerida y las citas del niño. Ver [Desde el expediente del niño](/docs/agenda/citas/#desde-el-expediente-del-niño). |
+| **Visitas** | Las visitas con su folio, fecha, centro y profesional, y el botón **Nueva visita**. |
+| **Estado nutricional** | Las mediciones del niño. |
+| **Datos y cuidadores** | Datos generales, **Cuidadores** y **Antecedentes perinatales**. |
+
+### Pestaña Pruebas EDI
+
+Cada renglón muestra la fecha y el folio de la visita, la edad del niño y el
+grupo aplicado, el estado (**Borrador**, **Calificada**, **Cerrada** o
+**Anulada**), el color del resultado o **Sin calificar**, el profesional y un
+botón:
+
+- **Continuar captura**, si la prueba sigue en **Borrador** o **Calificada**.
+- **Ver resultado**, si ya está **Cerrada** o **Anulada**.
+
+La pestaña también tiene el botón **Nueva Prueba EDI**.
+
+## Empezar una Prueba EDI
+
+Una Prueba EDI siempre pertenece a una visita. Desde el expediente no tienes que
+buscar la visita: EDI usa la de hoy o la crea.
+
+<Steps>
+
+1. Selecciona **Nueva Prueba EDI**, en el encabezado o en la pestaña
+   **Pruebas EDI**.
+
+2. Revisa lo que EDI propone:
+   - Si el niño ya tiene una visita hoy sin prueba, la ventana dice
+     **Se usará la visita de hoy** con su folio.
+   - Si no tiene visita hoy, dice **Se registrará la visita de hoy para este
+     niño.** Revisa **Centro de salud** (viene el centro del niño) y
+     **Profesional que aplica** (por omisión, tu perfil de profesional).
+
+3. Elige el tipo de prueba: **Prueba EDI**, donde el grupo se calcula con la
+   edad del niño, o **Prueba EDI a elección**, donde eliges el grupo en
+   **Evaluación a realizar**.
+
+4. Selecciona **Empezar Prueba EDI**. Se abre la captura.
+
+</Steps>
+
+Si el niño ya tiene una Prueba EDI empezada hoy, la ventana no abre otra: muestra
+**Continuar captura** para seguir con esa.
+
+Para capturar, calificar y cerrar la prueba, ve a [Prueba EDI](/docs/expediente/prueba-edi/).
+
+<Aside type="note">
+En la pestaña **Visitas** ya no hay un botón de Prueba EDI por visita. Las pruebas
+se empiezan con **Nueva Prueba EDI**.
+</Aside>
+
+## Relacionado
+
+<LinkCard title="Prueba EDI" href="/docs/expediente/prueba-edi/" />
+<LinkCard title="Agenda: citas y sala de espera" href="/docs/agenda/citas/" />

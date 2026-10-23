@@ -1,0 +1,263 @@
+---
+title: "Agenda: citas y sala de espera"
+description: "Cómo ver el día, agendar, confirmar, recibir y atender citas en EDI, y cómo se calcula la próxima cita después de una Prueba EDI."
+sidebar:
+  order: 1
+---
+
+import { Steps, Aside, LinkCard } from '@astrojs/starlight/components';
+
+La **Agenda** organiza las citas del centro de salud por profesional y muestra lo
+que hay hoy. Una cita no es todavía una visita: la visita, con su folio, nace
+cuando inicias la atención.
+
+Está en el menú, en **Agenda**.
+
+## Quién puede usarlo
+
+| Para | Administrador | Recepción |
+|---|---|---|
+| Ver la agenda y la pestaña **Citas** del expediente | Sí | Sí |
+| Agendar y **Registrar sin cita** | Sí | Sí |
+| Confirmar, **Llegó**, reprogramar, cancelar, **No asistió**, **Cerrar día** | Sí | Sí |
+| **Iniciar atención** / **Atender** | Sí | No |
+
+**Iniciar atención** crea la visita, por eso además de editar citas pide poder
+crear visitas.
+
+**Recepción** es el rol de la recepción del centro: lleva la agenda y da de alta
+y edita niños y cuidadores, pero no inicia la atención, no aplica
+[Pruebas EDI](/docs/expediente/prueba-edi/) y no puede borrar registros. El
+administrador de la organización asigna este rol en **Usuarios**. Al iniciar
+sesión, Recepción entra directo a la **Agenda**.
+
+## Antes de empezar
+
+Necesitas al menos un centro de salud y un profesional dado de alta. Cada
+profesional es una columna del calendario: sin profesionales no hay huecos donde
+agendar.
+
+## Lo que hay hoy
+
+Arriba de la agenda hay cuatro contadores del día de hoy:
+
+| Contador | Qué cuenta |
+|---|---|
+| **Citas de hoy** | Todas las citas de hoy, menos las canceladas. |
+| **Atendidas** | Las que ya pasaron a **Atendida**. |
+| **En sala de espera** | Los niños que ya llegaron y esperan. |
+| **Pruebas EDI por aplicar** | Citas de **Prueba EDI** de hoy que todavía no se atienden. |
+
+Los contadores siempre son de hoy, aunque estés viendo otro día u otra vista, y
+respetan el filtro de **Centro de salud**.
+
+## Cómo se ve la agenda
+
+Usa los botones de arriba del calendario:
+
+- **Hoy** regresa al día de hoy. Las flechas **‹** y **›** avanzan o retroceden
+  un día, una semana, un mes o un bloque de lista, según la vista.
+- El título dice qué estás viendo, por ejemplo el día completo o el mes.
+- El selector **Día · Semana · Mes · Lista** cambia la vista.
+
+| Vista | Qué muestra |
+|---|---|
+| **Día** | Una columna por profesional. Es la vista con la que abre la agenda. |
+| **Semana** | Los siete días, sin separar por profesional. |
+| **Mes** | El mes completo. Haz clic en un día para abrirlo en la vista **Día**. |
+| **Lista** | Las citas de 14 días, agrupadas por día. |
+
+**Centro de salud** filtra las citas y los profesionales de un centro. Si eres
+profesional, la agenda abre en tu centro; si todos los profesionales trabajan en
+el mismo centro, abre en ese; si no, en **Todos los centros**. EDI recuerda en
+ese navegador el último centro que elegiste.
+
+A la derecha está la **Sala de espera**: los niños de hoy que ya llegaron, en
+orden de llegada.
+
+Cada cita muestra su estado: **Agendada**, **Confirmada**, **En espera**,
+**Atendida**, **Cancelada** o **No asistió**.
+
+### Vista Lista
+
+Las citas se agrupan por día, con los encabezados **Hoy · …** y **Mañana · …**
+para los dos primeros. Las canceladas no aparecen. Cada renglón tiene la hora, el
+niño (con enlace a su expediente), el tipo de cita, el profesional, el estado y
+un botón:
+
+- **Iniciar atención**, cuando la cita se puede atender ahora.
+- **Ver cita**, en cualquier otro caso. Abre el detalle con el resto de las
+  acciones.
+
+## Agendar una cita
+
+<Steps>
+
+1. Selecciona **Agendar cita**, o haz clic en un hueco libre del calendario en
+   la vista **Día** o **Semana**. Si usas el hueco, la fecha, la hora y el
+   profesional ya vienen llenos.
+
+2. Busca al **Niño** por nombre o CURP.
+
+3. Elige el **Tipo de cita**. La duración se llena sola según el tipo.
+
+4. Elige el **Profesional**. Es obligatorio.
+
+5. Revisa **Fecha y hora** (hora de la clínica) y **Duración (min)**. Agrega
+   **Notas** si hace falta, por ejemplo "traer cartilla de vacunación".
+
+6. Selecciona **Agendar**.
+
+</Steps>
+
+| Tipo de cita | Duración sugerida |
+|---|---|
+| Prueba EDI | 30 min |
+| Estimulación temprana | 60 min |
+| Consulta de control | 20 min |
+
+Puedes cambiar la duración entre 5 minutos y 8 horas.
+
+<Aside type="note">
+Solo puedes agendar a futuro. Si haces clic en un hueco que ya pasó, EDI responde
+**Ese horario ya pasó**; para un niño que ya está en el centro usa
+[Registrar sin cita](#registrar-sin-cita).
+</Aside>
+
+Dos citas del mismo profesional no pueden empalmarse. Si el horario choca, el
+formulario muestra **El profesional ya tiene una cita en ese horario.** Elige otra
+hora u otro profesional.
+
+## Registrar sin cita
+
+Para un niño que llega sin cita:
+
+<Steps>
+
+1. Selecciona **Registrar sin cita**.
+
+2. Captura **Niño**, **Tipo de cita** y **Profesional**.
+
+3. Selecciona **Registrar llegada**.
+
+</Steps>
+
+El niño entra directo a la **Sala de espera** con la hora actual y la etiqueta
+**Sin cita**.
+
+## Atender una cita
+
+Haz clic en una cita del calendario, o en **Ver cita** de la vista **Lista**,
+para abrir su detalle. Ahí solo aparecen las acciones que su estado permite.
+
+<Steps>
+
+1. **Confirmar**: cuando la familia confirma que vendrá. La cita pasa a
+   **Confirmada**.
+
+2. **Llegó**: cuando el niño llega al centro. Solo aparece el día de la cita. La
+   cita pasa a **En espera**, el niño entra a la **Sala de espera** y el
+   profesional recibe el aviso **Paciente en espera**.
+
+3. **Iniciar atención** en el detalle o en la vista **Lista**, o **Atender** en
+   la **Sala de espera**.
+
+</Steps>
+
+Al iniciar la atención, EDI crea la visita con su folio (por ejemplo
+`V-2026-000123`) y la cita pasa a **Atendida**:
+
+- Si la cita es de **Prueba EDI**, se abre la captura de la
+  [Prueba EDI](/docs/expediente/prueba-edi/).
+- Si es de otro tipo, se abre el expediente del niño.
+
+Un centro sin recepción puede iniciar la atención directo, sin marcar
+**Llegó**, siempre que sea el día de la cita.
+
+## Reprogramar una cita
+
+Una cita **Agendada** o **Confirmada** se puede mover de dos formas:
+
+- Abre la cita, selecciona **Reprogramar**, captura la **Nueva fecha y hora** y
+  selecciona **Guardar cambio**.
+- Arrastra la cita en el calendario a otro horario, en la vista **Día** o
+  **Semana**. En la vista **Día** también puedes soltarla en la columna de otro
+  profesional. En la vista **Mes** no se arrastra.
+
+No se puede mover a un horario que ya pasó, ni a uno que empalme con otra cita
+del mismo profesional.
+
+## Cancelar una cita
+
+Abre la cita, selecciona **Cancelar**, escribe el **Motivo de la cancelación** y
+selecciona **Cancelar cita**. El motivo es obligatorio y queda visible en el
+detalle. Se puede cancelar una cita **Agendada**, **Confirmada** o **En espera**.
+
+## Marcar que no asistió
+
+El botón **No asistió** aparece solo cuando la hora de la cita ya pasó y el niño
+no llegó.
+
+Para hacerlo con todas las citas del día a la vez, usa
+[Cerrar día](#cerrar-el-día).
+
+## Cerrar el día
+
+<Steps>
+
+1. Abre la vista **Día** en la fecha que quieres cerrar (hoy o un día anterior).
+
+2. Selecciona **Cerrar día** y confirma.
+
+</Steps>
+
+Las citas **Agendadas** o **Confirmadas** de ese día cuya hora ya pasó quedan
+como **No asistió**. Los niños que siguen en **Sala de espera** no cambian.
+
+<Aside type="caution">
+**Atendida**, **Cancelada** y **No asistió** son estados finales: la cita ya no se
+puede reprogramar, cancelar ni reabrir. Si te equivocas, agenda una cita nueva.
+</Aside>
+
+## Desde el expediente del niño
+
+En el expediente, el botón **Agendar cita** del encabezado abre el formulario con
+el niño ya elegido. La pestaña **Citas** muestra:
+
+- La **próxima cita sugerida**, con su motivo y el botón **Agendar**, que abre
+  el formulario ya lleno.
+- El botón **Agendar cita**, para una cita libre.
+- La lista de citas del niño con fecha, tipo, profesional, estado y el mismo
+  botón que la vista **Lista**: **Iniciar atención** o **Ver cita**. Desde
+  **Ver cita** están **Llegó**, **Confirmar**, **Reprogramar**, **No asistió** y
+  **Cancelar**, igual que en la agenda.
+
+## Agendar la próxima cita después de una Prueba EDI
+
+Al cerrar una Prueba EDI calificada con **Cerrar prueba y agendar cita**, EDI
+abre el formulario de la próxima cita con la fecha y el tipo sugeridos. En una
+prueba ya **Cerrada**, el botón **Agendar próxima cita** hace lo mismo. La
+sugerencia depende del resultado:
+
+| Resultado | Sugerencia |
+|---|---|
+| Amarillo | Revaloración con el EDI dentro de los 3 meses siguientes. |
+| Rojo | Ninguna fecha: el niño tiene una referencia a especialista pendiente y no se agenda revaloración de rutina. |
+| Verde, o sin Prueba EDI | Control del niño sano según la edad. |
+
+El control del niño sano sigue la NOM-031-SSA2-1999:
+
+| Edad | Cada cuánto |
+|---|---|
+| Menores de 1 año | Cada 2 meses |
+| De 1 a 4 años | Cada 6 meses |
+| 5 años o más | Una vez al año |
+
+La sugerencia nunca agenda sola. Revisa la fecha, elige el profesional y
+selecciona **Agendar**. Si EDI no puede calcularla, abre el formulario vacío
+para que la agendes a mano.
+
+## Relacionado
+
+<LinkCard title="Expediente del niño" href="/docs/expediente/nino/" />
+<LinkCard title="Prueba EDI" href="/docs/expediente/prueba-edi/" />

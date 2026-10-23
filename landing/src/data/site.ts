@@ -3,18 +3,25 @@
  * Centralised so the "copys que venden" can be tuned in one place and so the
  * sections stay data-driven (the foundation for any future programmatic pages).
  *
- * NOTE: figures like 98%, 12 hrs, −38% are illustrative claims from the design
- * brief. Swap them for audited client data before a public launch.
+ * NOTE: las cifras de `results` son datos DEL INSTRUMENTO (15 grupos, 8 áreas,
+ * 451 reactivos), no promesas de resultado — verificables y por eso seguras.
+ * Lo que sí falta reemplazar antes de publicar: `testimonials` y `trustNames`
+ * son ficticios, y los precios de `pricing` están marcados `proposed` porque el
+ * sujeto de cuota todavía no se define (ver la deuda conocida en AGENTS.md).
+ *
+ * TODO capturas: los 7 .webp de `bento` siguen siendo del producto anterior
+ * (administración de condominios). Hay que recapturarlos desde la app EDI; los
+ * `imageAlt` ya describen la pantalla que debe ir en cada tarjeta.
  */
 
 import type { ImageMetadata } from 'astro';
-import cobranzaImg from '../assets/system/card-cobranza.webp';
-import tesoreriaImg from '../assets/system/card-tesoreria.webp';
-import morosidadImg from '../assets/system/card-morosidad.webp';
-import transparenciaImg from '../assets/system/card-transparencia.webp';
-import mesaImg from '../assets/system/card-mesa.webp';
+import capturaImg from '../assets/system/card-cobranza.webp';
+import resultadoImg from '../assets/system/card-tesoreria.webp';
+import alternaImg from '../assets/system/card-morosidad.webp';
+import seguimientoImg from '../assets/system/card-transparencia.webp';
+import estimulacionImg from '../assets/system/card-mesa.webp';
 import reportesImg from '../assets/system/card-reportes.webp';
-import residentesImg from '../assets/system/card-residentes.webp';
+import expedienteImg from '../assets/system/card-residentes.webp';
 
 export type FinancialStatus = 'ok' | 'warn' | 'bad';
 
@@ -47,7 +54,7 @@ export interface Hero {
   badge: string;
   /** Headline before the emphasised fragment. */
   titleLead: string;
-  /** Emphasised (italic sage) fragment that closes the headline. */
+  /** Emphasised (italic brand) fragment that closes the headline. */
   titleEm: string;
   /** Lede with an emphasised closing sentence. */
   ledeLead: string;
@@ -79,7 +86,7 @@ export interface ResultStat {
   value: number;
   /** Visible prefix when the raw number alone is ambiguous (e.g. "$"). */
   prefix?: string;
-  /** Unit rendered in italic sage after the number. */
+  /** Unit rendered in italic brand after the number. */
   unit?: string;
   captionStrong: string;
   caption: string;
@@ -104,7 +111,7 @@ export interface Cta {
 // ---------------------------------------------------------------- content --
 
 /** Nombre de marca del producto. Fuente única — cámbialo aquí y se propaga a toda la landing. */
-const BRAND = 'EDI';
+const BRAND = 'Prueba EDI';
 
 /**
  * URL de la app donde aterrizan los CTAs de "empezar/iniciar".
@@ -118,8 +125,8 @@ const APP_HOST = APP_URL.replace(/^https?:\/\//, '');
 export const meta: SiteMeta = {
   name: BRAND,
   shortTitle: BRAND,
-  title: `${BRAND} — Plataforma integral para organizaciones modernos`,
-  description: `${BRAND}: plataforma integral para administrar organizaciones y organizaciones en México. Cobranza, tesorería y transparencia en un solo lugar. Deja el Excel.`,
+  title: `${BRAND} — Evaluación del Desarrollo Infantil`,
+  description: `${BRAND}: aplica el tamiz de Evaluación del Desarrollo Infantil en la consulta. El semáforo por área y el resultado los calcula el sistema, con las reglas del grupo de edad que corresponde.`,
   // Dominio del producto (infraestructura). Derivado de APP_URL / PUBLIC_APP_URL.
   appHost: APP_HOST,
   sameAs: [],
@@ -129,7 +136,7 @@ export const meta: SiteMeta = {
 export const nav: NavLink[] = [
   { href: '/#plataforma', label: 'Plataforma' },
   { href: '/#precios', label: 'Precios' },
-  { href: '/#transparencia', label: 'Transparencia' },
+  { href: '/#seguimiento', label: 'Seguimiento' },
   { href: '/docs', label: 'Documentación' },
   { href: '/blog', label: 'Blog' },
 ];
@@ -137,125 +144,126 @@ export const nav: NavLink[] = [
 export const navCta: NavLink = { href: APP_URL, label: 'Pruébalo gratis 30 días' };
 
 export const hero: Hero = {
-  badge: 'Plataforma integral para organizaciones modernos',
-  titleLead: 'La administración de tu organización,',
-  titleEm: 'en orden.',
+  badge: 'Tamiz de la Secretaría de Salud',
+  titleLead: 'El tamiz EDI, resuelto',
+  titleEm: 'en la consulta.',
   ledeLead:
-    'Cobranza al día, tesorería que cuadra y una comunidad que confía en los números.',
-  ledeStrong: 'Tu organización deja el Excel en una semana.',
+    'Capturas los reactivos del grupo de edad que corresponde y el sistema devuelve el semáforo por área.',
+  ledeStrong: 'Sin hojas sueltas y sin cuentas a mano.',
   ctaPrimary: { href: APP_URL, label: 'Pruébalo gratis 30 días' },
-  ctaSecondary: { href: '#plataforma', label: 'Ver la plataforma' },
+  ctaSecondary: { href: '#plataforma', label: 'Ver cómo funciona' },
   proofs: [
     { text: 'Hoy no pagas nada' },
-    { text: 'Migramos tus saldos' },
+    { text: 'Migramos tu historial' },
     { text: 'Soporte en español' },
   ],
 };
 
 export const trustEyebrow = `Confían en ${BRAND}`;
+// Nombres ilustrativos — reemplazar por centros reales antes del launch.
 export const trustNames: string[] = [
-  'Loma Chica',
-  'Torre Polanco',
-  'Villa Serena',
-  'Altos del Bosque',
-  'Residencial Niebla',
+  'CS Xochimilco',
+  'CS Milpa Alta',
+  'Pediatría Del Valle',
+  'CS Tláhuac',
+  'Estancia Los Pinos',
 ];
 
 export const platformHead = {
-  eyebrow: 'La plataforma integral',
-  titleLead: 'Todo lo que un administrador necesita.',
-  titleEm: 'Nada que lo distraiga.',
-  body: 'Cobranza, tesorería, transparencia y más — cada cosa en su lugar, funcionando todos los días.',
+  eyebrow: 'La plataforma',
+  titleLead: 'Todo lo que necesitas para tamizar.',
+  titleEm: 'Nada que te distraiga del niño.',
+  body: 'Aplicación, resultado, seguimiento y estimulación temprana, cada cosa en su lugar y con el instrumento tal como se publicó.',
 };
 
 export const bento: BentoCard[] = [
   {
-    tag: 'Cobranza',
-    title: 'Cobra sin perseguir a nadie',
-    body: 'Cada vecino sabe cuánto debe y cada pago se registra en segundos — completo, parcial o adelantado. Tú solo ves cómo baja la morosidad.',
+    tag: 'Aplicación',
+    title: 'El grupo de edad lo resuelve el sistema',
+    body: 'Capturas nacimiento y semanas de gestación. El sistema ubica el grupo entre los 15 y aplica la edad corregida cuando el niño nació prematuro.',
     span: 3,
-    image: cobranzaImg,
+    image: capturaImg,
     imageAlt:
-      'Tablero de cobranza de EDI: tasa de cobro, antigüedad de cartera y las unidades con mayor saldo pendiente.',
+      'Captura de un tamiz en EDI: los reactivos del grupo de edad con sus dos opciones de respuesta.',
   },
   {
-    tag: 'Tesorería',
-    title: 'Cierra el mes en minutos, no en madrugadas',
-    body: 'Cada peso queda con su comprobante, su categoría y quién lo autorizó. Cuando llega el cierre, ya está hecho.',
+    tag: 'Resultado',
+    title: 'El semáforo se calcula en el servidor',
+    body: 'Nunca se acepta el color desde el navegador. Cada tamiz queda amarrado a la versión del instrumento con la que se resolvió, así que un resultado de hace dos años se recalcula con las reglas de entonces.',
     span: 3,
     delay: 1,
-    image: tesoreriaImg,
+    image: resultadoImg,
     imageAlt:
-      'Tablero de tesorería de EDI: evolución del saldo y entradas contra salidas de los últimos doce meses.',
+      'Resultado de un tamiz en EDI: el semáforo por área y la clasificación global del niño.',
   },
   {
-    tag: 'Morosidad',
-    title: 'El adeudo, visible antes de que crezca',
-    body: 'Cada unidad con saldo vencido, su antigüedad y el monto exacto — para actuar antes de que se vuelva impagable.',
+    tag: 'Evaluación alterna',
+    title: 'La regla que en papel se olvida',
+    body: 'Cuando un área sale completa en amarillo hay que volver al grupo anterior. El sistema abre esos reactivos solo, sin que tengas que acordarte a mitad de la consulta.',
     span: 2,
-    image: morosidadImg,
+    image: alternaImg,
     imageAlt:
-      'Control de morosidad de EDI: unidades con adeudo vencido, su antigüedad y el monto pendiente de cada una.',
+      'Evaluación alterna en EDI: el área en amarillo y los reactivos del grupo previo abiertos para ese eje.',
   },
   {
-    tag: 'Transparencia',
-    title: 'El dinero de todos, a la vista de todos',
-    body: 'Ingresos, egresos y utilidad del mes en un estado de resultados que cualquier vecino entiende.',
+    tag: 'Seguimiento',
+    title: 'Ningún rezago se queda sin cita',
+    body: 'Los niños con rezago o riesgo quedan en una lista de trabajo, con lo que sigue en cada caso: sesión de estimulación o referencia a especialista.',
     span: 2,
     delay: 1,
-    id: 'transparencia',
-    image: transparenciaImg,
+    id: 'seguimiento',
+    image: seguimientoImg,
     imageAlt:
-      'Estado de resultados de EDI: ingresos, egresos y utilidad neta mensual de los últimos doce meses.',
+      'Lista de seguimiento en EDI: niños con rezago o riesgo y la acción pendiente de cada uno.',
   },
   {
-    tag: 'Mesa directiva',
-    title: 'La mesa cambia. El orden se queda.',
-    body: 'Cada periodo entrega cuentas claras al siguiente.',
+    tag: 'Estimulación',
+    title: 'De la detección a la sesión',
+    body: 'Armas los grupos y registras cada sesión contra el niño que la necesita.',
     span: 2,
     delay: 2,
-    image: mesaImg,
+    image: estimulacionImg,
     imageAlt:
-      'Mesa directiva en EDI: periodo vigente con presidente, tesorero, secretario, vocal y comité de vigilancia.',
+      'Sesiones de estimulación temprana en EDI: grupos armados y asistencia de cada niño.',
   },
   {
     tag: 'Reportes',
-    title: 'Llega a la asamblea con la respuesta lista',
-    body: 'Estado de resultados, morosidad y flujo de efectivo — generados en un clic, no armados a mano la noche anterior.',
+    title: 'El informe del centro, sin armarlo a mano',
+    body: 'Tamizajes del periodo, distribución del semáforo y en qué áreas falla más tu población. Exportable, no transcrito de una libreta.',
     span: 4,
     image: reportesImg,
     imageAlt:
-      'Centro de reportes de EDI: morosidad, estado de resultados, flujo de efectivo y más, exportables a PDF y Excel.',
+      'Reportes de EDI: tamizajes por grupo de edad, distribución del semáforo y áreas con más rezago.',
   },
   {
-    tag: 'Residentes',
-    title: 'Cada vecino, con su cuenta clara',
-    body: 'Su estado de cuenta, cargos y pagos, siempre a la mano desde el celular.',
+    tag: 'Expediente',
+    title: 'Cada niño, con su historia completa',
+    body: 'Todos sus tamizajes, sus factores de riesgo y sus sesiones, en orden y a la mano.',
     span: 2,
     delay: 1,
-    image: residentesImg,
+    image: expedienteImg,
     imageAlt:
-      'Estado de cuenta del residente en EDI: cada cargo mensual con lo esperado, lo pagado y su estado al corriente.',
+      'Expediente del niño en EDI: tamizajes aplicados, factores de riesgo biológico y sesiones registradas.',
   },
 ];
 
+// Cifras del INSTRUMENTO, no promesas de resultado: son verificables contra la
+// prueba publicada, así que no hay nada que auditar antes de un launch.
 export const results: ResultStat[] = [
   {
-    value: 98,
-    unit: '%',
-    captionStrong: 'de cobranza al corriente',
-    caption: `en organizaciones con 6+ meses en ${BRAND}.`,
+    value: 15,
+    captionStrong: 'grupos de edad',
+    caption: 'de 1 a 71 meses, cada uno con sus propios umbrales.',
   },
   {
-    value: 12,
-    unit: 'hrs',
-    captionStrong: 'recuperadas al mes',
-    caption: 'por tesorero — el cierre pasa de noches a minutos.',
+    value: 8,
+    captionStrong: 'áreas evaluadas',
+    caption: 'motriz, lenguaje, social y conocimiento, más las señales de alarma y de alerta.',
   },
   {
-    value: 0,
-    captionStrong: 'hojas de Excel.',
-    caption: 'Ni libretas, ni capturas de WhatsApp, ni dudas.',
+    value: 451,
+    captionStrong: 'reactivos',
+    caption: 'el instrumento completo, tal como se publicó.',
   },
 ];
 
@@ -263,48 +271,49 @@ export const results: ResultStat[] = [
 export const testimonials: Testimonial[] = [
   {
     quote:
-      'Dejé tres libretas y dos hojas de Excel. Ahora la asamblea ve el reporte y nadie pregunta a dónde se fue el dinero.',
-    name: 'Alberto González',
-    role: 'Tesorero · Loma Chica, 77 unidades',
+      'Antes sumaba los reactivos a mano al final de la consulta y con prisa. Ahora cierro el tamiz y el semáforo ya está, con la edad corregida aplicada.',
+    name: 'Dra. Lorena Ramírez',
+    role: 'Pediatra · CS Xochimilco',
   },
   {
     quote:
-      'La morosidad bajó del 40% al 8% en cuatro meses. Los recordatorios automáticos hicieron el trabajo que yo no alcanzaba a hacer.',
-    name: 'María Fernanda Ruiz',
-    role: 'Administradora · Altos del Bosque, 120 unidades',
+      'La evaluación alterna se me pasaba. No por descuido: es que hay que acordarse justo cuando ya tienes al niño encima. El sistema abre el grupo anterior solo.',
+    name: 'Dr. Iván Beltrán',
+    role: 'Médico general · CS Milpa Alta',
   },
   {
     quote:
-      'Cada vecino ve su estado de cuenta desde el celular. Se acabaron las llamadas preguntando cuánto deben.',
-    name: 'Jorge Mendoza',
-    role: 'Presidente · Torre Polanco, 64 deptos',
-  },
-  {
-    quote: 'El cierre de mes pasó de un fin de semana entero a quince minutos. En serio.',
-    name: 'Claudia Herrera',
-    role: 'Tesorera · Villa Serena, 52 unidades',
+      'Lo que más cambió fue el seguimiento. Los niños con rezago quedan en una lista, no en una hoja que se traspapela.',
+    name: 'Lic. Norma Villaseñor',
+    role: 'Trabajo social · CS Tláhuac',
   },
   {
     quote:
-      'Antes el dinero del organización era un misterio. Hoy cualquier vecino ve en qué se gasta cada peso, y eso bajó la tensión en las asambleas.',
-    name: 'Ricardo Beltrán',
-    role: 'Presidente · Residencial Niebla, 88 unidades',
+      'Puedo abrir un tamiz de hace dos años y ver con qué reglas se resolvió. Eso en papel no existía.',
+    name: 'Dra. Paulina Escobar',
+    role: 'Coordinadora de pediatría · Pediatría Del Valle',
   },
   {
     quote:
-      'Migrar fue más fácil de lo que pensaba. Cargué mis unidades una tarde y al día siguiente ya estaba cobrando con folios.',
-    name: 'Diana Castro',
-    role: 'Administradora · Privada del Roble, 41 casas',
+      'El informe del trimestre lo sacaba a mano en dos tardes. Ahora lo exporto y me queda tiempo para revisarlo.',
+    name: 'Dr. Arturo Nájera',
+    role: 'Director · CS Iztapalapa',
+  },
+  {
+    quote:
+      'Cargamos el padrón de niños una tarde y al día siguiente ya estábamos tamizando con folio.',
+    name: 'Enf. Rocío Palma',
+    role: 'Enfermería · Estancia Los Pinos',
   },
 ];
 
 export const cta: Cta = {
-  eyebrow: 'Empieza este mes',
-  titleLead: 'Tu comunidad,',
-  titleEm: 'más organizada y segura.',
+  eyebrow: 'Empieza esta semana',
+  titleLead: 'Tu centro,',
+  titleEm: 'tamizando bien.',
   bodyLead:
-    'Alta guiada: damos de alta tu organización, migramos tus saldos y capacitamos a la mesa.',
-  bodyStrong: 'En una semana, el Excel es historia.',
+    'Alta guiada: damos de alta tu centro, cargamos tu padrón de niños y capacitamos a quien aplica.',
+  bodyStrong: 'En una semana estás tamizando con el instrumento completo.',
   primary: { href: APP_URL, label: 'Pruébalo gratis 30 días' },
   proofs: [
     { text: 'Hoy no pagas nada' },
@@ -318,16 +327,16 @@ export const footerLinks: NavLink[] = [
   { href: '/#precios', label: 'Precios' },
   { href: '/docs', label: 'Documentación' },
   { href: '/blog', label: 'Blog' },
-  { href: '/#transparencia', label: 'Transparencia' },
+  { href: '/#seguimiento', label: 'Seguimiento' },
   { href: '/privacidad', label: 'Privacidad' },
   { href: '/terminos', label: 'Términos' },
 ];
 
-export const footerLegal = `© 2026 ${BRAND} · Hecho en México · Comunidades más felices, organizadas y seguras.`;
+export const footerLegal = `© 2026 ${BRAND} · Hecho en México · Para que ningún rezago se detecte tarde.`;
 
 // -------------------------------------------------------- new sections (2026-06) --
 
-/** Comparativa "antes/después" — Excel vs la plataforma. Una fila = un dolor resuelto. */
+/** Comparativa "antes/después" — papel vs la plataforma. Una fila = un dolor resuelto. */
 export interface ComparisonRow {
   before: string;
   after: string;
@@ -340,14 +349,14 @@ export const comparison: {
   rows: ComparisonRow[];
 } = {
   eyebrow: 'El cambio',
-  title: 'Deja el Excel. En serio.',
-  beforeLabel: 'Con Excel',
+  title: 'Deja el formato de papel.',
+  beforeLabel: 'En papel',
   afterLabel: `Con ${BRAND}`,
   rows: [
-    { before: 'Fórmulas que se rompen y nadie sabe por qué', after: 'Cobranza y saldos calculados solos' },
-    { before: 'Pagos que se pierden entre WhatsApps', after: 'Cada pago con folio y comprobante' },
-    { before: 'Cierre de mes a mano, 12 horas', after: 'Cierre de mes automático, en minutos' },
-    { before: 'Cero transparencia para los vecinos', after: 'Estado de cuenta visible para todos' },
+    { before: 'Sumar los reactivos a mano al cerrar la consulta', after: 'El semáforo por área, calculado al guardar' },
+    { before: 'Sacar la edad corregida con calculadora', after: 'La prematurez aplicada antes de elegir el grupo' },
+    { before: 'Acordarte de la evaluación alterna', after: 'El grupo anterior se abre solo cuando toca' },
+    { before: 'Formatos que se traspapelan entre consultas', after: 'El expediente del niño, siempre completo' },
   ],
 };
 
@@ -359,18 +368,18 @@ export interface HowStep {
 }
 export const howItWorks: { eyebrow: string; title: string; lede: string; steps: HowStep[] } = {
   eyebrow: 'Cómo funciona',
-  title: 'Tu organización deja el Excel en una semana.',
+  title: 'Tu centro empieza a tamizar en una semana.',
   lede: 'Tres pasos. Sin migraciones eternas ni curva de aprendizaje.',
   steps: [
-    { n: '01', title: 'Creas el organización', body: 'Alta y configuración guiada de tu organización o organización en minutos.' },
-    { n: '02', title: 'Cargas unidades y residentes', body: 'Torres, secciones y unidades. Vinculas a cada propietario o inquilino.' },
-    { n: '03', title: 'Cobras y reportas solo', body: 'Generas cargos, registras pagos con FIFO y el estado de cuenta se arma solo.' },
+    { n: '01', title: 'Das de alta el centro', body: 'Alta guiada del centro y de quienes aplican el tamiz, en minutos.' },
+    { n: '02', title: 'Cargas a los niños', body: 'Fecha de nacimiento, semanas de gestación y factores de riesgo biológico. Con eso basta.' },
+    { n: '03', title: 'Aplicas y el sistema resuelve', body: 'Capturas los reactivos; el semáforo por área, el resultado global y el seguimiento salen solos.' },
   ],
 };
 
 /**
- * Planes por banda de unidades. El precio depende SOLO del tamaño del organización:
- * todo el producto (incluidas paquetería y amenidades) va dentro del plan base,
+ * Planes por banda de volumen. El precio depende SOLO del volumen de tamizajes:
+ * todo el producto (incluidos seguimiento y estimulación) va dentro del plan base,
  * no hay módulos vendibles por separado. Esencial / Avanzado / Premium con
  * precios REALES del infográfico; Básico / Inicial (1–50 casas) con precios
  * PROPUESTOS (`proposed: true`) — confirmar antes del launch.
@@ -415,7 +424,7 @@ export const pricing: {
   contactEmail: string;
 } = {
   eyebrow: 'Precios',
-  title: 'Elige el plan que mejor se adapta a tu organización.',
+  title: 'Elige el plan que le queda a tu centro.',
   // El precio mostrado es el MENSUAL. El 5% de descuento del pago anual vivía sólo
   // en las notas al pie, donde nadie lo lee: se sube aquí porque es la palanca que
   // adelanta flujo de caja y reduce cancelaciones, y nadie elige lo que no ve.
@@ -424,7 +433,7 @@ export const pricing: {
     {
       name: 'Básico',
       key: 'basico',
-      range: '1 a 25 casas',
+      range: 'Hasta 50 tamizajes al mes',
       price: '$450',
       highlight: false,
       cta: 'Empezar gratis',
@@ -434,7 +443,7 @@ export const pricing: {
     {
       name: 'Inicial',
       key: 'inicial',
-      range: '26 a 50 casas',
+      range: '51 a 120 tamizajes al mes',
       price: '$650',
       highlight: false,
       cta: 'Empezar gratis',
@@ -444,56 +453,59 @@ export const pricing: {
     {
       name: 'Esencial',
       key: 'esencial',
-      range: '51 a 100 casas',
+      range: '121 a 300 tamizajes al mes',
       price: '$950',
       highlight: true,
       cta: 'Empezar gratis',
       href: `${APP_URL}/register?plan=esencial`,
+      proposed: true,
     },
     {
       name: 'Avanzado',
       key: 'avanzado',
-      range: '101 a 200 casas',
+      range: '301 a 600 tamizajes al mes',
       price: '$1,550',
       highlight: false,
       cta: 'Empezar gratis',
       href: `${APP_URL}/register?plan=avanzado`,
+      proposed: true,
     },
     {
       name: 'Premium',
       key: 'premium',
-      range: '201 a 300 casas',
+      range: '601 a 1,000 tamizajes al mes',
       price: '$2,100',
       highlight: false,
       cta: 'Empezar gratis',
       href: `${APP_URL}/register?plan=premium`,
+      proposed: true,
     },
     {
       name: 'A medida',
       key: 'a_medida',
-      range: 'Más de 300 casas',
+      range: 'Más de 1,000 tamizajes al mes',
       highlight: false,
       contactSales: true,
       blurb:
-        'Armamos un plan a tu medida, con acompañamiento en la migración y un precio acorde al tamaño de tu comunidad.',
+        'Armamos un plan a tu medida, con acompañamiento en la carga del padrón y un precio acorde al volumen de tu centro.',
       cta: 'Contáctanos',
-      href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Plan a medida para más de 300 casas')}`,
+      href: `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Plan a medida para más de 1,000 tamizajes al mes')}`,
     },
   ],
   includesTitle: 'Todo incluido en cualquier plan',
   includes: [
-    'Administración financiera (cobranza y pagos)',
-    'Comunicación con residentes y avisos',
-    'Control de accesos y visitantes',
-    'Paquetería y recepción de envíos',
-    'Reserva de amenidades y áreas comunes',
-    'Reportes y dashboards en tiempo real',
-    'App móvil para administradores y residentes',
+    'El instrumento completo: 15 grupos de edad y 451 reactivos',
+    'Edad corregida por prematurez y evaluación alterna',
+    'Expediente del niño con sus factores de riesgo',
+    'Seguimiento de rezago y riesgo de retraso',
+    'Sesiones de estimulación temprana',
+    'Reportes del centro exportables',
+    'Usuarios ilimitados para quienes aplican el tamiz',
     'Respaldo seguro y actualizaciones incluidas',
   ],
   notes: [
     'Precios en MXN con IVA incluido.',
-    'Sin módulos extra: el precio depende sólo del tamaño de tu organización.',
+    'Sin módulos extra: el precio depende sólo del volumen de tamizajes de tu centro.',
     'Contrato anual con opción a pago mensual o anual (5% de descuento en el pago anual).',
     'Implementación y capacitación incluidas.',
   ],
@@ -509,17 +521,17 @@ export const faq: { eyebrow: string; title: string; items: FaqItem[] } = {
   eyebrow: 'Preguntas frecuentes',
   title: 'Lo que todos preguntan.',
   items: [
-    { q: '¿Sirve para organización y para organización?', a: 'Sí. EDI maneja organizaciones horizontales (casas), verticales (departamentos) y mixtos.' },
-    { q: '¿Cómo migro mi Excel?', a: 'Cargas tus unidades y residentes una vez. No necesitas fórmulas: la cobranza y los saldos se calculan automáticamente.' },
-    { q: '¿Los vecinos ven su estado de cuenta?', a: 'Sí. Cada residente ve sus cargos, pagos y saldo con total transparencia.' },
-    { q: '¿Maneja indiviso (ownership share)?', a: 'Sí. Puedes cobrar montos proporcionales al porcentaje de copropiedad cuando lo necesites.' },
-    { q: '¿Qué métodos de pago registra?', a: 'Efectivo, transferencia, depósito y cheque, cada uno con folio y comprobante.' },
-    { q: '¿Es seguro?', a: 'Cada organización tiene sus datos aislados y auditados. Nadie ve la información de otro.' },
+    { q: '¿Es el tamiz EDI oficial?', a: 'Sí. EDI aplica la prueba de Evaluación del Desarrollo Infantil de la Secretaría de Salud tal como está publicada, sin adaptarla ni reinterpretarla.' },
+    { q: '¿Qué edades cubre?', a: 'De 1 a 71 meses, repartidos en los 15 grupos de edad del instrumento. Cada grupo tiene sus propios reactivos y sus propios umbrales.' },
+    { q: '¿Maneja la edad corregida por prematurez?', a: 'Sí. Capturas las semanas de gestación y el sistema aplica la corrección antes de elegir el grupo, que es donde suele cambiar el resultado.' },
+    { q: '¿Y la evaluación alterna?', a: 'Cuando un área sale completa en amarillo, el sistema abre los reactivos del grupo anterior para esa área. Es la regla que más se pierde cuando la prueba se aplica en papel.' },
+    { q: '¿Quién calcula el resultado?', a: 'El servidor. Nunca se acepta el color desde el navegador, y cada tamiz guarda la versión del instrumento con la que se resolvió, así que se puede recalcular con las reglas de entonces.' },
+    { q: '¿Es seguro?', a: 'Cada centro tiene sus datos aislados y auditados. Nadie ve la información de otro.' },
   ],
 };
 
 /** Metadatos del blog (título/descr del listado, base para SEO). */
 export const blogMeta = {
   title: 'Blog',
-  description: `Guías de administración de organizaciones y organizaciones, por ${BRAND}.`,
+  description: `Guías sobre tamizaje del desarrollo infantil y estimulación temprana, por ${BRAND}.`,
 };

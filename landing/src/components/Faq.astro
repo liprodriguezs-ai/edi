@@ -11,13 +11,13 @@ import SectionHead from '@/components/SectionHead.astro';
       {
         faq.items.map((item) => (
           <details class="group border-b border-line">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-serif text-[21px] font-medium leading-snug [&::-webkit-details-marker]:hidden">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-bold tracking-[-0.035em] text-[21px] leading-snug [&::-webkit-details-marker]:hidden">
               {item.q}
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
                 fill="none"
-                class="h-5 w-5 flex-none text-sage-deep transition-transform duration-200 group-open:rotate-180"
+                class="h-5 w-5 flex-none text-brand-deep transition-transform duration-200 group-open:rotate-180"
               >
                 <path
                   d="M6 9l6 6 6-6"

@@ -78,6 +78,8 @@ export default defineConfig({
       // `sidebar.order` del frontmatter de cada página.
       sidebar: [
         group('Primeros pasos', 'empezar', false),
+        group('Agenda', 'agenda'),
+        group('Expediente del niño', 'expediente'),
         group('Estructura del organización', 'estructura'),
         group('Cobranza', 'cobranza'),
         group('Tesorería', 'tesoreria'),

@@ -11,9 +11,9 @@ const { status, label } = Astro.props;
 // Status is carried by BOTH the dot colour AND the text label — never colour
 // alone (WCAG 1.4.1). Text colours are tuned to clear AA contrast on their tint.
 const tint: Record<FinancialStatus, string> = {
-  ok: 'bg-[#E7EFE7] text-[#3F6648]',
-  warn: 'bg-[#F4ECD9] text-[#785B17]',
-  bad: 'bg-[#F2E3DE] text-[#8C4434]',
+  ok: 'bg-[#10241a] text-[#35c46e]',
+  warn: 'bg-[#2a2110] text-[#f0b03c]',
+  bad: 'bg-[#2b1310] text-[#f0634c]',
 };
 
 const dot: Record<FinancialStatus, string> = {
@@ -25,10 +25,11 @@ const dot: Record<FinancialStatus, string> = {
 
 <span
   class:list={[
-    'inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3px] text-[11.5px] font-medium',
+  'inline-flex items-center gap-1.5  px-2.5 py-[3px] text-[11.5px] font-medium',
     tint[status],
   ]}
 >
-  <span class:list={['h-1.5 w-1.5 rounded-full', dot[status]]} aria-hidden="true"></span>
+  <span class:list={[
+  'h-1.5 w-1.5 ', dot[status]]} aria-hidden="true"></span>
   {label}
 </span>

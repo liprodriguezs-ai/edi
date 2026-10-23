@@ -63,6 +63,13 @@ testing:
     coverage: false
     known_passing: 795  # baseline heredado de la plantilla, antes de la poda
 
+# Ritmo de ejecución elegido por el usuario (2026-08-09).
+# auto = las fases corren encadenadas sin pausar. El orquestador valida después de
+# cada fase antes de lanzar la siguiente, y sólo interrumpe ante una decisión de
+# producto genuina o un segundo fallo consecutivo de la misma compuerta.
+execution:
+  pace: auto
+
 phase_rules:
   proposal: { owner: opus }
   spec: { owner: sonnet }

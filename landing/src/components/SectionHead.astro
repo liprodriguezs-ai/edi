@@ -15,12 +15,12 @@ const { eyebrow, titleLead, titleEm, body, titleId, anchorId } = Astro.props;
 ---
 
 <div id={anchorId} class="reveal mx-auto mb-16 max-w-[60ch] text-center">
-  <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-sage-deep">{eyebrow}</p>
+  <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-brand-deep">{eyebrow}</p>
   <h2
     id={titleId}
-    class="font-serif text-[clamp(32px,4.4vw,54px)] font-medium leading-[1.05] tracking-[-0.01em]"
+    class="font-bold tracking-[-0.035em] text-[clamp(32px,4.4vw,54px)] leading-[1.05]"
   >
-    {titleLead}{titleEm && <> <em class="italic text-sage">{titleEm}</em></>}
+    {titleLead}{titleEm && <> <span class="text-brand-deep">{titleEm}</span></>}
   </h2>
   {body && <p class="mx-auto mt-6 max-w-[52ch] text-[16.5px] text-ink-soft">{body}</p>}
 </div>

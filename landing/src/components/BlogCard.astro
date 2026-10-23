@@ -16,13 +16,13 @@ const formatted = post.data.pubDate.toLocaleDateString('es-MX', {
 
 <a
   href={`/blog/${post.id}`}
-  class="reveal group flex flex-col rounded-card border border-line bg-card p-7 shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-[3px] hover:shadow-[0_24px_50px_-28px_rgba(20,24,26,0.3)]"
+  class="reveal group flex flex-col rounded-card border border-line bg-card p-7 shadow-card transition-[transform,box-shadow] duration-200 hover:-translate-y-[3px] hover:"
 >
   {
     post.data.tags.length > 0 && (
       <p class="mb-3 flex flex-wrap gap-2">
         {post.data.tags.map((tag) => (
-          <span class="rounded-full bg-sage-bg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-sage-deep">
+          <span class="bg-brand-bg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-brand-deep">
             {tag}
           </span>
         ))}
@@ -30,7 +30,7 @@ const formatted = post.data.pubDate.toLocaleDateString('es-MX', {
     )
   }
   <h2
-    class="font-serif text-[24px] font-semibold leading-[1.12] tracking-[-0.005em] transition-colors group-hover:text-sage-deep"
+    class="font-bold tracking-[-0.035em] text-[24px] leading-[1.12] transition-colors group-hover:text-brand-deep"
   >
     {post.data.title}
   </h2>

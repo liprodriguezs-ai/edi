@@ -10,9 +10,9 @@ import SectionHead from '@/components/SectionHead.astro';
     <div
       class="reveal mx-auto grid max-w-[980px] grid-cols-2 overflow-hidden rounded-band border border-line shadow-card max-[760px]:grid-cols-1"
     >
-      {/* Antes — Excel */}
+      {/* Antes — papel */}
       <div class="bg-paper-2 p-12 max-[760px]:p-8">
-        <p class="mb-7 text-[11.5px] font-semibold uppercase tracking-[0.18em] text-[#8f4636]">
+        <p class="mb-7 text-[11.5px] font-semibold uppercase tracking-[0.18em] text-[#f0634c]">
           {comparison.beforeLabel}
         </p>
         <ul class="flex flex-col gap-4">
@@ -21,7 +21,7 @@ import SectionHead from '@/components/SectionHead.astro';
               <li class="flex items-start gap-3 text-[15px] text-ink-soft">
                 <span
                   aria-hidden="true"
-                  class="mt-0.5 inline-flex h-5 w-5 flex-none items-center justify-center rounded-md bg-[#efd9d3] text-[12px] font-bold text-bad"
+                  class="mt-0.5 inline-flex h-5 w-5 flex-none items-center justify-center bg-[#2b1310] text-[12px] font-bold text-bad"
                 >
                   ✕
                 </span>
@@ -33,17 +33,17 @@ import SectionHead from '@/components/SectionHead.astro';
       </div>
 
       {/* Después — EDI (franja oscura, 1er momento de contraste) */}
-      <div class="bg-[linear-gradient(160deg,#14181a,#1d2426)] p-12 text-paper max-[760px]:p-8">
-        <p class="mb-7 text-[11.5px] font-semibold uppercase tracking-[0.18em] text-[#A9B6A2]">
+      <div class="bg-[linear-gradient(160deg,#141719,#0b0d0f)] p-12 text-paper max-[760px]:p-8">
+        <p class="mb-7 text-[11.5px] font-semibold uppercase tracking-[0.18em] text-[#a8adb2]">
           {comparison.afterLabel}
         </p>
         <ul class="flex flex-col gap-4">
           {
             comparison.rows.map((row) => (
-              <li class="flex items-start gap-3 text-[15px] text-[#D8DBD2]">
+              <li class="flex items-start gap-3 text-[15px] text-[#1f2427]">
                 <span
                   aria-hidden="true"
-                  class="mt-0.5 inline-flex h-5 w-5 flex-none items-center justify-center rounded-md bg-sage text-[12px] font-bold text-white"
+                  class="mt-0.5 inline-flex h-5 w-5 flex-none items-center justify-center bg-brand text-[12px] font-bold text-white"
                 >
                   ✓
                 </span>

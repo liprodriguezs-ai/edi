@@ -5,24 +5,24 @@ import Button from '@/components/Button.astro';
 
 <section id="empezar" class="scroll-mt-24 pb-32">
   <div
-    class="reveal relative mx-auto max-w-page overflow-hidden rounded-band bg-[linear-gradient(135deg,#33402F,#27332A)] p-[96px_64px] text-center text-paper max-[1260px]:mx-8 max-[760px]:p-12"
+    class="reveal relative mx-auto max-w-page overflow-hidden rounded-band bg-[linear-gradient(135deg,#101315,#0b0d0f)] p-[96px_64px] text-center text-paper max-[1260px]:mx-8 max-[760px]:p-12"
   >
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute -right-[130px] -top-[130px] h-[380px] w-[380px] rounded-full bg-white/[0.04]"
+      class="pointer-events-none absolute -right-[130px] -top-[130px] h-[380px] w-[380px] bg-white/[0.04]"
     >
     </div>
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute -bottom-[150px] -left-[100px] h-[320px] w-[320px] rounded-full bg-white/[0.03]"
+      class="pointer-events-none absolute -bottom-[150px] -left-[100px] h-[320px] w-[320px] bg-white/[0.03]"
     >
     </div>
 
-    <p class="text-[11.5px] font-semibold uppercase tracking-[0.24em] text-[#A9B6A2]">{cta.eyebrow}</p>
-    <h2 class="relative z-[1] mt-6 font-serif text-[clamp(38px,5.6vw,68px)] font-medium leading-[1.02]">
-      {cta.titleLead} <em class="italic text-[#A9B6A2]">{cta.titleEm}</em>
+    <p class="text-[11.5px] font-semibold uppercase tracking-[0.24em] text-[#a8adb2]">{cta.eyebrow}</p>
+    <h2 class="relative z-[1] mt-6 font-bold tracking-[-0.035em] text-[clamp(38px,5.6vw,68px)] leading-[1.02]">
+      {cta.titleLead} <span class="text-brand-deep">{cta.titleEm}</span>
     </h2>
-    <p class="relative z-[1] mx-auto mt-6 max-w-[46ch] text-[16px] text-[#C9CCC2]">
+    <p class="relative z-[1] mx-auto mt-6 max-w-[46ch] text-[16px] text-[#c9ccd2]">
       {cta.bodyLead} <b class="text-paper">{cta.bodyStrong}</b>
     </p>
 
@@ -31,12 +31,12 @@ import Button from '@/components/Button.astro';
     </div>
 
     <ul
-      class="relative z-[1] mt-6 flex flex-wrap justify-center gap-x-[18px] gap-y-2 text-[12px] text-[#8E9788]"
+      class="relative z-[1] mt-6 flex flex-wrap justify-center gap-x-[18px] gap-y-2 text-[12px] text-[#7a8180]"
     >
       {
         cta.proofs.map((proof) => (
           <li class="inline-flex items-center gap-1.5">
-            <span class="text-[#A9B6A2]" aria-hidden="true">
+            <span class="text-[#a8adb2]" aria-hidden="true">
               ✓
             </span>
             {proof.text}

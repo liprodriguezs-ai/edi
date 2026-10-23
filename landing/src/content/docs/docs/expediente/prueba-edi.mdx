@@ -1,0 +1,117 @@
+---
+title: "Prueba EDI"
+description: "Cómo se captura, se califica y se cierra una Prueba EDI en EDI, y qué hacen Corregir respuestas, Verificar cálculo y Anular prueba."
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside, LinkCard } from '@astrojs/starlight/components';
+
+La **Prueba EDI** es la aplicación del instrumento de Evaluación del Desarrollo
+Infantil a un niño. EDI calcula el resultado en semáforo (verde, amarillo o rojo)
+con las reglas del grupo de edad que se aplica.
+
+Una prueba se empieza desde el expediente del niño, con **Nueva Prueba EDI**
+(ver [Empezar una Prueba EDI](/docs/expediente/nino/#empezar-una-prueba-edi)), o
+al iniciar la atención de una cita de **Prueba EDI** en la
+[Agenda](/docs/agenda/citas/#atender-una-cita).
+
+Para consultar todas las pruebas, de todos los niños, usa el menú
+**Reportes → Prueba EDI**.
+
+## Quién puede usarlo
+
+Solo el rol **Administrador** puede aplicar, calificar, cerrar, verificar y anular
+Pruebas EDI. **Recepción** no tiene acceso a las pruebas.
+
+## Los tres pasos
+
+Arriba de la prueba hay un indicador de pasos:
+
+1. **Capturar respuestas**
+2. **Revisar y calificar**
+3. **Cerrar y agendar cita**
+
+Cada prueba tiene un estado:
+
+| Estado | Qué significa |
+|---|---|
+| **Borrador** | Se están capturando respuestas. |
+| **Calificada** | EDI ya calculó el resultado; todavía se puede corregir. |
+| **Cerrada** | Terminada. Ya no se pueden cambiar respuestas. |
+| **Anulada** | Se marcó como capturada por error. Sale del flujo. |
+
+## Capturar y calificar
+
+<Steps>
+
+1. Contesta los reactivos de cada sección. EDI guarda cada respuesta sola; el
+   indicador muestra **Guardando…** y **Guardado**. Abajo ves cuántos reactivos
+   van contestados.
+
+2. Selecciona **Revisar y calificar**. La pantalla **Revisión antes de
+   calificar** lista cada sección y cuántos reactivos le faltan.
+
+3. Si falta algo, selecciona **Contestar** en esa sección para ir a ella, o
+   **Volver a editar**.
+
+4. Cuando todo lo obligatorio está contestado, selecciona **Calificar**. La
+   prueba pasa a **Calificada** y se muestra el resultado.
+
+</Steps>
+
+Si cierras la pantalla a medias, la prueba queda en **Borrador**. Retómala con
+**Continuar captura**, desde la pestaña **Pruebas EDI** del expediente o desde el
+detalle de la prueba.
+
+## Cerrar la prueba y agendar la próxima cita
+
+Con la prueba **Calificada**, revisa el resultado y selecciona **Cerrar prueba y
+agendar cita**. EDI pide confirmación en **Cerrar Prueba EDI**; selecciona
+**Cerrar prueba**.
+
+La prueba pasa a **Cerrada** y enseguida se abre el formulario de la próxima cita
+con la fecha sugerida según el resultado. Cómo se calcula esa fecha está en
+[Agendar la próxima cita después de una Prueba EDI](/docs/agenda/citas/#agendar-la-próxima-cita-después-de-una-prueba-edi).
+
+Si tu rol no puede agendar citas, el botón dice **Cerrar prueba** y solo cierra.
+
+<Aside type="caution">
+Al cerrar la prueba ya no puedes cambiar respuestas.
+</Aside>
+
+## Corregir respuestas
+
+Mientras la prueba está **Calificada**, el botón **Corregir respuestas** te
+regresa a la captura. EDI avisa: si cambias alguna respuesta, la prueba vuelve a
+**Borrador** y tienes que calificarla de nuevo.
+
+## Más acciones
+
+El botón **Más acciones** del detalle de la prueba tiene dos acciones
+ocasionales, fuera del flujo normal:
+
+- **Verificar cálculo**: herramienta de auditoría, para pruebas **Calificadas** o
+  **Cerradas**. No hace falta para aplicar la prueba: el resultado ya se calculó
+  al calificar. Con **Actualizar el resultado guardado** apagado, solo muestra
+  qué resultado daría, incluso con otra **Versión del instrumento (simulación)**,
+  sin cambiar nada. Encendido, vuelve a calcular con las reglas de esa prueba y
+  guarda el resultado. Pide un **Motivo**.
+- **Anular prueba**: para una prueba capturada por error, por ejemplo a otro
+  niño. Pide un **Motivo**.
+
+<Aside type="caution">
+**Anular prueba** no se puede deshacer. La prueba queda como **Anulada**.
+</Aside>
+
+## Otras acciones del detalle
+
+- **Descargar documento**: disponible en pruebas **Calificadas** o **Cerradas**.
+- **Agendar próxima cita**: en una prueba **Cerrada**, abre el formulario con la
+  fecha sugerida.
+- **Volver al expediente**: regresa a la pestaña **Pruebas EDI** del niño.
+
+## Relacionado
+
+<LinkCard title="Expediente del niño" href="/docs/expediente/nino/" />
+<LinkCard title="Agenda: citas y sala de espera" href="/docs/agenda/citas/" />

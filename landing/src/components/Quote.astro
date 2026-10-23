@@ -12,13 +12,13 @@ for (let i = 0; i < testimonials.length; i += PER_PAGE) {
 <section class="py-32" aria-label="Testimonios de clientes">
   <div class="wrap">
     <div class="reveal mx-auto mb-14 max-w-[60ch] text-center">
-      <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-sage-deep">
+      <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-brand-deep">
         Testimonios
       </p>
       <h2
-        class="font-serif text-[clamp(30px,4vw,48px)] font-medium leading-[1.05] tracking-[-0.01em]"
+        class="font-bold tracking-[-0.035em] text-[clamp(30px,4vw,48px)] leading-[1.05]"
       >
-        Organizaciones que ya dejaron el Excel.
+        Centros que ya dejaron el formato de papel.
       </h2>
     </div>
 
@@ -44,7 +44,7 @@ for (let i = 0; i < testimonials.length; i += PER_PAGE) {
                   </blockquote>
                   <figcaption class="mt-auto flex items-center gap-3 border-t border-line pt-5">
                     <span
-                      class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-sage-bg font-serif text-[16px] font-semibold text-sage-deep"
+                      class="flex h-10 w-10 flex-none items-center justify-center bg-brand-bg font-bold tracking-[-0.035em] text-[16px] text-brand-deep"
                       aria-hidden="true"
                     >
                       {t.name.charAt(0)}
@@ -66,7 +66,7 @@ for (let i = 0; i < testimonials.length; i += PER_PAGE) {
           type="button"
           data-prev
           aria-label="Anterior"
-          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-ink"
+          class="inline-flex h-9 w-9 items-center justify-center border border-line text-ink transition-colors hover:border-ink"
         >
           <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
             <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -85,8 +85,8 @@ for (let i = 0; i < testimonials.length; i += PER_PAGE) {
               >
                 <span
                   class:list={[
-                    'h-2 w-2 rounded-full transition-colors',
-                    i === 0 ? 'bg-sage-deep' : 'bg-line',
+  'h-2 w-2  transition-colors',
+                    i === 0 ? 'bg-brand-deep' : 'bg-line',
                   ]}
                 />
               </button>
@@ -98,7 +98,7 @@ for (let i = 0; i < testimonials.length; i += PER_PAGE) {
           type="button"
           data-next
           aria-label="Siguiente"
-          class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-ink"
+          class="inline-flex h-9 w-9 items-center justify-center border border-line text-ink transition-colors hover:border-ink"
         >
           <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
             <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -128,7 +128,7 @@ for (let i = 0; i < testimonials.length; i += PER_PAGE) {
           const active = i === index;
           dot.setAttribute('aria-current', active ? 'true' : 'false');
           const visual = dot.querySelector('span');
-          visual?.classList.toggle('bg-sage-deep', active);
+          visual?.classList.toggle('bg-brand-deep', active);
           visual?.classList.toggle('bg-line', !active);
         });
       };

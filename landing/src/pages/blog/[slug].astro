@@ -40,12 +40,12 @@ const url = new URL(`/blog/${post.id}`, Astro.site).href;
       <div class="mx-auto max-w-[720px]">
         <a
           href="/blog"
-          class="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-sage-deep transition-colors hover:text-ink"
+          class="text-[12.5px] font-semibold uppercase tracking-[0.14em] text-brand-deep transition-colors hover:text-ink"
         >
           ← Blog
         </a>
         <h1
-          class="reveal mt-5 font-serif text-[clamp(30px,4.2vw,50px)] font-medium leading-[1.06] tracking-[-0.01em]"
+          class="reveal mt-5 font-bold tracking-[-0.035em] text-[clamp(30px,4.2vw,50px)] leading-[1.06]"
         >
           {post.data.title}
         </h1>

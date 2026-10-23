@@ -17,17 +17,18 @@ interface Props {
 const { href, label, variant = 'solid', size = 'md', class: extra = '', event } = Astro.props;
 
 const base =
-  'inline-flex items-center justify-center gap-[9px] rounded-full font-semibold whitespace-nowrap transition-colors duration-200';
+  'inline-flex items-center justify-center gap-[9px] font-mono uppercase tracking-[0.1em] font-medium whitespace-nowrap transition-colors duration-200';
 
 const sizes: Record<Size, string> = {
-  md: 'px-6 py-3 text-[13.5px]',
-  sm: 'px-[18px] py-[9px] text-[12.5px]',
+  md: 'h-[46px] px-[22px] text-[11.5px]',
+  sm: 'h-[34px] px-[15px] text-[11px]',
 };
 
 const variants: Record<Variant, string> = {
-  solid: 'bg-ink text-paper hover:bg-sage-deep',
-  ghost: 'border border-line text-ink hover:border-ink',
-  light: 'bg-paper text-ink hover:bg-sage hover:text-white',
+  // el acento es FONDO y lleva tinta blanca; como texto no alcanza contraste
+  solid: 'bg-brand text-white hover:bg-brand-deep hover:text-paper',
+  ghost: 'border border-line-2 text-ink hover:border-ink',
+  light: 'bg-ink text-paper hover:bg-brand hover:text-white',
   'ghost-on-dark': 'border border-white/30 text-paper hover:border-white/70',
 };
 ---

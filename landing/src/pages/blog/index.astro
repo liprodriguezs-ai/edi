@@ -17,13 +17,13 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   <section class="pb-24 pt-[150px]">
     <div class="wrap">
       <header class="reveal mx-auto mb-16 max-w-[60ch] text-center">
-        <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-sage-deep">
+        <p class="mb-4 text-[11.5px] font-semibold uppercase tracking-[0.22em] text-brand-deep">
           {blogMeta.title}
         </p>
         <h1
-          class="font-serif text-[clamp(34px,4.6vw,56px)] font-medium leading-[1.05] tracking-[-0.01em]"
+          class="font-bold tracking-[-0.035em] text-[clamp(34px,4.6vw,56px)] leading-[1.05]"
         >
-          Administrar tu organización, sin misterios.
+          Tamizar bien, sin misterios.
         </h1>
         <p class="mx-auto mt-6 max-w-[52ch] text-[16.5px] text-ink-soft">{blogMeta.description}</p>
       </header>
