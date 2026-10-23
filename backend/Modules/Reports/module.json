@@ -1,0 +1,11 @@
+{
+    "name": "Reports",
+    "alias": "reports",
+    "description": "Screening indicator dashboard, EDI concentrate, and nominal listing (edi-reports-and-indicators).",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Reports\\Providers\\ReportsServiceProvider"
+    ],
+    "files": []
+}
