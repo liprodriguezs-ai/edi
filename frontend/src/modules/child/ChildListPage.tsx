@@ -114,7 +114,7 @@ export function ChildListPage() {
                       {childFullName(child)}
                       {child.curp_mismatch && (
                         <span
-                          className="text-xs text-amber-600"
+                          className="text-xs text-primary"
                           title="El CURP no coincide con la fecha de nacimiento o sexo capturados"
                         >
                           ⚠︎
@@ -122,9 +122,9 @@ export function ChildListPage() {
                       )}
                     </span>
                   </TableCell>
-                  <TableCell>{child.curp || '—'}</TableCell>
+                  <TableCell className="font-mono">{child.curp || '—'}</TableCell>
                   <TableCell>{child.sex?.name ?? '—'}</TableCell>
-                  <TableCell className="hidden md:table-cell">
+                  <TableCell className="hidden font-mono tabular-nums md:table-cell">
                     {displayFormatDate(child.birth_date, 'mediumDate')}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">{child.health_center?.name ?? '—'}</TableCell>
@@ -133,7 +133,7 @@ export function ChildListPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="size-8 text-destructive hover:text-destructive"
+                        className="size-8 text-muted-foreground hover:text-destructive"
                         onClick={() => setChildToDelete(child)}
                         aria-label={`Eliminar ${childFullName(child)}`}
                       >
@@ -145,9 +145,16 @@ export function ChildListPage() {
               )}
               renderCardTitle={(child) => childFullName(child)}
               renderCardFields={(child) => [
-                { label: 'CURP', value: child.curp || '—' },
+                { label: 'CURP', value: <span className="font-mono">{child.curp || '—'}</span> },
                 { label: 'Sexo', value: child.sex?.name ?? '—' },
-                { label: 'Nacimiento', value: displayFormatDate(child.birth_date, 'mediumDate') },
+                {
+                  label: 'Nacimiento',
+                  value: (
+                    <span className="font-mono tabular-nums">
+                      {displayFormatDate(child.birth_date, 'mediumDate')}
+                    </span>
+                  ),
+                },
                 { label: 'Centro de salud', value: child.health_center?.name ?? '—' },
               ]}
               renderActions={
@@ -156,7 +163,7 @@ export function ChildListPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="size-8 text-destructive hover:text-destructive"
+                        className="size-8 text-muted-foreground hover:text-destructive"
                         onClick={() => setChildToDelete(child)}
                         aria-label={`Eliminar ${childFullName(child)}`}
                       >

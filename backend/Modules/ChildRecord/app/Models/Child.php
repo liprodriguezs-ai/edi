@@ -78,4 +78,23 @@ class Child extends BaseModel
     {
         return ChildFactory::new();
     }
+
+    /**
+     * REQ-RPT-007 -- registry export columns (map key 'Child'). Reads ONLY
+     * the eager-loaded `sex`/`health_center` relations (design D9).
+     */
+    public function reportColumns(): array
+    {
+        return [
+            'Nombre(s)' => fn ($r) => $r->first_name,
+            'Apellido paterno' => fn ($r) => $r->last_name_paternal,
+            'Apellido materno' => fn ($r) => $r->last_name_maternal,
+            'CURP' => fn ($r) => $r->curp ?? '',
+            'Fecha de nacimiento' => fn ($r) => $r->birth_date ? $r->birth_date->format('d/m/Y') : '',
+            'Sexo' => fn ($r) => $r->sex?->name ?? '',
+            'Centro de salud' => fn ($r) => $r->health_center?->name ?? '',
+            'Escolarizado' => fn ($r) => $r->is_schooled ? 'Sí' : 'No',
+            'F. registro' => fn ($r) => $r->created_at ? $r->created_at->format('d/m/Y') : '',
+        ];
+    }
 }

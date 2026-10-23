@@ -87,7 +87,7 @@ final class ChildApiTest extends TestCase
         $token = $user->createToken('test', ['*'])->plainTextToken;
 
         $this->tenantRequest($token, $tenant)
-            ->postJson('/api/child', $this->validPayload($tenant, ['sex_id' => (string) Str::uuid()]))
+            ->postJson('/api/child', $this->validPayload($tenant, ['sex_id' => (string) Str::uuid7()]))
             ->assertStatus(422);
     }
 

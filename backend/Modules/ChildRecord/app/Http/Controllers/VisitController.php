@@ -18,7 +18,11 @@ class VisitController extends Controller
 
     public function includes(): array
     {
-        return ['child', 'health_center', 'practitioner'];
+        // practitioner.user: a practitioner's NAME lives on their user, so every
+        // screen showing "Profesional" reads practitioner.user.name. Without the
+        // nested relation that resolved to undefined and rendered a dash on every
+        // row while the data was there all along.
+        return ['child', 'health_center', 'practitioner', 'practitioner.user'];
     }
 
     public function sortableBy(): array

@@ -4,6 +4,7 @@ namespace Modules\ChildRecord\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use QCH\Core\Support\TenantTime;
 
 class VisitUpdateRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class VisitUpdateRequest extends FormRequest
                 Rule::exists('practitioner_profile', 'id')->where('tenant_id', tenant('id')),
             ],
             'physical_receipt_number' => ['nullable', 'string', 'max:255'],
-            'visit_date' => ['sometimes', 'date', 'before_or_equal:today'],
+            'visit_date' => ['sometimes', 'date', 'before_or_equal:'.TenantTime::today()],
         ];
     }
 

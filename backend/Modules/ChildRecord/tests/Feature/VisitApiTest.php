@@ -11,6 +11,7 @@ use Modules\Clinic\Database\Factories\HealthCenterFactory;
 use Modules\Clinic\Models\HealthCenter;
 use Modules\Clinic\Models\PractitionerProfile;
 use Modules\Tenant\Models\Tenant;
+use QCH\Core\Support\TenantTime;
 use Tests\Support\WithTenantSetup;
 use Tests\TestCase;
 
@@ -21,6 +22,12 @@ final class VisitApiTest extends TestCase
 {
     use RefreshDatabase;
     use WithTenantSetup;
+
+    /** Civil "today" of the test tenants (they keep the default zone), never the UTC day. */
+    private function tenantToday(): string
+    {
+        return TenantTime::today(Tenant::DEFAULT_TIMEZONE);
+    }
 
     protected function tearDown(): void
     {
@@ -58,7 +65,7 @@ final class VisitApiTest extends TestCase
             'child_id' => $fx['child']->id,
             'health_center_id' => $fx['healthCenter']->id,
             'practitioner_id' => $fx['practitioner']->id,
-            'visit_date' => now()->format('Y-m-d'),
+            'visit_date' => $this->tenantToday(),
         ];
 
         $r1 = $this->tenantRequest($token, $tenant)->postJson('/api/visit', $payload())->assertCreated();
@@ -83,14 +90,14 @@ final class VisitApiTest extends TestCase
             'child_id' => $fxA['child']->id,
             'health_center_id' => $fxA['healthCenter']->id,
             'practitioner_id' => $fxA['practitioner']->id,
-            'visit_date' => now()->format('Y-m-d'),
+            'visit_date' => $this->tenantToday(),
         ])->assertCreated()->assertJsonPath('data.receipt_number', "V-{$year}-000001");
 
         $this->tenantRequest($tokenB, $tenantB)->postJson('/api/visit', [
             'child_id' => $fxB['child']->id,
             'health_center_id' => $fxB['healthCenter']->id,
             'practitioner_id' => $fxB['practitioner']->id,
-            'visit_date' => now()->format('Y-m-d'),
+            'visit_date' => $this->tenantToday(),
         ])->assertCreated()->assertJsonPath('data.receipt_number', "V-{$year}-000001");
     }
 
@@ -105,7 +112,7 @@ final class VisitApiTest extends TestCase
                 'child_id' => $fxA['child']->id,
                 'health_center_id' => $fxA['healthCenter']->id,
                 'practitioner_id' => $fxB['practitioner']->id,
-                'visit_date' => now()->format('Y-m-d'),
+                'visit_date' => $this->tenantToday(),
             ])
             ->assertStatus(422);
     }
@@ -122,7 +129,7 @@ final class VisitApiTest extends TestCase
             'child_id' => $fx['child']->id,
             'health_center_id' => $fx['healthCenter']->id,
             'practitioner_id' => $fx['practitioner']->id,
-            'visit_date' => now()->format('Y-m-d'),
+            'visit_date' => $this->tenantToday(),
         ])->json('data.id');
 
         $originalReceipt = $tenant->run(fn () => Visit::find($visitId)->receipt_number);
@@ -156,7 +163,7 @@ final class VisitApiTest extends TestCase
             'child_id' => $fx['child']->id,
             'health_center_id' => $fx['healthCenter']->id,
             'practitioner_id' => $fx['practitioner']->id,
-            'visit_date' => now()->format('Y-m-d'),
+            'visit_date' => $this->tenantToday(),
         ])->assertCreated();
 
         $response = $this->tenantRequest($token, $tenant)

@@ -10,14 +10,15 @@ use Orion\Http\Requests\Request;
 use QCH\Core\Http\Controllers\Controller;
 
 /**
- * D11 — birth_record is a sub-resource of the child clinical record and
- * authorizes under the SAME permission as `child`.
+ * D11 — birth_record is a sub-resource of the child clinical record. It has its
+ * OWN permission (odd/tasks/edi-agenda.md S16): perinatal history is clinical,
+ * so the front desk can manage the child registry without editing it.
  */
 class BirthRecordController extends Controller
 {
     protected $model = BirthRecord::class;
 
-    protected $keyForPermission = 'child';
+    protected $keyForPermission = 'birth_record';
 
     public function includes(): array
     {

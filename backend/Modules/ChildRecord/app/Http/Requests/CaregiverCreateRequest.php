@@ -4,6 +4,7 @@ namespace Modules\ChildRecord\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use QCH\Core\Support\TenantTime;
 
 class CaregiverCreateRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class CaregiverCreateRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name_paternal' => ['required', 'string', 'max:255'],
             'last_name_maternal' => ['nullable', 'string', 'max:255'],
-            'birth_date' => ['nullable', 'date', 'before_or_equal:today'],
+            'birth_date' => ['nullable', 'date', 'before_or_equal:'.TenantTime::today()],
             'education_level_id' => [
                 'required',
                 'uuid',

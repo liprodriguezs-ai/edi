@@ -17,43 +17,43 @@ Route::middleware('throttle:api')->group(function () {
     // Catalogs (Phase 2)
     Orion::resource('sex', SexController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('population_type', PopulationTypeController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('caregiver_relationship', CaregiverRelationshipController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('education_level', EducationLevelController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('occupation', OccupationController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     // Core entities (Phase 3)
     Orion::resource('child', ChildController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('caregiver', CaregiverController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('child_caregiver', ChildCaregiverController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('birth_record', BirthRecordController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     // Visit (Phase 4)
     Orion::resource('visit', VisitController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

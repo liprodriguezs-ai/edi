@@ -76,11 +76,12 @@ final class ModuleRegistrationTest extends TestCase
             ->values()
             ->all();
 
-        foreach (['Centros de Salud', 'Profesionales de Salud', 'Niños', 'Visitas'] as $visible) {
+        foreach (['Centros de Salud', 'Profesionales de Salud', 'Niños'] as $visible) {
             $this->assertContains($visible, $moduleNames, "{$visible} must appear in the menu.");
         }
 
-        foreach (['Cuidadores', 'Sexos', 'Tipos de Población'] as $hidden) {
+        // Visitas left the menu with the clinical record (odd/tasks/edi-clinical-record.md S5).
+        foreach (['Cuidadores', 'Sexos', 'Tipos de Población', 'Visitas'] as $hidden) {
             $this->assertNotContains($hidden, $moduleNames, "{$hidden} must be hidden from the menu.");
         }
     }

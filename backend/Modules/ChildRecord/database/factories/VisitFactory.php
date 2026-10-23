@@ -8,6 +8,8 @@ use Modules\ChildRecord\Models\Visit;
 use Modules\Clinic\Database\Factories\HealthCenterFactory;
 use Modules\Clinic\Models\HealthCenter;
 use Modules\Clinic\Models\PractitionerProfile;
+use Modules\Tenant\Models\Tenant;
+use QCH\Core\Support\TenantTime;
 
 /**
  * @extends Factory<Visit>
@@ -30,7 +32,7 @@ class VisitFactory extends Factory
             ])->id,
             'receipt_number' => 'V-'.date('Y').'-'.str_pad((string) $this->faker->unique()->numberBetween(1, 999999), 6, '0', STR_PAD_LEFT),
             'physical_receipt_number' => null,
-            'visit_date' => now()->format('Y-m-d'),
+            'visit_date' => TenantTime::today(Tenant::DEFAULT_TIMEZONE),
             'practitioner_id' => fn () => PractitionerProfile::factory()->create()->id,
         ];
     }

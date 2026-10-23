@@ -1,5 +1,5 @@
+import { PageLoader } from '@/shared/components/PageLoader'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -94,20 +94,18 @@ export function ChildFormPage() {
   })
 
   if (isLoadingEntity) {
-    return <div className="p-6 text-sm text-muted-foreground">Cargando…</div>
+    return <PageLoader />
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl space-y-6">
       <PageHeader
         title={mode === CrudMode.EDIT ? 'Editar niño' : 'Nuevo niño'}
         description="Datos generales del expediente"
       />
 
-      <Card>
-        <CardContent className="pt-6">
-          <form onSubmit={(e) => void doSubmit(e)}>
-            <RequiredFieldsLegend />
+      <form onSubmit={(e) => void doSubmit(e)}>
+        <RequiredFieldsLegend />
             <FieldGroup>
               <div className="grid grid-cols-12 gap-4">
                 <Field className="col-span-12 md:col-span-6">
@@ -179,6 +177,7 @@ export function ChildFormPage() {
                   <FieldLabel htmlFor="child-curp">CURP</FieldLabel>
                   <Input
                     id="child-curp"
+                    className="font-mono"
                     placeholder="GASO180514MDFRPN09"
                     disabled={isSaving}
                     {...register('curp', {
@@ -189,8 +188,8 @@ export function ChildFormPage() {
                   />
                   <FieldError>{errors.curp?.message}</FieldError>
                   {entity?.curp_mismatch && (
-                    <p className="text-xs text-amber-600">
-                      ⚠︎ El CURP no coincide con la fecha de nacimiento o sexo capturados — revisa el dato.
+                    <p className="text-xs text-primary">
+                      El CURP no coincide con la fecha de nacimiento o sexo capturados — revisa el dato.
                     </p>
                   )}
                 </Field>
@@ -248,13 +247,11 @@ export function ChildFormPage() {
               <Button type="button" variant="outline" onClick={() => navigate(-1)} disabled={isSaving}>
                 Cancelar
               </Button>
-              <Button type="submit" disabled={isSaving}>
+              <Button type="submit" loading={isSaving}>
                 {isSaving ? 'Guardando…' : mode === CrudMode.EDIT ? 'Actualizar' : 'Crear'}
               </Button>
             </div>
-          </form>
-        </CardContent>
-      </Card>
+      </form>
     </div>
   )
 }

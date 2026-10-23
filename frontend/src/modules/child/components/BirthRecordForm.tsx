@@ -17,6 +17,7 @@ import { toast } from '@/shared/hooks/useToast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo, useState } from 'react'
 import { Controller, useForm, type DefaultValues } from 'react-hook-form'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
 
 interface BirthRecordFormProps {
   childId: string
@@ -125,7 +126,7 @@ export function BirthRecordForm({ childId }: BirthRecordFormProps) {
   })
 
   if (isLoading) {
-    return <p className="text-sm text-muted-foreground">Cargando…</p>
+    return <InlineLoading name="birth-record-form" lines={4} />
   }
 
   return (
@@ -184,7 +185,7 @@ export function BirthRecordForm({ childId }: BirthRecordFormProps) {
       </div>
 
       <div className="flex justify-end">
-        <Button type="submit" disabled={isSaving}>
+        <Button type="submit" loading={isSaving}>
           {isSaving ? 'Guardando…' : record ? 'Actualizar' : 'Guardar'}
         </Button>
       </div>
