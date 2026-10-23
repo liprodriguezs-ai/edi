@@ -1,0 +1,31 @@
+id_edi_clasificacion,clasificacion,edad_mes_inicio,edad_mes_fin,edad_dias_inicio,edad_dias_fin,estatus,usuario_creo,fecha_creacion,usuario_modifico,fecha_modificacion,material,clasificacion_alternativa
+1,GRUPO 1,1,1,30,59,1,5,2016-01-16,,,"Sonaja, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",
+2,GRUPO 2,2,2,60,89,1,5,2016-01-16,,,"Sonaja, péndulo EDI, estímulo visual, cinta cefálica, sonaja de serpiente y tabla de perímetro cefálico.",16
+3,GRUPO 3,3,3,90,119,1,5,2016-01-16,,,"Péndulo EDI, estímulo visual, cinta cefálica, sonaja y tabla de perímetro cefálico.",17
+4,GRUPO 4,4,4,120,149,1,5,2016-01-16,,,"Péndulo EDI, sonaja, estímulo visual, cinta cefálica, sonaja de serpiente y tabla de perímetro cefálico.",18
+5,GRUPO 5,5,6,150,209,1,5,2016-01-16,,,"Juguetes atractivos, sonaja, cubos, estímulo visual, cinta cefálica, tela, sonaja de serpiente y tabla de perímetro cefálico",19
+6,GRUPO 6,7,9,210,299,1,5,2016-01-16,,,"Sonaja de serpiente, cuentas, cubos, juguetes atractivos, pelota roja, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",20
+7,GRUPO 7,10,12,300,389,1,5,2016-01-16,,,"Juguetes atractivos, cubos, pelota roja, muñeco de tela, cuentas, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",21
+8,GRUPO 8,13,15,390,479,1,5,2016-01-16,,,"Juguetes atractivos, pelota roja, cubos, contenedor de plástico, muñeco de tela, cuentas, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",22
+9,GRUPO 9,16,18,480,569,1,5,2016-01-16,,,"Cubos, frasco de boca chica, cuentas, cuadernillo de trazos (student workbook),  lápiz y lápiz tricolor, Lámina B muñeco de tela, estímulo visual, cinta cefálica, pelota antiponchable y tabla de perímetro cefálico.",23
+10,GRUPO 10,19,24,570,749,1,5,2016-01-16,,,"Frasco con tapa rosca, alcancía de cochinito con 4 fichas, estímulo visual, cinta cefálica, pelota antiponchable y tabla de perímetro cefálico.",24
+11,GRUPO 11,25,30,750,929,1,5,2016-01-16,,,"Frasco con tapa rosca, pelota roja, cubos, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",25
+12,GRUPO 12,31,36,930,1109,1,5,2016-01-16,,,"Cuentas, frasco con tapa rosca, muñeco de tela, cuadernillo de trazos (student workbook),
+ lápiz y lápiz tricolor, Láminas B, C y D, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",26
+13,GRUPO 13,37,48,1110,1469,1,5,2016-01-16,,,"Cuentas para ensartar con agujeta, bloc de hojas, lápiz y lápiz tricolor, discos de 10 colores diferentes, estímulo visual, cinta cefálica, pelota antiponchable y tabla de perímetro cefálico.",27
+14,GRUPO 14,49,59,1470,1799,1,5,2016-01-16,,,"Bloc de hojas, lápiz y lápiz tricolor, discos de 10 colores diferentes, cubos, láminas B, C y D, estímulo visual, cinta cefálica, y tabla de perímetro cefálico.",28
+15,GRUPO 15,60,71,1800,2159,1,5,2022-10-07,,,,29
+16,GRUPO 1A,127,127,9992,9992,1,5,2017-01-24,,,,
+17,GRUPO 2A,127,127,9993,9993,1,5,2017-01-24,,,,
+18,GRUPO 3A,127,127,9994,9994,1,5,2017-01-24,,,,
+19,GRUPO 4A,127,127,9995,9995,1,5,2017-01-24,,,,
+20,GRUPO 5A,127,127,9996,9996,1,5,2017-01-24,,,,
+21,GRUPO 6A,127,127,9997,9997,1,5,2017-01-24,,,,
+22,GRUPO 7A,127,127,9998,9998,1,5,2017-01-24,,,,
+23,GRUPO 8A,127,127,9999,9999,1,5,2017-01-24,,,,
+24,GRUPO 9A,127,127,9910,9910,1,5,2017-01-24,,,,
+25,GRUPO 10A,127,127,9911,9911,1,5,2017-01-24,,,,
+26,GRUPO 11A,127,127,99912,9912,1,5,2017-01-24,,,,
+27,GRUPO 12A,127,127,9913,9913,1,5,2017-01-24,,,,
+28,GRUPO 13A,127,127,9914,9914,1,5,2017-01-24,,,,
+29,GRUPO 14A,127,127,9915,9915,1,5,2022-10-07,,,,

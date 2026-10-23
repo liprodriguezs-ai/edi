@@ -1,0 +1,477 @@
+id_edi_evaluacion,posicion,eje,pregunta,valor1,color1,valor2,color2,usuario_creo,fecha_creacion,usuario_modifico,fecha_modificacion,estatus,clasificacion
+31,1,ALE1.4,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,1
+32,1,ALE1.3,"¿Su hijo tiene problemas para comer: se atraganta, se pone morado o presenta problemas para succionar?",SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,1
+33,1,MG1.2,"Cuando lo desviste, patea y mueve los brazos",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+34,1,EN1.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,1
+35,1,MF1.1,Mantiene las manos cerradas la mayor parte del tiempo,NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+36,1,LE1.2,"Hace algún ruido con la boca, llora cuando está incómodo o quiere comer",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+37,1,LE1.1,Se tranquiliza cuando escucha su voz,NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+38,1,SO1.1,"Cuando llora, se tranquiliza al hablarle o levantarlo",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+39,1,SO1.2,"Cuando está frente al bebé, sigue con la mirada sus movimientos",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+40,1,MF1.2,"Cuando le da en la mano una sonaja, la retiene al menos durante 3 segundos",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+41,1,EN1.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,1
+42,1,EN1.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,1
+43,1,ALE1.1,"Al evaluar el tono muscular, lo siente totalmente flácido o presenta rigidez en sus extremidades:
+	    <br> • Rotación lateral de la cabeza (simetría en la distancia mentón-hombro)
+        <br> • Flexión de la mano sobre el antebrazo (simetría entre ambos miembros)
+        <br> • Maniobra de la Bufanda (entre línea media y la glándula mamaria ipsilateral)
+        <br> • Ángulo de los Aductores (40°-80°)
+        <br> • Ángulo Poplíteo (80°-100°)
+        <br> • Ángulo Talón-oreja (80°-100°)
+        <br> • Ángulo de Dorsiflexión del pie (60°-70°)",SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,1
+44,1,ALE1.2,"En la evaluación de los reflejos de Moro, prensión palmar y plantar, ¿falta alguno de estos tres reflejos?:
+        <br> • La Prensión palmar está ausente o es asimétrica
+        <br> • La Prensión plantar está ausente o es asimétrica
+        <br> • El reflejo de Moro está ausente o es asimétrico",SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,1
+45,2,MG1.1,"Acostado boca abajo, puede voltear su cabeza para los 2 lados",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,1
+46,3,ALE7.4,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,7
+47,3,EN7.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,7
+48,3,ALE7.2,Tiene interés por mirar o tocar objetos de su entorno (juguetes atractivos),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+49,3,ALE7.3,"Juega con juguetes (cubos, pelota roja, muñeco de tela)",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+50,3,MF7.1,Toma un objeto pequeño con los dedos y lo mantiene en el centro de la mano (una cuenta),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+51,3,MF7.2,Sabe aplaudir,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+52,3,LE7.1,"Cuando el niño está jugando en una actividad que lo tiene entretenido y usted le dice ""no-no"", deja de hacerla (juguetes atractivos)",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+53,3,ALA7.2,"Hace esfuerzos por comunicarse, ya sea balbuceando o con gestos. Por ejemplo: señalar lo que desea, mover la mano para saludar, hacer señas, jalar para llamar la atención",NO,ROJO,SI,VERDE,5,2016-01-16,,,1,7
+54,3,EN7.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,7
+55,3,EN7.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,7
+56,4,ALA7.1,Se mantiene sentado sin apoyo,NO,ROJO,SI,VERDE,5,2016-01-16,,,1,7
+57,4,ALE7.1,Hace esfuerzos por desplazarse o gatear (juguetes atractivos),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+58,4,MG7.1,"Cuando se desplaza de un lado a otro, utiliza sus manos y rodillas (juguetes atractivos)",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+59,4,MG7.2,Camina agarrado de los muebles (juguetes atractivos),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+60,4,LE7.2,¿Dice papá o mamá?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+61,4,SO7.1,¿Empieza a comer por sí solo con los dedos?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+62,4,SO7.2,"Cuando lo viste, ¿le ayuda terminando de meter el brazo por la manga?",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,7
+63,3,ALA10.2,¿Considera que su hijo ha experimentado una pérdida importante y constante de las habilidades que en algún momento tuvo?,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,10
+64,3,EN10.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,10
+65,3,MF10.1,Intenta abrir un frasco girando la mano (D),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+66,3,MF10.2,Mete al menos 3 fichas en la alcancía (D),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+67,3,EN10.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,10
+68,3,EN10.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,10
+69,5,ALA10.1,"Cuando camina, presenta una forma inmadura de hacerlo, primero apoya los dedos y luego el talón o después de varios meses sólo apoya las puntas de los pies",SI,ROJO,NO,VERDE,5,2016-01-16,,,1,10
+70,5,MG10.2,Corre sin caerse,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+71,5,MG10.3,Patea la pelota sin perder el equilibrio,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+72,5,ALE10.1,"Tiene dificultad para seguir órdenes como ""ve con tu mamá""",SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,10
+73,5,LE10.3,"Obedece órdenes sencillas ""dame la pelota""",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+74,5,LE10.1,"Dice frases de 2 palabras ""mira mamá ""ten mamá""",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+75,5,ALE10.2,Se le dificulta mucho relacionarse con personas que no le son familiares,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,10
+76,5,ALE10.3,"Muestra indiferencia excesiva al entorno, parece no interesarle nada de lo que sucede a su alrededor",SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,10
+77,5,LE10.2,¿Dice 8 o más palabras además de mamá y papá?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+78,5,MF10.3,¿Puede comer ayudándose de una cuchara sin tirar la comida?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+79,5,MG10.1,¿Puede su niño subirse solo a los muebles?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+80,5,SO10.1,¿Trata de hacer las cosas solo y se molesta cuando no lo dejan?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+81,5,SO10.2,¿Avisa cuando tiene sucio el pañal?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+82,5,SO10.3,¿Le pide ayuda cuando quiere algo que no alcanza?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,10
+83,3,ALA14.2,¿Considera que su hijo ha experimentado una pérdida importante y constante de las habilidades que en algún momento tuvo?,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,14
+84,3,EN14.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,14
+85,3,MF14.1,Dibuja un cuadrado (bloc de hojas y lápiz),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+86,3,MF14.3,Dibuja un niño con 4 o más partes del cuerpo (bloc de hojas y lápiz),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+87,3,MF14.2,"Sabe escribir 2 o más letras (si no lo hace demostrar: V, T, M, A)",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+88,3,CO14.1,"Reconoce y dice correctamente el nombre de 4 colores ""¿Dónde está el color...?"" , ""¿Qué color es este?""",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+89,3,CO14.2,Cuenta correctamente hasta 10 (cubos),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+90,3,ALE14.6,Dice correctamente su nombre y apellido,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+91,3,SO14.1,Dice el nombre de 2 de sus amigos,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+92,3,LE14.1,"Usa el tiempo futuro ""¿Qué vas a hacer mañana?""",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+93,3,LE14.2,Puede contar cuentos,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+94,3,ALE14.1,"Cuando habla, usa correctamente los plurales (Láminas B. C y D) y el tiempo pasado, ""¿Qué hiciste ayer?"", ""¿Qué comiste ayer?"" ""¿A dónde fuiste ayer?""",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+95,3,EN14.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,14
+96,3,EN14.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2016-01-16,,,1,14
+97,5,MG14.2,Brinca hacia adelante cayendo con los pies juntos (D),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+98,5,MG14.3,Brinca con un sólo pie hacia adelante 3 veces cayendo con el mismo pie (D),NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+99,5,ALE14.3,Se distrae fácilmente y le cuesta mucho trabajo concentrarse en alguna actividad por más de 5 minutos,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,14
+100,5,ALE14.4,Actúa tímidamente o se muestra demasiado asustado,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,14
+101,5,ALE14.5,Le cuesta mucho trabajo separarse de su mamá o de la persona que lo cuida y cuando se alejan de él se pone a llorar,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,14
+102,5,ALE14.8,Constantemente se le ve inactivo y poco interesado en lo que pasa a su alrededor,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,14
+103,5,ALA14.1,"Cuando está con otros niños, ¿los ignora y prefiere jugar solo?",SI,ROJO,NO,VERDE,5,2016-01-16,,,1,14
+104,5,CO14.3,"Cuando habla, ¿utiliza las palabras ayer, hoy y mañana?",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+105,5,ALE14.2,"¿Puede vestirse o desvestirse solo?, por ejemplo: abotonar o desabotonar una prenda, ponerse o quitarse la ropa",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+106,5,ALE14.7,¿Expresa de manera pobre sus emociones?,SI,AMARILLO,NO,VERDE,5,2016-01-16,,,1,14
+107,5,MG14.1,¿Sabe su niño darse marometas?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+108,5,LE14.3,"¿Dice ""dame más"" cuando algo le gusta mucho?",NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+109,5,SO14.2,¿Le gusta jugar al papá o a la mamá o actuar como otra persona de la familia?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+110,5,SO14.3,¿Se puede bañar solo?,NO,AMARILLO,SI,VERDE,5,2016-01-16,,,1,14
+111,1,ALE2.4,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,2
+112,1,ALA2.3,"¿Su hijo tiene problemas para comer: se atraganta, se pone morado o presenta problemas para succionar?",SI,ROJO,NO,VERDE,5,2017-01-20,,,1,2
+113,1,EN2.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,2
+114,1,ALE2.1,Están las manos del bebé permanentemente empuñadas con el pulgar adentro,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,2
+115,1,SO2.1,Hace sonidos con la boca cuando le hablan,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+116,1,LE2.2,"Hace sonidos como ""a"", ""e"", ""u""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+117,1,SO2.2,Reconoce los rostros que le son familiares y sonríe,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+118,1,LE2.1,"Cuando escucha un ruido, voltea hacia la fuente del sonido (estando fuera del campo visual)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+119,1,MF2.1,Sigue con la vista el movimiento de un objeto (péndulo EDI),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+120,1,MF2.2,Se lleva la mano a la boca,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+121,1,EN2.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,2
+122,1,EN2.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad),SI,ROJO,NO,VERDE,5,2017-01-20,,,1,2
+123,1,ALA2.1,"Al evaluar el tono muscular, lo siente totalmente flácido o presenta rigidez en sus extremidades
+<br> • Rotación lateral de la cabeza (simetría en la distancia mentón-hombro)
+<br> • Flexión de la mano sobre el antebrazo (simetría entre ambos miembros)
+<br> • Maniobra de la Bufanda (entre línea media y la glándula mamaria ipsilateral)
+<br> • Ángulo de los Aductores (40°-80°)
+<br> • Ángulo Poplíteo (80°-100°)
+<br> • Ángulo Talón-oreja (80°-100°)
+<br> • Ángulo de Dorsiflexión del pie (60°-70°)",SI,ROJO,NO,VERDE,5,2017-01-20,,,1,2
+124,1,ALA2.2,El reflejo de Moro está ausente o es asimétrico,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,2
+125,1,MG2.2,Logra sostener la cabeza sin que se le vaya bruscamente hacia atrás o hacia alguno de los lados,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+126,2,MG2.1,"Boca abajo, levanta la cabeza por al menos 3 segundos (sonaja)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,2
+127,2,ALE2.2,¿Está frecuentemente irritable y cuesta trabajo tranquilizarlo a pesar de haber satisfecho sus necesidades y esto sucede de forma más notoria que con otros niños de su misma edad?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,2
+128,2,ALE2.3,"Frecuentemente se encuentra aletargado y no muestra interés por lo que sucede a su alrededor, ¿le cuesta trabajo mantenerlo despierto?",SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,2
+129,1,ALE3.4,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,3
+130,1,EN3.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,3
+131,1,ALE3.3,Sonríe al ver los gestos de la madre,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+132,1,SO3.1,Es fácil que el bebé sonría,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+133,1,LE3.1,"Cuando le habla, hace sonidos con la boca o sonríe",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+134,1,LE3.2,"Cuando balbucea, pronuncia algunas consonantes como ""agu"" o ""ga""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+135,1,SO3.2,"Cuando le habla, voltea la cabeza y trata de ubicar el origen de la voz (estando fuera del campo visual)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+136,1,ALE3.2,Sigue con la vista a las personas y a los objetos brillantes (péndulo EDI),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+137,1,EN3.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,3
+138,1,EN3.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,3
+139,1,MF3.1,Observa sus manos durante al menos 3 segundos mientras las está moviendo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+140,1,MF3.2,Tiene las manos abiertas la mayor parte del tiempo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+141,1,ALA3.1,"Al evaluar el tono muscular, lo siente totalmente flácido o presenta rigidez en sus extremidades
+<br>• Rotación lateral de la cabeza (simetría en la distancia mentón-hombro)
+<br>• Flexión de la mano sobre el antebrazo (simetría entre ambos miembros)
+<br>• Maniobra de la Bufanda (entre línea media y la glándula mamaria ipsilateral)
+<br>• Ángulo de los Aductores (40°-80°)
+<br>• Ángulo Poplíteo (80°100°)
+<br>• Ángulo Talón-oreja (80°100°)
+<br>• Ángulo de Dorsiflexión del pie (60°-70°)",SI,ROJO,NO,VERDE,5,2017-01-20,,,1,3
+142,1,ALA3.2,El reflejo de Moro está ausente o es asimétrico,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,3
+143,1,ALE3.1,"Cuando está sentado y lo sostiene por los hombros, logra sostener la cabeza sin que se le vaya bruscamente hacia atrás o hacia alguno de los lados",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+144,1,MG3.2,"Sostenido por el tronco en posición sentado, mantiene su cabeza firme sin que caiga bruscamente hacia enfrente, atrás o a los lados",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+145,2,MG3.1,Boca abajo y apoyado en antebrazos logra sostener la cabeza al menos 3 segundos (sonaja),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,3
+146,1,ALE4.4,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,4
+147,1,EN4.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,4
+148,1,ALE4.2,Muestra interés por los objetos (péndulo EDI),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+149,1,MF4.1,Extiende alguno de sus brazos para tratar de tomar un objeto que está a su alcance (péndulo EDI),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+150,1,MF4.2,Mantiene en la mano un objeto al menos 10 segundos (sonaja),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+151,1,ALE4.1,Hay asimetría en los movimientos de las manos,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,4
+152,1,LE4.1,Balbucea o grita para llamar su atención,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+153,1,LE4.2,"Emite sonidos como ""le"", ""be"", ""pa"", ""gu""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+154,1,EN4.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,4
+155,1,EN4.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,4
+156,1,ALA4.2,"Cuando está sentado y lo sostiene por el tronco, el bebé mantiene su cabeza firme sin que caiga bruscamente hacia enfrente, atrás o a los lados",NO,ROJO,SI,VERDE,5,2017-01-20,,,1,4
+157,1,MG4.1,"Cuando está sentado y le sostiene suavemente de la espalda, mantiene su cabeza, sin dejarla caer hacia ningún lado",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+158,1,ALA4.1,El Reflejo de Moro está ausente o es asimétrico,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,4
+159,2,MG4.2,"Cuando está acostado boca abajo, se apoya en antebrazos y eleva el tronco a 45° (sonaja)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+160,2,ALE4.3,Persiste el reflejo de Galant o de incurvación,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,4
+161,2,SO4.1,"¿Piensa usted que cuando su bebé ve su pecho o el biberón, sabe que en poco tiempo le va a dar de comer?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+162,2,SO4.2,¿Le gusta jugar con otras personas y llora cuando dejan de jugar con él?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,4
+163,3,ALE5.6,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,5
+164,3,EN5.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,5
+165,3,MF5.1,Intenta insistentemente agarrar un objeto cercano a él (cubos),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+166,3,ALE5.3,"Sostiene objetos con las manos al menos 10 segundos (sonaja, cubo o pato)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+167,3,MF5.2,"Cuando agarra algún objeto, se lo pasa de una mano a otra (sonaja, cubo o pato)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+168,3,ALA5.1,Hay asimetría en los movimientos de las manos,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,5
+169,3,EN5.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,5
+170,3,EN5.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,5
+171,3,ALE5.2,Balbucea o emite sonidos guturales,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+172,3,LE5.2,"Si usted imita los sonidos que el bebé emite, vuelve él a repetirlos",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+173,3,SO5.2,"Cuando se tapa la cara con una tela, se ríe cuando usted se destapa",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+174,3,LE5.1,"Si llama al bebé cuando él no lo puede ver, mueve la cabeza en dirección de su voz",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+175,1,ALE5.1,"Presenta interés por sus manos, las observa",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+176,1,ALE5.5,Cuando está boca arriba puede girar su cuerpo hacia los lados (juguetes atractivos),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+177,1,ALE5.4,Al ayudarlo a sentarse la cabeza se mantiene por detrás del tronco,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,5
+178,1,MG5.1,"Cuando lo toma de los brazos para sentarlo, él le ayuda jalando y elevando la cabeza",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+179,2,ALA5.2,Persiste el reflejo de Galant o de incurvación,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,5
+180,2,MG5.2,"Acostado el bebé boca abajo, se apoya en antebrazos e intenta tomar un juguete que está a su alcance (sonaja)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+181,2,SO5.1,¿Se pone intranquilo cuando una persona desconocida trata de cargarlo?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,5
+182,3,ALE6.5,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,6
+183,3,EN6.1,Presenta alteración en la movilidad de alguna parte de cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,6
+184,3,ALE6.4,Tiene interés por mirar o tocar objetos de su entorno (juguetes atractivos),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+185,3,MF6.1,"Cuando quiere agarrar las cosas, utiliza sus dedos como si fuera un rastrillo (una cuenta)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+186,3,ALE6.1,Mantiene un objeto en cada mano (cubos),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+187,3,MF6.2,Le gusta golpear objetos contra la mesa o el suelo (cubos),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+188,3,ALE6.2,Busca o sigue con la mirada un objeto que se cayó (pelota roja),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+189,3,LE6.1,"Hace 2 sonidos iguales como ""ba-ba"", ""da-da"", ""ta-ta""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+190,3,LE6.2,Hace gestos para decir lo que quiere,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+191,3,EN6.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,6
+192,3,EN6.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,6
+193,3,ALA6.1,Persiste el reflejo de Moro,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,6
+194,3,ALA6.2,Presenta reflejo de paracaídas,NO,ROJO,SI,VERDE,5,2017-01-20,,,1,6
+195,4,ALE6.3,Se mantiene sentado apoyado en sus manos,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,6
+196,4,MG6.1,Se mantiene sentado sin apoyo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+197,4,MG6.2,"Cuando quiere ir de un lado a otro, se voltea de estar boca arriba a quedar boca abajo y se arrastra sobre el estómago (juguetes atractivos)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+198,4,SO6.1,"Cuándo está con personas conocidas, ¿reacciona ante sus expresiones y parece contento?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+199,4,SO6.2,"Cuando le da de beber líquidos, ¿le ayuda a detener el biberón o la taza?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,6
+200,3,ALE8.4,¿Considera que el desarrollo de su niño es inadecuado?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,8
+201,3,EN8.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,8
+202,3,MF8.1,Le gusta sacar y meter cosas de la caja (por lo menos 2 juguetes) (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+203,3,MF8.2,Le gusta tirar o aventar juguetes u otros objetos al suelo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+204,3,MF8.3,"Sin apoyar la mano o el brazo en la mesa, toma una cuenta utilizando las yemas de los dedos",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+205,3,SO8.3,"Obedece órdenes sencillas como: ""dame el pato"", ""trae la pelota"", ""ven""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+206,3,ALE8.2,Hace esfuerzos por comunicarse de forma verbal,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+207,3,ALE8.3,Dejó de balbucear y ya se expresa con palabras,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+208,3,LE8.1,Señala su zapato o alguna parte del cuerpo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+209,3,LE8.3,"Cuando quiere algo, se comunica con gestos y sonidos",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+210,3,EN8.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,8
+211,3,EN8.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,8
+212,4,ALA8.1,Se desplaza solo o gatea,NO,ROJO,SI,VERDE,5,2017-01-20,,,1,8
+213,4,MG8.1,"Cuando está sentado, se para solo",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+214,4,ALE8.1,Se mantiene de pie mientras se le sostiene del tronco,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+215,4,MG8.2,Camina solo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+216,4,MG8.3,Se agacha para agarrar un objeto del suelo y se pone de pie sin apoyarse en algo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+217,4,LE8.2,¿Dice otra palabra además de papá y mamá?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+218,4,SO8.1,¿Come solo y sin ayuda?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+219,4,SO8.2,¿Le gusta abrazar o besar a sus papás?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,8
+220,3,ALA9.4,¿Considera que su hijo ha experimentado una pérdida importante y constante de las habilidades que en algún momento tuvo?,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,9
+221,3,EN9.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,9
+222,3,MF9.1,"Coloca dos cubos, uno encima de otro (D)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+223,3,MF9.2,Mete objetos pequeños en un frasco de boca chica (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+224,3,MF9.3,"Si usted le da una hoja de papel y un lápiz, utiliza la punta para tratar de dibujar (si no lo hace D)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+225,3,ALE9.1,"Al preguntarle, ""¿dónde está tu papá o tu mamá?"", puede señalarlo (Lámina A)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+226,3,LE9.3,Sabe el nombre de al menos 3 dibujos (Lámina A),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+227,3,ALA9.1,"Dice alguna palabra clara como: ""mamá"", ""papá"" o ""leche""",NO,ROJO,SI,VERDE,5,2017-01-20,,,1,9
+228,3,LE9.1,"Dice 4 palabras además de papá y mamá (carro, leche, pelota, perro)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+229,3,LE9.2,Señala 2 o 3 partes de su cuerpo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+230,3,EN9.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,9
+231,3,EN9.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,9
+232,5,ALA9.2,Camina solo,NO,ROJO,SI,VERDE,5,2017-01-20,,,1,9
+233,5,MG9.2,Patea una pelota (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+234,5,MG9.3,Corre aunque no sea de manera coordinada,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+235,5,ALE9.2,"Comprende órdenes sencillas, como ""dame la pelota""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+236,5,MG9.1,¿Puede su niño sentarse solo en una silla pequeña?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+237,5,SO9.1,¿Utiliza la cuchara para comer?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+238,5,SO9.2,"Cuando va a desvestir a su niño, ¿él le ayuda quitándose parte de su ropa, por ejemplo, los zapatos?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+239,5,SO9.3,¿A su hijo le gusta imitar las tareas de la casa como barrer o sacudir?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,9
+240,5,ALE9.3,¿Se enoja mucho y tiene dificultad para calmarse comparado con otros niños de su edad?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,9
+241,5,ALA9.3,"¿Muestra conductas repetitivas o estereotipadas, por ejemplo: balancearse sin parar en su silla o golpearse la cabeza con las manos?",SI,ROJO,NO,VERDE,5,2017-01-20,,,1,9
+242,3,ALA11.2,¿Considera que su hijo ha experimentado una pérdida importante y constante de las habilidades que en algún momento tuvo?,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,11
+243,3,EN11.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,11
+244,3,ALA11.1,"Muestra indiferencia excesiva al entorno, parece no interesarle nada de lo que sucede a su alrededor",SI,ROJO,NO,VERDE,5,2017-01-20,,,1,11
+245,3,LE11.1,Dice su nombre,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+246,3,MF11.1,Abre un frasco solo,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+247,3,MF11.2,Lanza una pelota con la mano (pelota roja),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+248,3,MF11.3,Hace hileras con 4 cubos (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+249,3,LE11.2,"Utiliza palabras como: yo, mío, él, tú",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+250,3,EN11.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,11
+251,3,EN11.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,11
+252,5,MG11.1,"Cuando brinca, levanta los dos pies del suelo a la vez (D)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+253,5,MG11.3,Se para sobre un solo pie (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+254,5,ALE11.1,Se le dificulta mucho relacionarse con personas que no le son familiares,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,11
+255,5,MG11.2,¿Puede subir o bajar al menos 2 escalones con ayuda?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+256,5,LE11.3,"¿Usa oraciones de 3 palabras, por ejemplo: ""quiero mi pelota"", ""dame mi leche""?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+257,5,SO11.1,¿Le ayuda a guardar las cosas de la casa en su lugar?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+258,5,SO11.2,¿Juega a simular cosas que vio?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+259,5,SO11.3,¿Se lava solo las manos o la cara?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,11
+260,5,ALE11.2,¿Se frustra fácilmente cuando se le dificulta hacer algo y deja de hacerlo o se pone a llorar?,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,11
+261,3,ALA12.4,¿Considera que su hijo ha experimentado una pérdida importante y constante de las habilidades que en algún momento tuvo?,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+262,3,EN12.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+263,3,ALE12.3,Hace contacto visual cuando alguien le habla,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+264,3,ALE12.1,Le cuesta trabajo manipular objetos pequeños como cuentas (si no lo hace D),SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,12
+265,3,MF12.1,Abotona una prenda de vestir (D) (muñeco de tela),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+266,3,MF12.3,Imita trazos verticales y horizontales (student workbook y lápiz),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+267,3,ALA12.1,Babea constantemente o habla de manera poco entendible,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+268,3,LE12.1,Dice su edad,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+269,3,LE12.3,"Cuando habla utiliza el plural de las palabras: perros, juguetes, niños, etc. (Láminas B, C y D)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+270,3,LE12.2,"Cuando está con personas que no conoce, éstas entienden la mayoría de las palabras que dice",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+271,3,EN12.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+272,3,EN12.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+273,5,MF12.2,Levanta una cuenta del suelo utilizando dedos índice y pulgar (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+274,5,MG12.1,Se agacha fácilmente hacia adelante sin caerse (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+275,5,MG12.2,Camina sobre la punta de sus pies (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+276,5,MG12.3,Camina hacia atrás (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+277,5,ALE12.2,"Tiene dificultad para seguir instrucciones sencillas como: ""Ve con tu mamá""",SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,12
+278,5,ALE12.4,"Le cuesta mucho trabajo separarse de su mamá o de la persona que lo cuida y cuando se alejan de él, se pone a llorar",SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,12
+279,5,SO12.3,Se separa fácilmente de sus padres,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+280,5,SO12.1,¿Juega con otros niños?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+281,5,SO12.2,¿Entiende la diferencia entre mío y tuyo?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+282,5,ALA12.2,"¿Se comunica con palabras aisladas, es decir, no forma oraciones como: ""mamá quiero leche"", y sólo dice ""leche""?",SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+283,5,ALA12.3,¿Se cae frecuentemente y le cuesta trabajo subir y bajar escaleras?,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,12
+284,5,ALE12.5,"¿Tiene interés por sus juguetes? Es decir, los ocupa para jugar o los ve como cosas; por ejemplo: ¿Juega rodando sus carritos o sólo los ocupa para ordenarlos?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,12
+285,3,ALA13.3,¿Considera que su hijo ha experimentado una pérdida importante y constante de las habilidades que en algún momento tuvo?,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,13
+286,3,EN13.1,Presenta alteración en la movilidad de alguna parte del cuerpo,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,13
+287,3,MF13.1,Mete una agujeta o cordón por los agujeros de una cuenta (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+288,3,ALE13.1,Toma el lápiz tricolor con los dedos índice y pulgar,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+289,3,MF13.3,Dibuja un círculo o una cruz (bloc de hojas y lápiz),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+290,3,ALA13.1,Copia un círculo en una hoja de papel (bloc de hojas y lápiz),NO,ROJO,SI,VERDE,5,2017-01-20,,,1,13
+291,3,MF13.2,Dibuja un niño con 2 o más partes del cuerpo (bloc de hojas y lápiz),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+292,3,CO13.1,Conoce los nombres de 4 colores (discos de 10 colores),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+293,3,CO13.2,Dice los nombres de 2 o más números (discos de 10 colores),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+294,3,CO13.3,Sabe contar una parte del cuento que le hayan contado o leído previamente,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+295,3,LE13.1,Dice lo que quiere con palabras,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+296,3,LE13.2,"Platica algo de lo que hizo ayer ""¿Qué hiciste ayer?"", ""¿A dónde fuiste ayer?""",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+297,3,ALA13.2,"Dice una oración con al menos 3 palabras, por ejemplo: ""mamá dame leche""",NO,ROJO,SI,VERDE,5,2017-01-20,,,1,13
+298,3,EN13.2,Presenta alteración o asimetría en la movilidad de los ojos o expresión facial,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,13
+299,3,EN13.3,Presenta perímetro cefálico por arriba o debajo de 2 desviaciones estándar para su edad,SI,ROJO,NO,VERDE,5,2017-01-20,,,1,13
+300,5,MG13.1,Salta en un solo pie en el mismo lugar por lo menos 3 veces (D),NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+301,5,MG13.2,"Cuando le avientan una pelota, puede cacharla (pelota antiponchable)",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+302,5,ALE13.2,Le cuesta mucho trabajo separarse de su mamá o de la persona que lo cuida y cuando se alejan de él se pone a llorar,SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,13
+303,5,ALE13.3,"Cuando está con otros niños, ¿los ignora y prefiere jugar solo?",SI,AMARILLO,NO,VERDE,5,2017-01-20,,,1,13
+304,5,MG13.3,¿Sube y baja las escaleras sin apoyarse de la pared o el barandal?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+305,5,LE13.3,"¿Frecuentemente pregunta el ""por qué"" de las cosas?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+306,5,SO13.1,¿Puede vestirse y desvestirse solo?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+307,5,SO13.2,¿Puede ir al baño solo?,NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+308,5,SO13.3,"¿Juega con otros niños al papá o a la mamá, al doctor o policías y ladrones?",NO,AMARILLO,SI,VERDE,5,2017-01-20,,,1,13
+309,6,MG1.1,"Acostado boca abajo, puede voltear su cabeza para los 2 lados",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+310,6,MG1.2,"Cuando lo desviste, patea y mueve los brazos",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+311,6,MF1.1,Mantiene las manos cerradas la mayor parte del tiempo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+312,6,MF1.2,"Cuando le da en la mano una sonaja, la retiene al menos durante 3 segundos",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+313,6,LE1.1,Se tranquiliza cuando escucha su voz,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+314,6,LE1.2,"Hace algún ruido con la boca, llora cuando está incómodo o quiere comer",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+315,6,SO1.1,"Cuando llora, se tranquiliza al hablarle o levantarlo",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+316,6,SO1.2,"Cuando está frente al bebé, sigue con la mirada sus movimientos",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,16
+317,6,MG2.1,"Boca abajo, levanta la cabeza por al menos 3 segundos (sonaja)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+318,6,MG2.2,Logra sostener la cabeza sin que se le vaya bruscamente hacia atrás o hacia alguno de los lados,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+319,6,MF2.1,Sigue con la vista el movimiento de un objeto (péndulo EDI),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+320,6,MF2.2,Se lleva la mano a la boca,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+321,6,LE2.1,"Cuando escucha un ruido, voltea hacia la fuente del sonido (fuera del campo visual)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+322,6,LE2.2,"Hace sonidos como ""a"", ""e"", ""u""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+323,6,SO2.1,Hace sonidos con la boca cuando le hablan,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+324,6,SO2.2,Reconoce los rostros que le son familiares y sonríe,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,17
+325,6,MG3.1,Boca abajo y apoyado en antebrazos logra sostener la cabeza al menos 3 segundos (sonaja),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+326,6,MG3.2,"Sostenido por el tronco en posición sentado, mantiene su cabeza firme sin que caiga bruscamente hacia enfrente, atrás o a los lados",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+327,6,MF3.1,Observa sus manos durante al menos 3 segundos mientras las está moviendo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+328,6,MF3.2,Tiene las manos abiertas la mayor parte del tiempo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+329,6,LE3.1,"Cuando le habla, hace sonidos con la boca o sonríe",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+330,6,LE3.2,"Cuando balbucea, pronuncia algunas consonantes como ""agu"" o ""ga""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+331,6,SO3.1,Es fácil que el bebé sonría,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+332,6,SO3.2,"Cuando le habla, voltea la cabeza y trata de ubicar el origen de la voz (estando fuera del campo visual)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,18
+333,6,MG4.1,"Cuando está sentado y le sostiene suavemente de la espalda, mantiene su cabeza, sin dejarla caer hacia ningún lado",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+334,6,MG4.2,"Cuando está acostado boca abajo, se apoya en antebrazos y eleva el tronco a 45° (sonaja)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+335,6,MF4.1,Extiende alguno de sus brazos para tratar de tomar un objeto que está a su alcance (péndulo EDI),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+336,6,MF4.2,Mantiene en la mano un objeto al menos 10 segundos (sonaja),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+337,6,LE4.1,Balbucea o grita para llamar su atención,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+338,6,LE4.2,"Emite sonidos como ""le"", ""be"", ""pa"", ""gu""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+339,6,SO4.1,"¿Piensa usted que cuando su bebé ve su pecho o el biberón, sabe que en poco tiempo le va a dar de comer?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+340,6,SO4.2,¿Le gusta jugar con otras personas y llora cuando dejan de jugar con él?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,19
+341,6,MG5.1,"Cuando lo toma de los brazos para sentarlo, él le ayuda jalando y elevando la cabeza",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+342,6,MG5.2,"Acostado el bebé boca abajo, se apoya en antebrazos e intenta tomar un juguete que está a su alcance",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+343,6,MF5.1,Intenta insistentemente agarrar un objeto cercano a él (cubos),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+344,6,MF5.2,"Cuando agarra algún objeto, se lo pasa de una mano a otra (sonaja, cubo o pato)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+345,6,LE5.1,"Si llama al bebé cuando él no lo puede ver, mueve la cabeza en dirección de su voz",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+346,6,LE5.2,"Si usted imita los sonidos que el bebé emite, vuelve él a repetirlos",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+347,6,SO5.1,¿Se pone intranquilo cuando una persona desconocida trata de cargarlo?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+348,6,SO5.2,"Cuando se tapa la cara con una tela, se ríe cuando usted se destapa",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,20
+349,6,MG6.1,Se mantiene sentado sin apoyo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+350,6,MG6.2,"Cuando quiere ir de un lado a otro, se voltea de estar boca arriba a quedar boca abajo y se arrastra sobre el estómago (juguetes atractivos)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+351,6,MF6.1,"Cuando quiere agarrar las cosas, utiliza sus dedos como si fuera un rastrillo (una cuenta)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+352,6,MF6.2,Le gusta golpear objetos contra la mesa o el suelo (cubos),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+353,6,LE6.1,"Hace 2 sonidos iguales como ""ba-ba"", ""da-da"", ""ta-ta""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+354,6,LE6.2,Hace gestos para decir lo que quiere,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+355,6,SO6.1,"Cuando está con personas conocidas, ¿reacciona ante sus expresiones y parece contento?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+356,6,SO6.2,"Cuando le da de beber líquidos, ¿le ayuda a detener el biberón o la taza?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,21
+357,6,MG7.1,"Cuando se desplaza de un lado a otro, utiliza sus manos y rodillas (juguetes atractivos)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+358,6,MG7.2,Camina agarrado de los muebles (juguetes atractivos),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+359,6,MF7.1,Toma un objeto pequeño con los dedos y lo mantiene en el centro de la mano (una cuenta),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+360,6,MF7.2,Sabe aplaudir,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+361,6,LE7.1,"Cuando el niño está jugando en una actividad que lo tiene entretenido y usted le dice ""no-no"", deja de hacerla (juguetes atractivos)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+362,6,LE7.2,¿Dice papá o mamá?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+363,6,SO7.1,¿Empieza a comer por sí solo con los dedos?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+364,6,SO7.2,"Cuándo lo viste, ¿le ayuda terminando de meter el brazo por la manga?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,22
+365,6,MG8.1,"Cuando está sentado, se para solo",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+366,6,MG8.2,Camina solo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+367,6,MG8.3,Se agacha para agarrar un objeto del suelo y se pone de pie sin apoyarse en algo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+368,6,MF8.1,Le gusta sacar y meter cosas de la caja (por lo menos 2 juguetes) (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+369,6,MF8.2,Le gusta tirar o aventar juguetes u otros objetos al suelo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+370,6,MF8.3,"Sin apoyar la mano o el brazo en la mesa, toma una cuenta utilizando las yemas de los dedos",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+371,6,LE8.1,Señala su zapato o alguna parte del cuerpo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+372,6,LE8.2,¿Dice otra palabra además de papá y mamá?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+373,6,LE8.3,"Cuando quiere algo, se comunica con gestos y sonidos",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+374,6,SO8.1,¿Come solo y sin ayuda?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+375,6,SO8.2,¿Le gusta abrazar o besar a sus papás?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+376,6,SO8.3,"Obedece órdenes sencillas como: ""dame el pato"", ""trae la pelota"", ""ven""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,23
+377,6,MG9.1,¿Puede su niño sentarse solo en una silla pequeña?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+378,6,MG9.2,Patea una pelota (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+379,6,MG9.3,Corre aunque no sea de manera coordinada,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+380,6,MF9.1,"Coloca dos cubos, uno encima de otro",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+381,6,MF9.2,Mete objetos pequeños en un frasco de boca chica (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+382,6,MF9.3,"Si usted le da una hoja de papel y un lápiz, utiliza la punta para tratar de dibujar (si no lo hace D)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+383,6,LE9.1,"Dice 4 palabras además de papá y mamá (carro, leche, pelota, perro)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+384,6,LE9.2,Señala 2 o 3 partes de su cuerpo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+385,6,LE9.3,Sabe el nombre de al menos 3 dibujos (Lámina A),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+386,6,SO9.1,¿Utiliza la cuchara para comer?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+387,6,SO9.2,"Cuando va a desvestir a su niño, ¿él le ayuda quitándose parte de su ropa, por ejemplo, los zapatos?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+388,6,SO9.3,¿A su hijo le gusta imitar las tareas de la casa como barrer o sacudir?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,24
+389,6,MG10.1,¿Puede su niño subirse solo a los muebles?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+390,6,MG10.2,Corre sin caerse,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+391,6,MG10.3,Patea la pelota sin perder el equilibrio,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+392,6,MF10.1,Intenta abrir un frasco girando la mano (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+393,6,MF10.2,Mete al menos 3 fichas en la alcancía (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+394,6,MF10.3,¿Puede comer ayudándose de una cuchara sin tirar la comida?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+395,6,LE10.1,"Dice frases de 2 palabras ""mira mamá ""ten mamá""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+396,6,LE10.2,¿Dice 8 o más palabras además de mamá y papá?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+397,6,LE10.3,"Obedece órdenes sencillas ""dame la pelota""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+398,6,SO10.1,¿Trata de hacer las cosas solo y se molesta cuando no lo dejan?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+399,6,SO10.2,¿Avisa cuando tiene sucio el pañal?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+400,6,SO10.3,¿Le pide ayuda cuando quiere algo que no alcanza?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,25
+401,6,MG11.1,"Cuando brinca, levanta los dos pies del suelo a la vez (D)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+402,6,MG11.2,¿Puede subir o bajar al menos 2 escalones con ayuda?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+403,6,MG11.3,Se para sobre un solo pie (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+404,6,MF11.1,Abre un frasco solo,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+405,6,MF11.2,Lanza una pelota con la mano (pelota roja),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+406,6,MF11.3,Hace hileras con 4 cubos (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+407,6,LE11.1,Dice su nombre,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+408,6,LE11.2,"Utiliza palabras como: yo, mío, él, tú",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+409,6,LE11.3,"¿Usa oraciones de 3 palabras, por ejemplo: ""quiero mi pelota"", ""dame mi leche""?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+410,6,SO11.1,¿Le ayuda a guardar las cosas de la casa en su lugar?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+411,6,SO11.2,¿Juega a simular cosas que vio?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+412,6,SO11.3,¿Se lava solo las manos o la cara?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,26
+413,6,MG12.1,Se agacha fácilmente hacia adelante sin caerse (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+414,6,MG12.2,Camina sobre la punta de sus pies (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+415,6,MG12.3,Camina hacia atrás (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+416,6,MF12.1,Abotona una prenda de vestir (D) (muñeco de tela),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+417,6,MF12.2,Levanta una cuenta del suelo utilizando dedos índice y pulgar,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+418,6,MF12.3,Imita trazos verticales y horizontales (student workbook y lápiz),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+419,6,LE12.1,Dice su edad,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+420,6,LE12.2,"Cuando está con personas que no conoce, éstas entienden la mayoría de las palabras que dice",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+421,6,LE12.3,"Cuando habla utiliza el plural de las palabras: perros, juguetes, niños, etc. (Lámina B, C y D)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+422,6,SO12.1,¿Juega con otros niños?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+423,6,SO12.2,¿Entiende la diferencia entre mío y tuyo?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+424,6,SO12.3,Se separa fácilmente de sus padres,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+425,6,CO-R 1,Sabe decir si es niño o niña,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+426,6,CO-R 2,"¿Dice frases como ""tengo sueño"", ""me quiero ir a dormir""?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+427,6,CO-R 3,"Hace preguntas como: ¿Quién?, ¿Cuándo?, ¿Dónde?, ¿Por qué?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,27
+428,6,MG13.1,Salta en un solo pie en el mismo lugar por lo menos 3 veces (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+429,6,MG13.2,"Cuando le avientan una pelota, puede cacharla (pelota antiponchable)",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+430,6,MG13.3,¿Sube y baja las escaleras sin apoyarse de la pared o el barandal?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+431,6,MF13.1,Mete una agujeta o cordón por los agujeros de una cuenta (D),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+432,6,MF13.2,Dibuja un niño con 2 o más partes del cuerpo (bloc de hojas y lápiz),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+433,6,MF13.3,Dibuja un círculo o una cruz (bloc de hojas y lápiz),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+434,6,LE13.1,Dice lo que quiere con palabras,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+435,6,LE13.2,"Platica algo de lo que hizo ayer ""¿Qué hiciste ayer?"", ""¿A dónde fuiste ayer?""",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+436,6,LE13.3,"¿Frecuentemente pregunta el ""por qué"" de las cosas?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+437,6,SO13.1,¿Puede vestirse y desvestirse solo?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+438,6,SO13.2,¿Puede ir al baño solo?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+439,6,SO13.3,"¿Juega con otros niños al papá o a la mamá, al doctor o policías y ladrones?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+440,6,CO13.1,Conoce los nombres de 4 colores (discos de 10 colores),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+441,6,CO13.2,Dice los nombres de 2 o más números (discos de 10 colores),NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+442,6,CO13.3,Sabe contar una parte del cuento que le han contado o leído previamente,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,28
+443,6,MG14.1,¿Sabe su niño darse marometas?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+444,6,MG14.2,¿Puede su niño brincar hacia adelante cayendo con los pies juntos?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+445,6,MG14.3,¿Puede su niño brincar con un solo pie hacia adelante tres veces cayendo con el mismo epie?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+446,6,MF14.1,¿Puede dibujar un cuadrado?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+447,6,MF14.2,¿Sabe escribir 2 o mas letras?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+448,6,MF14.3,"¿Puede dibujar una persona con 4 o mas partes del cuerpo, ojos, nariz , boca, pelo, tronco, brazos, piernas, etc?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+449,6,LE14.1,¿Sabe usar el tiempo futuro?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+450,6,LE14.2,¿Sabe contar cuentos?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+451,6,LE14.3,"Cuando algo le gusta mucho, ¿dice: ""dame más""?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+452,6,SO14.1,¿Puede decir el nombre de dos de sus amigos?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+453,6,SO14.2,"¿Le gusta jugar al papá, a la mamá o actuar como otra persona de la familia?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+454,6,SO14.3,¿Se puede bañar solo?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+455,6,CO14.1,¿Puede decir el nombre correcto de 4 colores y los puede reconocer?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+456,6,CO14.2,¿Puede contar correctamente hasta 10?,NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+457,6,CO14.3,"¿Cuándo habla, utiliza las palabras ayer, hoy y mañana?",NO,ROJO,SI,AMARILLO,5,2017-01-24,,,1,29
+458,6,MG15.1,¿Puede brincar con un solo pie hacia adelante siete veces cayendo con el mismo pie?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+459,6,MG15.2,¿Puede brincar hacia atras con los pies juntos?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+460,6,MG15.3,"¿Camina siguiendo una línea recta, juntando el talón de un pie con la punta del otro pie, por lo menos 5 pasos?",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+461,6,MF15.1,¿Puede dibujar un triángulo copiándolo?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+462,6,MF15.2,¿Puede tocar la punta de su dedo pulgar con la punta de cada dedo de la misma mano consecutivamente?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+463,6,MF15.3,"¿Puede cortar el papel con tijeras de punta redonda siguiendo una línea recta, teniendo 1 cm de margen de error?",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+464,6,LE15.1,¿Habla con suficiente claridad para que otros lo entiendan?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+465,6,LE15.2,"¿Comunica sus emociones diciendo palabras como: “feliz”, “triste”, “enojado”? (si recibes regalos, ¿Cómo te sientes?).",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+466,6,LE15.3,"¿Puede seguir ordenes verbales de tres pasos, por ejemplo: “aplaude, dame el lápiz y ponte de pie”?",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+467,6,SO15.1,¿La mayoría de las veces comparte fácilmente sus cosas con otros niños?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+468,6,SO15.2,¿Le gusta ir a la escuela?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+469,6,SO15.3,"¿Espera su turno con facilidad cuando interactúa con sus compañeros, maestros o cuidadores primarios?",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+470,6,CO15.1,"Cuando le pides que escriba 2 números o 2 letras, ¿lo hace?",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+471,6,CO15.2,"¿Puede completar oraciones con la palabra que significa lo opuesto? Por ejemplo: “el conejo es rápido, la tortuga es...”",NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+472,6,CO15.3,¿Identifica el valor de dos o más monedas o billetes?,NO,AMARILLO,SI,VERDE,5,2017-01-24,,,1,15
+473,6,ALA15.1,"¿Presenta dolores de cabeza persistentes, visión borrosa o mareo?",SI,ROJO,NO,VERDE,5,2017-01-24,,,1,15
+474,6,ALA15.2,"¿Presenta dificultad para cepillarse los dientes, lavarse y secarse las manos o desvestirse sin ayuda?",SI,ROJO,NO,VERDE,5,2017-01-24,,,1,15
+475,6,ALA15.3,"¿Durante más de tres días a la semana el niño presenta miedo, agresión,
+timidez o tristeza en mayor intensidad que los niños de su edad?",SI,ROJO,NO,VERDE,5,2017-01-24,,,1,15
+476,6,EN15.1,¿Presenta alteración en la movilidad de alguna parte del cuerpo?,SI,ROJO,NO,VERDE,5,2017-01-24,,,1,15
+477,6,EN15.2,¿Presenta alteración o asimetría en la movilidad de ojos o expresión facial?,SI,ROJO,NO,VERDE,5,2022-12-09,,,1,15
+478,6,ALE15.1,¿El niño necesita acercarse mucho a los objetos que le llaman la atención o inclina la cabeza para verlos?,NO,VERDE,SI,AMARILLO,5,2022-12-09,,,1,15
+479,6,ALE15.2,¿El niño se cae frecuentemente al correr?,NO,VERDE,SI,AMARILLO,5,2022-12-09,,,1,15
+480,6,ALE15.3,¿El niño se orina en la cama por las noches?,NO,VERDE,SI,AMARILLO,5,2022-12-09,,,1,15
+481,6,ALE15.4,¿Se distrae fácilmente y le cuesta mucho trabajo concentrarse en alguna actividad por más de cinco minutos?,NO,VERDE,SI,AMARILLO,5,2022-12-09,,,1,15

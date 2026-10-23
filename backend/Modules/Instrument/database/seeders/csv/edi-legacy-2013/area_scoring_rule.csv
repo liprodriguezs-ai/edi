@@ -1,0 +1,152 @@
+group_code,area_code,item_count,red_threshold,green_threshold,allows_yellow,source,notes
+G1,MG,2,1,0,0,legacy_js,"G1 special-cased per axis, no yellow branch"
+G1,MF,2,1,0,0,legacy_js,"G1 special-cased per axis, no yellow branch"
+G1,LE,2,1,0,0,legacy_js,"G1 special-cased per axis, no yellow branch"
+G1,SO,2,1,0,0,legacy_js,"G1 special-cased per axis, no yellow branch"
+G1,EN,3,1,0,0,legacy_js,
+G2,MG,2,1,2,1,legacy_js,
+G2,MF,2,1,2,1,legacy_js,
+G2,LE,2,1,2,1,legacy_js,
+G2,SO,2,1,2,1,legacy_js,
+G2,EN,3,1,0,0,legacy_js,
+G2,ALA,3,1,0,0,legacy_js,
+G3,MG,2,1,2,1,legacy_js,
+G3,MF,2,1,2,1,legacy_js,
+G3,LE,2,1,2,1,legacy_js,
+G3,SO,2,1,2,1,legacy_js,
+G3,EN,3,1,0,0,legacy_js,
+G3,ALA,2,1,0,0,legacy_js,
+G4,MG,2,1,2,1,legacy_js,
+G4,MF,2,1,2,1,legacy_js,
+G4,LE,2,1,2,1,legacy_js,
+G4,SO,2,1,2,1,legacy_js,
+G4,EN,3,1,0,0,legacy_js,
+G4,ALA,2,1,0,0,legacy_js,
+G5,MG,2,1,2,1,legacy_js,
+G5,MF,2,1,2,1,legacy_js,
+G5,LE,2,1,2,1,legacy_js,
+G5,SO,2,1,2,1,legacy_js,
+G5,EN,3,1,0,0,legacy_js,
+G5,ALA,2,1,0,0,legacy_js,
+G6,MG,2,1,2,1,legacy_js,
+G6,MF,2,1,2,1,legacy_js,
+G6,LE,2,1,2,1,legacy_js,
+G6,SO,2,1,2,1,legacy_js,
+G6,EN,3,1,0,0,legacy_js,
+G6,ALA,2,1,0,0,legacy_js,
+G7,MG,2,1,2,1,legacy_js,
+G7,MF,2,1,2,1,legacy_js,
+G7,LE,2,1,2,1,legacy_js,
+G7,SO,2,1,2,1,legacy_js,
+G7,EN,3,1,0,0,legacy_js,
+G7,ALA,2,1,0,0,legacy_js,
+G8,MG,3,1,2,1,legacy_js,
+G8,MF,3,1,2,1,legacy_js,
+G8,LE,3,1,2,1,legacy_js,
+G8,SO,3,1,2,1,legacy_js,
+G8,EN,3,1,0,0,legacy_js,
+G8,ALA,1,1,0,0,legacy_js,
+G9,MG,3,2,2,1,legacy_js,
+G9,MF,3,2,2,1,legacy_js,
+G9,LE,3,2,2,1,legacy_js,
+G9,SO,3,2,2,1,legacy_js,
+G9,EN,3,1,0,0,legacy_js,
+G9,ALA,4,1,0,0,legacy_js,
+G10,MG,3,2,2,1,legacy_js,
+G10,MF,3,2,2,1,legacy_js,
+G10,LE,3,2,2,1,legacy_js,
+G10,SO,3,2,2,1,legacy_js,
+G10,EN,3,1,0,0,legacy_js,
+G10,ALA,2,1,0,0,legacy_js,
+G11,MG,3,2,2,1,legacy_js,
+G11,MF,3,2,2,1,legacy_js,
+G11,LE,3,2,2,1,legacy_js,
+G11,SO,3,2,2,1,legacy_js,
+G11,EN,3,1,0,0,legacy_js,
+G11,ALA,2,1,0,0,legacy_js,
+G12,MG,3,2,2,1,legacy_js,
+G12,MF,3,2,2,1,legacy_js,
+G12,LE,3,2,2,1,legacy_js,
+G12,SO,3,2,2,1,legacy_js,
+G12,EN,3,1,0,0,legacy_js,
+G12,ALA,4,1,0,0,legacy_js,
+G13,MG,3,2,2,1,legacy_js,
+G13,MF,3,2,2,1,legacy_js,
+G13,LE,3,2,2,1,legacy_js,
+G13,SO,3,2,2,1,legacy_js,
+G13,CO,3,2,2,1,legacy_js,
+G13,EN,3,1,0,0,legacy_js,
+G13,ALA,3,1,0,0,legacy_js,
+G14,MG,3,2,2,1,legacy_js,
+G14,MF,3,2,2,1,legacy_js,
+G14,LE,3,2,2,1,legacy_js,
+G14,SO,3,2,2,1,legacy_js,
+G14,CO,3,2,2,1,legacy_js,
+G14,EN,3,1,0,0,legacy_js,
+G14,ALA,2,1,0,0,legacy_js,
+G15,MG,3,2,2,1,oracle_confirmed,design.md §13 (Q1 resolved): 228/228 legacy_id oracle screenings reproduce exactly under the G9-G14 rule
+G15,MF,3,2,2,1,oracle_confirmed,design.md §13 (Q1 resolved): 228/228 legacy_id oracle screenings reproduce exactly under the G9-G14 rule
+G15,LE,3,2,2,1,oracle_confirmed,design.md §13 (Q1 resolved): 228/228 legacy_id oracle screenings reproduce exactly under the G9-G14 rule
+G15,SO,3,2,2,1,oracle_confirmed,design.md §13 (Q1 resolved): 228/228 legacy_id oracle screenings reproduce exactly under the G9-G14 rule
+G15,CO,3,2,2,1,oracle_confirmed,design.md §13 (Q1 resolved): 228/228 legacy_id oracle screenings reproduce exactly under the G9-G14 rule
+G15,EN,2,1,0,0,oracle_confirmed,design.md §13 (Q1 resolved)
+G15,ALA,3,1,0,0,oracle_confirmed,design.md §13 (Q1 resolved)
+G1A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G1A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G1A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G1A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G2A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G2A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G2A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G2A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G3A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G3A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G3A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G3A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G4A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G4A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G4A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G4A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G5A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G5A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G5A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G5A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G6A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G6A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G6A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G6A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G7A,MG,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G7A,MF,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G7A,LE,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G7A,SO,2,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G8A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G8A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G8A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G8A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G9A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G9A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G9A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G9A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G10A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G10A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G10A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G10A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G11A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G11A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G11A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G11A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G12A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G12A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G12A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G12A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G12A,CO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G13A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G13A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G13A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G13A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G13A,CO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G14A,MG,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G14A,MF,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G14A,LE,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G14A,SO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran
+G14A,CO,3,1,,1,oracle_confirmed,design.md §13 (Q4 resolved): oracle legacy_id 791/2452 show the alternate area re-scores using ONLY the alternate items with red_threshold=1; the commented legacy block (D13) is not the code that ran

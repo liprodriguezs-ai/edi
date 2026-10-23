@@ -1,0 +1,31 @@
+code,name,ordinal,is_alternate,min_age_days,max_age_days,min_age_months,max_age_months,alternate_group_code,materials_note,legacy_id
+G1,GRUPO 1,1,0,30,59,1,1,,"Sonaja, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",1
+G2,GRUPO 2,2,0,60,89,2,2,G1A,"Sonaja, péndulo EDI, estímulo visual, cinta cefálica, sonaja de serpiente y tabla de perímetro cefálico.",2
+G3,GRUPO 3,3,0,90,119,3,3,G2A,"Péndulo EDI, estímulo visual, cinta cefálica, sonaja y tabla de perímetro cefálico.",3
+G4,GRUPO 4,4,0,120,149,4,4,G3A,"Péndulo EDI, sonaja, estímulo visual, cinta cefálica, sonaja de serpiente y tabla de perímetro cefálico.",4
+G5,GRUPO 5,5,0,150,209,5,6,G4A,"Juguetes atractivos, sonaja, cubos, estímulo visual, cinta cefálica, tela, sonaja de serpiente y tabla de perímetro cefálico",5
+G6,GRUPO 6,6,0,210,299,7,9,G5A,"Sonaja de serpiente, cuentas, cubos, juguetes atractivos, pelota roja, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",6
+G7,GRUPO 7,7,0,300,389,10,12,G6A,"Juguetes atractivos, cubos, pelota roja, muñeco de tela, cuentas, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",7
+G8,GRUPO 8,8,0,390,479,13,15,G7A,"Juguetes atractivos, pelota roja, cubos, contenedor de plástico, muñeco de tela, cuentas, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",8
+G9,GRUPO 9,9,0,480,569,16,18,G8A,"Cubos, frasco de boca chica, cuentas, cuadernillo de trazos (student workbook),  lápiz y lápiz tricolor, Lámina B muñeco de tela, estímulo visual, cinta cefálica, pelota antiponchable y tabla de perímetro cefálico.",9
+G10,GRUPO 10,10,0,570,749,19,24,G9A,"Frasco con tapa rosca, alcancía de cochinito con 4 fichas, estímulo visual, cinta cefálica, pelota antiponchable y tabla de perímetro cefálico.",10
+G11,GRUPO 11,11,0,750,929,25,30,G10A,"Frasco con tapa rosca, pelota roja, cubos, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",11
+G12,GRUPO 12,12,0,930,1109,31,36,G11A,"Cuentas, frasco con tapa rosca, muñeco de tela, cuadernillo de trazos (student workbook),
+ lápiz y lápiz tricolor, Láminas B, C y D, estímulo visual, cinta cefálica y tabla de perímetro cefálico.",12
+G13,GRUPO 13,13,0,1110,1469,37,48,G12A,"Cuentas para ensartar con agujeta, bloc de hojas, lápiz y lápiz tricolor, discos de 10 colores diferentes, estímulo visual, cinta cefálica, pelota antiponchable y tabla de perímetro cefálico.",13
+G14,GRUPO 14,14,0,1470,1799,49,59,G13A,"Bloc de hojas, lápiz y lápiz tricolor, discos de 10 colores diferentes, cubos, láminas B, C y D, estímulo visual, cinta cefálica, y tabla de perímetro cefálico.",14
+G15,GRUPO 15,15,0,1800,2159,60,71,G14A,,15
+G1A,GRUPO 1A,16,1,,,,,,,16
+G2A,GRUPO 2A,17,1,,,,,,,17
+G3A,GRUPO 3A,18,1,,,,,,,18
+G4A,GRUPO 4A,19,1,,,,,,,19
+G5A,GRUPO 5A,20,1,,,,,,,20
+G6A,GRUPO 6A,21,1,,,,,,,21
+G7A,GRUPO 7A,22,1,,,,,,,22
+G8A,GRUPO 8A,23,1,,,,,,,23
+G9A,GRUPO 9A,24,1,,,,,,,24
+G10A,GRUPO 10A,25,1,,,,,,,25
+G11A,GRUPO 11A,26,1,,,,,,,26
+G12A,GRUPO 12A,27,1,,,,,,,27
+G13A,GRUPO 13A,28,1,,,,,,,28
+G14A,GRUPO 14A,29,1,,,,,,,29

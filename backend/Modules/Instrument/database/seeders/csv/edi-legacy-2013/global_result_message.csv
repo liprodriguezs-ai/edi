@@ -1,0 +1,5 @@
+key,result_color_key,headline,referral_items,sort_order
+red,red,Riesgo de retraso en el desarrollo,"[""Continuar con sesiones de interacción oportuna."", ""Referencia con especialista.""]",1
+yellow_development,yellow,Rezago en el desarrollo,"[""Continuar con sesiones de interacción oportuna."", ""Agendar la aplicación de la Prueba EDI en 3 meses."", ""En caso de reincidencia, referencia con especialista.""]",2
+yellow_social,yellow,Rezago en el desarrollo,"[""Continuar con sesiones de interacción oportuna."", ""Agendar la aplicación de la Prueba EDI en 3 meses."", ""En caso de reincidencia, referencia con especialista.""]",3
+green,green,Desarrollo normal,"[""Continuar con sesiones de interacción oportuna.""]",4

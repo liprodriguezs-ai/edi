@@ -1,0 +1,8 @@
+code,question,sort_order,auto_derivation_key,legacy_id
+FRB1,Asistencia a dos o menos consultas prenatales.,1,,1
+FRB2,"Presencia de sangrados, infecciones de vías urinarias o cervicovaginitis, presión alta y enfermedades sistémicas durante el embarazo.",2,,2
+FRB3,Gestación menor a 34 semanas.,3,gestational_age_lt_34_weeks,3
+FRB4,Peso del niño al nacer igual o menor a 1500 g.,4,birth_weight_lte_1500_g,4
+FRB5,Retardo en la respiración o circular de cordón durante el parto.,5,,5
+FRB6,Hospitalización del niño en la UCIN o antes del mes de vida con una duración de 4 días o más.,6,,6
+FRB7,Madre menor a 16 años al momento del parto.,7,mother_age_lt_16_years,7

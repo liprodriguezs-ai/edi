@@ -1,0 +1,8 @@
+id_edi_frb,pregunta,estatus,usuario_creo,fecha_creacion,usuario_modifico,fecha_modificacion
+1,Asistencia a dos o menos consultas prenatales.,1,5,2016-01-16,,
+2,"Presencia de sangrados, infecciones de vías urinarias o cervicovaginitis, presión alta y enfermedades sistémicas durante el embarazo.",1,5,2016-01-16,,
+3,Gestación menor a 34 semanas.,1,5,2016-01-16,,
+4,Peso del niño al nacer igual o menor a 1500 g.,1,5,2016-01-16,,
+5,Retardo en la respiración o circular de cordón durante el parto.,1,5,2016-01-16,,
+6,Hospitalización del niño en la UCIN o antes del mes de vida con una duración de 4 días o más.,1,5,2016-01-16,,
+7,Madre menor a 16 años al momento del parto.,1,5,2016-01-16,,

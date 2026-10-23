@@ -1,0 +1,11 @@
+{
+    "name": "Instrument",
+    "alias": "instrument",
+    "description": "EDI instrument catalog: versioned, immutable screening rulebook (age groups, item bank, scoring rules).",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Instrument\\Providers\\InstrumentServiceProvider"
+    ],
+    "files": []
+}
