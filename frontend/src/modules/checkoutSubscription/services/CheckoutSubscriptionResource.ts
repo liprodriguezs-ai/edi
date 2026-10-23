@@ -19,7 +19,7 @@ import {
 } from '@/modules/tenant/billing/schema'
 
 /**
- * Suscripción del organización sobre los endpoints reales del backend:
+ * Suscripción de la organización sobre los endpoints reales del backend:
  * - GET  /config/subscription              → datos de suscripción Stripe + bloque multi_item (billing v2)
  * - GET  /config/subscription/portal       → devuelve { url } del portal de facturación Stripe
  * - POST /config/subscription/cancel       → cancela la suscripción SIEMPRE al final del período (grace period)
@@ -47,7 +47,7 @@ interface ConfigSubscription {
   multi_item: IMultiItemSubscription | null
   is_multi_item: boolean
   /**
-   * Plan vigente del organización sin importar la fuente (Stripe / manual / cortesía /
+   * Plan vigente de la organización sin importar la fuente (Stripe / manual / cortesía /
    * prueba). Puede faltar: se parsea con `safeParse` y se deriva de `multi_item`
    * cuando no llega.
    */
@@ -82,7 +82,7 @@ export const CheckoutSubscriptionResource = {
     return data.url
   },
 
-  /** Información de la suscripción activa del organización (legado o multi-item). */
+  /** Información de la suscripción activa de la organización (legado o multi-item). */
   getMySubscription: async (): Promise<IMySubscription> => {
     const result = await fetchConfigSubscription()
     // Validamos la forma del objeto subscription del backend con Zod (safeParse para no
@@ -183,7 +183,7 @@ export const CheckoutSubscriptionResource = {
 
   /**
    * Aplica el cambio de plan (owner self-serve). Rechaza 422 si el plan destino no
-   * incluye algún módulo contratado por el organización. `prorationDate` debe ser el valor
+   * incluye algún módulo contratado por la organización. `prorationDate` debe ser el valor
    * exacto del preview (para que el cobro coincida); null para organizaciones con pago manual.
    */
   changeBillingPlan: async (

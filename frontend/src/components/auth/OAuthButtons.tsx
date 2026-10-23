@@ -1,7 +1,7 @@
 type OAuthProvider = 'google' | 'apple'
 
 const OAUTH_BTN =
-  'flex flex-1 items-center justify-center gap-2.5 rounded-[9px] border border-border bg-card px-3 py-[11px] text-[13.5px] font-medium text-[var(--ink-2)] transition-colors hover:border-[var(--ink-3)] hover:bg-secondary'
+  'flex flex-1 items-center justify-center gap-2.5 rounded-none border border-border bg-card px-3 py-[11px] text-[13.5px] font-medium text-[var(--ink-2)] transition-colors hover:border-[var(--ink-3)] hover:bg-secondary'
 
 function GoogleIcon() {
   return (

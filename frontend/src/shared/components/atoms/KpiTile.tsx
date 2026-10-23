@@ -1,33 +1,31 @@
 import type { ReactNode } from 'react'
 
 interface KpiTileProps {
-  /** Color del cuadrito indicador (hex). */
-  swatch: string
-  label: string
+  label: ReactNode
   value: ReactNode
-  detail: ReactNode
-  /** Puntos del sparkline (viewBox 0 0 120 30) — opcional */
-  sparkPoints?: string
-  sparkColor?: string
+  detail?: ReactNode
+  /** CSS color (token or hex) for the indicator square and the value. */
+  swatch?: string
 }
 
-/** Tarjeta KPI con sparkline — réplica de `.kpi` del mock Panel v3. */
-export function KpiTile({ swatch, label, value, detail, sparkPoints, sparkColor }: KpiTileProps) {
+/**
+ * KPI cell: mono uppercase label, big tabular number, optional detail. Tiles are
+ * meant to sit in a hairline grid (`grid gap-px bg-border border border-border`).
+ */
+export function KpiTile({ label, value, detail, swatch }: KpiTileProps) {
   return (
-    <div className="rounded-[14px] border border-border bg-card p-4 shadow-sm">
-      <div className="flex items-center gap-2 text-[11.5px] font-medium text-[var(--ink-3)]">
-        <span className="h-[7px] w-[7px] rounded-sm" style={{ background: swatch }} />
+    <div className='bg-card px-5 py-4'>
+      <div className='flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--ink-3)]'>
+        {swatch && <span className='size-[7px]' style={{ background: swatch }} aria-hidden />}
         {label}
       </div>
-      <div className="mt-2.5 text-[27px] font-semibold leading-none tracking-[-0.02em] tabular-nums">
+      <div
+        className='mt-2 font-mono text-[28px] leading-none tabular-nums tracking-[-0.03em]'
+        style={swatch ? { color: swatch } : undefined}
+      >
         {value}
       </div>
-      <div className="mt-2 text-xs text-[var(--ink-3)]">{detail}</div>
-      {sparkPoints && (
-        <svg className="mt-3 h-[30px] w-full" viewBox="0 0 120 30" preserveAspectRatio="none">
-          <polyline points={sparkPoints} fill="none" stroke={sparkColor} strokeWidth="1.6" />
-        </svg>
-      )}
+      {detail && <div className='mt-1.5 text-xs text-muted-foreground'>{detail}</div>}
     </div>
   )
 }

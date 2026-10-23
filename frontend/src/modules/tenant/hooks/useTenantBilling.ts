@@ -63,7 +63,7 @@ export function useTenantBilling(tenantId: string | null) {
     onSuccess: () => {
       toast.success(
         'Plan activado sin costo',
-        'El organización tendrá acceso sin costo de forma permanente'
+        'La organización tendrá acceso sin costo de forma permanente'
       )
       invalidate()
     },
@@ -88,7 +88,7 @@ export function useTenantBilling(tenantId: string | null) {
     mutationFn: (payload: IPreferentialSwapRequest) =>
       TenantBillingResource.applyPreferentialSwap(tenantId as string, payload),
     onSuccess: () => {
-      toast.success('Cambio aplicado', 'El organización pasó al plan preferencial')
+      toast.success('Cambio aplicado', 'La organización pasó al plan preferencial')
       invalidate()
     },
   })
@@ -97,7 +97,7 @@ export function useTenantBilling(tenantId: string | null) {
     mutationFn: (payload: IEntitlementRequest) =>
       TenantBillingResource.startTrial(tenantId as string, payload),
     onSuccess: () => {
-      toast.success('Prueba activada', 'El organización tiene acceso de prueba por tiempo limitado')
+      toast.success('Prueba activada', 'La organización tiene acceso de prueba por tiempo limitado')
       invalidate()
     },
     onError: (error: unknown) => {

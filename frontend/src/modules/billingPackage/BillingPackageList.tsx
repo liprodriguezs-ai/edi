@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { PlanPriceMatrix } from '@/modules/billingPackage/components/PlanPriceMatrix'
@@ -21,6 +20,7 @@ import { useMultiplePermissions } from '@/shared/hooks/usePermissions'
 import { LayoutGrid, Plus } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 
 const BILLING_PACKAGE_PERMISSIONS = {
   canCreate: 'create.billing_package',
@@ -154,17 +154,17 @@ export const BillingPackageList = () => {
                         )}
                       </td>
                       <td className='p-4 align-middle hidden sm:table-cell'>
-                        <code className='text-xs bg-muted px-1.5 py-0.5 rounded'>{plan.key}</code>
+                        <code className='text-xs bg-muted px-1.5 py-0.5'>{plan.key}</code>
                       </td>
                       <td className='p-4 align-middle text-center'>
-                        <Badge variant={plan.is_public ? 'default' : 'secondary'}>
+                        <StatusPill tone={plan.is_public ? 'b' : 'n'}>
                           {plan.is_public ? 'Público' : 'Privado'}
-                        </Badge>
+                        </StatusPill>
                       </td>
                       <td className='p-4 align-middle text-center'>
-                        <Badge variant={plan.is_active ? 'default' : 'secondary'}>
+                        <StatusPill tone={plan.is_active ? 'b' : 'n'}>
                           {plan.is_active ? 'Activo' : 'Inactivo'}
-                        </Badge>
+                        </StatusPill>
                       </td>
                       <td className='p-4 align-middle text-center hidden md:table-cell text-sm text-muted-foreground'>
                         {plan.sort_order}
@@ -188,23 +188,23 @@ export const BillingPackageList = () => {
                     {
                       label: 'Clave',
                       value: (
-                        <code className='text-xs bg-muted px-1.5 py-0.5 rounded'>{plan.key}</code>
+                        <code className='text-xs bg-muted px-1.5 py-0.5'>{plan.key}</code>
                       ),
                     },
                     {
                       label: 'Público',
                       value: (
-                        <Badge variant={plan.is_public ? 'default' : 'secondary'}>
+                        <StatusPill tone={plan.is_public ? 'b' : 'n'}>
                           {plan.is_public ? 'Público' : 'Privado'}
-                        </Badge>
+                        </StatusPill>
                       ),
                     },
                     {
                       label: 'Activo',
                       value: (
-                        <Badge variant={plan.is_active ? 'default' : 'secondary'}>
+                        <StatusPill tone={plan.is_active ? 'b' : 'n'}>
                           {plan.is_active ? 'Activo' : 'Inactivo'}
-                        </Badge>
+                        </StatusPill>
                       ),
                     },
                     { label: 'Orden', value: plan.sort_order },

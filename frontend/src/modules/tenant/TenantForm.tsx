@@ -16,19 +16,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { TENANT_STATUS_CONFIG, tenantFormSchema, type ITenant, type TenantFormValues, type TenantStatus } from '@/modules/tenant/schema'
+import {
+  TENANT_STATUS_CONFIG,
+  tenantFormSchema,
+  type ITenant,
+  type TenantFormValues,
+  type TenantStatus,
+} from '@/modules/tenant/schema'
 import { TenantResource } from '@/modules/tenant/services/TenantResource'
 import { useTenantStore } from '@/modules/tenant/store/tenantStore'
 import { RequiredFieldsLegend } from '@/shared/components/RequiredFieldsLegend'
+import { TimeZoneSelect } from '@/shared/components/TimeZoneSelect'
+import { DEFAULT_TENANT_TIME_ZONE } from '@/shared/constants/timeZones'
 import { CrudMode } from '@/shared/enums/CrudMode'
 import { useBaseCrud } from '@/shared/hooks/useBaseCrud'
 import type { IFormProps } from '@/shared/interfaces/Entity'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { FormFooter } from '@/shared/components/molecules/FormFooter'
 
 /**
- * Edición de metadatos de un tenant existente: nombre + estado.
+ * Edición de metadatos de un tenant existente: nombre, estado y zona horaria.
  *
  * La facturación (plan, método de pago, entitlements) se administra en el modal
  * de facturación del tenant, NO aquí. El alta de un tenant nuevo se hace en el
@@ -41,8 +50,9 @@ export const TenantForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormP
     () => ({
       name: entity?.name ?? '',
       status: entity?.status ?? 'activo',
+      timezone: entity?.timezone ?? DEFAULT_TENANT_TIME_ZONE,
     }),
-    [entity],
+    [entity]
   )
 
   const crud = useBaseCrud<ITenant, TenantFormValues>({
@@ -90,12 +100,12 @@ export const TenantForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormP
           <FieldDescription>Datos del espacio de trabajo</FieldDescription>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="tenant-name" required>
+              <FieldLabel htmlFor='tenant-name' required>
                 Nombre
               </FieldLabel>
               <Input
-                id="tenant-name"
-                placeholder="Ingresa el nombre del tenant"
+                id='tenant-name'
+                placeholder='Ingresa el nombre del tenant'
                 {...register('name')}
                 disabled={isSaving}
               />
@@ -103,45 +113,80 @@ export const TenantForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormP
               <FieldError>{errors.name?.message}</FieldError>
             </Field>
 
-            <div className="grid grid-cols-12 gap-4">
-              <Field className="col-span-12 md:col-span-6">
-                <FieldLabel required htmlFor="tenant-status">
+            <div className='grid grid-cols-12 gap-4'>
+              <Field className='col-span-12 md:col-span-6'>
+                <FieldLabel required htmlFor='tenant-status'>
                   Estado
                 </FieldLabel>
                 <Controller
-                  name="status"
+                  name='status'
                   control={control}
                   render={({ field }) => (
-                    <Select value={field.value || undefined} onValueChange={field.onChange} disabled={isSaving}>
-                      <SelectTrigger id="tenant-status" className="w-full">
-                        <SelectValue placeholder="Seleccionar estado..." />
+                    <Select
+                      value={field.value || undefined}
+                      onValueChange={field.onChange}
+                      disabled={isSaving}
+                    >
+                      <SelectTrigger id='tenant-status' className='w-full'>
+                        <SelectValue placeholder='Seleccionar estado...' />
                       </SelectTrigger>
                       <SelectContent>
-                        {(Object.entries(TENANT_STATUS_CONFIG) as [TenantStatus, { label: string; className: string }][]).map(
-                          ([value, config]) => (
-                            <SelectItem key={value} value={value}>
-                              {config.label}
-                            </SelectItem>
-                          ),
-                        )}
+                        {(
+                          Object.entries(TENANT_STATUS_CONFIG) as [
+                            TenantStatus,
+                            (typeof TENANT_STATUS_CONFIG)[TenantStatus],
+                          ][]
+                        ).map(([value, config]) => (
+                          <SelectItem key={value} value={value}>
+                            {config.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   )}
                 />
                 <FieldError>{errors.status?.message}</FieldError>
               </Field>
+
+              <Field className='col-span-12 md:col-span-6'>
+                <FieldLabel required htmlFor='tenant-timezone'>
+                  Zona horaria
+                </FieldLabel>
+                <Controller
+                  name='timezone'
+                  control={control}
+                  render={({ field }) => (
+                    <TimeZoneSelect
+                      id='tenant-timezone'
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={isSaving}
+                    />
+                  )}
+                />
+                <FieldDescription>
+                  Las fechas y horas se mostrarán en esta zona horaria.
+                </FieldDescription>
+                <FieldError>{errors.timezone?.message}</FieldError>
+              </Field>
             </div>
           </FieldGroup>
         </FieldSet>
 
         {!formId && (
-          <Field orientation="horizontal" className="justify-end border-t border-gray-200 pt-6">
+          <FormFooter>
             {onCancel && (
-              <Button type="button" variant="outline" onClick={onCancel} disabled={isSaving} className="min-w-[80px]">
+              <Button
+                type='button'
+                variant='outline'
+                onClick={onCancel}
+                disabled={isSaving}
+                className='min-w-[80px]'
+              >
                 Cancelar
               </Button>
             )}
-            <Button type="submit" disabled={isSaving} className="min-w-[100px]">
+            <Button type='submit' disabled={isSaving} className='min-w-[100px]'>
               {isSaving
                 ? mode === CrudMode.EDIT
                   ? 'Actualizando...'
@@ -150,7 +195,7 @@ export const TenantForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormP
                   ? 'Actualizar'
                   : 'Crear'}
             </Button>
-          </Field>
+          </FormFooter>
         )}
       </FieldGroup>
     </form>

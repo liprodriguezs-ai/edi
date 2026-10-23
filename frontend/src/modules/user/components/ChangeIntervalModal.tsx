@@ -6,7 +6,6 @@ import type { BillingInterval } from '@/modules/checkoutSubscription/schema'
 import { ProrationPreviewPanel } from '@/modules/user/components/ProrationPreviewPanel'
 import { useSubscriptionChange } from '@/modules/user/hooks/useSubscriptionChange'
 import { Modal } from '@/shared/components/Modal'
-import { Loader2 } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 interface ChangeIntervalModalProps {
@@ -71,17 +70,11 @@ export function ChangeIntervalModal({
           </Button>
           <Button
             onClick={() => void handleConfirm()}
-            disabled={!target || !preview || isPreviewing || isApplying}
+            loading={isApplying}
+            disabled={!target || !preview || isPreviewing}
             className="min-w-[110px]"
           >
-            {isApplying ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Guardando...
-              </>
-            ) : (
-              'Confirmar'
-            )}
+            {isApplying ? 'Guardando...' : 'Confirmar'}
           </Button>
         </>
       }
@@ -98,7 +91,7 @@ export function ChangeIntervalModal({
             {INTERVAL_OPTIONS.map((option) => {
               const isCurrent = option.value === currentInterval
               return (
-                <div key={option.value} className="flex items-center gap-3 rounded-lg border p-3">
+                <div key={option.value} className="flex items-center gap-3 border p-3">
                   <RadioGroupItem
                     id={`interval-${option.value}`}
                     value={option.value}

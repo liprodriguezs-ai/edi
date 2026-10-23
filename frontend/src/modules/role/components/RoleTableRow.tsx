@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { TableCell, TableRow } from '@/components/ui/table'
 import type { IRole } from '@/modules/role/schema'
 import { ActionButtonGroup } from '@/shared/components/molecules/ActionButtonGroup'
@@ -7,6 +6,7 @@ import { checkMemoListProps } from '@/shared/interfaces/list.types'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 
 export const RoleTableRow = memo<IEntityTableRowProps<IRole>>(({
   entity,
@@ -32,7 +32,7 @@ export const RoleTableRow = memo<IEntityTableRowProps<IRole>>(({
         <div className="flex items-center gap-2 font-medium">
           {entity.name}
           {isSystem && (
-            <Badge variant="secondary" className="text-xs">Sistema</Badge>
+            <StatusPill tone="n">Sistema</StatusPill>
           )}
         </div>
       </TableCell>

@@ -1,16 +1,19 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { CancelSubscriptionModal } from '@/modules/user/components/CancelSubscriptionModal'
 import { MultiItemSubscriptionManager } from '@/modules/user/components/MultiItemSubscriptionManager'
 import { TrialExpiryBanner } from '@/modules/user/components/TrialExpiryBanner'
 import { useSubscription, type SubscriptionDetails } from '@/modules/user/hooks/useSubscription'
+import { EntityNotFound } from '@/shared/components/EntityNotFound'
+import { PageLoader } from '@/shared/components/PageLoader'
 import { Callout } from '@/shared/components/atoms/Callout'
+import { PageHeader } from '@/shared/components/atoms/PageHeader'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 import { usePermissions } from '@/shared/hooks/usePermissions'
 import { useRoles } from '@/shared/hooks/useRoles'
 import { ERoleUserSlug } from '@/shared/interfaces/Entity'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
-import { AlertCircle, CreditCard, Info, Loader2, Lock } from 'lucide-react'
+import { CreditCard, Info, Lock } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -49,7 +52,7 @@ const GENERIC_PLAN_SOURCE = {
 /**
  * Plan vigente que NO viene de una suscripción de Stripe (pago manual, cortesía,
  * prueba). No hay autogestión: se informa el plan, su fuente y su vencimiento, y NO
- * se ofrece contratar por tarjeta como si el organización no tuviera nada.
+ * se ofrece contratar por tarjeta como si la organización no tuviera nada.
  */
 function NonStripePlanCard({
   plan,
@@ -69,7 +72,7 @@ function NonStripePlanCard({
         <CardContent className='space-y-3 py-8'>
           <div className='flex flex-wrap items-center gap-2'>
             <h3 className='text-lg font-semibold'>Plan {plan.name}</h3>
-            <Badge variant='secondary'>{copy.badge}</Badge>
+            <StatusPill tone='n'>{copy.badge}</StatusPill>
           </div>
           <p className='text-sm text-muted-foreground'>{copy.description}</p>
           {plan.expires_at && (
@@ -95,7 +98,7 @@ function NonStripePlanCard({
 function ReadOnlyBillingNote() {
   return (
     <Callout icon={Info}>
-      Puedes consultar la suscripción del organización, pero sólo el propietario de la cuenta puede
+      Puedes consultar la suscripción de la organización, pero sólo el propietario de la cuenta puede
       modificar la facturación (cambiar de plan o de intervalo, abrir el portal de pago y cancelar o
       reactivar).
     </Callout>
@@ -105,7 +108,7 @@ function ReadOnlyBillingNote() {
 export function SubscriptionPage() {
   // Modificar la facturación es exclusivo del dueño de la cuenta (gate del backend).
   // VER la suscripción está abierto a quien tenga `manage.subscription` — un tesorero
-  // debe poder consultar qué paga el organización sin poder tocarlo.
+  // debe poder consultar qué paga la organización sin poder tocarlo.
   const isOwner = useRoles(ERoleUserSlug.ACCOUNT_OWNER) === true
   const canViewBilling = usePermissions('manage.subscription')
   const navigate = useNavigate()
@@ -126,7 +129,7 @@ export function SubscriptionPage() {
 
   const headerSubtitle = isOwner
     ? 'Gestiona tu plan y facturación'
-    : 'Consulta el plan y la facturación del organización'
+    : 'Consulta el plan y la facturación de la organización'
 
   const handleCancelConfirm = useCallback(async () => {
     const ok = await handleCancel()
@@ -136,12 +139,12 @@ export function SubscriptionPage() {
   if (!isOwner && !canViewBilling) {
     return (
       <div className='flex flex-col items-center justify-center py-20 text-center'>
-        <div className='mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-muted'>
+        <div className='mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-none bg-muted'>
           <Lock className='h-8 w-8 text-muted-foreground' />
         </div>
         <h2 className='text-xl font-semibold'>Acceso restringido</h2>
         <p className='mt-2 max-w-md text-muted-foreground'>
-          No tienes permiso para consultar la suscripción del organización. Contacta al administrador de
+          No tienes permiso para consultar la suscripción de la organización. Contacta al administrador de
           tu organización.
         </p>
       </div>
@@ -149,30 +152,18 @@ export function SubscriptionPage() {
   }
 
   if (isLoading) {
-    return (
-      <div className='flex items-center justify-center py-20'>
-        <Loader2 className='h-8 w-8 animate-spin text-primary' />
-      </div>
-    )
+    return <PageLoader />
   }
 
   if (hasLoadError) {
     return (
       <div className='space-y-6'>
-        <div>
-          <h1 className='text-2xl font-bold tracking-tight'>Mi suscripción</h1>
-          <p className='text-muted-foreground'>{headerSubtitle}</p>
-        </div>
-        <Card>
-          <CardContent className='flex flex-col items-center justify-center py-12 text-center'>
-            <AlertCircle className='mb-4 h-10 w-10 text-destructive' />
-            <h3 className='text-lg font-semibold'>No se pudo cargar la información</h3>
-            <p className='mt-1 mb-6 text-sm text-muted-foreground'>
-              Ocurrió un error al obtener los datos de tu suscripción. Intenta de nuevo.
-            </p>
-            <Button onClick={() => void reload()}>Reintentar</Button>
-          </CardContent>
-        </Card>
+        <PageHeader title='Mi suscripción' description={headerSubtitle} />
+        <EntityNotFound
+          variant='error'
+          description='Ocurrió un error al obtener los datos de tu suscripción. Intenta de nuevo.'
+          onRetry={() => void reload()}
+        />
       </div>
     )
   }
@@ -181,16 +172,13 @@ export function SubscriptionPage() {
   const multiItem = details?.multiItem ?? null
   const currentPlan = details?.currentPlan ?? null
 
-  // Sin suscripción de Stripe no hay autogestión posible, PERO el organización igual
+  // Sin suscripción de Stripe no hay autogestión posible, PERO la organización igual
   // puede tener plan por pago manual, cortesía o prueba: en ese caso se muestra el
   // plan y su fuente, sin invitar a contratar de nuevo con tarjeta.
   if (!multiItem) {
     return (
       <div className='space-y-6'>
-        <div>
-          <h1 className='text-2xl font-bold tracking-tight'>Mi suscripción</h1>
-          <p className='text-muted-foreground'>{headerSubtitle}</p>
-        </div>
+        <PageHeader title='Mi suscripción' description={headerSubtitle} />
         {!isOwner && <ReadOnlyBillingNote />}
         {currentPlan ? (
           <NonStripePlanCard
@@ -206,7 +194,7 @@ export function SubscriptionPage() {
               <p className='mt-1 mb-6 text-sm text-muted-foreground'>
                 {isOwner
                   ? 'Aún no tienes un plan asignado. Selecciona uno para comenzar.'
-                  : 'El organización aún no tiene un plan asignado.'}
+                  : 'La organización aún no tiene un plan asignado.'}
               </p>
               {isOwner && (
                 <Button onClick={() => navigate('/select-plan')}>Seleccionar un plan</Button>
@@ -226,10 +214,7 @@ export function SubscriptionPage() {
 
   return (
     <div className='space-y-6'>
-      <div>
-        <h1 className='text-2xl font-bold tracking-tight'>Mi suscripción</h1>
-        <p className='text-muted-foreground'>{headerSubtitle}</p>
-      </div>
+      <PageHeader title='Mi suscripción' description={headerSubtitle} />
 
       {!isOwner && <ReadOnlyBillingNote />}
 

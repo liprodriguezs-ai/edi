@@ -1,32 +1,13 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { auditableLabel } from '@/modules/audit/auditPresentation'
+import { AuditEventPill } from '@/modules/audit/components/AuditEventPill'
 import type { IAudit } from '@/modules/audit/schema'
 import type { IEntityTableRowProps } from '@/shared/interfaces/list.types'
 import { checkMemoListProps } from '@/shared/interfaces/list.types'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
 import { FileDiff } from 'lucide-react'
 import { memo } from 'react'
-
-const EVENT_LABELS: Record<IAudit['event'], string> = {
-  created: 'Creado',
-  updated: 'Actualizado',
-  deleted: 'Eliminado',
-  restored: 'Restaurado',
-}
-
-const EVENT_VARIANTS: Record<IAudit['event'], 'default' | 'secondary' | 'destructive' | 'outline'> = {
-  created: 'default',
-  updated: 'secondary',
-  deleted: 'destructive',
-  restored: 'outline',
-}
-
-function auditableLabel(audit: IAudit): string {
-  const type = audit.auditable_type ?? '—'
-  const shortType = type.split('\\').pop() ?? type
-  return `${shortType} (${audit.auditable_id.slice(0, 8)}…)`
-}
 
 export const AuditTableRow = memo<IEntityTableRowProps<IAudit>>(({
   entity,
@@ -41,15 +22,13 @@ export const AuditTableRow = memo<IEntityTableRowProps<IAudit>>(({
       <TableCell className="text-muted-foreground">
         {entity.user?.full_name ?? entity.user?.name ?? '—'}
       </TableCell>
-      <TableCell className="text-muted-foreground tabular-nums">
+      <TableCell className="font-mono text-muted-foreground tabular-nums">
         {displayFormatDate(entity.created_at)}
       </TableCell>
       <TableCell>
-        <Badge variant={EVENT_VARIANTS[entity.event]} className="text-xs">
-          {EVENT_LABELS[entity.event]}
-        </Badge>
+        <AuditEventPill event={entity.event} />
       </TableCell>
-      <TableCell className="font-medium">
+      <TableCell className="font-mono font-medium">
         {auditableLabel(entity)}
       </TableCell>
       <TableCell className="text-right">

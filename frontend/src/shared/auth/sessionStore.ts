@@ -1,6 +1,7 @@
 import type { SessionProfile } from '@/shared/auth/Session'
 import { resetFcmGlobals } from '@/shared/firebase/fcmRuntime'
 import { setActiveCurrency } from '@/shared/utils/currency'
+import { setTenantTimeZone } from '@/shared/utils/dateHelper'
 import { createStore } from 'zustand/vanilla'
 
 const STORAGE_KEY = 'session'
@@ -82,6 +83,7 @@ export const sessionStore = createStore<SessionState>((set) => ({
   setSession: ({ profile, token }) => {
     persistState({ profile })
     setActiveCurrency(profile?.tenant?.currency)
+    setTenantTimeZone(profile?.tenant?.timezone)
     set({
       profile,
       token,
@@ -101,6 +103,7 @@ export const sessionStore = createStore<SessionState>((set) => ({
     set((current) => {
       persistState({ profile })
       setActiveCurrency(profile?.tenant?.currency)
+      setTenantTimeZone(profile?.tenant?.timezone)
       return {
         profile,
         token: current.token,
@@ -113,6 +116,7 @@ export const sessionStore = createStore<SessionState>((set) => ({
   clearSession: () => {
     clearPersistedState()
     setActiveCurrency(null)
+    setTenantTimeZone(null)
     set({
       profile: null,
       token: null,
@@ -124,6 +128,7 @@ export const sessionStore = createStore<SessionState>((set) => ({
   restoreSession: () => {
     const persisted = readPersistedState()
     setActiveCurrency(persisted.profile?.tenant?.currency)
+    setTenantTimeZone(persisted.profile?.tenant?.timezone)
 
     set({
       profile: persisted.profile,
@@ -140,6 +145,7 @@ export const sessionStore = createStore<SessionState>((set) => ({
     // no-op for the propagate:true full-reload path.
     resetFcmGlobals()
     clearPersistedState()
+    setTenantTimeZone(null)
     set({
       profile: null,
       token: null,

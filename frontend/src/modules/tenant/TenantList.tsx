@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { TenantFormModal } from '@/modules/tenant/TenantFormModal'
 import { TenantBillingModal } from '@/modules/tenant/components/TenantBillingModal'
 import { TenantTableRow } from '@/modules/tenant/components/TenantTableRow'
 import { useTenantList } from '@/modules/tenant/hooks/useTenantList'
-import { TENANT_STATUS_CONFIG, type ITenant } from '@/modules/tenant/schema'
+import { TenantStatusPill } from '@/modules/tenant/components/TenantStatusPill'
+import type { ITenant } from '@/modules/tenant/schema'
 import { useTenantStore } from '@/modules/tenant/store/tenantStore'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
 import { Pagination } from '@/shared/components/Pagination'
@@ -205,12 +205,7 @@ export const TenantList = () => {
                     {
                       label: 'Estado',
                       value: tenant.status ? (
-                        <Badge
-                          variant='outline'
-                          className={TENANT_STATUS_CONFIG[tenant.status]?.className}
-                        >
-                          {TENANT_STATUS_CONFIG[tenant.status]?.label ?? tenant.status}
-                        </Badge>
+                        <TenantStatusPill status={tenant.status} />
                       ) : (
                         '—'
                       ),

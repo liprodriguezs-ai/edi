@@ -37,7 +37,7 @@ function SwitcherShell({
   interactive?: boolean
 }) {
   return (
-    <span className='flex w-full items-center gap-2.5 rounded-[10px] border border-white/12 bg-white/5 px-3 py-2.5 text-left transition-colors group-hover:bg-white/10'>
+    <span className='flex w-full items-center gap-2.5 rounded-none border border-border bg-transparent px-3 py-2.5 text-left transition-colors group-hover:bg-accent'>
       {logoUrl ? (
         <span className='grid size-[30px] flex-none place-items-center overflow-hidden rounded-lg bg-white'>
           <img src={logoUrl} alt='' className='size-full object-contain' />
@@ -51,7 +51,7 @@ function SwitcherShell({
         <span className='block text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[var(--nav-lbl)]'>
           Organización
         </span>
-        <b className='block truncate text-[13.5px] font-semibold text-white'>{name}</b>
+        <b className='block truncate text-[13.5px] font-semibold text-foreground'>{name}</b>
       </span>
       {interactive && (
         <ChevronDown className='size-3.5 flex-none text-[var(--nav-txt)] opacity-70' />
@@ -62,7 +62,7 @@ function SwitcherShell({
 
 /**
  * Switcher de organización del sidebar (diseño v3).
- * - Usuarios del organización: chip informativo con su organización.
+ * - Usuarios de la organización: chip informativo con su organización.
  * - Super admin: selector cross-tenant (manda X-Tenant-Id en cada request).
  */
 export function OrganizationSwitcher() {
@@ -80,7 +80,7 @@ export function OrganizationSwitcher() {
   const currentName =
     (isSuperAdmin ? tenantName : null) ?? profileTenant?.name ?? APP_CONFIG.brandName
 
-  // El logo viene de la sesión, que es la del organización propio del usuario. Un
+  // El logo viene de la sesión, que es la de la organización propio del usuario. Un
   // super admin parado en OTRO organización no lo tiene, así que ahí cae a la inicial.
   const isViewingOwnOrganization = !isSuperAdmin || !tenantId || tenantId === profileTenant?.id
   const currentLogoUrl = isViewingOwnOrganization ? profileTenant?.logo_url : null
@@ -95,7 +95,7 @@ export function OrganizationSwitcher() {
 
   const handleSelect = (tenant: TenantOption) => {
     setTenant(tenant.id, tenant.name)
-    // El contexto del organización cambió: todo lo cacheado pertenece al anterior
+    // El contexto de la organización cambió: todo lo cacheado pertenece al anterior
     void queryClient.invalidateQueries()
   }
 

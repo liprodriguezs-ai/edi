@@ -46,14 +46,14 @@ function NavSubItemLink({ subItem, pathname }: { subItem: NavSubItem; pathname: 
 }
 
 /**
- * Etiqueta muda de sub-sección (ej. "RRHH", "Tesorería") entre bloques de módulos
+ * Etiqueta muda de sub-sección (ej. "Clínico", "Centro") entre bloques de módulos
  * dentro de un grupo colapsable (ej. "Catálogos"). No es focusable ni interactiva
  * — es texto plano, así que no rompe la navegación por teclado entre los links.
  */
 function NavSubGroupLabel({ label, isFirst }: { label: string; isFirst: boolean }) {
   return (
     <SidebarMenuSubItem className={cn(isFirst ? 'mt-1' : 'mt-3')}>
-      <span className='block truncate px-2 pb-1 text-[10px] font-medium tracking-wider text-sidebar-foreground/50 uppercase select-none'>
+      <span className='block truncate px-2 pb-1 text-[10px] font-medium tracking-wider font-mono text-sidebar-foreground/70 uppercase select-none'>
         {label}
       </span>
     </SidebarMenuSubItem>

@@ -1,11 +1,3 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
 import { resolveBillingError } from '@/modules/tenant/billing/billingErrors'
@@ -14,9 +6,12 @@ import type {
   IPreferentialSwapRequest,
 } from '@/modules/tenant/billing/schema'
 import { TenantBillingResource } from '@/modules/tenant/services/TenantBillingResource'
+import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
+import { unixSecondsToInstant } from '@/shared/utils/tenantTime'
 import type { UseMutationResult } from '@tanstack/react-query'
-import { AlertCircle, Loader2 } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 interface PreferentialSwapDialogProps {
@@ -61,7 +56,9 @@ export function PreferentialSwapDialog({
       })
       setPreview(result)
     } catch (error) {
-      setPreviewError(resolveBillingError(error, 'No se pudo calcular el cambio. Inténtalo de nuevo.'))
+      setPreviewError(
+        resolveBillingError(error, 'No se pudo calcular el cambio. Inténtalo de nuevo.')
+      )
     } finally {
       setIsLoading(false)
     }
@@ -86,7 +83,7 @@ export function PreferentialSwapDialog({
         to_plan_key: toPlanKey,
         proration_date: isManual ? undefined : (preview?.proration_date ?? undefined),
       },
-      { onSuccess: onClose },
+      { onSuccess: onClose }
     )
   }
 
@@ -98,100 +95,87 @@ export function PreferentialSwapDialog({
   const isManual = preview?.manual === true
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Cambiar a {toPlanName}</DialogTitle>
-          <DialogDescription>
-            Revisa cómo queda el cobro antes de aplicar el cambio al plan preferencial.
-          </DialogDescription>
-        </DialogHeader>
+    <ConfirmDialog
+      isOpen={isOpen}
+      title={`Cambiar a ${toPlanName}`}
+      description='Revisa cómo queda el cobro antes de aplicar el cambio al plan preferencial.'
+      confirmLabel='Aplicar cambio'
+      loadingLabel="Aplicando…"
+      isLoading={applyPreferentialSwap.isPending}
+      confirmDisabled={isLoading || Boolean(previewError) || !preview}
+      onConfirm={handleApply}
+      onCancel={onClose}
+    >
+      {isLoading && <InlineLoading name='preferential-swap-preview' />}
 
-        {isLoading && (
-          <div className="flex items-center gap-2 py-6 text-sm text-muted-foreground" aria-busy="true">
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-            Calculando el cambio…
-          </div>
-        )}
-
-        {!isLoading && previewError && (
-          <div role="alert" className="space-y-3 py-2">
-            <p className="flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-sm text-destructive">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <span>{previewError}</span>
-            </p>
-            <Button type="button" variant="outline" size="sm" onClick={() => void loadPreview()}>
-              Reintentar
-            </Button>
-          </div>
-        )}
-
-        {!isLoading && !previewError && preview && isManual && (
-          <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-4 text-sm">
-            <p className="text-foreground">{preview.message ?? 'El nuevo precio aplica en el próximo ciclo.'}</p>
-            {typeof preview.new_price === 'number' && (
-              <p className="text-muted-foreground">
-                Nuevo precio:{' '}
-                <span className="font-medium text-foreground">{formatPrice(preview.new_price, currency)}</span>
-              </p>
-            )}
-            <p className="text-xs text-muted-foreground">
-              Como el organización paga de forma manual, no se cobra nada ahora: el ajuste se refleja en
-              el siguiente pago.
-            </p>
-          </div>
-        )}
-
-        {!isLoading && !previewError && preview && !isManual && (
-          <div className="space-y-3 text-sm">
-            <ul className="space-y-2">
-              {(preview.lines ?? []).map((line, index) => (
-                <li key={index} className="flex items-baseline justify-between gap-3">
-                  <span className="text-muted-foreground">{line.description ?? 'Ajuste'}</span>
-                  <span className="font-medium tabular-nums text-foreground">
-                    {typeof line.amount === 'number' ? formatPrice(line.amount, currency) : '—'}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <div className="flex items-baseline justify-between gap-3 border-t border-border pt-3">
-              <span className="font-medium text-foreground">A cobrar ahora</span>
-              <span className="text-lg font-semibold tabular-nums text-foreground">
-                {formatPrice(preview.amount_due ?? 0, currency)}
-              </span>
-            </div>
-            {typeof preview.proration_date === 'number' && (
-              <p className="text-xs text-muted-foreground">
-                Prorrateo calculado al{' '}
-                {displayFormatDate(new Date(preview.proration_date * 1000).toISOString(), 'mediumDate')}.
-              </p>
-            )}
-          </div>
-        )}
-
-        {applyPreferentialSwap.isError && (
-          <p
-            role="alert"
-            className="flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-sm text-destructive"
-          >
-            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-            <span>{resolveBillingError(applyPreferentialSwap.error)}</span>
+      {!isLoading && previewError && (
+        <div role='alert' className='space-y-3 py-2'>
+          <p className='flex items-start gap-2 bg-destructive/5 p-3 text-sm text-destructive'>
+            <AlertCircle className='mt-0.5 h-4 w-4 shrink-0' aria-hidden />
+            <span>{previewError}</span>
           </p>
-        )}
+          <Button type='button' variant='outline' size='sm' onClick={() => void loadPreview()}>
+            Reintentar
+          </Button>
+        </div>
+      )}
 
-        <DialogFooter>
-          <Button type="button" variant="outline" onClick={onClose} disabled={applyPreferentialSwap.isPending}>
-            Cancelar
-          </Button>
-          <Button
-            type="button"
-            onClick={handleApply}
-            disabled={isLoading || Boolean(previewError) || !preview || applyPreferentialSwap.isPending}
-          >
-            {applyPreferentialSwap.isPending ? 'Aplicando…' : 'Aplicar cambio'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      {!isLoading && !previewError && preview && isManual && (
+        <div className='space-y-2 border border-border bg-muted/30 p-4 text-sm'>
+          <p className='text-foreground'>
+            {preview.message ?? 'El nuevo precio aplica en el próximo ciclo.'}
+          </p>
+          {typeof preview.new_price === 'number' && (
+            <p className='text-muted-foreground'>
+              Nuevo precio:{' '}
+              <span className='font-mono font-medium tabular-nums text-foreground'>
+                {formatPrice(preview.new_price, currency)}
+              </span>
+            </p>
+          )}
+          <p className='text-xs text-muted-foreground'>
+            Como la organización paga de forma manual, no se cobra nada ahora: el ajuste se
+            refleja en el siguiente pago.
+          </p>
+        </div>
+      )}
+
+      {!isLoading && !previewError && preview && !isManual && (
+        <div className='space-y-3 text-sm'>
+          <ul className='space-y-2'>
+            {(preview.lines ?? []).map((line, index) => (
+              <li key={index} className='flex items-baseline justify-between gap-3'>
+                <span className='text-muted-foreground'>{line.description ?? 'Ajuste'}</span>
+                <span className='font-medium font-mono tabular-nums text-foreground'>
+                  {typeof line.amount === 'number' ? formatPrice(line.amount, currency) : '—'}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className='flex items-baseline justify-between gap-3 border-t border-border pt-3'>
+            <span className='font-medium text-foreground'>A cobrar ahora</span>
+            <span className='text-lg font-semibold font-mono tabular-nums text-foreground'>
+              {formatPrice(preview.amount_due ?? 0, currency)}
+            </span>
+          </div>
+          {typeof preview.proration_date === 'number' && (
+            <p className='text-xs text-muted-foreground'>
+              Prorrateo calculado al{' '}
+              {displayFormatDate(unixSecondsToInstant(preview.proration_date), 'mediumDate')}.
+            </p>
+          )}
+        </div>
+      )}
+
+      {applyPreferentialSwap.isError && (
+        <p
+          role='alert'
+          className='flex items-start gap-2 bg-destructive/5 p-3 text-sm text-destructive'
+        >
+          <AlertCircle className='mt-0.5 h-4 w-4 shrink-0' aria-hidden />
+          <span>{resolveBillingError(applyPreferentialSwap.error)}</span>
+        </p>
+      )}
+    </ConfirmDialog>
   )
 }

@@ -1,11 +1,10 @@
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { RolePermissionsEditor } from '@/modules/role/components/RolePermissionsEditor'
 import { useRoleDetail } from '@/modules/role/hooks/useRoleDetail'
 import { EntityNotFound } from '@/shared/components/EntityNotFound'
+import { PageHeader } from '@/shared/components/atoms/PageHeader'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 import { Skeleton } from 'boneyard-js/react'
-import { ArrowLeft, ShieldCheck } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { ShieldCheck } from 'lucide-react'
 
 interface RoleDetailProps {
   roleId: string
@@ -13,7 +12,6 @@ interface RoleDetailProps {
 
 export function RoleDetail({ roleId }: RoleDetailProps) {
   const { role, isLoading, error, notFound, refresh } = useRoleDetail(roleId)
-  const navigate = useNavigate()
 
   if (error && !isLoading) {
     return (
@@ -29,30 +27,19 @@ export function RoleDetail({ roleId }: RoleDetailProps) {
 
   return (
     <div className='space-y-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-3'>
-          <Button variant='ghost' size='icon' onClick={() => navigate('/role')}>
-            <ArrowLeft className='h-4 w-4' />
-          </Button>
-
-          <Skeleton name='role-detail-header' loading={isLoading}>
-            <div>
-              <div className='flex items-center gap-2'>
-                <ShieldCheck className='text-primary h-5 w-5' />
-                <h1 className='text-xl font-semibold'>
-                  {String(role?.description ?? '') || role?.name}
-                </h1>
-                {role?.system && (
-                  <Badge variant='secondary' className='text-xs'>
-                    Sistema
-                  </Badge>
-                )}
-              </div>
-              <p className='text-muted-foreground text-sm'>{role?.name}</p>
-            </div>
-          </Skeleton>
-        </div>
-      </div>
+      <Skeleton name='role-detail-header' loading={isLoading}>
+        <PageHeader
+          back={{ to: '/role', label: 'Volver a roles' }}
+          title={
+            <span className='flex items-center gap-2'>
+              <ShieldCheck className='size-5 text-primary' aria-hidden />
+              {String(role?.description ?? '') || role?.name}
+            </span>
+          }
+          description={role?.name}
+          meta={role?.system ? <StatusPill tone='n'>Sistema</StatusPill> : undefined}
+        />
+      </Skeleton>
 
       <RolePermissionsEditor roleId={roleId} />
     </div>

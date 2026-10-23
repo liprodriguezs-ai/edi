@@ -1,15 +1,11 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { ApiError, formatApiErrorMessage } from '@/shared/api/apiClient'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
+import { Modal } from '@/shared/components/Modal'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
 import { SearchSelect } from '@/shared/components/SearchSelect'
 import {
   caregiverFullName,
@@ -22,7 +18,7 @@ import { ChildCaregiverResource } from '@/modules/caregiver/services/ChildCaregi
 import { CrudMode } from '@/shared/enums/CrudMode'
 import { CatalogType, useLazyCatalogs, type ICatalogItem } from '@/shared/hooks/useCatalogs'
 import { toast } from '@/shared/hooks/useToast'
-import { Plus, Star, Unlink } from 'lucide-react'
+import { Plus, Unlink } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 interface ChildCaregiverPanelProps {
@@ -157,15 +153,15 @@ export function ChildCaregiverPanel({ childId }: ChildCaregiverPanelProps) {
       </div>
 
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">Cargando…</p>
+        <InlineLoading name="child-caregiver-panel" />
       ) : links.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Este niño aún no tiene cuidadores vinculados.</p>
+        <InlineEmpty>Este niño aún no tiene cuidadores vinculados.</InlineEmpty>
       ) : (
-        <ul className="space-y-2">
+        <ul className="divide-y divide-border border border-border">
           {links.map((link) => (
             <li
               key={link.id}
-              className="flex items-center justify-between rounded-md border border-border p-3"
+              className="flex items-center justify-between px-4 py-3"
             >
               <div className="flex items-center gap-2">
                 <span className="font-medium">
@@ -175,10 +171,7 @@ export function ChildCaregiverPanel({ childId }: ChildCaregiverPanelProps) {
                   {link.caregiver_relationship?.name ?? '—'}
                 </span>
                 {link.is_primary && (
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    <Star className="h-3 w-3" />
-                    Primario
-                  </Badge>
+                  <StatusPill tone="b">Primario</StatusPill>
                 )}
               </div>
               <div className="flex items-center gap-1">
@@ -207,67 +200,68 @@ export function ChildCaregiverPanel({ childId }: ChildCaregiverPanelProps) {
         </ul>
       )}
 
-      <Dialog open={isLinkDialogOpen} onOpenChange={setIsLinkDialogOpen}>
-        <DialogContent aria-describedby={undefined}>
-          <DialogHeader>
-            <DialogTitle>Vincular cuidador</DialogTitle>
-          </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <div className="flex items-center justify-between">
-                <FieldLabel htmlFor="link-caregiver_id" required>
-                  Cuidador
-                </FieldLabel>
-                <Button
-                  type="button"
-                  variant="link"
-                  size="sm"
-                  onClick={() => {
-                    setIsLinkDialogOpen(false)
-                    setCaregiverFormOpen(true)
-                  }}
-                >
-                  Crear nuevo
-                </Button>
-              </div>
-              <SearchSelect<ICatalogItem>
-                id="link-caregiver_id"
-                value={selectedCaregiverId}
-                onChange={(v) => setSelectedCaregiverId((v as string | null) ?? null)}
-                loadOptions={async (term) => {
-                  const response = await CaregiverResource.search({
-                    search: { value: term },
-                    limit: 20,
-                  })
-                  return response.data.map((c) => ({ id: c.id, name: caregiverFullName(c) }))
-                }}
-                placeholder="Buscar cuidador…"
-              />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="link-relationship_id" required>
-                Parentesco
-              </FieldLabel>
-              <SearchSelect<ICatalogItem>
-                id="link-relationship_id"
-                value={selectedRelationshipId}
-                onChange={(v) => setSelectedRelationshipId((v as string | null) ?? null)}
-                options={relationshipCatalogs[CatalogType.CAREGIVER_RELATIONSHIP] ?? []}
-                isLoading={isLoadingRelationships}
-                placeholder="Seleccionar…"
-              />
-            </Field>
-          </FieldGroup>
-          <DialogFooter>
+      <Modal
+        isOpen={isLinkDialogOpen}
+        onClose={() => setIsLinkDialogOpen(false)}
+        title="Vincular cuidador"
+        footer={
+          <>
             <Button variant="outline" onClick={() => setIsLinkDialogOpen(false)} disabled={isSubmitting}>
               Cancelar
             </Button>
-            <Button onClick={() => void handleConfirmLink()} disabled={isSubmitting}>
+            <Button onClick={() => void handleConfirmLink()} loading={isSubmitting}>
               {isSubmitting ? 'Vinculando…' : 'Vincular'}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </>
+        }
+      >
+        <FieldGroup>
+          <Field>
+            <div className="flex items-center justify-between">
+              <FieldLabel htmlFor="link-caregiver_id" required>
+                Cuidador
+              </FieldLabel>
+              <Button
+                type="button"
+                variant="link"
+                size="sm"
+                onClick={() => {
+                  setIsLinkDialogOpen(false)
+                  setCaregiverFormOpen(true)
+                }}
+              >
+                Crear nuevo
+              </Button>
+            </div>
+            <SearchSelect<ICatalogItem>
+              id="link-caregiver_id"
+              value={selectedCaregiverId}
+              onChange={(v) => setSelectedCaregiverId((v as string | null) ?? null)}
+              loadOptions={async (term) => {
+                const response = await CaregiverResource.search({
+                  search: { value: term },
+                  limit: 20,
+                })
+                return response.data.map((c) => ({ id: c.id, name: caregiverFullName(c) }))
+              }}
+              placeholder="Buscar cuidador…"
+            />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="link-relationship_id" required>
+              Parentesco
+            </FieldLabel>
+            <SearchSelect<ICatalogItem>
+              id="link-relationship_id"
+              value={selectedRelationshipId}
+              onChange={(v) => setSelectedRelationshipId((v as string | null) ?? null)}
+              options={relationshipCatalogs[CatalogType.CAREGIVER_RELATIONSHIP] ?? []}
+              isLoading={isLoadingRelationships}
+              placeholder="Seleccionar…"
+            />
+          </Field>
+        </FieldGroup>
+      </Modal>
 
       <CaregiverFormModal
         isOpen={caregiverFormOpen}

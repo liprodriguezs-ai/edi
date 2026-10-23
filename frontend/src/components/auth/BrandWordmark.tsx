@@ -32,7 +32,7 @@ export function BrandWordmark({
         aria-hidden
         className={cn(
           'grid h-[34px] w-[34px] flex-none place-items-center',
-          tone === 'light' && 'rounded-[10px] bg-white'
+          tone === 'light' && 'rounded-none bg-white'
         )}
       >
         <img

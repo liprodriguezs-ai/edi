@@ -30,7 +30,7 @@ export function DocsHelpButton() {
           target='_blank'
           rel='noopener noreferrer'
           aria-label={`${label} (se abre en una pestaña nueva)`}
-          className='grid size-9 place-items-center rounded-full border border-border bg-card text-[var(--ink-2)] transition-colors hover:border-[var(--ink-4)] hover:text-foreground'
+          className='grid size-9 place-items-center rounded-none border border-border bg-card text-[var(--ink-2)] transition-colors hover:border-[var(--ink-4)] hover:text-foreground'
         >
           <CircleHelp className='size-4' aria-hidden />
         </a>

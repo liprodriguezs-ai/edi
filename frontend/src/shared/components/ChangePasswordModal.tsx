@@ -1,14 +1,8 @@
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { ApiError, formatApiErrorMessage } from '@/shared/api/apiClient'
+import { Modal } from '@/shared/components/Modal'
 import { changePasswordRequest } from '@/shared/auth/authService'
 import { useSession } from '@/shared/auth/useSession'
 import { toast } from '@/shared/hooks/useToast'
@@ -66,78 +60,82 @@ export function ChangePasswordModal({ isOpen, onClose }: ChangePasswordModalProp
   })
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className='max-w-sm' aria-describedby={undefined}>
-        <DialogHeader>
-          <DialogTitle>Cambiar contraseña</DialogTitle>
-        </DialogHeader>
-
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor='cp-current' required>
-              Contraseña actual
-            </FieldLabel>
-            <div className='relative'>
-              <Input
-                id='cp-current'
-                type={show ? 'text' : 'password'}
-                autoComplete='current-password'
-                value={current}
-                onChange={(e) => setCurrent(e.target.value)}
-                disabled={mutation.isPending}
-              />
-              <button
-                type='button'
-                className='absolute right-2 top-1/2 -translate-y-1/2 text-[var(--ink-3)]'
-                onClick={() => setShow((s) => !s)}
-                aria-label={show ? 'Ocultar' : 'Mostrar'}
-              >
-                {show ? <EyeOff className='size-4' /> : <Eye className='size-4' />}
-              </button>
-            </div>
-          </Field>
-          <Field>
-            <FieldLabel htmlFor='cp-next' required>
-              Nueva contraseña
-            </FieldLabel>
-            <Input
-              id='cp-next'
-              type={show ? 'text' : 'password'}
-              autoComplete='new-password'
-              value={next}
-              onChange={(e) => setNext(e.target.value)}
-              disabled={mutation.isPending}
-            />
-            <FieldError>{tooShort ? 'Mínimo 8 caracteres' : undefined}</FieldError>
-          </Field>
-          <Field>
-            <FieldLabel htmlFor='cp-confirm' required>
-              Confirmar nueva contraseña
-            </FieldLabel>
-            <Input
-              id='cp-confirm'
-              type={show ? 'text' : 'password'}
-              autoComplete='new-password'
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              disabled={mutation.isPending}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && canSubmit) mutation.mutate()
-              }}
-            />
-            <FieldError>{mismatch ? 'Las contraseñas no coinciden' : undefined}</FieldError>
-          </Field>
-        </FieldGroup>
-
-        <DialogFooter>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title='Cambiar contraseña'
+      size='sm'
+      footer={
+        <>
           <Button variant='outline' onClick={onClose} disabled={mutation.isPending}>
             Cancelar
           </Button>
-          <Button onClick={() => mutation.mutate()} disabled={!canSubmit || mutation.isPending}>
+          <Button
+            onClick={() => mutation.mutate()}
+            disabled={!canSubmit}
+            loading={mutation.isPending}
+          >
             {mutation.isPending ? 'Guardando…' : 'Cambiar contraseña'}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </>
+      }
+    >
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor='cp-current' required>
+            Contraseña actual
+          </FieldLabel>
+          <div className='relative'>
+            <Input
+              id='cp-current'
+              type={show ? 'text' : 'password'}
+              autoComplete='current-password'
+              value={current}
+              onChange={(e) => setCurrent(e.target.value)}
+              disabled={mutation.isPending}
+            />
+            <button
+              type='button'
+              className='absolute right-2 top-1/2 -translate-y-1/2 text-[var(--ink-3)]'
+              onClick={() => setShow((s) => !s)}
+              aria-label={show ? 'Ocultar' : 'Mostrar'}
+            >
+              {show ? <EyeOff className='size-4' /> : <Eye className='size-4' />}
+            </button>
+          </div>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor='cp-next' required>
+            Nueva contraseña
+          </FieldLabel>
+          <Input
+            id='cp-next'
+            type={show ? 'text' : 'password'}
+            autoComplete='new-password'
+            value={next}
+            onChange={(e) => setNext(e.target.value)}
+            disabled={mutation.isPending}
+          />
+          <FieldError>{tooShort ? 'Mínimo 8 caracteres' : undefined}</FieldError>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor='cp-confirm' required>
+            Confirmar nueva contraseña
+          </FieldLabel>
+          <Input
+            id='cp-confirm'
+            type={show ? 'text' : 'password'}
+            autoComplete='new-password'
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            disabled={mutation.isPending}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && canSubmit) mutation.mutate()
+            }}
+          />
+          <FieldError>{mismatch ? 'Las contraseñas no coinciden' : undefined}</FieldError>
+        </Field>
+      </FieldGroup>
+    </Modal>
   )
 }

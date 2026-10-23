@@ -20,7 +20,7 @@ interface MultiItemSubscriptionManagerProps {
   isResuming: boolean
   /** Refresca la pantalla tras aplicar un cambio (recarga silenciosa + sesión). */
   onApplied: () => void | Promise<void>
-  /** Unidades activas del organización: es lo que decide qué banda de plan le toca. */
+  /** Unidades activas de la organización: es lo que decide qué banda de plan le toca. */
   unitCount: number
   /**
    * ¿Puede el usuario MODIFICAR la facturación? Sólo el dueño de la cuenta. Con
@@ -87,7 +87,7 @@ export function MultiItemSubscriptionManager({
           </CardHeader>
           <CardContent>
             {cancelScheduled ? (
-              <p className='rounded-lg border bg-muted/40 p-4 text-sm text-muted-foreground'>
+              <p className='border bg-muted/40 p-4 text-sm text-muted-foreground'>
                 Tu suscripción tiene una cancelación programada. Reactívala para volver a gestionar
                 tu plan.
               </p>

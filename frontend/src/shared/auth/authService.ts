@@ -17,8 +17,8 @@ export interface LoginRequest {
 export interface RegisterRequest {
   name: string
   /**
-   * Nombre del organización que se está dando de alta. Va tal cual a `tenant.name`,
-   * que es la etiqueta que la app muestra como el organización en todos lados.
+   * Nombre de la organización que se está dando de alta. Va tal cual a `tenant.name`,
+   * que es la etiqueta que la app muestra como la organización en todos lados.
    */
   organization_name: string
   email: string

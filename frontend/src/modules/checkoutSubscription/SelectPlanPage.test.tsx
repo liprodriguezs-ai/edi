@@ -34,7 +34,7 @@ vi.mock('@/modules/checkoutSubscription/services/CheckoutSubscriptionResource', 
   CheckoutSubscriptionResource: {
     getPortalUrl: vi.fn(),
     // Se consulta al entrar en modo "cambiar plan" para preseleccionar el plan
-    // vigente del organización.
+    // vigente de la organización.
     getMySubscription: vi.fn(() => Promise.resolve({ currentPlan: { key: 'esencial' } })),
   },
 }))

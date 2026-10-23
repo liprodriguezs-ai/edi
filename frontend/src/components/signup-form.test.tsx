@@ -53,7 +53,7 @@ function renderAt(path: string) {
 
 function fillAndSubmit() {
   fireEvent.change(screen.getByLabelText(/nombre completo/i), { target: { value: 'Ana Pérez' } })
-  fireEvent.change(screen.getByLabelText(/nombre del organización/i), {
+  fireEvent.change(screen.getByLabelText(/nombre del centro/i), {
     target: { value: 'Las Palmas' },
   })
   fireEvent.change(screen.getByLabelText(/correo electrónico/i), {

@@ -40,7 +40,7 @@ export const UserResource = createCrudApi<IUser, UserFormValues, Record<string, 
       return data.data
     },
     // Derecho al olvido (§18.3.4). El backend exige update.user + rol admin y
-    // rechaza anonimizar la propia cuenta o al último propietario del organización.
+    // rechaza anonimizar la propia cuenta o al último propietario de la organización.
     anonymize: async (id) => {
       const { data } = await apiClient.post<{ data: { id: string; name: string } }>(`${basePath}/${id}/anonymize`)
       return data.data

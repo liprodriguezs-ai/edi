@@ -2,8 +2,9 @@ import { Button } from '@/components/ui/button'
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
 import type { BillingInterval, ISubscriptionChangePreview } from '@/modules/checkoutSubscription/schema'
 import { intervalSuffix } from '@/modules/user/components/subscriptionHelpers'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
-import { AlertCircle, ArrowRight, Loader2 } from 'lucide-react'
+import { AlertCircle, ArrowRight } from 'lucide-react'
 
 interface ProrationPreviewPanelProps {
   preview: ISubscriptionChangePreview | null
@@ -29,17 +30,12 @@ export function ProrationPreviewPanel({
   onRetry,
 }: ProrationPreviewPanelProps) {
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center gap-2 rounded-lg border bg-muted/40 p-6 text-sm text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" />
-        Calculando el cambio...
-      </div>
-    )
+    return <InlineLoading name="proration-preview" />
   }
 
   if (error) {
     return (
-      <div className="space-y-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+      <div className="space-y-3 border border-destructive/30 bg-destructive/5 p-4">
         <div className="flex items-start gap-3 text-destructive">
           <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
           <p className="text-sm font-medium">{error}</p>
@@ -60,13 +56,13 @@ export function ProrationPreviewPanel({
   const newTotal = formatPrice(preview.new_recurring_total, currency)
 
   return (
-    <div className="space-y-4 rounded-lg border bg-muted/40 p-4">
+    <div className="space-y-4 border bg-muted/40 p-4">
       <div>
         <p className="text-xs font-medium text-muted-foreground">
           {isCredit ? 'Crédito a tu favor (prorrateo)' : 'Cargo inmediato (prorrateo)'}
         </p>
         {hasImmediateAmount ? (
-          <p className={`text-2xl font-bold ${isCredit ? 'text-emerald-600 dark:text-emerald-400' : ''}`}>
+          <p className={`text-2xl font-bold tabular-nums ${isCredit ? 'text-primary' : ''}`}>
             {isCredit ? `+${immediateAmount}` : immediateAmount}
           </p>
         ) : (

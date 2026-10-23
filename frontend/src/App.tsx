@@ -90,6 +90,9 @@ const ChildDetailPage = lazy(() =>
 const VisitListPage = lazy(() =>
   import('@/modules/visit/VisitListPage').then((m) => ({ default: m.VisitListPage }))
 )
+const AgendaPage = lazy(() =>
+  import('@/modules/appointment/AgendaPage').then((m) => ({ default: m.AgendaPage }))
+)
 const CaregiverRelationshipPage = lazy(() =>
   import('@/modules/catalogs/pages').then((m) => ({ default: m.CaregiverRelationshipPage }))
 )
@@ -98,6 +101,103 @@ const EducationLevelPage = lazy(() =>
 )
 const OccupationPage = lazy(() =>
   import('@/modules/catalogs/pages').then((m) => ({ default: m.OccupationPage }))
+)
+// Instrumento EDI (inspector read-only)
+const InstrumentVersionListPage = lazy(() =>
+  import('@/modules/instrument/InstrumentVersionListPage').then((m) => ({
+    default: m.InstrumentVersionListPage,
+  }))
+)
+const InstrumentVersionDetailPage = lazy(() =>
+  import('@/modules/instrument/InstrumentVersionDetailPage').then((m) => ({
+    default: m.InstrumentVersionDetailPage,
+  }))
+)
+// Prueba EDI (edi-screening-ui)
+const ScreeningListPage = lazy(() =>
+  import('@/modules/screening/ScreeningListPage').then((m) => ({ default: m.ScreeningListPage }))
+)
+const ScreeningDetailPage = lazy(() =>
+  import('@/modules/screening/ScreeningDetailPage').then((m) => ({
+    default: m.ScreeningDetailPage,
+  }))
+)
+const ScreeningApplyPage = lazy(() =>
+  import('@/modules/screening/ScreeningApplyPage').then((m) => ({ default: m.ScreeningApplyPage }))
+)
+// Estimulación temprana (edi-stimulation-sessions)
+const StimulationSessionListPage = lazy(() =>
+  import('@/modules/stimulationSession/StimulationSessionListPage').then((m) => ({
+    default: m.StimulationSessionListPage,
+  }))
+)
+const StimulationSessionFormPage = lazy(() =>
+  import('@/modules/stimulationSession/StimulationSessionFormPage').then((m) => ({
+    default: m.StimulationSessionFormPage,
+  }))
+)
+const StimulationGroupListPage = lazy(() =>
+  import('@/modules/stimulationGroup/StimulationGroupListPage').then((m) => ({
+    default: m.StimulationGroupListPage,
+  }))
+)
+const StimulationGroupDetailPage = lazy(() =>
+  import('@/modules/stimulationGroup/StimulationGroupDetailPage').then((m) => ({
+    default: m.StimulationGroupDetailPage,
+  }))
+)
+const AttendanceSheetPage = lazy(() =>
+  import('@/modules/stimulationGroup/AttendanceSheetPage').then((m) => ({
+    default: m.AttendanceSheetPage,
+  }))
+)
+const StimulationDynamicPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.StimulationDynamicPage }))
+)
+const BodyZonePage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.BodyZonePage }))
+)
+const MassageMovementPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.MassageMovementPage }))
+)
+const DidacticMaterialPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.DidacticMaterialPage }))
+)
+const SongPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.SongPage }))
+)
+const StimulationGroupTypePage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.StimulationGroupTypePage }))
+)
+// Seguimientos (edi-followup-and-referral)
+const FollowUpListPage = lazy(() =>
+  import('@/modules/followUp/FollowUpListPage').then((m) => ({ default: m.FollowUpListPage }))
+)
+const FollowUpDetailPage = lazy(() =>
+  import('@/modules/followUp/FollowUpDetailPage').then((m) => ({ default: m.FollowUpDetailPage }))
+)
+const ReferralSpecialtyPage = lazy(() =>
+  import('@/modules/catalogs/pages').then((m) => ({ default: m.ReferralSpecialtyPage }))
+)
+// Reportes e indicadores (edi-reports-and-indicators)
+const IndicatorDashboardPage = lazy(() =>
+  import('@/modules/reports/IndicatorDashboardPage').then((m) => ({
+    default: m.IndicatorDashboardPage,
+  }))
+)
+const NominalListPage = lazy(() =>
+  import('@/modules/reports/NominalListPage').then((m) => ({ default: m.NominalListPage }))
+)
+// Concentrado EDI y Reporte general (edi-legacy-parity, S4)
+const EdiConcentratePage = lazy(() =>
+  import('@/modules/reports/EdiConcentratePage').then((m) => ({ default: m.EdiConcentratePage }))
+)
+const GeneralReportPage = lazy(() =>
+  import('@/modules/reports/GeneralReportPage').then((m) => ({ default: m.GeneralReportPage }))
+)
+// Edad corregida (edi-legacy-parity, S6)
+const CorrectedAgePage = lazy(() =>
+  import('@/modules/corrected-age/CorrectedAgePage').then((m) => ({ default: m.CorrectedAgePage }))
 )
 // Paquetería — módulo principal + catálogos
 // Incidencias — módulo principal + catálogos
@@ -242,6 +342,10 @@ function App() {
                 <Route element={<PermissionRoute permissionEntity='visit' />}>
                   <Route path='/visit' element={<VisitListPage />} />
                 </Route>
+                {/* Agenda (odd/tasks/edi-agenda.md) */}
+                <Route element={<PermissionRoute permissionEntity='appointment' />}>
+                  <Route path='/agenda' element={<AgendaPage />} />
+                </Route>
                 <Route element={<PermissionRoute permissionEntity='caregiver_relationship' />}>
                   <Route path='/caregiver-relationship' element={<CaregiverRelationshipPage />} />
                 </Route>
@@ -250,6 +354,82 @@ function App() {
                 </Route>
                 <Route element={<PermissionRoute permissionEntity='occupation' />}>
                   <Route path='/occupation' element={<OccupationPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='instrument' />}>
+                  <Route path='/instrument' element={<InstrumentVersionListPage />} />
+                  <Route path='/instrument/:id' element={<InstrumentVersionDetailPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='screening' />}>
+                  <Route path='/screening' element={<ScreeningListPage />} />
+                  <Route path='/screening/:id' element={<ScreeningDetailPage />} />
+                  <Route path='/screening/apply/:visitId' element={<ScreeningApplyPage />} />
+                  <Route path='/screening/:id/apply' element={<ScreeningApplyPage />} />
+                </Route>
+
+                {/* Estimulación temprana (edi-stimulation-sessions) */}
+                <Route element={<PermissionRoute permissionEntity='stimulation_session' />}>
+                  <Route path='/stimulation-session' element={<StimulationSessionListPage />} />
+                  <Route path='/stimulation-session/new' element={<StimulationSessionFormPage />} />
+                  <Route
+                    path='/stimulation-session/:id/edit'
+                    element={<StimulationSessionFormPage />}
+                  />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='stimulation_group' />}>
+                  <Route path='/stimulation-group' element={<StimulationGroupListPage />} />
+                  <Route path='/stimulation-group/:id' element={<StimulationGroupDetailPage />} />
+                  <Route
+                    path='/stimulation-group/:id/attendance'
+                    element={<AttendanceSheetPage />}
+                  />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='stimulation_dynamic' />}>
+                  <Route path='/stimulation-dynamic' element={<StimulationDynamicPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='body_zone' />}>
+                  <Route path='/body-zone' element={<BodyZonePage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='massage_movement' />}>
+                  <Route path='/massage-movement' element={<MassageMovementPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='didactic_material' />}>
+                  <Route path='/didactic-material' element={<DidacticMaterialPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='song' />}>
+                  <Route path='/song' element={<SongPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='stimulation_group_type' />}>
+                  <Route path='/stimulation-group-type' element={<StimulationGroupTypePage />} />
+                </Route>
+
+                {/* Seguimientos (edi-followup-and-referral) */}
+                <Route element={<PermissionRoute permissionEntity='follow_up' />}>
+                  <Route path='/follow-up' element={<FollowUpListPage />} />
+                  <Route path='/follow-up/:id' element={<FollowUpDetailPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='referral_specialty' />}>
+                  <Route path='/referral-specialty' element={<ReferralSpecialtyPage />} />
+                </Route>
+
+                {/* Reportes e indicadores (edi-reports-and-indicators) */}
+                <Route element={<PermissionRoute permissionEntity='screening_indicator' />}>
+                  <Route path='/reports/indicators' element={<IndicatorDashboardPage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='nominal_report' />}>
+                  <Route path='/reports/nominal' element={<NominalListPage />} />
+                </Route>
+
+                {/* Concentrado EDI y Reporte general (edi-legacy-parity, S4) */}
+                <Route element={<PermissionRoute permissionEntity='edi_concentrate' />}>
+                  <Route path='/reports/edi-concentrate' element={<EdiConcentratePage />} />
+                </Route>
+                <Route element={<PermissionRoute permissionEntity='general_report' />}>
+                  <Route path='/reports/general' element={<GeneralReportPage />} />
+                </Route>
+
+                {/* Edad corregida (edi-legacy-parity, S6) */}
+                <Route element={<PermissionRoute permissionEntity='corrected_age' />}>
+                  <Route path='/corrected-age' element={<CorrectedAgePage />} />
                 </Route>
               </Route>
             </Route>

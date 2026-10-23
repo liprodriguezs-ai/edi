@@ -76,12 +76,14 @@ export interface IFormProps<T> {
  * Roles EDI (slugs de Spatie en backend, roles.csv).
  * SUPER_ADMIN administra la plataforma; ACCOUNT_OWNER es quien registró el
  * organización (rol vivo del flujo de registro); el resto son roles operativos
- * dentro del organización.
+ * dentro de la organización.
  */
 export enum ERoleUserSlug {
   SUPER_ADMIN = 'admin.super',
   ACCOUNT_OWNER = 'account.owner',
   ADMINISTRATOR = 'administrator',
+  /** Recepción: opera la agenda sin poderes clínicos (odd/tasks/edi-agenda.md S14). */
+  ASSISTANT = 'assistant',
   PRESIDENT = 'president',
   TREASURER = 'treasurer',
   SECRETARY = 'secretary',
@@ -97,6 +99,7 @@ export const roleRoutes: Record<ERoleUserSlug, string> = {
   [ERoleUserSlug.SUPER_ADMIN]: '/user',
   [ERoleUserSlug.ACCOUNT_OWNER]: '/dashboard',
   [ERoleUserSlug.ADMINISTRATOR]: '/dashboard',
+  [ERoleUserSlug.ASSISTANT]: '/agenda',
   [ERoleUserSlug.PRESIDENT]: '/dashboard',
   [ERoleUserSlug.TREASURER]: '/dashboard',
   [ERoleUserSlug.SECRETARY]: '/dashboard',

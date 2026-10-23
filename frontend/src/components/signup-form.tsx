@@ -21,7 +21,7 @@ const signupSchema = z.object({
   organizationName: z
     .string()
     .trim()
-    .min(1, 'El nombre del organización es requerido')
+    .min(1, 'El nombre del centro es requerido')
     .max(255, 'Máximo 255 caracteres'),
   email: z.string().email('Ingresa un email válido'),
   password: z
@@ -32,7 +32,7 @@ const signupSchema = z.object({
 
 type SignupFormData = z.infer<typeof signupSchema>
 
-const INPUT_CLASS = 'h-11 rounded-[9px] bg-card pl-[42px]'
+const INPUT_CLASS = 'h-11 rounded-none bg-card pl-[42px]'
 const LABEL_CLASS = 'text-xs font-semibold text-[var(--ink-2)]'
 const ICON_CLASS =
   'pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-[var(--ink-4)]'
@@ -57,10 +57,10 @@ export function SignupForm() {
         password: data.password,
         password_confirmation: data.password,
       })
-      // El registro ya no otorga ningún acceso local: el dueño de un organización
+      // El registro ya no otorga ningún acceso local: el dueño de una organización
       // nuevo (rol account.owner) SIEMPRE va a /select-plan, tenga o no una key
       // de plan válida en la URL — mientras no elija un plan ni registre un
-      // medio de pago el organización queda bloqueado, así que saltarse este paso
+      // medio de pago la organización queda bloqueado, así que saltarse este paso
       // lo dejaría varado.
       if (profile.roles[0] === ERoleUserSlug.ACCOUNT_OWNER) {
         // La key viaja TAL CUAL: quien decide si existe es el catálogo, ya en
@@ -92,12 +92,12 @@ export function SignupForm() {
     <AuthSplitLayout
       brand={
         <AuthBrandPanel
-          headline='Empieza a administrar como profesional.'
-          subtext='Crea tu cuenta y da de alta tu organización en minutos. Pruébalo 30 días gratis.'
-          quote='En una semana dejamos el Excel. La mesa directiva por fin confía en los números.'
-          author='Mariana Solís'
-          authorMeta='Presidenta · Torre Polanco'
-          authorInitials='MS'
+          headline='Empieza a tamizar esta semana.'
+          subtext='Crea tu cuenta y da de alta tu centro en minutos. Pruébalo 30 días gratis.'
+          quote='En una semana dejamos el formato de papel. Ya no se nos pasa la evaluación alterna.'
+          author='Dr. Iván Beltrán'
+          authorMeta='Médico general · CS Milpa Alta'
+          authorInitials='IB'
         />
       }
     >
@@ -127,7 +127,7 @@ export function SignupForm() {
                 id='signup-name'
                 type='text'
                 autoComplete='name'
-                placeholder='Alberto González'
+                placeholder='Lorena Ramírez'
                 className={INPUT_CLASS}
                 aria-invalid={!!form.formState.errors.name}
                 aria-describedby={form.formState.errors.name ? 'signup-name-error' : undefined}
@@ -143,7 +143,7 @@ export function SignupForm() {
 
           <Field>
             <FieldLabel htmlFor='signup-organization-name' className={LABEL_CLASS}>
-              Nombre del organización
+              Nombre del centro
             </FieldLabel>
             <div className='relative'>
               <Building2 aria-hidden className={ICON_CLASS} />
@@ -151,7 +151,7 @@ export function SignupForm() {
                 id='signup-organization-name'
                 type='text'
                 autoComplete='organization'
-                placeholder='Residencial Las Palmas'
+                placeholder='Centro de Salud Xochimilco'
                 className={INPUT_CLASS}
                 aria-invalid={!!form.formState.errors.organizationName}
                 aria-describedby={
@@ -172,7 +172,7 @@ export function SignupForm() {
               </FieldDescription>
             ) : (
               <FieldDescription id='signup-organization-name-hint'>
-                Así lo verán los residentes. Puedes cambiarlo después.
+                Así lo verá tu equipo. Puedes cambiarlo después.
               </FieldDescription>
             )}
           </Field>
@@ -245,7 +245,7 @@ export function SignupForm() {
 
           <Button
             type='submit'
-            className='h-12 w-full rounded-full text-[15px] font-semibold'
+            className='h-12 w-full rounded-none text-[15px] font-semibold'
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? 'Creando cuenta…' : 'Continuar'}

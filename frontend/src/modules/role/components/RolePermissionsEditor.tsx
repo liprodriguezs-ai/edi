@@ -4,9 +4,10 @@ import { cn } from '@/lib/utils'
 import { Skeleton } from 'boneyard-js/react'
 import { useRolePermissions } from '@/modules/role/hooks/useRolePermissions'
 import type { IRolePermissionModule } from '@/modules/role/schema'
-import { Loader2, Save, ShieldCheck } from 'lucide-react'
+import { Save, ShieldCheck } from 'lucide-react'
 import { useCallback, useMemo } from 'react'
 import { toast } from '@/shared/hooks/useToast'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
 
 const ACTION_COLUMNS = [
   { key: 'read', label: 'Lectura' },
@@ -99,17 +100,16 @@ export function RolePermissionsEditor({ roleId }: RolePermissionsEditorProps) {
 
   if (modules.length === 0 && !isLoading) {
     return (
-      <div className='flex flex-col items-center justify-center gap-2 py-12'>
-        <ShieldCheck className='text-muted-foreground h-10 w-10' />
-        <p className='text-muted-foreground text-sm'>No hay permisos disponibles</p>
-      </div>
+      <InlineEmpty icon={ShieldCheck} className='justify-center py-12'>
+        No hay permisos disponibles
+      </InlineEmpty>
     )
   }
 
   return (
     <Skeleton name='role-permissions-editor' loading={isLoading}>
       <div className='flex flex-col'>
-        <div className='overflow-x-auto rounded-md border'>
+        <div className='overflow-x-auto border'>
           <div className='max-h-[calc(100vh-220px)] overflow-y-auto'>
             <table className='w-full min-w-[700px]'>
               <thead className='sticky top-0 z-10 bg-card shadow-[0_1px_0_0] shadow-border'>
@@ -172,12 +172,8 @@ export function RolePermissionsEditor({ roleId }: RolePermissionsEditorProps) {
                 Desmarcar todas
               </Button>
             </div>
-            <Button onClick={handleSave} disabled={!hasChanges || isSaving}>
-              {isSaving ? (
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              ) : (
-                <Save className='mr-2 h-4 w-4' />
-              )}
+            <Button onClick={handleSave} disabled={!hasChanges} loading={isSaving}>
+              {!isSaving && <Save className='mr-2 h-4 w-4' />}
               Guardar
             </Button>
           </div>

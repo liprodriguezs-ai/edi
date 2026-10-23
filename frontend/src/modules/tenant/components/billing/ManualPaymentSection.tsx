@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { DatePicker } from '@/shared/components/DatePicker'
+import { todayLocalDateString } from '@/shared/utils/dateHelper'
 import { RequiredFieldsLegend } from '@/shared/components/RequiredFieldsLegend'
 import { resolveBillingError } from '@/modules/tenant/billing/billingErrors'
 import { BILLING_CURRENCY, billingIntervalLabel } from '@/modules/tenant/billing/billingFormat'
@@ -21,15 +22,16 @@ import {
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
 import type { UseMutationResult } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
 import { AlertCircle, CheckCircle2, Gift } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { Panel } from '@/shared/components/molecules/Panel'
 
 interface ManualPaymentSectionProps {
   /** Pago manual sugerido: líneas a cobrar (hoy siempre una: el plan) + total. */
   manualPayment: IBillingManualPayment
-  /** true si el organización tiene el plan por cortesía (super_admin_free): no se cobra. */
+  /** true si la organización tiene el plan por cortesía (super_admin_free): no se cobra. */
   hasCourtesyAccess: boolean
   /** Nombre del plan a cobrar, para el resumen. */
   planName: string
@@ -38,7 +40,7 @@ interface ManualPaymentSectionProps {
 
 /**
  * Registra UN pago recibido fuera de Stripe (transferencia o efectivo) que cubre el
- * plan del organización. Con un solo plan base el desglose colapsa a UNA línea: plan,
+ * plan de la organización. Con un solo plan base el desglose colapsa a UNA línea: plan,
  * intervalo y total (derivados de `manualPayment.lines`, que el backend sigue
  * mandando por línea). El admin sólo elige el método, la fecha y notas opcionales.
  *
@@ -56,7 +58,7 @@ export function ManualPaymentSection({
   const buildDefaults = useCallback(
     (): ManualPaymentFormValues => ({
       method: 'transfer',
-      paid_at: format(new Date(), 'yyyy-MM-dd'),
+      paid_at: todayLocalDateString(),
       notes: '',
     }),
     []
@@ -102,49 +104,41 @@ export function ManualPaymentSection({
   })
 
   return (
-    <section
-      aria-labelledby='billing-manual-heading'
-      className='rounded-xl border border-border bg-card p-5 sm:p-6'
+    <Panel
+      title='Registrar un pago manual'
+      description='Un solo pago (transferencia o efectivo) que cubre el plan de la organización. Esto extiende el acceso un ciclo y queda guardado en el historial.'
     >
-      <h3 id='billing-manual-heading' className='text-base font-semibold text-foreground'>
-        Registrar un pago manual
-      </h3>
-      <p className='mt-1 text-sm text-muted-foreground'>
-        Un solo pago (transferencia o efectivo) que cubre el plan del organización. Esto extiende el
-        acceso un ciclo y queda guardado en el historial.
-      </p>
-
       {/* Estado vacío: no hay nada que cobrar de forma manual */}
       {!hasPayableLines ? (
-        <p className='mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground'>
+        <InlineEmpty>
           {hasCourtesyAccess
             ? 'Este organización tiene el plan por cortesía: no hay nada que cobrar.'
             : 'Este organización no tiene un plan de pago por cobrar (es de cortesía o se cobra por Stripe).'}
-        </p>
+        </InlineEmpty>
       ) : (
-        <form onSubmit={onSubmit} className='mt-4 space-y-5'>
+        <form onSubmit={onSubmit} className='space-y-5'>
           <RequiredFieldsLegend />
 
-          {/* Resumen read-only: UNA línea (el plan del organización) + total */}
+          {/* Resumen read-only: UNA línea (el plan de la organización) + total */}
           <div className='space-y-3'>
             <p className='text-sm font-medium text-foreground'>Concepto a cobrar</p>
 
-            <div className='flex items-center justify-between rounded-lg border border-border px-4 py-3'>
+            <div className='flex items-center justify-between border border-border px-4 py-3'>
               <div className='min-w-0'>
                 <p className='text-sm font-medium text-foreground'>Plan {planName}</p>
                 <p className='text-xs text-muted-foreground'>
                   Cobro por {billingIntervalLabel(billedInterval)}
                 </p>
               </div>
-              <span className='ml-4 shrink-0 text-lg font-semibold tabular-nums text-foreground'>
+              <span className='ml-4 shrink-0 text-lg font-semibold font-mono tabular-nums text-foreground'>
                 {formatPrice(manualPayment.total, BILLING_CURRENCY)}
               </span>
             </div>
 
             {hasCourtesyAccess && (
-              <p className='flex items-center gap-2 rounded-lg border border-dashed border-border p-3 text-xs text-muted-foreground'>
+              <p className='flex items-center gap-2 border border-dashed border-border p-3 text-xs text-muted-foreground'>
                 <Gift className='h-3.5 w-3.5 shrink-0' aria-hidden />
-                El organización tiene además un acceso de cortesía vigente, que no se cobra.
+                La organización tiene además un acceso de cortesía vigente, que no se cobra.
               </p>
             )}
           </div>
@@ -211,7 +205,7 @@ export function ManualPaymentSection({
           {registerPayment.isError && (
             <p
               role='alert'
-              className='flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-sm text-destructive'
+              className='flex items-start gap-2 bg-destructive/5 p-3 text-sm text-destructive'
             >
               <AlertCircle className='mt-0.5 h-4 w-4 shrink-0' aria-hidden />
               <span>{resolveBillingError(registerPayment.error)}</span>
@@ -221,7 +215,7 @@ export function ManualPaymentSection({
           {justRegistered && !registerPayment.isError && (
             <p
               role='status'
-              className='flex items-start gap-2 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400'
+              className='flex items-start gap-2 border border-primary/20 bg-primary/10 p-3 text-sm text-primary'
             >
               <CheckCircle2 className='mt-0.5 h-4 w-4 shrink-0' aria-hidden />
               <span>Pago registrado. Revisa el nuevo vencimiento más abajo.</span>
@@ -229,12 +223,12 @@ export function ManualPaymentSection({
           )}
 
           <div className='flex justify-end'>
-            <Button type='submit' disabled={isSaving} className='min-w-[140px]'>
+            <Button type='submit' loading={isSaving} className='min-w-[140px]'>
               {isSaving ? 'Registrando…' : 'Registrar pago'}
             </Button>
           </div>
         </form>
       )}
-    </section>
+    </Panel>
   )
 }

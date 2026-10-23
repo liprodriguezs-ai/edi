@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Textarea } from '@/components/ui/textarea'
 import { ConfirmDialog } from '@/shared/components/ConfirmDialog'
+import { Modal } from '@/shared/components/Modal'
 import { Pagination } from '@/shared/components/Pagination'
 import { PermissionGuard } from '@/shared/components/PermissionGuard'
 import { SearchList } from '@/shared/components/SearchList'
@@ -27,7 +27,7 @@ import type { IEntity } from '@/shared/interfaces/Entity'
 import type { ISearchParams } from '@/shared/interfaces/list.types'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Download, Loader2, Lock, Pencil, Plus, Trash2 } from 'lucide-react'
+import { Download, Lock, Pencil, Plus, Trash2 } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import {
   Controller,
@@ -107,7 +107,7 @@ export function CatalogFormModal<T extends IEntity & { name?: string }, V extend
   props: CatalogFormProps<T, V>
 ) {
   // Gate del montaje real: sin esto el useCatalogs del cuerpo dispararía POST /selects
-  // al montar la lista (el <Sheet> solo togglea visibilidad de Radix, NO desmonta el
+  // al montar la lista (el panel solo togglea visibilidad de Radix, NO desmonta el
   // contenido). Como este wrapper no usa hooks antes del early-return, respeta las
   // Rules of Hooks y los catálogos solo se piden cuando el form se abre.
   if (!props.isOpen) {
@@ -176,118 +176,13 @@ function CatalogFormSheet<T extends IEntity & { name?: string }, V extends Field
   })
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent
-        side='right'
-        className='flex flex-col gap-0 p-0 w-full sm:max-w-lg'
-        aria-describedby={undefined}
-      >
-        <SheetHeader className='shrink-0 px-6 pt-6 pb-2'>
-          <SheetTitle>{mode === CrudMode.EDIT ? editLabel : newLabel}</SheetTitle>
-        </SheetHeader>
-
-        <form
-          className='flex-1 overflow-y-auto px-6 py-2'
-          onSubmit={(e) => {
-            e.preventDefault()
-            void doSubmit(e)
-          }}
-        >
-          {hasRequired && <RequiredFieldsLegend />}
-          <FieldGroup>
-            <div className='grid grid-cols-12 gap-4'>
-              {fields.map((field) => {
-                const fieldName = field.name as Path<V>
-                const error = (errors as Record<string, { message?: string } | undefined>)[
-                  field.name
-                ]
-                const span = field.colSpan ?? 12
-                const spanClass = span === 4 ? 'md:col-span-4' : span === 6 ? 'md:col-span-6' : ''
-                const inputId = `catalog-${field.name}`
-
-                return (
-                  <Field key={field.name} className={`col-span-12 ${spanClass}`}>
-                    <FieldLabel htmlFor={inputId} required={field.required}>
-                      {field.label}
-                    </FieldLabel>
-                    {field.type === 'switch' ? (
-                      <Controller
-                        name={fieldName}
-                        control={control}
-                        render={({ field: rhf }) => (
-                          <Switch
-                            id={inputId}
-                            checked={Boolean(rhf.value)}
-                            onCheckedChange={rhf.onChange}
-                            disabled={isSaving}
-                          />
-                        )}
-                      />
-                    ) : field.type === 'catalog' ? (
-                      <Controller
-                        name={fieldName}
-                        control={control}
-                        render={({ field: rhf }) => (
-                          <SearchSelect<ICatalogItem>
-                            id={inputId}
-                            value={(rhf.value as string) ?? null}
-                            onChange={(v) => rhf.onChange((v as string | null) ?? '')}
-                            options={field.catalog ? (catalogs[field.catalog] ?? []) : []}
-                            isDisabled={isSaving}
-                            isLoading={isLoadingCatalogs}
-                            invalid={Boolean(error)}
-                            placeholder={field.placeholder ?? 'Seleccionar…'}
-                            getOptionLabel={(option) =>
-                              option.name ||
-                              (option as ICatalogItem & { full_identifier?: string })
-                                .full_identifier ||
-                              ''
-                            }
-                          />
-                        )}
-                      />
-                    ) : field.type === 'textarea' ? (
-                      <Textarea
-                        id={inputId}
-                        rows={3}
-                        className='resize-none'
-                        placeholder={field.placeholder}
-                        disabled={isSaving}
-                        {...register(fieldName)}
-                      />
-                    ) : field.type === 'color' ? (
-                      <Input
-                        id={inputId}
-                        type='color'
-                        className='h-10 w-20 cursor-pointer p-1'
-                        disabled={isSaving}
-                        {...register(fieldName)}
-                      />
-                    ) : (
-                      <Input
-                        id={inputId}
-                        type={field.type === 'number' ? 'number' : 'text'}
-                        placeholder={field.placeholder}
-                        disabled={isSaving}
-                        {...register(
-                          fieldName,
-                          field.type === 'number'
-                            ? {
-                                setValueAs: (v) => (v === '' || v == null ? null : Number(v)),
-                              }
-                            : undefined
-                        )}
-                      />
-                    )}
-                    <FieldError>{error?.message}</FieldError>
-                  </Field>
-                )
-              })}
-            </div>
-          </FieldGroup>
-        </form>
-
-        <SheetFooter className='shrink-0 px-6 pb-6 pt-4 border-t border-border flex-row justify-end gap-2'>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={mode === CrudMode.EDIT ? editLabel : newLabel}
+      size='lg'
+      footer={
+        <>
           <Button
             type='button'
             variant='outline'
@@ -300,7 +195,7 @@ function CatalogFormSheet<T extends IEntity & { name?: string }, V extends Field
           <Button
             type='button'
             onClick={() => void doSubmit()}
-            disabled={isSaving}
+            loading={isSaving}
             className='min-w-[100px]'
           >
             {isSaving
@@ -311,9 +206,109 @@ function CatalogFormSheet<T extends IEntity & { name?: string }, V extends Field
                 ? 'Actualizar'
                 : 'Crear'}
           </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </>
+      }
+    >
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          void doSubmit(e)
+        }}
+      >
+        {hasRequired && <RequiredFieldsLegend />}
+        <FieldGroup>
+          <div className='grid grid-cols-12 gap-4'>
+            {fields.map((field) => {
+              const fieldName = field.name as Path<V>
+              const error = (errors as Record<string, { message?: string } | undefined>)[
+                field.name
+              ]
+              const span = field.colSpan ?? 12
+              const spanClass = span === 4 ? 'md:col-span-4' : span === 6 ? 'md:col-span-6' : ''
+              const inputId = `catalog-${field.name}`
+
+              return (
+                <Field key={field.name} className={`col-span-12 ${spanClass}`}>
+                  <FieldLabel htmlFor={inputId} required={field.required}>
+                    {field.label}
+                  </FieldLabel>
+                  {field.type === 'switch' ? (
+                    <Controller
+                      name={fieldName}
+                      control={control}
+                      render={({ field: rhf }) => (
+                        <Switch
+                          id={inputId}
+                          checked={Boolean(rhf.value)}
+                          onCheckedChange={rhf.onChange}
+                          disabled={isSaving}
+                        />
+                      )}
+                    />
+                  ) : field.type === 'catalog' ? (
+                    <Controller
+                      name={fieldName}
+                      control={control}
+                      render={({ field: rhf }) => (
+                        <SearchSelect<ICatalogItem>
+                          id={inputId}
+                          value={(rhf.value as string) ?? null}
+                          onChange={(v) => rhf.onChange((v as string | null) ?? '')}
+                          options={field.catalog ? (catalogs[field.catalog] ?? []) : []}
+                          isDisabled={isSaving}
+                          isLoading={isLoadingCatalogs}
+                          invalid={Boolean(error)}
+                          placeholder={field.placeholder ?? 'Seleccionar…'}
+                          getOptionLabel={(option) =>
+                            option.name ||
+                            (option as ICatalogItem & { full_identifier?: string })
+                              .full_identifier ||
+                            ''
+                          }
+                        />
+                      )}
+                    />
+                  ) : field.type === 'textarea' ? (
+                    <Textarea
+                      id={inputId}
+                      rows={3}
+                      className='resize-none'
+                      placeholder={field.placeholder}
+                      disabled={isSaving}
+                      {...register(fieldName)}
+                    />
+                  ) : field.type === 'color' ? (
+                    <Input
+                      id={inputId}
+                      type='color'
+                      className='h-10 w-20 cursor-pointer p-1'
+                      disabled={isSaving}
+                      {...register(fieldName)}
+                    />
+                  ) : (
+                    <Input
+                      id={inputId}
+                      type={field.type === 'number' ? 'number' : 'text'}
+                      placeholder={field.placeholder}
+                      disabled={isSaving}
+                      {...register(
+                        fieldName,
+                        field.type === 'number'
+                          ? {
+                              setValueAs: (v) => (v === '' || v == null ? null : Number(v)),
+                            }
+                          : undefined
+                      )}
+                    />
+                  )}
+                  <FieldError>{error?.message}</FieldError>
+                </Field>
+              )
+            })}
+          </div>
+        </FieldGroup>
+      </form>
+    </Modal>
   )
 }
 
@@ -321,7 +316,7 @@ function CatalogFormSheet<T extends IEntity & { name?: string }, V extends Field
  * CRUD genérico para catálogos (tablas name/order/is_active y similares).
  * Listado + búsqueda + paginación + modal de alta/edición + borrado con confirmación.
  * Los botones de escritura se ocultan solos si el usuario no tiene el permiso
- * (los catálogos centrales son read-only para roles del organización).
+ * (los catálogos centrales son read-only para roles de la organización).
  */
 export function CatalogCrudModule<T extends IEntity & { name?: string }, V extends FieldValues>(
   config: CatalogCrudModuleProps<T, V>
@@ -414,14 +409,10 @@ export function CatalogCrudModule<T extends IEntity & { name?: string }, V exten
                   onClick={() =>
                     onReport(reportModel, 'xlsx', reportTitle ?? reportModel.toLowerCase())
                   }
-                  disabled={isExporting}
+                  loading={isExporting}
                   className='flex items-center gap-2'
                 >
-                  {isExporting ? (
-                    <Loader2 className='h-4 w-4 animate-spin' />
-                  ) : (
-                    <Download className='h-4 w-4' />
-                  )}
+                  {!isExporting && <Download className='h-4 w-4' />}
                   Descargar
                 </Button>
               </PermissionGuard>
@@ -511,7 +502,7 @@ export function CatalogCrudModule<T extends IEntity & { name?: string }, V exten
                             <Button
                               variant='ghost'
                               size='icon'
-                              className='size-8 text-destructive hover:text-destructive'
+                              className='size-8 text-muted-foreground hover:text-destructive'
                               onClick={() => setEntityToDelete(entity)}
                               aria-label={`Eliminar ${getName(entity)}`}
                             >
@@ -555,7 +546,7 @@ export function CatalogCrudModule<T extends IEntity & { name?: string }, V exten
                             <Button
                               variant='ghost'
                               size='icon'
-                              className='size-8 text-destructive hover:text-destructive'
+                              className='size-8 text-muted-foreground hover:text-destructive'
                               onClick={() => setEntityToDelete(entity)}
                               aria-label={`Eliminar ${getName(entity)}`}
                             >

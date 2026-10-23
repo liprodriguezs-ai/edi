@@ -1,10 +1,13 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+  currentTenantMonth,
   displayFormatDate,
   formatDateForInput,
   formatLocalDateString,
   formatTimeHHmm,
+  getTenantTimeZone,
   parseLocalDateString,
+  setTenantTimeZone,
   todayLocalDateString,
 } from '@/shared/utils/dateHelper'
 
@@ -84,5 +87,54 @@ describe('formatDateForInput', () => {
   it('devuelve string vacío para un valor vacío', () => {
     expect(formatDateForInput(undefined)).toBe('')
     expect(formatDateForInput('')).toBe('')
+  })
+})
+
+describe('zona horaria del tenant', () => {
+  afterEach(() => {
+    setTenantTimeZone(null)
+    vi.useRealTimers()
+  })
+
+  it('muestra un instante UTC en la zona del tenant', () => {
+    setTenantTimeZone('America/Mexico_City')
+
+    expect(displayFormatDate('2026-10-21T03:00:00.000000Z', 'medium')).toBe('oct 20, 2026 21:00')
+    expect(displayFormatDate('2026-10-21T03:00:00.000000Z', 'mediumDate')).toBe('oct 20, 2026')
+  })
+
+  it.each(['Pacific/Honolulu', 'Asia/Tokyo', 'America/Mexico_City'])(
+    'nunca desplaza una fecha civil (zona %s)',
+    (zone) => {
+      setTenantTimeZone(zone)
+
+      expect(displayFormatDate('2026-10-21', 'mediumDate')).toBe('oct 21, 2026')
+      expect(displayFormatDate('2026-10-21T00:00:00.000000Z', 'mediumDate')).toBe('oct 21, 2026')
+      expect(formatDateForInput('2026-10-21T00:00:00.000000Z')).toBe('2026-10-21')
+    }
+  )
+
+  it('todayLocalDateString devuelve el hoy del tenant, no el del navegador ni UTC', () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-11-01T03:00:00Z'))
+    setTenantTimeZone('America/Mexico_City')
+
+    expect(todayLocalDateString()).toBe('2026-10-31')
+    expect(currentTenantMonth()).toBe('2026-10')
+
+    setTenantTimeZone('Asia/Tokyo')
+    expect(todayLocalDateString()).toBe('2026-11-01')
+  })
+
+  it('cae a la zona del navegador cuando la zona falta o es inválida', () => {
+    setTenantTimeZone('Mars/Olympus')
+    expect(getTenantTimeZone()).toBe(Intl.DateTimeFormat().resolvedOptions().timeZone)
+
+    setTenantTimeZone('Asia/Tokyo')
+    expect(getTenantTimeZone()).toBe('Asia/Tokyo')
+  })
+
+  it('devuelve string vacío para un valor no parseable', () => {
+    expect(displayFormatDate('no-es-fecha')).toBe('')
   })
 })

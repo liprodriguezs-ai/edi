@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/shared/components/Modal'
-import { AlertTriangle, Heart, Loader2, Shield } from 'lucide-react'
+import { AlertTriangle, Heart, Shield } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 type CancelStep = 'persuade' | 'confirm'
@@ -39,8 +39,8 @@ export function CancelSubscriptionModal({
         {step === 'persuade' && (
           <div className="space-y-6">
             <div className="flex flex-col items-center text-center">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30">
-                <Heart className="h-7 w-7 text-amber-600 dark:text-amber-400" />
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-none bg-primary/10">
+                <Heart className="h-7 w-7 text-primary" />
               </div>
               <h3 className="text-lg font-semibold">¿Seguro que quieres irte?</h3>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -50,7 +50,7 @@ export function CancelSubscriptionModal({
               </p>
             </div>
 
-            <div className="space-y-3 rounded-lg border bg-muted/50 p-4">
+            <div className="space-y-3 border bg-muted/50 p-4">
               <div className="flex items-start gap-3">
                 <Shield className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
                 <div>
@@ -80,7 +80,7 @@ export function CancelSubscriptionModal({
         {step === 'confirm' && (
           <div className="space-y-6">
             <div className="flex flex-col items-center text-center">
-              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-none bg-destructive/10">
                 <AlertTriangle className="h-7 w-7 text-destructive" />
               </div>
               <p className="text-sm text-muted-foreground">
@@ -93,17 +93,10 @@ export function CancelSubscriptionModal({
               <Button
                 variant="destructive"
                 className="w-full"
-                disabled={isCanceling}
+                loading={isCanceling}
                 onClick={onCancel}
               >
-                {isCanceling ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Cancelando...
-                  </>
-                ) : (
-                  'Confirmar cancelación al final del ciclo'
-                )}
+                {isCanceling ? 'Cancelando...' : 'Confirmar cancelación al final del ciclo'}
               </Button>
               <Button
                 variant="ghost"

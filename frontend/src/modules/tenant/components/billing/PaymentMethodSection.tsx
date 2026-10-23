@@ -9,6 +9,7 @@ import { CancelSubscriptionDialog } from '@/modules/tenant/components/billing/Ca
 import type { UseMutationResult } from '@tanstack/react-query'
 import { AlertCircle, Banknote, CreditCard, Landmark } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
+import { Panel } from '@/shared/components/molecules/Panel'
 
 interface MethodOption {
   value: BillingPaymentMethod
@@ -22,7 +23,7 @@ const METHOD_OPTIONS: MethodOption[] = [
     value: 'card',
     label: 'Tarjeta (Stripe)',
     icon: <CreditCard className="h-4 w-4" aria-hidden />,
-    description: 'Cobro automático recurrente con Stripe. El organización paga en línea sin tu intervención.',
+    description: 'Cobro automático recurrente con Stripe. La organización paga en línea sin tu intervención.',
   },
   {
     value: 'transfer',
@@ -44,7 +45,7 @@ interface PaymentMethodSectionProps {
 }
 
 /**
- * Elige cómo cobra el organización. El cambio de TARJETA a un método manual cancela la
+ * Elige cómo cobra la organización. El cambio de TARJETA a un método manual cancela la
  * suscripción de Stripe, por eso ese caso pasa por un diálogo que pide elegir
  * cuándo cancelar. Los demás cambios se aplican directo.
  */
@@ -81,20 +82,15 @@ export function PaymentMethodSection({ currentMethod, changePaymentMethod }: Pay
       : undefined
 
   return (
-    <section aria-labelledby="billing-method-heading" className="rounded-xl border border-border bg-card p-5 sm:p-6">
-      <h3 id="billing-method-heading" className="text-base font-semibold text-foreground">
-        Método de pago
-      </h3>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Define cómo cobra el organización su suscripción. Con tarjeta el cobro es automático; con
-        transferencia o efectivo los pagos son manuales y los registras tú.
-      </p>
-
+    <Panel
+      title="Método de pago"
+      description="Define cómo cobra la organización su suscripción. Con tarjeta el cobro es automático; con transferencia o efectivo los pagos son manuales y los registras tú."
+    >
       <RadioGroup
         value={currentMethod}
         onValueChange={handleSelect}
-        className="mt-4 gap-3 sm:grid-cols-3"
-        aria-label="Método de pago del organización"
+        className="gap-3 sm:grid-cols-3"
+        aria-label="Método de pago de la organización"
       >
         {METHOD_OPTIONS.map((option) => {
           const inputId = `billing-method-${option.value}`
@@ -102,7 +98,7 @@ export function PaymentMethodSection({ currentMethod, changePaymentMethod }: Pay
             <label
               key={option.value}
               htmlFor={inputId}
-              className="flex cursor-pointer flex-col gap-2 rounded-lg border border-border p-4 transition-colors hover:border-primary has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60"
+              className="flex cursor-pointer flex-col gap-2 border border-border p-4 transition-colors hover:border-primary has-[:checked]:border-primary has-[:checked]:bg-primary/5 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60"
             >
               <span className="flex items-center gap-2">
                 <RadioGroupItem id={inputId} value={option.value} disabled={changePaymentMethod.isPending} />
@@ -120,7 +116,7 @@ export function PaymentMethodSection({ currentMethod, changePaymentMethod }: Pay
       {inlineError && (
         <p
           role="alert"
-          className="mt-4 flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-sm text-destructive"
+          className="mt-4 flex items-start gap-2 bg-destructive/5 p-3 text-sm text-destructive"
         >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
           <span>{inlineError}</span>
@@ -137,6 +133,6 @@ export function PaymentMethodSection({ currentMethod, changePaymentMethod }: Pay
         onConfirm={handleConfirmCancel}
         onCancel={() => setCancelDialogOpen(false)}
       />
-    </section>
+    </Panel>
   )
 }

@@ -2,6 +2,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { getTenantTimeZone } from '@/shared/utils/dateHelper'
+import { tenantDatePreset } from '@/shared/utils/tenantTime'
 import { Calendar, ChevronDown, X } from 'lucide-react'
 
 export interface DateRange {
@@ -136,58 +138,21 @@ export function DateRangeFilter({
 }
 
 /**
- * Formats a Date using LOCAL calendar parts to produce a YYYY-MM-DD string.
- * Using toISOString() would shift the date for negative UTC offsets (e.g.
- * America/Mexico_City is UTC-5/6, so midnight local = 05:00/06:00 UTC the
- * SAME day, meaning toISOString() yields the PREVIOUS day's date).
- */
-function toLocalDateString(date: Date): string {
-  const y = date.getFullYear()
-  const m = String(date.getMonth() + 1).padStart(2, '0')
-  const d = String(date.getDate()).padStart(2, '0')
-  return `${y}-${m}-${d}`
-}
-
-/**
  * Converts a DateRange into a concrete {from, to} YYYY-MM-DD pair by resolving
- * shortcuts against "now". The backend compares against `date`-cast columns
- * (due_date, issued_at) which have no time component, so plain date strings
- * avoid UTC timezone off-by-one errors.
+ * shortcuts against "now" in the TENANT timezone (never the browser's or UTC).
+ * The backend compares against `date`-cast columns (due_date, issued_at) which
+ * have no time component, so plain civil date strings are sent.
  *
  * Manual picker inputs (non-shortcut path) already arrive as YYYY-MM-DD strings
  * from the <input type="date"> element and pass through unchanged.
  */
 export function resolveDateRange(
   range: DateRange,
-  now: Date = new Date()
+  now?: string,
+  timeZone: string = getTenantTimeZone()
 ): { from: string | null; to: string | null } {
   if (range.shortcut) {
-    // Build local-date anchors using local year/month/day to avoid UTC shift.
-    const y = now.getFullYear()
-    const mo = now.getMonth()
-    const d = now.getDate()
-    const today = new Date(y, mo, d) // midnight local
-    switch (range.shortcut) {
-      case 'overdue': {
-        // All dates strictly before today — upper bound is yesterday.
-        const yesterday = new Date(y, mo, d - 1)
-        return { from: null, to: toLocalDateString(yesterday) }
-      }
-      case 'today':
-        return { from: toLocalDateString(today), to: toLocalDateString(today) }
-      case 'this_week': {
-        const dayOfWeek = today.getDay() // 0 = Sunday
-        const startOfWeek = new Date(y, mo, d - (dayOfWeek === 0 ? 6 : dayOfWeek - 1))
-        const endOfWeek = new Date(startOfWeek)
-        endOfWeek.setDate(startOfWeek.getDate() + 6)
-        return { from: toLocalDateString(startOfWeek), to: toLocalDateString(endOfWeek) }
-      }
-      case 'this_month': {
-        const startOfMonth = new Date(y, mo, 1)
-        const endOfMonth = new Date(y, mo + 1, 0) // last day of current month
-        return { from: toLocalDateString(startOfMonth), to: toLocalDateString(endOfMonth) }
-      }
-    }
+    return tenantDatePreset(range.shortcut, timeZone, now)
   }
   return { from: range.from, to: range.to }
 }

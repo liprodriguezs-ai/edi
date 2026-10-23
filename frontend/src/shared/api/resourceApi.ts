@@ -20,7 +20,11 @@ export interface ReportParams {
 type BaseCrudMethods<TRecord, TForm, TParams> = {
   readonly list: (_params: TParams) => Promise<PaginatedResponse<TRecord>>
   readonly search: (_params: TParams) => Promise<PaginatedResponse<TRecord>>
-  readonly show: (_id: string, _params?: Partial<TForm>) => Promise<TRecord>
+  // These are QUERY parameters, not form fields: `include` is how Orion eager-loads
+  // relations on a single record. Typing them as Partial<TForm> alone made detail
+  // screens unable to ask for their relations, so fields whose value lives on a
+  // relation rendered "—" while the list next to them resolved them fine.
+  readonly show: (_id: string, _params?: Partial<TForm> & { include?: string }) => Promise<TRecord>
   readonly create: (_payload: TForm | FormData) => Promise<TRecord>
   readonly update: (_id: string, _payload: TForm | FormData) => Promise<TRecord>
   readonly remove: (_id: string) => Promise<string>

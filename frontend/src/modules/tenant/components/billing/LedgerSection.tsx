@@ -2,6 +2,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
 import type { IBillingLedgerEntry } from '@/modules/tenant/billing/schema'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { Panel } from '@/shared/components/molecules/Panel'
 
 const METHOD_LABELS: Record<string, string> = {
   card: 'Tarjeta',
@@ -15,37 +17,29 @@ interface LedgerSectionProps {
 }
 
 /**
- * Historial de pagos registrados del organización (Stripe + manuales) con el total
+ * Historial de pagos registrados de la organización (Stripe + manuales) con el total
  * cobrado. Es de sólo lectura: refleja lo asentado en el ledger del backend.
  */
 export function LedgerSection({ ledger, ledgerTotal }: LedgerSectionProps) {
   const currency = ledger[0]?.currency ?? 'MXN'
 
   return (
-    <section aria-labelledby="billing-ledger-heading" className="rounded-xl border border-border bg-card p-5 sm:p-6">
-      <div className="flex flex-wrap items-end justify-between gap-2">
-        <div>
-          <h3 id="billing-ledger-heading" className="text-base font-semibold text-foreground">
-            Historial de pagos
-          </h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Todos los pagos asentados para este organización.
-          </p>
-        </div>
+    <Panel
+      title="Historial de pagos"
+      description="Todos los pagos asentados para esta organización."
+      actions={
         <div className="text-right">
           <p className="text-xs text-muted-foreground">Total cobrado</p>
-          <p className="text-lg font-semibold tabular-nums text-foreground">
+          <p className="text-lg font-semibold font-mono tabular-nums text-foreground">
             {formatPrice(ledgerTotal, currency)}
           </p>
         </div>
-      </div>
-
+      }
+    >
       {ledger.length === 0 ? (
-        <p className="mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          Aún no hay pagos registrados para este organización.
-        </p>
+        <InlineEmpty>Aún no hay pagos registrados para esta organización.</InlineEmpty>
       ) : (
-        <div className="mt-4 overflow-x-auto rounded-md border">
+        <div className="overflow-x-auto border">
           <Table>
             <TableHeader>
               <TableRow>
@@ -63,7 +57,7 @@ export function LedgerSection({ ledger, ledgerTotal }: LedgerSectionProps) {
                     {entry.paid_at ? displayFormatDate(entry.paid_at, 'mediumDate') : '—'}
                   </TableCell>
                   <TableCell>{METHOD_LABELS[entry.method] ?? entry.method}</TableCell>
-                  <TableCell className="text-right tabular-nums font-medium">
+                  <TableCell className="text-right font-mono tabular-nums font-medium">
                     {formatPrice(entry.amount, entry.currency)}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell whitespace-nowrap text-muted-foreground">
@@ -78,6 +72,6 @@ export function LedgerSection({ ledger, ledgerTotal }: LedgerSectionProps) {
           </Table>
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

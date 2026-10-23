@@ -31,6 +31,8 @@ export interface IAreaTrendChartProps {
   /** Accessible description for screen-readers */
   ariaLabel?: string
   height?: number
+  /** Axis/tooltip value formatter. Defaults to money (minor units) for backward compatibility — pass a plain formatter (e.g. `String`) for count-based data. */
+  valueFormatter?: (_value: number) => string
 }
 
 /** Reusable area trend chart for single time-series data in minor units. */
@@ -40,6 +42,7 @@ export function AreaTrendChart({
   color = 'var(--chart-1)',
   ariaLabel,
   height = 300,
+  valueFormatter = formatMinorUnits,
 }: IAreaTrendChartProps) {
   const resolvedConfig: ChartConfig = {
     value: { label: seriesLabel, color },
@@ -74,14 +77,14 @@ export function AreaTrendChart({
         <YAxis
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value: number) => formatMinorUnits(value)}
+          tickFormatter={(value: number) => valueFormatter(value)}
           tick={{ fontSize: 11 }}
           width={80}
         />
         <ChartTooltip
           content={
             <ChartTooltipContent
-              formatter={(value) => formatMinorUnits(value as number)}
+              formatter={(value) => valueFormatter(value as number)}
             />
           }
         />

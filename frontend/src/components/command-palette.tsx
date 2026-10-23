@@ -93,7 +93,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
-        className="top-[20%] max-w-lg translate-y-0 gap-0 p-0"
+        className="top-[20%] sm:max-w-lg translate-y-0 gap-0 p-0"
         aria-describedby={undefined}
         showCloseButton={false}
       >
@@ -112,7 +112,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-[var(--ink-4)]"
             aria-label="Buscar módulo o pantalla"
           />
-          <kbd className="rounded-[5px] border border-border px-1.5 py-0.5 text-[10.5px] text-[var(--ink-4)]">
+          <kbd className="rounded-none border border-border px-1.5 py-0.5 text-[10.5px] text-[var(--ink-4)]">
             esc
           </kbd>
         </div>
@@ -131,7 +131,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                   data-active={index === activeIndex}
                   onMouseEnter={() => setActiveIndex(index)}
                   onClick={() => goTo(entry)}
-                  className="flex w-full items-center gap-2.5 rounded-[9px] px-3 py-2.5 text-left text-[13.5px] text-[var(--ink-2)] transition-colors data-[active=true]:bg-[var(--surface-2)] data-[active=true]:text-foreground"
+                  className="flex w-full items-center gap-2.5 rounded-none px-3 py-2.5 text-left text-[13.5px] text-[var(--ink-2)] transition-colors data-[active=true]:bg-[var(--surface-2)] data-[active=true]:text-foreground"
                 >
                   {Icon ? <Icon className="size-4 flex-none text-[var(--ink-3)]" /> : null}
                   <span className="font-medium">{entry.title}</span>

@@ -42,7 +42,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <BrandWordmark tone='light' className='group-data-[collapsible=icon]:hidden' />
           <span
             aria-hidden
-            className='hidden size-8 flex-none place-items-center rounded-[10px] bg-white group-data-[collapsible=icon]:grid'
+            className='hidden size-8 flex-none place-items-center rounded-none bg-white group-data-[collapsible=icon]:grid'
           >
             <img src='/icons/edi-mark.svg' alt='' className='h-6 w-auto' />
           </span>
@@ -54,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton tooltip='Buscar módulo (⌘K)' onClick={handleOpenPalette}>
               <Search />
               <span>Buscar módulo…</span>
-              <kbd className='ml-auto rounded-[5px] border border-border px-1.5 py-px text-[10px] text-[var(--ink-4)] group-data-[collapsible=icon]:hidden'>
+              <kbd className='ml-auto rounded-none border border-border px-1.5 py-px text-[10px] text-[var(--ink-4)] group-data-[collapsible=icon]:hidden'>
                 ⌘K
               </kbd>
             </SidebarMenuButton>

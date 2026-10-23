@@ -42,7 +42,7 @@ export const HealthCenterListPage = () => (
       { name: 'is_active', label: 'Activo', type: 'switch', colSpan: 6 },
     ]}
     columns={[
-      { key: 'clues_code', label: 'CLUES', render: (c) => c.clues_code || '—' },
+      { key: 'clues_code', label: 'CLUES', className: 'font-mono', render: (c) => c.clues_code || '—' },
       { key: 'municipality', label: 'Municipio', render: (c) => c.municipality?.name ?? '—' },
       {
         key: 'is_active',

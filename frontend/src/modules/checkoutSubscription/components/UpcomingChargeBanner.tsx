@@ -35,7 +35,7 @@ export function UpcomingChargeBanner() {
   if (!shouldWarn || !subscription?.trial_ends_at) return null
 
   return (
-    <div className='mb-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-[10px] border border-border bg-card px-4 py-3 text-[13.5px]'>
+    <div className='mb-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-none border border-border bg-card px-4 py-3 text-[13.5px]'>
       <CreditCard className='h-4 w-4 shrink-0 text-[var(--ink-3)]' aria-hidden />
       <p className='min-w-0 text-foreground'>
         {daysLeft === 0
@@ -44,7 +44,7 @@ export function UpcomingChargeBanner() {
       </p>
       <Link
         to='/subscription'
-        className='ml-auto shrink-0 font-medium text-[var(--g)] underline-offset-4 hover:underline'
+        className='ml-auto shrink-0 font-medium text-primary underline-offset-4 hover:underline'
       >
         Ver mi suscripción
       </Link>

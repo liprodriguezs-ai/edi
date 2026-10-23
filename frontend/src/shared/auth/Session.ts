@@ -14,7 +14,9 @@ export interface SessionTenant {
   tenant_payment_type_id: string | null
   payment_type?: { id: string; name: string } | null
   currency?: string | null
-  /** URL firmada del logo del organización (se muestra en el selector del menú). */
+  /** Zona horaria IANA del tenant (ej. `America/Mexico_City`): los instantes se muestran en ella. */
+  timezone?: string | null
+  /** URL firmada del logo de la organización (se muestra en el selector del menú). */
   logo_url?: string | null
 }
 
@@ -40,7 +42,7 @@ export interface SubscriptionState {
   /** ISO timestamp de vencimiento de la suscripción activa. */
   expires_at?: string | null
   /**
-   * true cuando el organización tuvo alguna vez una entitlement de Stripe y su último
+   * true cuando la organización tuvo alguna vez una entitlement de Stripe y su último
    * cargo falló — distingue "tu tarjeta falló" (bloqueado, status='expired') de
    * "nunca elegiste un plan" (status='none') o "tu prueba venció sin contratar"
    * (status='expired', payment_issue=false). Ver SubscriptionStateService (D8).

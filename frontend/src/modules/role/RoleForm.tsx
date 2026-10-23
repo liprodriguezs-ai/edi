@@ -19,6 +19,7 @@ import { RequiredFieldsLegend } from '@/shared/components/RequiredFieldsLegend'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { FormFooter } from '@/shared/components/molecules/FormFooter'
 
 export const RoleForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormProps<IRole>) => {
   const defaultValues = useMemo<RoleFormValues>(() => {
@@ -118,7 +119,7 @@ export const RoleForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormPro
         </FieldSet>
 
         {!formId && (
-          <Field orientation="horizontal" className="justify-end border-t border-gray-200 pt-6">
+          <FormFooter>
             {onCancel && (
               <Button
                 type="button"
@@ -139,7 +140,7 @@ export const RoleForm = ({ mode, entity, onSuccess, onCancel, formId }: IFormPro
                   ? 'Actualizar'
                   : 'Crear'}
             </Button>
-          </Field>
+          </FormFooter>
         )}
       </FieldGroup>
     </form>

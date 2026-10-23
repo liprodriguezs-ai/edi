@@ -2,6 +2,8 @@ import { Button } from '@/components/ui/button'
 import type { INotificationUser } from '@/modules/notification/schema'
 import { NotificationResource } from '@/modules/notification/services/NotificationResource'
 import { PageHeader } from '@/shared/components/atoms/PageHeader'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { TableLoadingState } from '@/shared/components/molecules/TableLoadingState'
 import { toast } from '@/shared/hooks/useToast'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -45,9 +47,8 @@ export const NotificationListPage = () => {
         actions={
           <Button
             variant='outline'
-            className='rounded-full'
             onClick={() => markAll.mutate()}
-            disabled={markAll.isPending}
+            loading={markAll.isPending}
           >
             <CheckCheck className='size-4' />
             Marcar todas leídas
@@ -55,13 +56,11 @@ export const NotificationListPage = () => {
         }
       />
 
-      <div className='overflow-hidden rounded-[14px] border border-border bg-card shadow-sm'>
+      <div className='overflow-hidden rounded-none border border-border bg-card'>
         {isLoading ? (
-          <p className='px-4 py-10 text-center text-[13px] text-[var(--ink-3)]'>Cargando…</p>
+          <TableLoadingState className='border-0' />
         ) : items.length === 0 ? (
-          <p className='px-4 py-10 text-center text-[13px] text-[var(--ink-3)]'>
-            Sin notificaciones.
-          </p>
+          <InlineEmpty className='justify-center px-4 py-10'>Sin notificaciones.</InlineEmpty>
         ) : (
           items.map((item) => (
             <button

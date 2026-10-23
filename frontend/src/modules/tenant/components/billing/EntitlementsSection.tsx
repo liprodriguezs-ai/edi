@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -27,6 +26,10 @@ import { displayFormatDate } from '@/shared/utils/dateHelper'
 import type { UseMutationResult } from '@tanstack/react-query'
 import { AlertCircle, Clock, Gift, Sparkles, Undo2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { SectionLabel } from '@/shared/components/atoms/SectionLabel'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { Panel } from '@/shared/components/molecules/Panel'
 
 const SOURCE_LABELS: Record<string, string> = {
   super_admin_free: 'Cortesía gratuita',
@@ -85,7 +88,7 @@ interface EntitlementsSectionProps {
 }
 
 /**
- * Plan del organización (billing v2, "todo es base"). Ya no se venden módulos por
+ * Plan de la organización (billing v2, "todo es base"). Ya no se venden módulos por
  * separado, así que la lista por módulo colapsa a UNA tarjeta a nivel PLAN: qué plan
  * tiene contratado, de qué fuente (cortesía / Stripe / manual / prueba) y a qué
  * precio. Las acciones (activar gratis / activar prueba / revocar cortesía) se
@@ -121,7 +124,7 @@ export function EntitlementsSection({
     [availableModules]
   )
 
-  // Entitlement ACTIVO que representa el plan del organización (el más reciente).
+  // Entitlement ACTIVO que representa el plan de la organización (el más reciente).
   const activeEntitlement = useMemo(() => {
     if (!planModule) return null
     return (
@@ -186,24 +189,14 @@ export function EntitlementsSection({
   }
 
   return (
-    <section
-      aria-labelledby='billing-entitlements-heading'
-      className='rounded-xl border border-border bg-card p-5 sm:p-6'
+    <Panel
+      title='Plan de la organización'
+      description='Todas las funciones de la plataforma van incluidas en el plan. Activar gratis otorga acceso permanente sin costo; revocar lo retira.'
     >
-      <h3 id='billing-entitlements-heading' className='text-base font-semibold text-foreground'>
-        Plan del organización
-      </h3>
-      <p className='mt-1 text-sm text-muted-foreground'>
-        Todas las funciones de la plataforma van incluidas en el plan. Activar gratis otorga acceso
-        permanente sin costo; revocar lo retira.
-      </p>
-
       {/* Plan actual + selector de cambio de plan */}
-      <div className='mt-4 flex flex-col gap-3 rounded-lg border border-border bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between'>
+      <div className='flex flex-col gap-3 border border-border bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between'>
         <div className='min-w-0 space-y-0.5'>
-          <p className='text-xs font-medium uppercase tracking-wide text-muted-foreground'>
-            Plan actual
-          </p>
+          <SectionLabel>Plan actual</SectionLabel>
           <p className='text-sm font-medium text-foreground'>
             {plan ? plan.name : <span className='text-muted-foreground'>Sin plan asignado</span>}
           </p>
@@ -244,21 +237,14 @@ export function EntitlementsSection({
 
       {/* Estado del plan contratado (una sola tarjeta, ya no una lista por módulo) */}
       {planModule ? (
-        <div className='mt-4 flex flex-col gap-3 rounded-lg border border-border p-4 sm:flex-row sm:items-start sm:justify-between'>
+        <div className='mt-4 flex flex-col gap-3 border border-border p-4 sm:flex-row sm:items-start sm:justify-between'>
           <div className='min-w-0 space-y-1'>
             <div className='flex flex-wrap items-center gap-2'>
               <span className='text-sm font-medium text-foreground'>{planLabel}</span>
               {isActive ? (
-                <Badge
-                  variant='outline'
-                  className='border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-400'
-                >
-                  Activo
-                </Badge>
+                <StatusPill tone='b'>Activo</StatusPill>
               ) : (
-                <Badge variant='outline' className='text-muted-foreground'>
-                  No activo
-                </Badge>
+                <StatusPill tone='n'>No activo</StatusPill>
               )}
             </div>
             {activeEntitlement ? (
@@ -272,7 +258,7 @@ export function EntitlementsSection({
               </p>
             ) : (
               <p className='text-xs text-muted-foreground'>
-                El organización no tiene el plan activo todavía.
+                La organización no tiene el plan activo todavía.
               </p>
             )}
           </div>
@@ -318,15 +304,13 @@ export function EntitlementsSection({
           </div>
         </div>
       ) : (
-        <p className='mt-4 rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground'>
-          No hay ningún plan facturable configurado en el catálogo.
-        </p>
+        <InlineEmpty className='mt-4'>No hay ningún plan facturable configurado en el catálogo.</InlineEmpty>
       )}
 
       {actionError && (
         <p
           role='alert'
-          className='mt-4 flex items-start gap-2 rounded-lg bg-destructive/5 p-3 text-sm text-destructive'
+          className='mt-4 flex items-start gap-2 bg-destructive/5 p-3 text-sm text-destructive'
         >
           <AlertCircle className='mt-0.5 h-4 w-4 shrink-0' aria-hidden />
           <span>{actionError}</span>
@@ -351,12 +335,12 @@ export function EntitlementsSection({
         isOpen={revokeOpen}
         variant='default'
         title='Revocar cortesía'
-        description={`Vas a retirar el acceso gratuito al plan "${planLabel}". El organización dejará de tener acceso a la plataforma. ¿Deseas continuar?`}
+        description={`Vas a retirar el acceso gratuito al plan "${planLabel}". La organización dejará de tener acceso a la plataforma. ¿Deseas continuar?`}
         confirmLabel='Revocar'
         isLoading={revoke.isPending}
         onConfirm={handleConfirmRevoke}
         onCancel={() => setRevokeOpen(false)}
       />
-    </section>
+    </Panel>
   )
 }

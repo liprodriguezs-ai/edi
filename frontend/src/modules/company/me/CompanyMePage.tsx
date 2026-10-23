@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button'
 import { CompanyForm } from '@/modules/company/CompanyForm'
 import { useCompanyMe } from '@/modules/company/me/useCompanyMe'
+import { EntityNotFound } from '@/shared/components/EntityNotFound'
+import { PageHeader } from '@/shared/components/atoms/PageHeader'
 import { CrudMode } from '@/shared/enums/CrudMode'
 import { useRoles } from '@/shared/hooks/useRoles'
 import { toast } from '@/shared/hooks/useToast'
@@ -22,29 +23,25 @@ function CompanyMePageInner() {
 
   if ((error || isNotFound) && !company) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-12">
-        <p className="text-center text-muted-foreground">
-          {isNotFound
-            ? 'No se encontro la configuracion de tu empresa.'
-            : error}
-        </p>
-        <Button variant="outline" onClick={() => navigate('/')}>
-          Ir al inicio
-        </Button>
-      </div>
+      <EntityNotFound
+        variant={isNotFound ? 'notFound' : 'error'}
+        description={isNotFound ? 'No se encontró la configuración de tu empresa.' : (error ?? undefined)}
+        backTo='/'
+        backLabel='Ir al inicio'
+      />
     )
   }
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold tracking-tight">Mi empresa</h1>
-        <p className="mt-1 text-muted-foreground" id="company-me-description">
-          {canEdit
+      <PageHeader
+        title="Mi empresa"
+        description={
+          canEdit
             ? 'Configura los datos y la identidad de tu empresa.'
-            : 'Datos de tu empresa. Solo el titular o el administrador pueden modificarlos.'}
-        </p>
-      </header>
+            : 'Datos de tu empresa. Solo el titular o el administrador pueden modificarlos.'
+        }
+      />
 
       <Skeleton name="company-form" loading={isLoading && !company}>
         {company && (

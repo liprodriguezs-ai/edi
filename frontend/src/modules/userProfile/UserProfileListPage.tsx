@@ -7,7 +7,7 @@ import { displayFormatDate } from '@/shared/utils/dateHelper'
 
 export const UserProfileListPage = () => (
   <CatalogCrudModule<IUserProfile, UserProfileFormValues>
-    title="Perfiles de Residente"
+    title="Perfiles de Usuario"
     description="Datos personales por organización (RFC, CURP, contacto de emergencia)"
     newLabel="Nuevo perfil"
     editLabel="Editar perfil"
@@ -39,9 +39,14 @@ export const UserProfileListPage = () => (
       { name: 'notes', label: 'Notas', type: 'textarea' },
     ]}
     columns={[
-      { key: 'rfc', label: 'RFC' },
-      { key: 'curp', label: 'CURP' },
-      { key: 'birthdate', label: 'Nacimiento', render: (p) => (p.birthdate ? displayFormatDate(p.birthdate, 'mediumDate') : '—') },
+      { key: 'rfc', label: 'RFC', className: 'font-mono' },
+      { key: 'curp', label: 'CURP', className: 'font-mono' },
+      {
+        key: 'birthdate',
+        label: 'Nacimiento',
+        className: 'font-mono tabular-nums',
+        render: (p) => (p.birthdate ? displayFormatDate(p.birthdate, 'mediumDate') : '—'),
+      },
     ]}
     initialSearch={{
       sort: [{ field: 'created_at', direction: 'desc' }],

@@ -21,7 +21,7 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>
 
-const INPUT_CLASS = 'h-11 rounded-[9px] bg-card pl-[42px]'
+const INPUT_CLASS = 'h-11 rounded-none bg-card pl-[42px]'
 const LABEL_CLASS = 'text-xs font-semibold text-[var(--ink-2)]'
 
 export function LoginForm() {
@@ -50,12 +50,12 @@ export function LoginForm() {
     <AuthSplitLayout
       brand={
         <AuthBrandPanel
-          headline="La administración de tu organización, en orden."
-          subtext="Cobranza, tesorería y transparencia en un solo lugar. Bienvenido de vuelta."
-          quote="Dejé tres libretas y dos hojas de Excel. Hoy la asamblea ve el reporte y nadie pregunta a dónde se fue el dinero."
-          author="Alberto González"
-          authorMeta="Tesorero · Loma Chica"
-          authorInitials="AG"
+          headline="El tamiz EDI, resuelto en la consulta."
+          subtext="Aplicación, resultado y seguimiento del desarrollo infantil. Bienvenido de vuelta."
+          quote="Antes sumaba los reactivos a mano al final de la consulta. Ahora cierro el tamiz y el semáforo ya está, con la edad corregida aplicada."
+          author="Dra. Lorena Ramírez"
+          authorMeta="Pediatra · CS Xochimilco"
+          authorInitials="LR"
         />
       }
     >
@@ -64,7 +64,7 @@ export function LoginForm() {
       <h1 className="text-[27px] font-semibold tracking-[-0.02em] text-foreground">
         Inicia sesión
       </h1>
-      <p className="mt-1.5 text-sm text-[var(--ink-3)]">Entra a administrar tu organización.</p>
+      <p className="mt-1.5 text-sm text-[var(--ink-3)]">Entra a tamizar y dar seguimiento.</p>
 
       <form name="login" onSubmit={handleLoginSubmit} autoComplete="on" className="mt-7">
         <FieldGroup className="gap-4">
@@ -158,7 +158,7 @@ export function LoginForm() {
 
           <Button
             type="submit"
-            className="h-12 w-full rounded-full text-[15px] font-semibold"
+            className="h-12 w-full rounded-none text-[15px] font-semibold"
             disabled={loginForm.formState.isSubmitting}
           >
             {loginForm.formState.isSubmitting ? 'Entrando…' : 'Entrar al panel'}

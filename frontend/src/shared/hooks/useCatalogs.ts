@@ -28,6 +28,41 @@ export enum CatalogType {
   OCCUPATION = 'occupation',
   HEALTH_CENTER = 'health_center',
   PRACTITIONER_PROFILE = 'practitioner_profile',
+  // Screening application (edi-screening-ui, REQ-SCR-013 delta). Central
+  // catalogs — every member below has its AngularController::$mapperSelects
+  // pair added in the SAME commit (string-coupled via Str::studly).
+  SCREENING_STATUS = 'screening_status',
+  RESULT_COLOR = 'result_color',
+  CONFIRMATORY_TEST_RESULT = 'confirmatory_test_result',
+  // Stimulation (edi-stimulation-sessions). Every member below has its
+  // AngularController::$mapperSelects pair added in the SAME commit
+  // (string-coupled via Str::studly). No CHILD member (D12): child search
+  // for session/enrollment pickers goes through the child list endpoint.
+  STIMULATION_DYNAMIC = 'stimulation_dynamic',
+  BODY_ZONE = 'body_zone',
+  MASSAGE_MOVEMENT = 'massage_movement',
+  DIDACTIC_MATERIAL = 'didactic_material',
+  SONG = 'song',
+  STIMULATION_GROUP_TYPE = 'stimulation_group_type',
+  STIMULATION_AREA = 'stimulation_area',
+  ATTENDANCE_PAYMENT_STATUS = 'attendance_payment_status',
+  STIMULATION_GROUP = 'stimulation_group',
+  // FollowUp (edi-followup-and-referral). Every member below has its
+  // AngularController::$mapperSelects pair added in the SAME commit
+  // (string-coupled via Str::studly).
+  FOLLOW_UP_TYPE = 'follow_up_type',
+  FOLLOW_UP_STATUS = 'follow_up_status',
+  REFERRAL_SPECIALTY = 'referral_specialty',
+  // Reports (edi-reports-and-indicators). HEALTH_CENTER and RESULT_COLOR
+  // above already cover 2 of the 4 filter catalogs. Every member below has
+  // its AngularController::$mapperSelects pair added in the SAME commit
+  // (string-coupled via Str::studly).
+  SCREENING_SITUATION = 'screening_situation',
+  AGE_GROUP = 'age_group',
+  // Agenda (odd/tasks/edi-agenda.md). Pairs 1:1 with AngularController::$mapperSelects
+  // (string-coupled via Str::studly).
+  APPOINTMENT_TYPE = 'appointment_type',
+  APPOINTMENT_STATUS = 'appointment_status',
 }
 
 export interface CatalogParams {

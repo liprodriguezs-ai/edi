@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement } from 'react'
 import type { KeyboardEvent, ReactNode } from 'react'
 import { Table, TableBody } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
@@ -103,11 +104,26 @@ export function ResponsiveDataTable<T extends IEntity>({
   return (
     <>
       {/* Desktop: en el breakpoint y superior. Oculto en mobile/tablet via CSS sin JS ni flicker. */}
-      <div className={`${branch.table} overflow-hidden rounded-[14px] border border-border bg-card shadow-sm`}>
+      <div className={`${branch.table} overflow-hidden rounded-none border border-border bg-card shadow-sm`}>
         <Table>
           {header}
           <TableBody>
-            {rows.map((entity) => renderRow(entity))}
+            {/* onRowClick was only wired into the mobile card branch below, so on
+                desktop every list rendered rows that look clickable (they carry
+                cursor-pointer) and did nothing. Inject the handler here rather than
+                make every caller repeat it on its own TableRow, and supply the key
+                so a caller that omits one does not warn. */}
+            {rows.map((entity) => {
+              const row = renderRow(entity)
+              const key = getRowKey ? getRowKey(entity) : entity.id
+
+              if (!isValidElement<{ onClick?: () => void }>(row)) return row
+
+              return cloneElement(row, {
+                key,
+                onClick: onRowClick ? () => onRowClick(entity) : row.props.onClick,
+              })
+            })}
           </TableBody>
         </Table>
         {footer}
@@ -137,7 +153,7 @@ export function ResponsiveDataTable<T extends IEntity>({
             <li key={key}>
               <div
                 className={cn(
-                  'bg-card text-card-foreground rounded-xl border shadow-sm overflow-hidden',
+                  'bg-card text-card-foreground rounded-none border border-border overflow-hidden',
                   isClickable && 'cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring',
                 )}
                 role={isClickable ? 'button' : undefined}

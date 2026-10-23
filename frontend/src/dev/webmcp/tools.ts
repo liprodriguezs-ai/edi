@@ -1,7 +1,7 @@
 /**
  * Catálogo de tools WebMCP que EDI expone en desarrollo.
  *
- * Empezamos con tools READ-ONLY y seguras. Las tools que muten datos del organización
+ * Empezamos con tools READ-ONLY y seguras. Las tools que muten datos de la organización
  * se agregan después, con gating por rol, y SIEMPRE corren en el contexto de
  * sesión autenticada de la página (heredan Sanctum + tenant scope + permisos).
  */

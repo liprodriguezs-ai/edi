@@ -17,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Slider } from '@/components/ui/slider'
 import { Textarea } from '@/components/ui/textarea'
 import { companyFormSchema, type CompanyFormValues, type ICompany } from '@/modules/company/schema'
 import { CompanyResource } from '@/modules/company/services/CompanyResource'
@@ -30,6 +29,7 @@ import type { IFormProps } from '@/shared/interfaces/Entity'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useMemo } from 'react'
 import { type Resolver, Controller, useForm } from 'react-hook-form'
+import { FormFooter } from '@/shared/components/molecules/FormFooter'
 
 export interface CompanyFormProps extends IFormProps<ICompany> {
   readonly?: boolean
@@ -129,9 +129,9 @@ export const CompanyForm = ({
     >
       <FieldGroup>
         <RequiredFieldsLegend />
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
           {/* Columna izquierda */}
-          <div className="space-y-10">
+          <div className="space-y-6">
             <FieldSet>
               <FieldLegend>Información General</FieldLegend>
               <FieldDescription>Datos principales de la empresa</FieldDescription>
@@ -165,6 +165,7 @@ export const CompanyForm = ({
                   <FieldLabel htmlFor="company-rfc">RFC</FieldLabel>
                   <Input
                     id="company-rfc"
+                    className="font-mono"
                     placeholder="XAXX010101000"
                     {...register('rfc')}
                     disabled={isDisabled}
@@ -231,7 +232,7 @@ export const CompanyForm = ({
           </div>
 
           {/* Columna derecha */}
-          <div className="space-y-10">
+          <div className="space-y-6">
             <FieldSet>
               <FieldLegend>Acta Constitutiva</FieldLegend>
               <FieldDescription>Datos notariales para la generación de contratos</FieldDescription>
@@ -331,22 +332,25 @@ export const CompanyForm = ({
                 </Field>
 
                 <Field>
-                  <FieldLabel>Número de empleados</FieldLabel>
+                  <FieldLabel htmlFor="company-employee-count">Número de empleados</FieldLabel>
                   <Controller
                     name="employee_count"
                     control={control}
                     render={({ field }) => (
-                      <div className="space-y-2">
-                        <Slider
-                          min={1}
-                          max={500}
-                          step={1}
-                          value={[field.value ?? 50]}
-                          onValueChange={(val) => field.onChange(val[0])}
-                          disabled={isDisabled}
-                        />
-                        <FieldDescription>{field.value ?? 50} empleados</FieldDescription>
-                      </div>
+                      <Input
+                        id="company-employee-count"
+                        type="number"
+                        min={1}
+                        max={500}
+                        step={1}
+                        className="font-mono tabular-nums"
+                        value={field.value ?? ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.value === '' ? undefined : Number(e.target.value))
+                        }
+                        disabled={isDisabled}
+                        aria-readonly={readonly}
+                      />
                     )}
                   />
                 </Field>
@@ -356,7 +360,7 @@ export const CompanyForm = ({
         </div>
 
         {!formId && !readonly && (
-          <Field orientation="horizontal" className="justify-end border-t border-gray-200 pt-6">
+          <FormFooter>
             {onCancel && (
               <Button
                 type="button"
@@ -377,11 +381,11 @@ export const CompanyForm = ({
                   ? 'Actualizar'
                   : 'Crear'}
             </Button>
-          </Field>
+          </FormFooter>
         )}
 
         {!formId && readonly && onCancel && (
-          <Field orientation="horizontal" className="justify-end border-t border-gray-200 pt-6">
+          <FormFooter>
             <Button
               type="button"
               variant="outline"
@@ -390,7 +394,7 @@ export const CompanyForm = ({
             >
               Volver
             </Button>
-          </Field>
+          </FormFooter>
         )}
       </FieldGroup>
     </form>

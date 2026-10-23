@@ -3,80 +3,62 @@ import { cn } from '@/lib/utils'
 import { Inbox, Plus, Search } from 'lucide-react'
 
 interface TableEmptyStateProps {
-  title?: string;
-  description?: string;
-  actionLabel?: string;
-  onAction?: () => void;
-  className?: string;
-  icon?: 'plus' | 'search' | 'default';
+  title?: string
+  description?: string
+  actionLabel?: string
+  onAction?: () => void
+  className?: string
+  icon?: 'plus' | 'search' | 'default'
 }
 
+/**
+ * Estado vacío de listas en canto vivo: panel blanco con hairline, sin gradientes,
+ * glow, bordes punteados ni el color `energy` (fuera de la paleta). Ícono neutro,
+ * jerarquía por tipografía. El acento índigo solo aparece en la acción.
+ */
 export const TableEmptyState = ({
   title = 'No se encontraron resultados',
   description = 'Intenta ajustar tus filtros o agregar un nuevo registro para comenzar.',
   actionLabel,
   onAction,
   className,
-  icon = 'default'
+  icon = 'default',
 }: TableEmptyStateProps) => {
-  const iconClasses = 'h-10 w-10 text-energy/80 shrink-0';
+  const iconClasses = 'h-8 w-8 text-muted-foreground shrink-0'
 
   const renderIcon = () => {
     switch (icon) {
       case 'plus':
-        return <Plus className={iconClasses} />;
+        return <Plus className={iconClasses} strokeWidth={1.5} />
       case 'search':
-        return <Search className={iconClasses} />;
+        return <Search className={iconClasses} strokeWidth={1.5} />
       default:
-        return <Inbox className={iconClasses} strokeWidth={1.5} />;
+        return <Inbox className={iconClasses} strokeWidth={1.5} />
     }
-  };
+  }
 
-  const hasAction = Boolean(actionLabel && onAction);
+  const hasAction = Boolean(actionLabel && onAction)
 
   return (
     <div
       role="status"
       aria-live="polite"
       className={cn(
-        'flex flex-col items-center justify-center gap-6 rounded-xl border-2 border-dashed border-energy/20 bg-linear-to-br from-background via-card to-background px-8 py-14 sm:py-16 text-center relative overflow-hidden transition-colors duration-200',
+        'flex flex-col items-center justify-center gap-4 border border-border bg-card px-8 py-16 text-center',
         className
       )}
     >
-      <div className="absolute inset-0 bg-linear-to-br from-energy/5 via-transparent to-energy/5 opacity-50 pointer-events-none" aria-hidden />
-
-      <div className="relative z-10 flex flex-col items-center gap-5 max-w-sm">
-        <div
-          className={cn(
-            'flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-linear-to-br from-energy/20 to-energy/10 border border-energy/25 shadow-sm',
-            hasAction && 'ring-2 ring-energy/10 ring-offset-2 ring-offset-background'
-          )}
-        >
-          {renderIcon()}
-        </div>
-
-        <div className="space-y-2">
-          <h3 className="font-semibold text-lg sm:text-xl text-foreground tracking-tight">
-            {title}
-          </h3>
-          {description && (
-            <p className="text-muted-foreground text-sm sm:text-base max-w-md leading-relaxed">
-              {description}
-            </p>
-          )}
-        </div>
-
-        {hasAction && (
-          <Button
-            size="lg"
-            onClick={onAction}
-            className="mt-1 shadow-sm hover:shadow-md focus-visible:ring-2 focus-visible:ring-energy/40 transition-shadow duration-200"
-          >
-            <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0" aria-hidden />
-            {actionLabel}
-          </Button>
-        )}
+      {renderIcon()}
+      <div className="max-w-md space-y-1.5">
+        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+        {description && <p className="text-sm text-muted-foreground">{description}</p>}
       </div>
+      {hasAction && (
+        <Button onClick={onAction} className="mt-1">
+          <Plus className="mr-2 h-4 w-4 shrink-0" aria-hidden />
+          {actionLabel}
+        </Button>
+      )}
     </div>
-  );
-};
+  )
+}

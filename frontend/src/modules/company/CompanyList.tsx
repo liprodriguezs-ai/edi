@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { CompanyFormModal } from '@/modules/company/CompanyFormModal'
 import { CompanyTableRow } from '@/modules/company/components/CompanyTableRow'
@@ -20,6 +19,7 @@ import { useMultiplePermissions } from '@/shared/hooks/usePermissions'
 import { Plus } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 
 const COMPANY_PERMISSIONS = {
   canCreate: 'create.company',
@@ -138,19 +138,15 @@ export const CompanyList = () => {
                   renderCardTitle={(company) => company.name}
                   renderCardFields={(company) => [
                     { label: 'Razón social', value: company.legal_name ?? '—' },
-                    { label: 'RFC', value: company.rfc ?? '—' },
-                    { label: 'Dominio', value: company.domain },
+                    { label: 'RFC', value: <span className='font-mono'>{company.rfc ?? '—'}</span> },
+                    { label: 'Dominio', value: <span className='font-mono'>{company.domain}</span> },
                     { label: 'Industria', value: company.industry ?? '—' },
                     {
                       label: 'Estatus',
                       value: company.is_verified ? (
-                        <Badge variant='default' className='text-xs'>
-                          Verificada
-                        </Badge>
+                        <StatusPill tone='b'>Verificada</StatusPill>
                       ) : (
-                        <Badge variant='secondary' className='text-xs'>
-                          No verificada
-                        </Badge>
+                        <StatusPill tone='n'>No verificada</StatusPill>
                       ),
                     },
                   ]}

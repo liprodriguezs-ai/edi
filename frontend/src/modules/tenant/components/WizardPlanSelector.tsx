@@ -1,7 +1,10 @@
 import { cn } from '@/lib/utils'
+import { BILLING_INTERVAL_OPTIONS } from '@/modules/checkoutSubscription/components/billingIntervalOptions'
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
 import { useBillingQuoter } from '@/modules/checkoutSubscription/hooks/useBillingQuoter'
 import type { BillingInterval } from '@/modules/tenant/billing/schema'
+import { SegmentedControl } from '@/shared/components/molecules/SegmentedControl'
+import { SelectableCard } from '@/shared/components/molecules/SelectableCard'
 import { Skeleton } from 'boneyard-js/react'
 import { useEffect } from 'react'
 
@@ -63,13 +66,13 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
     return (
       <Skeleton name='wizard-plan' loading>
         <div
-          className='space-y-4 rounded-lg border bg-muted/20 p-4'
+          className='space-y-4'
           aria-busy='true'
           aria-label='Cargando catálogo'
         >
-          <div className='h-10 w-24 rounded bg-muted/40' />
-          <div className='h-2 w-full rounded bg-muted/40' />
-          <div className='h-11 w-full rounded-full bg-muted/30' />
+          <div className='h-10 w-24 rounded-none bg-muted/40' />
+          <div className='h-2 w-full rounded-none bg-muted/40' />
+          <div className='h-11 w-full rounded-none bg-muted/30' />
         </div>
       </Skeleton>
     )
@@ -79,7 +82,7 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
     return (
       <div
         role='alert'
-        className='rounded-lg border border-destructive/20 bg-destructive/5 p-4 text-sm text-destructive'
+        className='rounded-none border border-destructive/20 bg-destructive/5 p-4 text-sm text-destructive'
       >
         {catalogError}
       </div>
@@ -87,31 +90,27 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
   }
 
   return (
-    <div className='space-y-5 rounded-lg border bg-muted/20 p-4'>
+    <div className='space-y-5'>
       {/* Plan: único control. Cada tarjeta muestra su banda de unidades. */}
       <div>
         <p className='text-sm font-medium text-foreground'>Plan</p>
         <p className='mt-0.5 text-xs text-muted-foreground'>
-          Elige el plan según cuántas unidades tiene el organización.
+          Elige el plan según cuántas unidades tiene la organización.
         </p>
         <div className='mt-2 grid gap-2 sm:grid-cols-2'>
           {plans.map((plan) => {
             const isActive = selectedPlanKey === plan.key
             const band = bandLabel(plan.suggested_unit_min, plan.suggested_unit_max)
             return (
-              <button
+              <SelectableCard
                 key={plan.key}
-                type='button'
-                onClick={() => selectPlan(plan.key)}
-                aria-pressed={isActive}
-                className={cn(
-                  'rounded-lg border bg-background px-3 py-2.5 text-left transition-colors',
-                  isActive ? 'border-primary bg-primary/5' : 'hover:border-primary/40'
-                )}
+                selected={isActive}
+                onSelect={() => selectPlan(plan.key)}
+                className='px-3 py-2.5'
               >
                 <p className='text-sm font-semibold text-foreground'>{plan.name}</p>
                 {band && <p className='mt-0.5 text-xs text-muted-foreground'>{band}</p>}
-              </button>
+              </SelectableCard>
             )
           })}
         </div>
@@ -121,29 +120,19 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
       {!isContactSales && (
         <fieldset>
           <legend className='text-sm font-medium text-foreground'>Facturación</legend>
-          <div
-            role='group'
+          <SegmentedControl
+            value={billingInterval}
+            onValueChange={setBillingInterval}
+            options={BILLING_INTERVAL_OPTIONS}
             aria-label='Intervalo de facturación'
-            className='mt-2 flex gap-1 rounded-full border bg-background p-1'
-          >
-            <IntervalButton
-              active={billingInterval === 'month'}
-              onClick={() => setBillingInterval('month')}
-            >
-              Mensual
-            </IntervalButton>
-            <IntervalButton
-              active={billingInterval === 'year'}
-              onClick={() => setBillingInterval('year')}
-            >
-              Anual
-            </IntervalButton>
-          </div>
+            size='sm'
+            className='mt-2'
+          />
         </fieldset>
       )}
 
       {/* Precio en vivo / aviso de plan a medida */}
-      <div className='rounded-lg border bg-background p-3'>
+      <div className='rounded-none border bg-background p-3'>
         {isContactSales ? (
           <p className='text-sm text-muted-foreground'>
             El plan{' '}
@@ -158,7 +147,7 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
               <button
                 type='button'
                 onClick={retryQuote}
-                className='rounded-md border border-destructive/30 px-3 py-1 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/5'
+                className='rounded-none border border-destructive/30 px-3 py-1 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/5'
               >
                 Reintentar
               </button>
@@ -175,7 +164,10 @@ export function WizardPlanSelector({ showPrice, onChange }: WizardPlanSelectorPr
                 )}
               </span>
               <span
-                className={cn('text-2xl font-semibold tabular-nums', isQuoting && 'opacity-60')}
+                className={cn(
+                  'font-mono text-2xl font-semibold tabular-nums',
+                  isQuoting && 'opacity-60'
+                )}
               >
                 {formatPrice(total ?? 0, currency)}
               </span>
@@ -196,28 +188,4 @@ function bandLabel(min: number | null, max: number | null): string | null {
   if (min === null) return null
   if (max === null) return `Desde ${min} unidades`
   return `Ideal para ${min}–${max} unidades`
-}
-
-function IntervalButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean
-  onClick: () => void
-  children: React.ReactNode
-}) {
-  return (
-    <button
-      type='button'
-      onClick={onClick}
-      aria-pressed={active}
-      className={cn(
-        'flex-1 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors',
-        active ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
-      )}
-    >
-      {children}
-    </button>
-  )
 }

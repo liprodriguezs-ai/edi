@@ -1,49 +1,56 @@
-import { format, parseISO } from 'date-fns'
-import { es } from 'date-fns/locale'
+import {
+  formatDateOnly,
+  formatTenantInstant,
+  parseInstant,
+  resolveTenantTimeZone,
+  tenantCurrentMonth,
+  tenantToday,
+  toCivilDate,
+} from '@/shared/utils/tenantTime'
 
+/**
+ * Zona horaria IANA del tenant de la sesión. Estado de módulo escrito por
+ * `sessionStore` (login/refresh/restore/clear); la leen los helpers de este
+ * archivo para que las ~70 llamadas existentes no tengan que recibir la zona.
+ * null = sin tenant → se usa la zona del navegador.
+ */
+let tenantTimeZone: string | null = null
+
+export const setTenantTimeZone = (timeZone: string | null | undefined): void => {
+  tenantTimeZone = timeZone ?? null
+}
+
+/** Zona efectiva: la del tenant si es válida; si no, la del navegador. */
+export const getTenantTimeZone = (): string => resolveTenantTimeZone(tenantTimeZone)
+
+/**
+ * Formatea un valor de la API para mostrar.
+ *  - Fecha civil `YYYY-MM-DD` (o medianoche UTC en `mediumDate`): sin corrimiento.
+ *  - Instante (`...Z`, con offset o sin offset = UTC): en la zona del tenant.
+ */
 export const displayFormatDate = (
   dateStr: string | null | undefined,
   formatD: 'medium' | 'mediumDate' = 'medium'
-) => {
+): string => {
   if (!dateStr) {
     return ''
   }
 
   try {
-    // Parse ISO string which handles timezone correctly
-    let date = parseISO(dateStr)
-
-    // If parsing fails, try with Date constructor
-    if (isNaN(date.getTime())) {
-      date = new Date(dateStr)
+    const civil = toCivilDate(dateStr)
+    if (civil && (formatD === 'mediumDate' || civil === dateStr)) {
+      const rendered = formatDateOnly(civil)
+      return formatD === 'medium' ? `${rendered} 00:00` : rendered
     }
 
-    // Validate the date
-    if (isNaN(date.getTime())) {
+    if (!parseInstant(dateStr)) {
       return ''
     }
-
-    // For date-only formatting, adjust to local timezone to prevent day shift
-    // This ensures "2025-11-25T00:00:00.000Z" displays as Nov 25, not Nov 24
-    if (formatD === 'mediumDate') {
-      // Extract only the date parts (YYYY-MM-DD) and create a local date
-      // Handles both ISO format (with T) and simple date format
-      const dateMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/)
-      if (dateMatch && dateMatch[1]) {
-        const [year, month, day] = dateMatch[1].split('-').map(Number)
-        // Create date in local timezone to prevent UTC to local conversion issues
-        date = new Date(year, month - 1, day)
-      }
-    }
-
-    switch (formatD) {
-      case 'medium':
-        return format(date, 'MMM d, yyyy HH:mm', { locale: es })
-      case 'mediumDate':
-        return format(date, 'MMM d, yyyy', { locale: es })
-      default:
-        return format(date, 'MMM d, yyyy HH:mm', { locale: es })
-    }
+    return formatTenantInstant(
+      dateStr,
+      getTenantTimeZone(),
+      formatD === 'mediumDate' ? 'mediumDate' : 'medium'
+    )
   } catch (error) {
     console.error('Error formatting date:', dateStr, error)
     return ''
@@ -51,13 +58,14 @@ export const displayFormatDate = (
 }
 
 /**
- * Devuelve la fecha de HOY en formato yyyy-MM-dd usando el reloj LOCAL del
- * navegador (getFullYear/getMonth/getDate) — NUNCA `toISOString()`. Los
- * tenants de EDI corren en America/Mexico_City (UTC-6): `toISOString()`
- * serializa en UTC, así que a partir de ~18:00 hora local el día ya cambió a
- * "mañana" en UTC y el default de fecha queda un día adelantado.
+ * Devuelve la fecha de HOY (`yyyy-MM-dd`) en la zona horaria del TENANT — nunca
+ * `toISOString()` (UTC) ni el reloj del navegador: a partir de ~18:00 en
+ * America/Mexico_City el día UTC ya es "mañana".
  */
-export const todayLocalDateString = (): string => formatLocalDateString(new Date())
+export const todayLocalDateString = (): string => tenantToday(getTenantTimeZone())
+
+/** Mes actual (`yyyy-MM`) en la zona horaria del tenant. */
+export const currentTenantMonth = (): string => tenantCurrentMonth(getTenantTimeZone())
 
 /**
  * Serializa un `Date` a `yyyy-MM-dd` usando sus componentes LOCALES
@@ -90,16 +98,16 @@ export const formatTimeHHmm = (value: string | null | undefined): string => {
   return match ? match[1] : value
 }
 
-export const formatDateForInput = (dateStr?: string) => {
+/**
+ * Valor `yyyy-MM-dd` para un input de fecha. Una fecha civil (o medianoche UTC)
+ * se toma tal cual; un instante se convierte al día civil del tenant.
+ */
+export const formatDateForInput = (dateStr?: string | null): string => {
   if (!dateStr) return ''
-  try {
-    const dateMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/)
-    if (dateMatch?.[1]) {
-      return dateMatch[1]
-    }
-    return format(parseISO(dateStr), 'yyyy-MM-dd')
-  } catch (error) {
-    console.error('Error parsing date:', dateStr, error)
-    return ''
-  }
+  const civil = toCivilDate(dateStr)
+  if (civil) return civil
+  const instant = parseInstant(dateStr)
+  if (instant) return instant.toZonedDateTimeISO(getTenantTimeZone()).toPlainDate().toString()
+  // Último recurso (formato desconocido): conservar el prefijo yyyy-MM-dd si existe.
+  return /^(\d{4}-\d{2}-\d{2})/.exec(dateStr)?.[1] ?? ''
 }

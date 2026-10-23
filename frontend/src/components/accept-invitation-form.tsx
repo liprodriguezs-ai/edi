@@ -51,11 +51,11 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>
 
-/** Resumen de a qué unidad/organización se está uniendo la persona (solo invitación de residente). */
+/** Resumen de a qué centro se está uniendo la persona (solo invitación de personal). */
 function InvitationSummary({ info }: { info: VerifyInvitationTokenResponse }) {
   if (!info.organization_name && !info.unit_label) return null
   return (
-    <dl className="grid grid-cols-1 gap-1 rounded-[10px] border border-border bg-muted/40 px-4 py-3 text-sm">
+    <dl className="grid grid-cols-1 gap-1 rounded-none border border-border bg-muted/40 px-4 py-3 text-sm">
       {info.organization_name && (
         <div className="flex justify-between gap-3">
           <dt className="text-muted-foreground">Organización</dt>

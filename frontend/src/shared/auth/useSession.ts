@@ -49,7 +49,7 @@ export const useSession = () => {
       external_id: result.profile.user.id,
     }, registrationEventId)
     // StartTrial YA NO se dispara acá: el registro no otorga ningún trial local
-    // (el organización nace bloqueado). Dispararlo aquí contaba como "inicio de
+    // (la organización nace bloqueado). Dispararlo aquí contaba como "inicio de
     // prueba" a cualquiera que abandonara antes de pagar. Ahora se dispara en
     // SelectPlanPage/SuccessView, al confirmarse el checkout de Stripe que
     // efectivamente arrancó el trial.

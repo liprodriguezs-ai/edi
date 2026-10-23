@@ -6,7 +6,7 @@ interface CatalogPillProps {
 }
 
 /**
- * Pill para filas de catálogos tenant-scoped: usa el color que el organización
+ * Pill para filas de catálogos tenant-scoped: usa el color que la organización
  * configuró en la fila (nunca un mapeo por UUID — los ids varían por tenant).
  */
 export const CatalogPill = ({ name, color }: CatalogPillProps) => {
@@ -14,7 +14,7 @@ export const CatalogPill = ({ name, color }: CatalogPillProps) => {
 
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11.5px] font-semibold"
+      className="inline-flex items-center gap-1.5 rounded-none px-2.5 py-0.5 text-[11.5px] font-semibold"
       style={{ backgroundColor: `${pillColor}1A`, color: pillColor }}
     >
       <i aria-hidden className="size-1.5 rounded-full" style={{ backgroundColor: pillColor }} />

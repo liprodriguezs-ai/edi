@@ -47,7 +47,7 @@ declare global {
 
   interface Window {
     /** Marcador de auto-anuncio para que un agente detecte el provider de un vistazo. */
-    __KIVO_WEBMCP__?: {
+    __EDI_WEBMCP__?: {
       enabled: boolean
       brand: string
       version: string

@@ -36,14 +36,14 @@ export function AuthBrandPanel({
       <BrandWordmark size="lg" tone="light" className="relative z-10" />
 
       <div className="relative z-10 my-auto max-w-[30ch]">
-        <h2 className="font-brand text-[42px] font-medium leading-[1.1] tracking-[-0.01em]">
+        <h2 className="text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em]">
           {headline}
         </h2>
         <p className="mt-[18px] text-base leading-[1.6] text-[var(--nav-txt)]">{subtext}</p>
       </div>
 
       <figure className="relative z-10 border-t border-white/[0.12] pt-6">
-        <blockquote className="font-brand text-[19px] italic leading-[1.4] text-white">
+        <blockquote className="text-[17px] leading-[1.5] text-white">
           {quote}
         </blockquote>
         <figcaption className="mt-3 flex items-center gap-[11px]">

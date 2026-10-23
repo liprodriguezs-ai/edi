@@ -1,14 +1,8 @@
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { UserResource } from '@/modules/user/services/UserResource'
 import { ApiError, formatApiErrorMessage } from '@/shared/api/apiClient'
 import { useSession } from '@/shared/auth/useSession'
+import { Modal } from '@/shared/components/Modal'
 import { toast } from '@/shared/hooks/useToast'
 import { displayInitials } from '@/shared/utils/displayInitials'
 import { useMutation } from '@tanstack/react-query'
@@ -83,60 +77,64 @@ export function ProfilePhotoModal({ isOpen, onClose }: ProfilePhotoModalProps) {
   const currentUrl = preview ?? user?.profile_image_url ?? null
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className='max-w-sm' aria-describedby={undefined}>
-        <DialogHeader>
-          <DialogTitle>Foto de perfil</DialogTitle>
-        </DialogHeader>
-
-        <div className='flex flex-col items-center gap-4 py-2'>
-          <div className='grid size-28 place-items-center overflow-hidden rounded-full border border-border bg-[var(--green-bg)]'>
-            {currentUrl ? (
-              <img src={currentUrl} alt='Foto de perfil' className='size-full object-cover' />
-            ) : (
-              <span className='text-2xl font-semibold text-[var(--green)]'>
-                {displayInitials(user?.name ?? '')}
-              </span>
-            )}
-          </div>
-
-          <input
-            ref={fileRef}
-            type='file'
-            accept='image/*'
-            className='hidden'
-            onChange={onPick}
-            disabled={isLoading}
-          />
-          <Button
-            variant='outline'
-            className='rounded-full'
-            onClick={() => fileRef.current?.click()}
-            disabled={isLoading}
-          >
-            <Upload className='size-4' />
-            Elegir imagen
-          </Button>
-          {file && <p className='text-[12.5px] text-[var(--ink-3)]'>{file.name}</p>}
-        </div>
-
-        <DialogFooter className='gap-2'>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title='Foto de perfil'
+      size='sm'
+      footer={
+        <>
           {user?.profile_image_url && (
             <Button
               variant='outline'
               className='text-destructive hover:text-destructive'
               onClick={() => deleteMutation.mutate()}
               disabled={isLoading}
+              loading={deleteMutation.isPending}
             >
-              <Trash2 className='size-4' />
+              {!deleteMutation.isPending && <Trash2 className='size-4' />}
               Eliminar
             </Button>
           )}
-          <Button onClick={() => uploadMutation.mutate()} disabled={!file || isLoading}>
+          <Button
+            onClick={() => uploadMutation.mutate()}
+            disabled={!file || isLoading}
+            loading={uploadMutation.isPending}
+          >
             {uploadMutation.isPending ? 'Guardando…' : 'Guardar'}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </>
+      }
+    >
+      <div className='flex flex-col items-center gap-4 py-2'>
+        <div className='grid size-28 place-items-center overflow-hidden rounded-full border border-border bg-[var(--green-bg)]'>
+          {currentUrl ? (
+            <img src={currentUrl} alt='Foto de perfil' className='size-full object-cover' />
+          ) : (
+            <span className='text-2xl font-semibold text-[var(--green)]'>
+              {displayInitials(user?.name ?? '')}
+            </span>
+          )}
+        </div>
+
+        <input
+          ref={fileRef}
+          type='file'
+          accept='image/*'
+          className='hidden'
+          onChange={onPick}
+          disabled={isLoading}
+        />
+        <Button
+          variant='outline'
+          onClick={() => fileRef.current?.click()}
+          disabled={isLoading}
+        >
+          <Upload className='size-4' />
+          Elegir imagen
+        </Button>
+        {file && <p className='text-[12.5px] text-[var(--ink-3)]'>{file.name}</p>}
+      </div>
+    </Modal>
   )
 }

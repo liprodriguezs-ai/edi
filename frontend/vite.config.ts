@@ -48,14 +48,14 @@ export default defineConfig(({ mode }) => {
         'icons/apple-touch-icon.png',
       ],
       manifest: {
-        name: 'EDI',
-        short_name: 'EDI',
-        description: 'La administración de tu organización, en orden.',
+        name: 'Prueba EDI Digital',
+        short_name: 'Prueba EDI',
+        description: 'Evaluación del desarrollo infantil',
         lang: 'es',
         display: 'standalone',
         start_url: '/',
         scope: '/',
-        theme_color: '#166534',
+        theme_color: '#078e88',
         background_color: '#ffffff',
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
@@ -123,7 +123,7 @@ export default defineConfig(({ mode }) => {
       host: true,
       // 5190, NO 5189: el bloque de puertos de este proyecto es la familia "90"
       // (APP_PORT=8090, VITE_PORT=5290, FORWARD_DB_PORT=5450). El 5189 pertenece
-      // a kivo7/residia y estaba acá sólo porque este vite.config se copió de ese
+      // a otro proyecto y estaba acá sólo porque este vite.config se copió de ese
       // repo sin actualizarle los puertos — con ambos proyectos arriba, el que
       // arrancaba segundo se quedaba sin su puerto.
       port: 5190,
@@ -136,7 +136,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': {
           // 8090 = APP_PORT de ESTE proyecto. Antes apuntaba a 8089, que es la API
-          // de kivo7 — otro residuo de la misma copia.
+          // de otro proyecto — otro residuo de la misma copia.
           target: 'http://127.0.0.1:8090',
           changeOrigin: true,
         },

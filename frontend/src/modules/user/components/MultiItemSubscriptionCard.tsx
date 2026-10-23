@@ -30,7 +30,7 @@ interface MultiItemSubscriptionCardProps {
 }
 
 /**
- * Vista de la suscripción del organización: el PLAN contratado con su precio recurrente,
+ * Vista de la suscripción de la organización: el PLAN contratado con su precio recurrente,
  * estado, fechas del ciclo y acciones de ciclo de vida (portal / cancelar /
  * reactivar). Ya no hay desglose por módulo: todo va incluido en el plan.
  */
@@ -71,7 +71,7 @@ export function MultiItemSubscriptionCard({
             </p>
           </div>
           <div className='text-right'>
-            <p className='text-3xl font-bold tracking-tight'>{formatPrice(total, currency)}</p>
+            <p className='font-mono text-3xl font-bold tracking-tight tabular-nums'>{formatPrice(total, currency)}</p>
             <p className='text-sm text-muted-foreground'>{intervalSuffix(interval)}</p>
           </div>
         </div>

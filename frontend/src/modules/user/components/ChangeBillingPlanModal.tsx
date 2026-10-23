@@ -19,13 +19,16 @@ import type { IPreferentialSwapPreview } from '@/modules/tenant/billing/schema'
 import { PlanPicker } from '@/modules/user/components/PlanPicker'
 import { useSubscriptionChange } from '@/modules/user/hooks/useSubscriptionChange'
 import { Modal } from '@/shared/components/Modal'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
-import { AlertCircle, Loader2, Mail, MessageCircle } from 'lucide-react'
+import { unixSecondsToInstant } from '@/shared/utils/tenantTime'
+import { AlertCircle, Mail, MessageCircle } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 interface ChangeBillingPlanModalProps {
   isOpen: boolean
-  /** Clave del plan actual del organización: se excluye del selector de destino. */
+  /** Clave del plan actual de la organización: se excluye del selector de destino. */
   currentPlanKey: string
   /**
    * Intervalo contratado. Los precios se muestran EN ESTE intervalo: cambiar de
@@ -33,7 +36,7 @@ interface ChangeBillingPlanModalProps {
    * en mensual a alguien que paga anual sería mostrarle un número que no va a pagar.
    */
   currentInterval: BillingInterval
-  /** Unidades activas del organización: es lo que decide qué banda le toca. */
+  /** Unidades activas de la organización: es lo que decide qué banda le toca. */
   unitCount: number
   onClose: () => void
   /** Refresca la pantalla tras aplicar el cambio con éxito. */
@@ -138,7 +141,7 @@ export function ChangeBillingPlanModal({
   const contactWhatsapp = contactWhatsappHref(catalog)
   const currency = catalog?.currency ?? 'MXN'
   const isManual = preview?.manual === true
-  // plan-downgrade-guard: presente cuando las unidades activas del organización no caben
+  // plan-downgrade-guard: presente cuando las unidades activas de la organización no caben
   // en el plan destino. El apply-422 ya cubre el caso (el hook muestra el mensaje del
   // backend), este panel sólo lo anticipa antes de confirmar y bloquea el botón.
   const unitLimitWarning = preview?.unit_limit_warning
@@ -162,23 +165,11 @@ export function ChangeBillingPlanModal({
           </Button>
           <Button
             onClick={() => void handleConfirm()}
-            disabled={
-              !selectedPlanKey ||
-              !preview ||
-              isLoadingPreview ||
-              isApplying ||
-              Boolean(unitLimitWarning)
-            }
+            loading={isApplying}
+            disabled={!selectedPlanKey || !preview || isLoadingPreview || Boolean(unitLimitWarning)}
             className='min-w-[130px]'
           >
-            {isApplying ? (
-              <>
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                Cambiando...
-              </>
-            ) : (
-              'Confirmar cambio'
-            )}
+            {isApplying ? 'Cambiando...' : 'Confirmar cambio'}
           </Button>
         </>
       }
@@ -186,18 +177,13 @@ export function ChangeBillingPlanModal({
       <div className='space-y-5 py-2'>
         {/* ── Selector de plan destino ── */}
         {isLoadingCatalog ? (
-          <div className='flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground'>
-            <Loader2 className='h-4 w-4 animate-spin' aria-hidden />
-            Cargando planes...
-          </div>
+          <InlineLoading name='change-plan-catalog' />
         ) : catalogError ? (
-          <p className='rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive'>
+          <p className='border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive'>
             {catalogError}
           </p>
         ) : availablePlans.length === 0 ? (
-          <p className='rounded-lg border bg-muted/40 p-4 text-sm text-muted-foreground'>
-            No hay otros planes disponibles en este momento.
-          </p>
+          <InlineEmpty>No hay otros planes disponibles en este momento.</InlineEmpty>
         ) : (
           <PlanPicker
             currentPlan={currentPlan}
@@ -216,7 +202,7 @@ export function ChangeBillingPlanModal({
             precio de lista), así que se ofrece el mismo camino de contacto que
             /select-plan en vez de un combo que siempre falla. */}
         {!isLoadingCatalog && !catalogError && contactSalesPlan && (
-          <div className='rounded-lg border border-border bg-muted/30 p-4'>
+          <div className='border border-border bg-muted/30 p-4'>
             <p className='text-sm font-medium text-foreground'>
               ¿Tu organización creció más de lo que cubren estos planes?
             </p>
@@ -254,14 +240,11 @@ export function ChangeBillingPlanModal({
         {selectedPlanKey && (
           <>
             {isLoadingPreview && (
-              <div className='flex items-center justify-center gap-2 rounded-lg border bg-muted/40 p-6 text-sm text-muted-foreground'>
-                <Loader2 className='h-4 w-4 animate-spin' aria-hidden />
-                Calculando el cambio...
-              </div>
+              <InlineLoading name='change-plan-preview' />
             )}
 
             {!isLoadingPreview && previewError && (
-              <div className='space-y-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4'>
+              <div className='space-y-3 border border-destructive/30 bg-destructive/5 p-4'>
                 <div className='flex items-start gap-3 text-destructive'>
                   <AlertCircle className='mt-0.5 h-5 w-5 shrink-0' aria-hidden />
                   <p className='text-sm font-medium'>{previewError}</p>
@@ -278,7 +261,7 @@ export function ChangeBillingPlanModal({
 
             {/* Preview pago manual */}
             {!isLoadingPreview && !previewError && preview && isManual && (
-              <div className='space-y-2 rounded-lg border border-border bg-muted/30 p-4 text-sm'>
+              <div className='space-y-2 border border-border bg-muted/30 p-4 text-sm'>
                 <p className='text-foreground'>
                   {preview.message ?? 'El nuevo precio aplica en el próximo ciclo.'}
                 </p>
@@ -291,15 +274,15 @@ export function ChangeBillingPlanModal({
                   </p>
                 )}
                 <p className='text-xs text-muted-foreground'>
-                  Como el organización paga de forma manual, no se cobra nada ahora: el ajuste se refleja
-                  en el siguiente pago.
+                  Como la organización paga de forma manual, no se cobra nada ahora: el ajuste se
+                  refleja en el siguiente pago.
                 </p>
               </div>
             )}
 
             {/* Preview pago con tarjeta (desglose de líneas de Stripe) */}
             {!isLoadingPreview && !previewError && preview && !isManual && (
-              <div className='space-y-3 rounded-lg border border-border bg-muted/30 p-4 text-sm'>
+              <div className='space-y-3 border border-border bg-muted/30 p-4 text-sm'>
                 <ul className='space-y-2'>
                   {(preview.lines ?? []).map((line, index) => (
                     <li key={index} className='flex items-baseline justify-between gap-3'>
@@ -319,11 +302,7 @@ export function ChangeBillingPlanModal({
                 {typeof preview.proration_date === 'number' && (
                   <p className='text-xs text-muted-foreground'>
                     Prorrateo calculado al{' '}
-                    {displayFormatDate(
-                      new Date(preview.proration_date * 1000).toISOString(),
-                      'mediumDate'
-                    )}
-                    .
+                    {displayFormatDate(unixSecondsToInstant(preview.proration_date), 'mediumDate')}.
                   </p>
                 )}
               </div>
@@ -331,7 +310,7 @@ export function ChangeBillingPlanModal({
 
             {/* Aviso de plan-downgrade-guard: el plan destino no admite las unidades activas actuales */}
             {!isLoadingPreview && !previewError && unitLimitWarning && (
-              <div className='flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900'>
+              <div className='flex items-start gap-3 border border-border bg-secondary p-4 text-sm text-foreground'>
                 <AlertCircle className='mt-0.5 h-5 w-5 shrink-0' aria-hidden />
                 <p className='font-medium'>{unitLimitWarning.message}</p>
               </div>

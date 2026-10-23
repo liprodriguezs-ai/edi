@@ -11,7 +11,7 @@ import { CatalogType } from '@/shared/hooks/useCatalogs'
 export const PractitionerListPage = () => (
   <CatalogCrudModule<IPractitionerProfile, PractitionerFormValues>
     title="Profesionales de Salud"
-    description="Personal que aplica tamizajes y consultas en tu organización"
+    description="Personal que aplica Pruebas EDI y consultas en tu organización"
     newLabel="Nuevo profesional"
     editLabel="Editar profesional"
     searchPlaceholder="Buscar por cédula o especialidad…"
@@ -40,7 +40,7 @@ export const PractitionerListPage = () => (
       },
     ]}
     columns={[
-      { key: 'license_number', label: 'Cédula' },
+      { key: 'license_number', label: 'Cédula', className: 'font-mono' },
       { key: 'specialty', label: 'Especialidad' },
       { key: 'health_center', label: 'Centro de salud', render: (p) => p.health_center?.name ?? '—' },
     ]}

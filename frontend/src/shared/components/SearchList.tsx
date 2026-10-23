@@ -80,6 +80,12 @@ export const SearchList = ({
     dispatchSearch()
   }, [dispatchSearch])
 
+  /** Limpia SOLO el texto de búsqueda (conserva filtros). Es la X dentro del input. */
+  const clearSearch = useCallback(() => {
+    reset({ search: '' })
+    onSearch({ ...paramsSearch, search: null })
+  }, [reset, onSearch, paramsSearch])
+
   const handleReset = useCallback(() => {
     // Reset form
     reset({ search: '' })
@@ -169,13 +175,23 @@ export const SearchList = ({
                 <>
                   <div className='flex flex-wrap items-center gap-2'>
                     <div className='relative min-w-0 flex-1 basis-[min(100%,12rem)] max-w-xl'>
-                      <Search className='pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[var(--ink-4)]' />
+                      <Search className='pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
                       <Input
                         {...register('search')}
                         placeholder={placeholder}
                         onKeyDown={handleKeyDown}
-                        className='h-9 rounded-full border-border bg-card pl-10 pr-4'
+                        className='h-9 rounded-none border-border bg-card pl-10 pr-9'
                       />
+                      {searchValue && (
+                        <button
+                          type='button'
+                          onClick={clearSearch}
+                          aria-label='Limpiar búsqueda'
+                          className='absolute right-1.5 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center text-muted-foreground transition-colors hover:text-foreground'
+                        >
+                          <X className='size-4' />
+                        </button>
+                      )}
                     </div>
 
                     {(children || fieldsetChildren) && (
@@ -196,30 +212,30 @@ export const SearchList = ({
                             ? (toggleLabels?.collapse ?? 'Ocultar filtros')
                             : (toggleLabels?.expand ?? 'Mostrar filtros')
                         }
-                        className='size-9 rounded-full'
+                        className='size-9 rounded-none'
                       >
                         <SlidersHorizontal className='h-4 w-4' />
                       </Button>
                     )}
 
-                    {searchAction && (
-                      <>
-                        <Button
-                          type='button'
-                          variant='outline'
-                          size='icon'
-                          onClick={handleReset}
-                          aria-label='Limpiar búsqueda'
-                          className='size-9 rounded-full'
-                        >
-                          <X className='h-4 w-4' />
-                        </Button>
+                    {/* Reset COMPLETO (búsqueda + filtros) solo cuando hay filtros;
+                        en listas simples la X del input basta. */}
+                    {searchAction && (children || fieldsetChildren) && (
+                      <Button
+                        type='button'
+                        variant='outline'
+                        onClick={handleReset}
+                        className='h-9 rounded-none px-4'
+                      >
+                        Limpiar
+                      </Button>
+                    )}
 
-                        <Button type='submit' className='h-9 gap-2 px-4'>
-                          <Search className='h-4 w-4' />
-                          <span className='hidden md:block'>Buscar</span>
-                        </Button>
-                      </>
+                    {searchAction && (
+                      <Button type='submit' className='h-9 gap-2 px-4'>
+                        <Search className='h-4 w-4' />
+                        <span className='hidden md:block'>Buscar</span>
+                      </Button>
                     )}
                   </div>
                 </>

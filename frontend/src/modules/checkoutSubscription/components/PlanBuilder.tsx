@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { BILLING_INTERVAL_OPTIONS } from '@/modules/checkoutSubscription/components/billingIntervalOptions'
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
+import { IncludedFeatures } from '@/modules/checkoutSubscription/components/IncludedFeatures'
 import { useBillingQuoter } from '@/modules/checkoutSubscription/hooks/useBillingQuoter'
 import {
   planBandLabel,
@@ -8,10 +10,33 @@ import {
   planForUnitCount,
   planPriceFor,
 } from '@/modules/checkoutSubscription/planSelection'
-import type { IBillingPlan, IPlanQuote } from '@/modules/checkoutSubscription/schema'
+import type { BillingInterval, IBillingPlan, IPlanQuote } from '@/modules/checkoutSubscription/schema'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
+import { Panel } from '@/shared/components/molecules/Panel'
+import { SegmentedControl } from '@/shared/components/molecules/SegmentedControl'
+import type { SegmentedOption } from '@/shared/components/molecules/SegmentedControl'
+import { SelectableCard } from '@/shared/components/molecules/SelectableCard'
 import { Skeleton } from 'boneyard-js/react'
-import { AlertCircle, Check, ChevronDown, Loader2, Mail, MessageCircle, X } from 'lucide-react'
+import { AlertCircle, Check, Mail, MessageCircle, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+
+/** Monthly / yearly, with the yearly discount announced on the option itself. */
+const INTERVAL_OPTIONS: ReadonlyArray<SegmentedOption<BillingInterval>> = BILLING_INTERVAL_OPTIONS.map(
+  (option) =>
+    option.value === 'year'
+      ? {
+          ...option,
+          label: (
+            <>
+              {option.label}
+              <span className='ml-1.5 inline-flex'>
+                <StatusPill tone='b'>−5%</StatusPill>
+              </span>
+            </>
+          ),
+        }
+      : option
+)
 
 /**
  * Atajo: el cliente escribe cuántas casas administra y se le marca la banda que le
@@ -43,7 +68,7 @@ function UnitCountShortcut({
   const alreadyOnMatch = match ? match.key === selectedPlanKey : false
 
   return (
-    <div className='rounded-[10px] border border-border bg-muted/30 p-4'>
+    <div>
       <label htmlFor='unit-count' className='text-[13px] font-semibold text-foreground'>
         ¿Cuántas casas o departamentos administras?
       </label>
@@ -59,13 +84,13 @@ function UnitCountShortcut({
           value={raw}
           onChange={(e) => setRaw(e.target.value)}
           placeholder='Ej. 80'
-          className='h-10 w-32 rounded-[8px] border border-border bg-background px-3 text-sm tabular-nums outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30'
+          className='h-10 w-32 rounded-none border border-border bg-background px-3 text-sm tabular-nums outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30'
         />
         {match && !alreadyOnMatch && (
           <Button
             type='button'
             variant='outline'
-            className='h-10 rounded-full'
+            className='h-10 rounded-none'
             onClick={() => onPick(match.key)}
           >
             Usar {match.name}
@@ -76,7 +101,7 @@ function UnitCountShortcut({
         <p className='mt-2.5 text-[12.5px] text-foreground'>
           {alreadyOnMatch ? (
             <>
-              <Check className='mr-1 inline h-3.5 w-3.5 text-[var(--g)]' aria-hidden />
+              <Check className='mr-1 inline h-3.5 w-3.5 text-primary' aria-hidden />
               Con {units} unidades te toca el plan <strong>{match.name}</strong>, que es el que
               tienes elegido.
             </>
@@ -112,7 +137,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
   const q = useBillingQuoter()
   const preselectedRef = useRef(false)
 
-  // Preselecciona el plan VIGENTE del organización cuando el dueño entra a cambiarlo.
+  // Preselecciona el plan VIGENTE de la organización cuando el dueño entra a cambiarlo.
   // Se aplica una sola vez y sólo si el plan existe en el catálogo: después de eso
   // manda el usuario, y volver a forzarlo le arrebataría la selección mientras
   // compara opciones.
@@ -133,7 +158,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
     return (
       <div
         role='alert'
-        className='mx-auto max-w-md rounded-lg border border-destructive/20 bg-destructive/5 p-6 text-center text-sm text-destructive'
+        className='mx-auto max-w-md rounded-none border border-destructive/20 bg-destructive/5 p-6 text-center text-sm text-destructive'
       >
         {q.catalogError}
       </div>
@@ -147,7 +172,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
   return (
     <div className='grid gap-6 lg:grid-cols-[1.1fr_0.9fr]'>
       {/* Columna de controles */}
-      <div className='rounded-xl border border-border bg-card p-6 sm:p-7'>
+      <Panel as='div' className='p-6 sm:p-7'>
         {/* Atajo por número de unidades. El precio va por bandas (1–25, 26–50…),
             así que sin esto el cliente tiene que saber su número Y mapearlo a una
             banda a ojo — y como viene preseleccionado el plan más chico, quien
@@ -156,7 +181,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
         <UnitCountShortcut plans={q.plans} onPick={q.selectPlan} selectedPlanKey={q.selectedPlanKey} />
 
         {/* Planes: cada tarjeta muestra su banda de unidades. */}
-        <div className='mt-7'>
+        <div className='mt-6 border-t border-border pt-6'>
           <p className='text-[13px] font-semibold text-foreground'>Elige tu plan</p>
           <p className='mt-1 text-[12.5px] text-muted-foreground'>
             Si tienes más unidades de las que cubre el plan más grande, elige "A medida" y te armamos
@@ -177,32 +202,18 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
 
         {/* Intervalo: sin precio de lista el intervalo no aplica */}
         {!q.isContactSales && (
-          <fieldset className='mt-7'>
+          <fieldset className='mt-6 border-t border-border pt-6'>
             <legend className='text-[13px] font-semibold text-foreground'>Facturación</legend>
-            <div
-              role='group'
+            {/* El 5% de descuento anual existía pero no se veía en ningún lado: había que
+                cambiar el interruptor para descubrirlo. Anunciarlo aquí es lo que hace que
+                alguien lo considere. */}
+            <SegmentedControl
+              value={q.billingInterval}
+              onValueChange={q.setBillingInterval}
+              options={INTERVAL_OPTIONS}
               aria-label='Intervalo de facturación'
-              className='mt-2 flex w-full gap-1 rounded-full border border-border bg-muted/40 p-1.5'
-            >
-              <IntervalButton
-                active={q.billingInterval === 'month'}
-                onClick={() => q.setBillingInterval('month')}
-              >
-                Mensual
-              </IntervalButton>
-              <IntervalButton
-                active={q.billingInterval === 'year'}
-                onClick={() => q.setBillingInterval('year')}
-              >
-                {/* El 5% de descuento anual existía pero no se veía en ningún lado:
-                    había que cambiar el interruptor para descubrirlo. Anunciarlo aquí
-                    es lo que hace que alguien lo considere. */}
-                Anual
-                <span className='ml-1.5 rounded-full bg-[var(--g)]/12 px-1.5 py-0.5 text-[10.5px] font-semibold text-[var(--g)]'>
-                  −5%
-                </span>
-              </IntervalButton>
-            </div>
+              className='mt-2'
+            />
             <p className='mt-2 text-[12px] text-muted-foreground'>
               El pago anual tiene 5% de descuento sobre el precio de lista.
             </p>
@@ -210,12 +221,18 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
         )}
 
         {/* Todo lo que incluye el plan (sin estado on/off, sin precio por módulo) */}
-        <IncludedFeatures features={includedFeatures} />
-      </div>
+        <IncludedFeatures
+          features={includedFeatures}
+          title='Todo lo que incluye'
+          description='Todas las funciones vienen dentro del plan. No hay módulos que contratar aparte.'
+          listId='plan-included-features'
+          className='mt-6 border-t border-border pt-6'
+        />
+      </Panel>
 
       {/* Columna derecha: cotización o card de contacto. Sticky en desktop para que no
           se pierda con el scroll de la columna izquierda. */}
-      <div className='flex flex-col rounded-xl border border-border bg-foreground p-6 text-background sm:p-7 lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto'>
+      <div className='flex flex-col rounded-none border border-border bg-foreground p-6 text-background sm:p-7 lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto'>
         {q.isContactSales ? (
           <ContactSalesCard
             planName={q.selectedPlan?.name ?? 'A medida'}
@@ -230,7 +247,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
 
             {q.quoteError ? (
               <div className='mt-5'>
-                <p role='alert' className='text-sm text-red-300'>
+                <p role='alert' className='text-sm text-destructive'>
                   No pudimos calcular el precio ahora mismo.
                 </p>
                 <button
@@ -257,7 +274,7 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
               {q.checkoutError && (
                 <div
                   role='alert'
-                  className='mb-4 flex items-start gap-2 rounded-lg bg-background/10 p-3 text-[13px] text-background'
+                  className='mb-4 flex items-start gap-2 rounded-none bg-background/10 p-3 text-[13px] text-background'
                 >
                   <AlertCircle className='mt-0.5 h-4 w-4 shrink-0' />
                   <span className='flex-1'>{q.checkoutError}</span>
@@ -275,20 +292,17 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
               <Button
                 type='button'
                 onClick={() => void q.checkout()}
+                loading={q.isCheckingOut}
                 disabled={
-                  q.isCheckingOut ||
                   q.isQuoting ||
                   q.quoteError ||
                   !q.selectedPlanKey ||
                   !q.isPurchasable
                 }
-                className='w-full rounded-full bg-background py-3 text-sm font-semibold text-foreground hover:bg-background/90'
+                className='w-full rounded-none bg-background py-3 text-sm font-semibold text-foreground hover:bg-background/90'
               >
                 {q.isCheckingOut ? (
-                  <>
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    Redirigiendo a pago…
-                  </>
+                  'Redirigiendo a pago…'
                 ) : !q.isPurchasable ? (
                   'Temporalmente no disponible'
                 ) : (
@@ -304,51 +318,6 @@ export function PlanBuilder({ preselectPlanKey = null }: { preselectPlanKey?: st
           </>
         )}
       </div>
-    </div>
-  )
-}
-
-function IncludedFeatures({ features }: { features: string[] }) {
-  // En mobile la lista se colapsa para no empujar la cotización fuera de pantalla.
-  const [expanded, setExpanded] = useState(false)
-
-  if (features.length === 0) {
-    return null
-  }
-
-  return (
-    <div className='mt-7'>
-      <p className='text-[13px] font-semibold text-foreground'>Todo lo que incluye</p>
-      <p className='mt-1 text-[12.5px] text-muted-foreground'>
-        Todas las funciones vienen dentro del plan. No hay módulos que contratar aparte.
-      </p>
-
-      <button
-        type='button'
-        onClick={() => setExpanded((prev) => !prev)}
-        aria-expanded={expanded}
-        aria-controls='plan-included-features'
-        className='mt-2 flex items-center gap-1 text-[12px] font-medium text-muted-foreground sm:hidden'
-      >
-        Ver todo ({features.length})
-        <ChevronDown
-          aria-hidden='true'
-          data-state={expanded ? 'open' : 'closed'}
-          className='h-3.5 w-3.5 transition-transform data-[state=open]:rotate-180'
-        />
-      </button>
-
-      <ul
-        id='plan-included-features'
-        className={cn('mt-3 grid gap-1.5 sm:grid-cols-2', !expanded && 'hidden sm:grid')}
-      >
-        {features.map((feature) => (
-          <li key={feature} className='flex items-start gap-2 text-[12.5px]'>
-            <Check aria-hidden='true' className='mt-0.5 h-3.5 w-3.5 shrink-0 text-primary' />
-            <span className='text-foreground'>{feature}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }
@@ -384,7 +353,7 @@ function ContactSalesCard({
         {mailto && (
           <Button
             asChild
-            className='w-full rounded-full bg-background py-3 text-sm font-semibold text-foreground hover:bg-background/90'
+            className='w-full rounded-none bg-background py-3 text-sm font-semibold text-foreground hover:bg-background/90'
           >
             <a href={mailto}>
               <Mail className='mr-2 h-4 w-4' aria-hidden='true' />
@@ -396,7 +365,7 @@ function ContactSalesCard({
           <Button
             asChild
             variant='outline'
-            className='w-full rounded-full border-background/30 bg-transparent py-3 text-sm font-semibold text-background hover:bg-background/10 hover:text-background'
+            className='w-full rounded-none border-background/30 bg-transparent py-3 text-sm font-semibold text-background hover:bg-background/10 hover:text-background'
           >
             <a href={whatsapp} target='_blank' rel='noreferrer'>
               <MessageCircle className='mr-2 h-4 w-4' aria-hidden='true' />
@@ -414,30 +383,6 @@ function ContactSalesCard({
   )
 }
 
-function IntervalButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean
-  onClick: () => void
-  children: React.ReactNode
-}) {
-  return (
-    <button
-      type='button'
-      onClick={onClick}
-      aria-pressed={active}
-      className={cn(
-        'flex-1 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors',
-        active ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground'
-      )}
-    >
-      {children}
-    </button>
-  )
-}
-
 function PlanOption({
   plan,
   selected,
@@ -452,31 +397,19 @@ function PlanOption({
   const band = planBandLabel(plan)
 
   return (
-    <button
-      type='button'
-      onClick={onSelect}
-      aria-pressed={selected}
-      className={cn(
-        'flex items-start justify-between gap-2 rounded-xl border px-4 py-3 text-left transition-colors',
-        selected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/40'
-      )}
-    >
+    <SelectableCard selected={selected} onSelect={onSelect} className='flex items-start justify-between gap-2'>
       <div className='min-w-0'>
         <div className='flex flex-wrap items-center gap-x-2 gap-y-1'>
           <p className='text-[13.5px] font-semibold text-foreground'>{plan.name}</p>
           {/* Sin esta etiqueta, quien entra a cambiar de plan ve seis tarjetas
               iguales y ninguna le dice cuál está pagando hoy: la única pista era
               que venía preseleccionada, que se pierde en cuanto toca otra. */}
-          {isCurrent && (
-            <span className='rounded-full bg-[var(--g)]/12 px-2 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.04em] text-[var(--g)]'>
-              Tu plan actual
-            </span>
-          )}
+          {isCurrent && <StatusPill tone='b'>Tu plan actual</StatusPill>}
         </div>
         {band && <p className='mt-0.5 text-[12px] text-muted-foreground'>{band}</p>}
       </div>
       {selected && <Check className='mt-0.5 h-4 w-4 shrink-0 text-primary' />}
-    </button>
+    </SelectableCard>
   )
 }
 
@@ -499,9 +432,9 @@ function QuoteBreakdown({
     return (
       <Skeleton name='billing-quote' loading>
         <div className='mt-5 space-y-3' aria-busy='true' aria-label='Calculando precio'>
-          <div className='h-4 w-full rounded bg-background/20' />
-          <div className='h-4 w-3/4 rounded bg-background/20' />
-          <div className='mt-6 h-12 w-1/2 rounded bg-background/20' />
+          <div className='h-4 w-full rounded-none bg-background/20' />
+          <div className='h-4 w-3/4 rounded-none bg-background/20' />
+          <div className='mt-6 h-12 w-1/2 rounded-none bg-background/20' />
         </div>
       </Skeleton>
     )
@@ -516,7 +449,7 @@ function QuoteBreakdown({
   return (
     <div className={cn('mt-5 transition-opacity', isQuoting && 'opacity-60')} aria-busy={isQuoting}>
       {planName && (
-        <p className='mb-4 inline-flex items-center rounded-full bg-background/10 px-3 py-1 text-[12px] font-semibold text-background'>
+        <p className='mb-4 inline-flex items-center rounded-none bg-background/10 px-3 py-1 text-[12px] font-semibold text-background'>
           Plan {planName}
         </p>
       )}
@@ -531,7 +464,7 @@ function QuoteBreakdown({
             Total <span className='text-background/50'>{periodLabel}</span>
           </span>
           <span
-            className='text-[clamp(34px,4.5vw,44px)] font-semibold leading-[0.9] tracking-[-0.01em]'
+            className='font-mono text-[clamp(34px,4.5vw,44px)] font-semibold leading-[0.9] tracking-[-0.01em] tabular-nums'
             aria-live='polite'
           >
             {formatPrice(total, currency)}
@@ -551,27 +484,27 @@ function PlanBuilderSkeleton() {
         aria-busy='true'
         aria-label='Cargando catálogo de planes'
       >
-        <div className='rounded-xl border border-border bg-card p-6 sm:p-7'>
-          <div className='h-3 w-48 rounded bg-muted/40' />
+        <div className='rounded-none border border-border bg-card p-6 sm:p-7'>
+          <div className='h-3 w-48 rounded-none bg-muted/40' />
           <div className='mt-3 grid grid-cols-2 gap-2.5'>
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className='h-16 rounded-xl bg-muted/20' />
+              <div key={i} className='h-16 rounded-none bg-muted/20' />
             ))}
           </div>
-          <div className='mt-7 h-11 w-full rounded-full bg-muted/30' />
+          <div className='mt-7 h-11 w-full rounded-none bg-muted/30' />
           <div className='mt-7 space-y-2.5'>
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className='h-14 w-full rounded-xl bg-muted/20' />
+              <div key={i} className='h-14 w-full rounded-none bg-muted/20' />
             ))}
           </div>
         </div>
-        <div className='rounded-xl border border-border bg-foreground p-6 sm:p-7'>
-          <div className='h-3 w-28 rounded bg-background/20' />
+        <div className='rounded-none border border-border bg-foreground p-6 sm:p-7'>
+          <div className='h-3 w-28 rounded-none bg-background/20' />
           <div className='mt-6 space-y-3'>
-            <div className='h-4 w-full rounded bg-background/20' />
-            <div className='h-4 w-3/4 rounded bg-background/20' />
+            <div className='h-4 w-full rounded-none bg-background/20' />
+            <div className='h-4 w-3/4 rounded-none bg-background/20' />
           </div>
-          <div className='mt-8 h-12 w-1/2 rounded bg-background/20' />
+          <div className='mt-8 h-12 w-1/2 rounded-none bg-background/20' />
         </div>
       </div>
     </Skeleton>

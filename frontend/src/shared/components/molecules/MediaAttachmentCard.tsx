@@ -16,7 +16,7 @@ export const MediaAttachmentCard = ({ media }: MediaAttachmentCardProps) => {
   return (
     <button
       type='button'
-      className='flex w-full items-center gap-2 rounded-[10px] border border-border bg-[var(--surface-2)] px-3 py-2 text-left text-[13px] hover:border-[var(--ink-3)]'
+      className='flex w-full items-center gap-2 rounded-none border border-border bg-[var(--surface-2)] px-3 py-2 text-left text-[13px] hover:border-[var(--ink-3)]'
       onClick={() => downloadMediaWithSignedUrl({ mediaId: media.id, fileName: media.file_name })}
     >
       <Download className='size-4 flex-none text-[var(--ink-3)]' />

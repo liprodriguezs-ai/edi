@@ -103,7 +103,7 @@ describe('ChangeBillingPlanModal — información para decidir', () => {
     expect(screen.getByText('$450')).toBeInTheDocument()
   })
 
-  it('muestra de dónde parte el organización: plan vigente, su banda y su precio', async () => {
+  it('muestra de dónde parte la organización: plan vigente, su banda y su precio', async () => {
     renderModal()
 
     await waitFor(() => {
@@ -125,7 +125,7 @@ describe('ChangeBillingPlanModal — información para decidir', () => {
     expect(screen.getByText(/te toca el plan/i)).toBeInTheDocument()
   })
 
-  it('no recomienda nada ni alarma cuando el organización aún no tiene unidades', async () => {
+  it('no recomienda nada ni alarma cuando la organización aún no tiene unidades', async () => {
     renderModal(0)
 
     await waitFor(() => {

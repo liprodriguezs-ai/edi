@@ -1,20 +1,23 @@
 import { useOnboardingChecklist } from '@/modules/onboarding/hooks/useOnboardingChecklist'
 import type { IOnboardingItem } from '@/modules/onboarding/schema'
-import { CheckCircle2, Circle, ChevronRight, Loader2 } from 'lucide-react'
+import { PageLoader } from '@/shared/components/PageLoader'
+import { PageHeader } from '@/shared/components/atoms/PageHeader'
+import { SectionLabel } from '@/shared/components/atoms/SectionLabel'
+import { CheckCircle2, Circle, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 function OnboardingItemRow({ item }: { item: IOnboardingItem }) {
+  // Fila que se toca con sus vecinas (el contenedor pone el hairline). Sin caja
+  // propia, sin esquina redonda, sin gap: jerarquía por línea.
   const rowClass =
-    'flex items-start gap-4 rounded-xl border border-border bg-card px-4 py-4 transition-colors ' +
-    (item.completed
-      ? 'opacity-60'
-      : 'hover:border-[var(--green)]/40 hover:bg-muted/50 cursor-pointer')
+    'flex items-start gap-4 bg-background px-4 py-4 transition-colors ' +
+    (item.completed ? 'opacity-60' : 'cursor-pointer hover:bg-secondary')
 
   const content = (
     <>
       <span className='mt-0.5 shrink-0' aria-hidden>
         {item.completed ? (
-          <CheckCircle2 className='size-5 text-[var(--green)]' />
+          <CheckCircle2 className='size-5 text-primary' />
         ) : (
           <Circle className='size-5 text-muted-foreground/50' />
         )}
@@ -23,13 +26,13 @@ function OnboardingItemRow({ item }: { item: IOnboardingItem }) {
         <p
           className={
             item.completed
-              ? 'text-sm font-medium text-muted-foreground line-through'
-              : 'text-sm font-semibold text-foreground'
+              ? 'flex items-center gap-2 text-sm font-medium text-muted-foreground line-through'
+              : 'flex items-center gap-2 text-sm font-semibold text-foreground'
           }
         >
           {item.title}
           {!item.required && (
-            <span className='ml-2 rounded-full bg-muted px-2 py-0.5 text-[10px] font-normal text-muted-foreground'>
+            <span className='border border-border px-1.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.1em] font-normal text-muted-foreground no-underline'>
               Opcional
             </span>
           )}
@@ -57,11 +60,7 @@ export function OnboardingPage() {
   const { checklist, isLoading } = useOnboardingChecklist()
 
   if (isLoading) {
-    return (
-      <div className='flex h-64 items-center justify-center'>
-        <Loader2 className='size-6 animate-spin text-muted-foreground' aria-label='Cargando…' />
-      </div>
-    )
+    return <PageLoader />
   }
 
   if (!checklist) {
@@ -74,24 +73,20 @@ export function OnboardingPage() {
     <div className='mx-auto max-w-2xl space-y-6 px-4 py-8'>
       {/* Header */}
       <div>
-        <h1 className='text-2xl font-semibold tracking-tight text-foreground'>
-          Configura tu organización
-        </h1>
-        <p className='mt-1 text-sm text-muted-foreground'>
-          Completa estos pasos para comenzar a gestionar tu organización.
-        </p>
+        <SectionLabel className='mb-3'>Configuración inicial</SectionLabel>
+        <PageHeader title='Configura tu centro' description='Completa estos pasos para comenzar a tamizar.' />
       </div>
 
-      {/* Progress bar */}
+      {/* Progress bar — barra rectangular, canto vivo */}
       <div className='space-y-2'>
         <div className='flex items-center justify-between text-xs text-muted-foreground'>
           <span>
             {required_completed} de {required_total} pasos requeridos completados
           </span>
-          <span className='tabular-nums'>{progress_percentage}%</span>
+          <span className='font-mono tabular-nums'>{progress_percentage}%</span>
         </div>
         <div
-          className='h-2 w-full overflow-hidden rounded-full bg-muted'
+          className='h-2 w-full overflow-hidden bg-muted'
           role='progressbar'
           aria-valuenow={progress_percentage}
           aria-valuemin={0}
@@ -99,7 +94,7 @@ export function OnboardingPage() {
           aria-label='Progreso de configuración'
         >
           <div
-            className='h-full rounded-full bg-[var(--green)] transition-all duration-500'
+            className='h-full bg-primary transition-all duration-500'
             style={{ width: `${progress_percentage}%` }}
           />
         </div>
@@ -107,22 +102,22 @@ export function OnboardingPage() {
 
       {/* Completion banner */}
       {is_complete && (
-        <div className='flex flex-wrap items-center gap-3 rounded-xl border border-[var(--green)]/30 bg-[var(--green)]/5 px-4 py-3 text-sm text-[var(--green)]'>
-          <CheckCircle2 className='size-5 shrink-0' aria-hidden />
-          <span className='flex-1 font-medium'>
-            ¡Configuración completa! Tu organización está listo para operar.
+        <div className='flex flex-wrap items-center gap-3 border-l-2 border-primary bg-primary/5 px-4 py-3 text-sm'>
+          <CheckCircle2 className='size-5 shrink-0 text-primary' aria-hidden />
+          <span className='flex-1 font-medium text-foreground'>
+            ¡Configuración completa! Tu centro está listo para operar.
           </span>
           <Link
             to='/dashboard'
-            className='rounded-lg bg-[var(--green)] px-3 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-90'
+            className='bg-primary px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] font-medium text-primary-foreground transition-opacity hover:opacity-90'
           >
-            Ir al dashboard
+            Ir al tablero
           </Link>
         </div>
       )}
 
-      {/* Items list */}
-      <div className='space-y-2'>
+      {/* Items list — celdas que se tocan por hairline */}
+      <div className='divide-y divide-border border border-border'>
         {items.map((item) => (
           <OnboardingItemRow key={item.id} item={item} />
         ))}

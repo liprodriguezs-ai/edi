@@ -35,7 +35,7 @@ export async function registerWebMcpProvider(): Promise<void> {
 
   const toolNames = allTools.map((tool) => tool.name)
 
-  window.__KIVO_WEBMCP__ = {
+  window.__EDI_WEBMCP__ = {
     enabled: true,
     brand: APP_CONFIG.brandName,
     version: APP_CONFIG.appVersion,

@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
-import { TENANT_STATUS_CONFIG, type ITenant } from '@/modules/tenant/schema'
+import { TenantStatusPill } from '@/modules/tenant/components/TenantStatusPill'
+import type { ITenant } from '@/modules/tenant/schema'
 import type { IUser } from '@/modules/user/schema'
 import { ObfuscatedText } from '@/shared/components/atoms/ObfuscatedText'
 import { ActionButtonGroup, type ActionOption } from '@/shared/components/molecules/ActionButtonGroup'
@@ -34,15 +34,13 @@ export const TenantTableRow = memo<TenantTableRowProps>(
     }, [onBilling, entity])
 
     return (
-      <TableRow className={cn(entity.status === 'pendiente_pago' && 'bg-amber-50/60 dark:bg-amber-900/10')}>
+      <TableRow className={cn(entity.status === 'pendiente_pago' && 'bg-muted/50')}>
         <TableCell>
           <div className="font-medium">{entity.name}</div>
         </TableCell>
         <TableCell>
           {entity.status ? (
-            <Badge variant="outline" className={cn('text-xs font-medium', TENANT_STATUS_CONFIG[entity.status]?.className)}>
-              {TENANT_STATUS_CONFIG[entity.status]?.label ?? entity.status}
-            </Badge>
+            <TenantStatusPill status={entity.status} />
           ) : '—'}
         </TableCell>
         <TableCell className="hidden md:table-cell text-muted-foreground">

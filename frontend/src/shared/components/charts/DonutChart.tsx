@@ -30,6 +30,8 @@ export interface IDonutChartProps {
   height?: number
   innerRadius?: number
   outerRadius?: number
+  /** Tooltip value formatter. Defaults to money (minor units) for backward compatibility — pass a plain formatter (e.g. `String`) for count-based data. */
+  valueFormatter?: (_value: number) => string
 }
 
 const DEFAULT_COLORS = [
@@ -48,6 +50,7 @@ export function DonutChart({
   height = 300,
   innerRadius = 60,
   outerRadius = 100,
+  valueFormatter = formatMinorUnits,
 }: IDonutChartProps) {
   const resolvedConfig: ChartConfig = Object.fromEntries(
     data.map((slice, i) => [
@@ -74,7 +77,7 @@ export function DonutChart({
           content={
             <ChartTooltipContent
               nameKey="name"
-              formatter={(value) => formatMinorUnits(value as number)}
+              formatter={(value) => valueFormatter(value as number)}
             />
           }
         />

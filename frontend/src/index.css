@@ -26,7 +26,11 @@
   --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-mono: var(--font-geist-mono);
+  /* Canal mono para DATOS y etiquetas (folios, CURP, edades, cifras, cabeceras).
+     Antes apuntaba a --font-geist-mono, que nunca se definía ni se importaba:
+     el canal estaba muerto. ui-monospace usa la mono del sistema, sin webfont
+     extra ni CLS. */
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -56,126 +60,161 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  /* Los cuatro a 0: con --radius en 0rem, el calc de xl seguiría dando 4px y
+     dejaría media app con esquina y media sin ella. */
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius);
 }
 
 :root {
-  /* ===== Marca "EDI · v3 Salvia" — tema GLOBAL (sRGB) =====
-     Aplicada a TODO el app. La paleta editorial del diseño reemplaza
-     el tema oklch previo. Modo claro; `.dark` conserva su paleta. */
-  --radius: 0.5625rem; /* 9px */
+  /* ===== Marca "Prueba EDI" — tema GLOBAL (sRGB) =====
+     Paleta tomada de pruebaedi.com: tinta #092b50, teal #078e88 / #05736f,
+     aqua #dff5f2, superficie #f4fafb, línea #dcebed. Modo claro; `.dark` conserva su paleta. */
+  /* Canto vivo. shadcn deriva rounded-sm/md/lg/xl de este token, así que un
+     solo valor lleva toda la app al mismo lenguaje que la landing: la
+     jerarquía la da la línea de 1px, no la esquina redondeada. */
+  --radius: 0rem;
   --background: #ffffff;
-  --foreground: #1b201c;
+  --foreground: #092b50;
   --card: #ffffff;
-  --card-foreground: #1b201c;
+  --card-foreground: #092b50;
   --popover: #ffffff;
-  --popover-foreground: #1b201c;
-  --primary: #21402c; /* green-deep — CTA */
+  --popover-foreground: #092b50;
+  --primary: #078e88;
   --primary-foreground: #ffffff;
-  --secondary: #f3f2ec; /* surface-3 */
-  --secondary-foreground: #1b201c;
-  --muted: #f2f1ec; /* canvas */
-  --muted-foreground: #888d83; /* ink-3 */
-  --accent: #e9f1ea; /* green-bg */
-  --accent-foreground: #21402c;
+  --secondary: #f4fafb;
+  --secondary-foreground: #092b50;
+  --muted: #f4fafb;
+  --muted-foreground: #416079;
+  --accent: #dff5f2;
+  --accent-foreground: #05736f;
   --destructive: #c0533c; /* status red */
-  --border: #e8e5dd; /* line */
-  --input: #e8e5dd;
-  --ring: #33935d; /* brand */
-  --chart-1: #33935d;
-  --chart-2: #2e6b45;
-  --chart-3: #c0862b;
-  --chart-4: #3f6e8e;
-  --chart-5: #21402c;
-  --sidebar: #21402c; /* nav verde bosque — sidebar global */
-  --sidebar-foreground: #afc2ad; /* nav-txt */
-  --sidebar-primary: #33935d; /* brand */
+  --border: #dcebed;
+  --input: #dcebed;
+  --ring: #078e88;
+  --chart-1: #078e88;
+  --chart-2: #092b50;
+  --chart-3: #f2b64c;
+  --chart-4: #56d0c8;
+  --chart-5: #05736f;
+  --sidebar: #ffffff; /* sidebar claro con hairline — ya no es un bloque de color */
+  --sidebar-foreground: #416079;
+  --sidebar-primary: #078e88;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #2c5239; /* nav-hover (verde más claro) */
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2c5239;
-  --sidebar-ring: #33935d;
+  /* Hover + estado ACTIVO: tinte aqua visible + texto teal = "estás aquí"
+     claro, coherente con el acento de marca. */
+  --sidebar-accent: #dff5f2;
+  --sidebar-accent-foreground: #05736f;
+  --sidebar-border: #dcebed;
+  --sidebar-ring: #078e88;
 
   /* Fuente de UI global */
   --font-sans: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
 
-  /* Extras de marca para componentes a medida (no shadcn) */
-  --brand: #33935d;
-  --green: #2e6b45;
-  --green-deep: #21402c;
-  --green-bg: #e9f1ea;
-  --nav: #21402c;
-  --nav-2: #1a3322;
-  --nav-txt: #afc2ad;
-  --nav-lbl: #6f8c72;
-  --ink-2: #585d54;
-  --ink-3: #888d83;
-  --ink-4: #b0b4aa;
-  --line-2: #f0eee7;
-  --surface-2: #faf9f5; /* cabeceras de tabla, hovers */
+  /* Acento de marca. Existe en DOS valores por tema y no en uno: el color de
+     fondo no alcanza el contraste necesario cuando se usa como texto.
+       --accent-brand      → fondos (botón primario, bloques a sangre), tinta blanca
+       --accent-brand-text → texto de acento (enlaces, cifras destacadas) */
+  --accent-brand: #078e88;
+  --accent-brand-text: #05736f;
+  --accent-brand-bg: #dff5f2;
+
+  /* Extras de marca para componentes a medida (no shadcn).
+     LEGADO: los nombres --green y --nav vienen de la paleta salvia anterior y
+     hoy apuntan al teal de marca. Se conservan para no tocar los 13 archivos que los
+     consumen; migrar sus usos a --accent-brand* es una tarea aparte. */
+  --brand: var(--accent-brand);
+  --green: var(--accent-brand-text);
+  --green-deep: #05736f;
+  --green-bg: var(--accent-brand-bg);
+  --nav: #092b50;
+  --nav-2: #061c2d;
+  --nav-txt: #98aebe;
+  --nav-lbl: #91aaa9;
+  --ink-2: #416079;
+  --ink-3: #5f7a8f;
+  --ink-4: #98aebe;
+  --line-2: #eef5f6;
+  --surface-2: #f4fafb;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
 
-  /* Estados financieros (pares texto/fondo del UI Kit) */
-  --g: #3f9a5e;
-  --gbg: #e7f1e9;
-  --y: #c0862b;
-  --ybg: #f6ecd6;
-  --r: #c0533c;
-  --rbg: #f6e2dc;
-  --b: #3f6e8e;
-  --bbg: #e4ecf2;
+  /* Semáforo del tamiz EDI (pares texto/fondo). ÚNICO color con significado
+     clínico en la interfaz: verde = desarrollo normal, ámbar = rezago,
+     rojo = riesgo de retraso. Nada que no sea un resultado debe usarlos. */
+  --g: #2c9757;
+  --gbg: #e3f1e7;
+  --y: #a9760f;
+  --ybg: #f7ecd4;
+  --r: #bc4029;
+  --rbg: #f7e0da;
+  --b: #078e88;
+  --bbg: #dff5f2;
 }
 
 .dark {
-  /* Marca "Salvia" en oscuro — ink verde profundo + verde de marca más brillante */
-  --background: #141d17;
-  --foreground: #e8ebe4;
-  --card: #1d2a22;
-  --card-foreground: #e8ebe4;
-  --popover: #1d2a22;
-  --popover-foreground: #e8ebe4;
-  --primary: #3f9a5e;
-  --primary-foreground: #0f1712;
-  --secondary: #243029;
-  --secondary-foreground: #e8ebe4;
-  --muted: #141d17;
-  --muted-foreground: #93a08f;
-  --accent: #24382b;
-  --accent-foreground: #d6e3d4;
-  --destructive: #d4604a;
-  --border: #2c3a30;
-  --input: #2c3a30;
-  --ring: #3f9a5e;
-  --chart-1: #3f9a5e;
-  --chart-2: #5cae78;
-  --chart-3: #c0862b;
-  --chart-4: #3f6e8e;
-  --chart-5: #2e6b45;
-  --sidebar: #1a3322;
-  --sidebar-foreground: #afc2ad;
-  --sidebar-primary: #3f9a5e;
+  /* Marca "Prueba EDI" en oscuro — teal de marca más brillante sobre neutros oscuros */
+  --background: #0b0d0f;
+  --foreground: #ededec;
+  --card: #101315;
+  --card-foreground: #ededec;
+  --popover: #101315;
+  --popover-foreground: #ededec;
+  --primary: #0b9e97;
+  --primary-foreground: #ffffff;
+  --secondary: #141719;
+  --secondary-foreground: #ededec;
+  --muted: #101315;
+  --muted-foreground: #7a8180;
+  --accent: #0a2a2c;
+  --accent-foreground: #56d0c8;
+  --destructive: #f0634c;
+  --border: #1f2427;
+  --input: #2a3034;
+  --ring: #0b9e97;
+  --chart-1: #0b9e97;
+  --chart-2: #56d0c8;
+  --chart-3: #f0b03c;
+  --chart-4: #9ecbc7;
+  --chart-5: #35c46e;
+  --sidebar: #0b0d0f;
+  --sidebar-foreground: #7a8180;
+  --sidebar-primary: #0b9e97;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #21402c;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2c5239;
-  --sidebar-ring: #3f9a5e;
+  --sidebar-accent: #141719;
+  --sidebar-accent-foreground: #ededec;
+  --sidebar-border: #1f2427;
+  --sidebar-ring: #0b9e97;
 
-  /* extras de marca en oscuro */
-  --brand: #3f9a5e;
-  --green: #6bbd86;
-  --green-deep: #2e6b45;
-  --green-bg: #1f3326;
-  --nav: #1a3322;
-  --nav-2: #21402c;
-  --nav-txt: #afc2ad;
-  --ink-2: #b8c2b2;
-  --ink-3: #93a08f;
-  --ink-4: #6f7d6d;
-  --line-2: #243029;
-  --surface-2: #243029;
+  /* acento de marca en oscuro (mismos dos papeles que en claro) */
+  --accent-brand: #0b9e97;
+  --accent-brand-text: #56d0c8;
+  --accent-brand-bg: #0a2a2c;
+
+  /* extras de marca en oscuro — LEGADO, ver la nota del tema claro */
+  --brand: var(--accent-brand);
+  --green: var(--accent-brand-text);
+  --green-deep: #05736f;
+  --green-bg: var(--accent-brand-bg);
+  --nav: #0b0d0f;
+  --nav-2: #101315;
+  --nav-txt: #7a8180;
+  --ink-2: #a8adb2;
+  --ink-3: #7a8180;
+  --ink-4: #565c5b;
+  --line-2: #141719;
+  --surface-2: #141719;
+
+  /* semáforo del tamiz en oscuro */
+  --g: #35c46e;
+  --gbg: #102417;
+  --y: #f0b03c;
+  --ybg: #2a2110;
+  --r: #f0634c;
+  --rbg: #2b1310;
+  --b: #56d0c8;
+  --bbg: #0a2a2c;
 }
 
 /* Sello de marca tipográfico Salvia (wordmark, nombres de plan) — global */
@@ -349,10 +388,10 @@ html [data-sileo-viewport] [data-sileo-toast] {
    con texto blanco sobre su superficie clara. Los chips de evento conservan su
    paleta por-amenidad (definida en `lightColors` de cada calendario). */
 .sx__calendar-wrapper {
-  --sx-color-primary: #2e6b45;
+  --sx-color-primary: #078e88;
   --sx-color-on-primary: #ffffff;
-  --sx-color-primary-container: #e9f1ea;
-  --sx-color-on-primary-container: #21402c;
+  --sx-color-primary-container: #dff5f2;
+  --sx-color-on-primary-container: #05736f;
 }
 
 /* Los eventos del month-grid cortan el texto en seco (overflow:hidden + nowrap

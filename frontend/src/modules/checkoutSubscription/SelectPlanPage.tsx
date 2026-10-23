@@ -11,6 +11,9 @@ import {
 import { fetchSessionProfile } from '@/shared/auth/authService'
 import type { SubscriptionStatus } from '@/shared/auth/Session'
 import { sessionStore } from '@/shared/auth/sessionStore'
+import { Callout } from '@/shared/components/atoms/Callout'
+import { SectionLabel } from '@/shared/components/atoms/SectionLabel'
+import { Panel } from '@/shared/components/molecules/Panel'
 import { toast } from '@/shared/hooks/useToast'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
 import { CheckCircle2, Clock, Loader2, Lock } from 'lucide-react'
@@ -71,7 +74,7 @@ function MemberBlockedView() {
 
       <main className='flex flex-1 flex-col items-center justify-center p-6 md:p-10'>
         <div className='mx-auto w-full max-w-lg text-center'>
-          <div className='mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-muted-foreground/10'>
+          <div className='mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-none bg-secondary'>
             <Lock className='h-8 w-8 text-muted-foreground' />
           </div>
 
@@ -80,7 +83,7 @@ function MemberBlockedView() {
           </h1>
 
           <p className='mt-4 text-muted-foreground leading-relaxed'>
-            El propietario de la cuenta necesita actualizar la suscripción del organización. En cuanto
+            El propietario de la cuenta necesita actualizar la suscripción de la organización. En cuanto
             lo haga, vuelves a entrar con normalidad. Tu información está completa y no se perdió
             nada.
           </p>
@@ -89,12 +92,12 @@ function MemberBlockedView() {
               para que se resuelva —los residentes— se quedaba sin nada que hacer y
               sin saber a quién acudir. Ahora tiene un aviso listo para enviar. */}
           <div className='mt-8 flex flex-col items-center gap-3'>
-            <Button asChild className='rounded-full'>
+            <Button asChild>
               <a
                 href={`mailto:?subject=${encodeURIComponent(
                   'El acceso a nuestro organización está en pausa'
                 )}&body=${encodeURIComponent(
-                  'Hola:\n\nEl acceso a la plataforma del organización está en pausa porque la suscripción necesita actualizarse. Solo el propietario de la cuenta puede hacerlo, desde Mi suscripción.\n\nGracias.'
+                  'Hola:\n\nEl acceso a la plataforma de la organización está en pausa porque la suscripción necesita actualizarse. Solo el propietario de la cuenta puede hacerlo, desde Mi suscripción.\n\nGracias.'
                 )}`}
               >
                 Avisar al propietario
@@ -126,7 +129,7 @@ export function SelectPlanPage() {
   const trialEndsAt = subscription?.trial_ends_at ?? null
   const trialDaysLeft = subscription?.trial_days_left ?? null
   const isTrial = status === 'trial'
-  // D8 — solo significativo cuando el organización está bloqueado: distingue "tu
+  // D8 — solo significativo cuando la organización está bloqueado: distingue "tu
   // tarjeta falló" (estado c) de "nunca elegiste un plan" / "tu prueba terminó".
   const paymentIssue = subscription?.payment_issue ?? false
   // La prueba de Stripe ya trae plan y tarjeta: se cobra sola al vencer y no exige
@@ -206,7 +209,7 @@ function SuccessView() {
             }
           }
           // D7/D2 — StartTrial se dispara ACÁ, no en el registro: recién ahora
-          // sabemos que el checkout realmente arrancó un trial (D1 — un organización
+          // sabemos que el checkout realmente arrancó un trial (D1 — una organización
           // que ya tuvo una entitlement antes es cobrado de inmediato, sin
           // trial). Un registro abandonado antes de pagar nunca dispara esto.
           if (!trialTrackedRef.current && profile.subscription?.status === 'trial') {
@@ -239,8 +242,8 @@ function SuccessView() {
     return (
       <div className='flex min-h-svh flex-col items-center justify-center bg-muted p-6'>
         <div className='mx-auto w-full max-w-md text-center'>
-          <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30'>
-            <CheckCircle2 className='h-10 w-10 text-yellow-600 dark:text-yellow-400' />
+          <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-none bg-secondary'>
+            <CheckCircle2 className='h-10 w-10 text-muted-foreground' />
           </div>
 
           <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>Tu prueba está en camino</h1>
@@ -270,7 +273,7 @@ function SuccessView() {
     )
   }
 
-  // D2/D7 — el checkout de un organización nuevo SIEMPRE arranca en trial (sin
+  // D2/D7 — el checkout de una organización nuevo SIEMPRE arranca en trial (sin
   // cargo); "Pago exitoso" sería falso ahí. Un organización que ya tuvo una
   // entitlement antes (cancela y recontrata) es cobrado de inmediato — para
   // ese caso el "pago exitoso" original sigue siendo la verdad.
@@ -287,8 +290,8 @@ function SuccessView() {
   return (
     <div className='flex min-h-svh flex-col items-center justify-center bg-muted p-6'>
       <div className='mx-auto w-full max-w-md text-center'>
-        <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30'>
-          <CheckCircle2 className='h-10 w-10 text-emerald-600 dark:text-emerald-400' />
+        <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-none bg-primary/10'>
+          <CheckCircle2 className='h-10 w-10 text-primary' />
         </div>
 
         <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>{title}</h1>
@@ -298,20 +301,18 @@ function SuccessView() {
         {/* La fecha del primer cargo se repite como dato destacado: en el párrafo
             va dentro de una frase, y una frase no se recuerda. Un número grande sí. */}
         {isTrialActivation && trialEndsAt && (
-          <div className='mt-6 rounded-[14px] border bg-card px-6 py-5'>
-            <span className='text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-3)]'>
-              Tu primer cargo
-            </span>
+          <Panel as='div' className='mt-6 px-6 py-5'>
+            <SectionLabel as='span'>Tu primer cargo</SectionLabel>
             <p className='mt-1 text-[26px] font-semibold leading-none tracking-[-0.02em] tabular-nums'>
               {displayFormatDate(trialEndsAt, 'mediumDate')}
             </p>
-          </div>
+          </Panel>
         )}
 
         {confirmed ? (
           <Button
             size='lg'
-            className='mt-8 w-full rounded-full'
+            className='mt-8 w-full'
             onClick={() => navigate('/dashboard', { replace: true })}
           >
             Entrar al panel
@@ -362,17 +363,10 @@ function PaymentFailedRecovery({ onChangePlan }: { onChangePlan: () => void }) {
         <Button
           size='lg'
           onClick={() => void redirectToPortal()}
-          disabled={isRedirecting}
-          className='w-full rounded-full'
+          loading={isRedirecting}
+          className='w-full'
         >
-          {isRedirecting ? (
-            <>
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              Redirigiendo...
-            </>
-          ) : (
-            'Actualizar mi tarjeta'
-          )}
+          {isRedirecting ? 'Redirigiendo...' : 'Actualizar mi tarjeta'}
         </Button>
         <button
           type='button'
@@ -409,11 +403,9 @@ function TrialStatusCard({
   onChangePlan: () => void
 }) {
   return (
-    <div className='mx-auto flex max-w-md flex-col items-center gap-5 rounded-[14px] border bg-card p-7 text-center'>
+    <Panel as='div' className='mx-auto flex max-w-md flex-col items-center gap-5 p-7 text-center'>
       <div className='flex flex-col items-center gap-1.5'>
-        <span className='text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-3)]'>
-          Tu primer cargo
-        </span>
+        <SectionLabel as='span'>Tu primer cargo</SectionLabel>
         <span className='text-[28px] font-semibold leading-none tracking-[-0.02em] tabular-nums'>
           {displayFormatDate(trialEndsAt, 'mediumDate')}
         </span>
@@ -436,7 +428,7 @@ function TrialStatusCard({
       >
         Cambiar de plan
       </button>
-    </div>
+    </Panel>
   )
 }
 
@@ -512,7 +504,7 @@ function OwnerPlanView({
 
   const headline = blockedReason ? BLOCKED_COPY[blockedReason] : null
 
-  // Cuando el organización NO está bloqueado y pide ver planes, la pantalla CAMBIA de
+  // Cuando la organización NO está bloqueado y pide ver planes, la pantalla CAMBIA de
   // vista en vez de crecer hacia abajo. Apilarlas dejaba en pantalla la tarjeta
   // "tu primer cargo · $950 (Esencial)" junto a "Tu cotización · Plan Básico ·
   // $450": dos precios distintos del mismo organización, uno real y otro hipotético,
@@ -526,7 +518,7 @@ function OwnerPlanView({
   const revealPlanBuilder = () => {
     setShowPlans(true)
 
-    // Se preselecciona el plan que el organización YA tiene. Sin esto el armador
+    // Se preselecciona el plan que la organización YA tiene. Sin esto el armador
     // caía en el primer plan del catálogo y ofrecía "Plan Básico $450" a quien
     // contrató Esencial de $950: parecía una degradación que nadie pidió, y en
     // ningún lado se leía cuál era el plan vigente.
@@ -571,33 +563,31 @@ function OwnerPlanView({
             {/* Sentido de progreso: ahora que dar tarjeta es obligatorio, no saber
                 cuánto falta es de las principales causas de abandono en el alta. */}
             {blockedReason === 'none' && (
-              <p className='mb-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--ink-3)]'>
-                Paso 2 de 2
-              </p>
+              <SectionLabel className='mb-3'>Paso 2 de 2</SectionLabel>
             )}
             <h1 className='text-3xl font-semibold tracking-[-0.02em]'>
               {isChangingPlan ? (
                 <>
                   Cambia el plan de tu{' '}
-                  <b className='font-semibold text-[var(--green)]'>organización</b>
+                  <b className='font-semibold text-primary'>organización</b>
                 </>
               ) : headline ? (
                 headline.title
               ) : trialAutoCharges ? (
                 <>
-                  Tu prueba está <b className='font-semibold text-[var(--green)]'>en marcha</b>
+                  Tu prueba está <b className='font-semibold text-primary'>en marcha</b>
                 </>
               ) : (
                 <>
                   Elige el plan de tu{' '}
-                  <b className='font-semibold text-[var(--green)]'>organización</b>
+                  <b className='font-semibold text-primary'>organización</b>
                 </>
               )}
             </h1>
             <p className='mt-2.5 text-[15px] text-[var(--ink-3)]'>
-              {/* Sin `headline` el organización NO está bloqueado: está en prueba y entró por
+              {/* Sin `headline` la organización NO está bloqueado: está en prueba y entró por
                   su cuenta. El copy anterior ("Renueva el plan… El acceso de tu equipo
-                  depende de una suscripción activa") era el de un organización vencido y
+                  depende de una suscripción activa") era el de una organización vencido y
                   alarmaba sin motivo a quien tiene todo en orden. */}
               {isChangingPlan
                 ? 'Tu prueba sigue corriendo. El plan que elijas aplica desde tu primer cargo.'
@@ -638,8 +628,7 @@ function OwnerPlanView({
           {/* Prueba LOCAL de cortesía: sí hay que contratar antes de que venza, así
               que el aviso conserva su forma de banner y el armador queda a la vista. */}
           {isTrialBrowsing && !trialAutoCharges && trialEndsAt && (
-            <div className='mb-6 flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 dark:border-blue-900 dark:bg-blue-900/20 dark:text-blue-200'>
-              <Clock className='mt-0.5 h-4 w-4 shrink-0' aria-hidden />
+            <Callout icon={Clock} tone='info' className='mb-6'>
               <span>
                 Tu período de prueba vence el{' '}
                 <strong>{displayFormatDate(trialEndsAt, 'mediumDate')}</strong>
@@ -651,7 +640,7 @@ function OwnerPlanView({
                 {'. '}
                 Contrata un plan para mantener el acceso cuando finalice.
               </span>
-            </div>
+            </Callout>
           )}
 
           {showPlans && (

@@ -1,4 +1,5 @@
 import type { IBillingEntitlement } from '@/modules/tenant/billing/schema'
+import { isInstantAtOrAfter } from '@/shared/utils/tenantTime'
 
 /** Moneda por defecto del panel de facturación. Los montos llegan en centavos. */
 export const BILLING_CURRENCY = 'MXN'
@@ -21,5 +22,5 @@ export function isActiveEntitlement(entitlement: IBillingEntitlement): boolean {
   if (!entitlement.expires_at) {
     return true
   }
-  return new Date(entitlement.expires_at).getTime() >= Date.now()
+  return isInstantAtOrAfter(entitlement.expires_at)
 }

@@ -30,7 +30,7 @@ export function KpiRowSkeleton({ count = 4 }: KpiRowSkeletonProps) {
         {Array.from({ length: count }).map((_, i) => (
           <div
             key={i}
-            className="rounded-[14px] border border-border bg-card p-4 shadow-sm"
+            className="rounded-none border border-border bg-card p-4 shadow-sm"
           >
             {/* Swatch + label */}
             <div className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export function KpiRowSkeleton({ count = 4 }: KpiRowSkeletonProps) {
 
 // ---------------------------------------------------------------------------
 // ChartCardSkeleton
-// Replica la tarjeta de gráfica: rounded-[14px] border bg-card p-4 shadow-sm
+// Replica la tarjeta de gráfica: rounded-none border bg-card p-4 shadow-sm
 // ---------------------------------------------------------------------------
 
 interface ChartCardSkeletonProps {
@@ -63,7 +63,7 @@ interface ChartCardSkeletonProps {
 export function ChartCardSkeleton({ height = 260, titleWidth = 'w-40' }: ChartCardSkeletonProps) {
   return (
     <div
-      className="overflow-hidden rounded-[14px] border border-border bg-card p-4 shadow-sm"
+      className="overflow-hidden rounded-none border border-border bg-card p-4 shadow-sm"
       aria-busy="true"
       aria-label="Cargando gráfica"
     >

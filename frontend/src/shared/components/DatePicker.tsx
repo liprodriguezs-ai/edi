@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { format, isValid, parse } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { todayLocalDateString } from '@/shared/utils/dateHelper'
 import { CalendarIcon, X } from 'lucide-react'
 import { useState } from 'react'
 
@@ -28,7 +29,7 @@ export function DatePicker({
   id,
   className,
   fromYear = 1940,
-  toYear = new Date().getFullYear() + 5,
+  toYear = Number(todayLocalDateString().slice(0, 4)) + 5,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false)
 
@@ -43,32 +44,32 @@ export function DatePicker({
   const showClear = clearable && selectedDate && !disabled
 
   return (
-    <div className="relative w-full">
+    <div className='relative w-full'>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             id={id}
-            type="button"
-            variant="outline"
+            type='button'
+            variant='outline'
             disabled={disabled}
             className={cn(
               'w-full justify-start text-left font-normal',
               !selectedDate && 'text-muted-foreground',
               showClear && 'pr-8',
-              className,
+              className
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className='mr-2 h-4 w-4' />
             {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : placeholder}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
           <Calendar
-            mode="single"
+            mode='single'
             selected={selectedDate}
             defaultMonth={selectedDate}
             onSelect={handleSelect}
-            captionLayout="dropdown"
+            captionLayout='dropdown'
             locale={es}
             fromYear={fromYear}
             toYear={toYear}
@@ -78,16 +79,16 @@ export function DatePicker({
 
       {showClear && (
         <button
-          type="button"
-          aria-label="Limpiar fecha"
-          className="absolute right-2 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+          type='button'
+          aria-label='Limpiar fecha'
+          className='absolute right-2 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors'
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
             handleSelect(undefined)
           }}
         >
-          <X className="h-3.5 w-3.5" />
+          <X className='h-3.5 w-3.5' />
         </button>
       )}
     </div>

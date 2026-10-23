@@ -1,10 +1,10 @@
-import { Badge } from '@/components/ui/badge'
 import { TableCell, TableRow } from '@/components/ui/table'
 import type { ICompany } from '@/modules/company/schema'
 import { ActionButtonGroup } from '@/shared/components/molecules/ActionButtonGroup'
 import type { IEntityTableRowProps } from '@/shared/interfaces/list.types'
 import { checkMemoListProps } from '@/shared/interfaces/list.types'
 import { memo } from 'react'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
 
 export const CompanyTableRow = memo<IEntityTableRowProps<ICompany>>(({
   entity,
@@ -22,14 +22,14 @@ export const CompanyTableRow = memo<IEntityTableRowProps<ICompany>>(({
         <div className="font-medium">{entity.name}</div>
       </TableCell>
       <TableCell>{entity.legal_name ?? '—'}</TableCell>
-      <TableCell>{entity.rfc ?? '—'}</TableCell>
-      <TableCell>{entity.domain}</TableCell>
+      <TableCell className="font-mono">{entity.rfc ?? '—'}</TableCell>
+      <TableCell className="font-mono">{entity.domain}</TableCell>
       <TableCell>{entity.industry ?? '—'}</TableCell>
       <TableCell className="text-center">
         {entity.is_verified ? (
-          <Badge variant="default" className="text-xs">Verificada</Badge>
+          <StatusPill tone="b">Verificada</StatusPill>
         ) : (
-          <Badge variant="secondary" className="text-xs">No verificada</Badge>
+          <StatusPill tone="n">No verificada</StatusPill>
         )}
       </TableCell>
       <TableCell className="actions">

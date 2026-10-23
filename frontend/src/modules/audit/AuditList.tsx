@@ -12,31 +12,11 @@ import { TableEmptyState } from '@/shared/components/molecules/TableEmptyState'
 import { TableLoadingState } from '@/shared/components/molecules/TableLoadingState'
 import { ResponsiveDataTable } from '@/shared/components/molecules/ResponsiveDataTable'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { auditableLabel } from '@/modules/audit/auditPresentation'
+import { AuditEventPill } from '@/modules/audit/components/AuditEventPill'
 import { displayFormatDate } from '@/shared/utils/dateHelper'
-import { Download, FileDiff, Loader2 } from 'lucide-react'
+import { Download, FileDiff } from 'lucide-react'
 import { useCallback, useState } from 'react'
-
-const EVENT_LABELS: Record<IAudit['event'], string> = {
-  created: 'Creado',
-  updated: 'Actualizado',
-  deleted: 'Eliminado',
-  restored: 'Restaurado',
-}
-
-const EVENT_VARIANTS: Record<IAudit['event'], 'default' | 'secondary' | 'destructive' | 'outline'> =
-  {
-    created: 'default',
-    updated: 'secondary',
-    deleted: 'destructive',
-    restored: 'outline',
-  }
-
-function auditableLabel(audit: IAudit): string {
-  const type = audit.auditable_type ?? '—'
-  const shortType = type.split('\\').pop() ?? type
-  return `${shortType} (${audit.auditable_id.slice(0, 8)}…)`
-}
 
 export const AuditList = () => {
   const { onPageChanged, onSearch, onReset, onReport, isExporting, paramsSearch } = useAuditList()
@@ -65,14 +45,10 @@ export const AuditList = () => {
             <Button
               variant='outline'
               onClick={() => onReport('Audit', 'xlsx', 'auditoria')}
-              disabled={isExporting}
+              loading={isExporting}
               className='flex items-center gap-2'
             >
-              {isExporting ? (
-                <Loader2 className='h-4 w-4 animate-spin' />
-              ) : (
-                <Download className='h-4 w-4' />
-              )}
+              {!isExporting && <Download className='h-4 w-4' />}
               Descargar
             </Button>
           </PermissionGuard>
@@ -126,16 +102,15 @@ export const AuditList = () => {
                 )}
                 renderCardTitle={(audit) => audit.user?.full_name ?? audit.user?.name ?? '—'}
                 renderCardFields={(audit) => [
-                  { label: 'Fecha', value: displayFormatDate(audit.created_at) },
+                  {
+                    label: 'Fecha',
+                    value: <span className='font-mono tabular-nums'>{displayFormatDate(audit.created_at)}</span>,
+                  },
                   {
                     label: 'Evento',
-                    value: (
-                      <Badge variant={EVENT_VARIANTS[audit.event]} className='text-xs'>
-                        {EVENT_LABELS[audit.event]}
-                      </Badge>
-                    ),
+                    value: <AuditEventPill event={audit.event} />,
                   },
-                  { label: 'Entidad', value: auditableLabel(audit) },
+                  { label: 'Entidad', value: <span className='font-mono'>{auditableLabel(audit)}</span> },
                 ]}
                 renderActions={(audit) => (
                   <Button

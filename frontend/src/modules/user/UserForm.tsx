@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { IconEye, IconEyeOff, IconInfoCircle } from '@tabler/icons-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Controller, useForm, type FieldErrors, type UseFormRegister } from 'react-hook-form'
+import { FormFooter } from '@/shared/components/molecules/FormFooter'
 
 interface PasswordFieldsProps {
   mode: CrudMode
@@ -362,7 +363,7 @@ export const UserForm = ({ mode, entity, onSuccess, onCancel, formId, hideRole, 
         </FieldSet>
 
         {!formId && (
-          <Field orientation="horizontal" className="justify-end border-t border-gray-200 pt-6">
+          <FormFooter>
             {onCancel && (
               <Button
                 type="button"
@@ -383,7 +384,7 @@ export const UserForm = ({ mode, entity, onSuccess, onCancel, formId, hideRole, 
                   ? 'Actualizar'
                   : 'Crear'}
             </Button>
-          </Field>
+          </FormFooter>
         )}
       </FieldGroup>
     </form>

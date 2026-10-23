@@ -38,6 +38,8 @@ export interface IGroupedBarChartProps {
   /** Accessible description for screen-readers */
   ariaLabel?: string
   height?: number
+  /** Axis/tooltip value formatter. Defaults to money (minor units) for backward compatibility — pass a plain formatter (e.g. `String`) for count-based data. */
+  valueFormatter?: (_value: number) => string
 }
 
 const DEFAULT_COLORS = [
@@ -54,6 +56,7 @@ export function GroupedBarChart({
   series,
   ariaLabel,
   height = 300,
+  valueFormatter = formatMinorUnits,
 }: IGroupedBarChartProps) {
   const resolvedConfig: ChartConfig = Object.fromEntries(
     series.map((s, i) => [
@@ -80,14 +83,14 @@ export function GroupedBarChart({
         <YAxis
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value: number) => formatMinorUnits(value)}
+          tickFormatter={(value: number) => valueFormatter(value)}
           tick={{ fontSize: 11 }}
           width={80}
         />
         <ChartTooltip
           content={
             <ChartTooltipContent
-              formatter={(value) => formatMinorUnits(value as number)}
+              formatter={(value) => valueFormatter(value as number)}
             />
           }
         />

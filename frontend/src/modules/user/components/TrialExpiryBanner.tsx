@@ -24,24 +24,24 @@ function getExpiryDisplay(trial: IModuleTrial): ExpiryDisplay {
   if (trial.days_left === null) {
     return {
       text: 'Prueba activa',
-      className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+      className: 'bg-primary/10 text-primary',
     }
   }
   if (trial.days_left === 0) {
     return {
       text: 'Vence hoy',
-      className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+      className: 'bg-destructive/10 text-destructive',
     }
   }
   if (trial.days_left <= 3) {
     return {
       text: `Vence en ${trial.days_left} día${trial.days_left === 1 ? '' : 's'}`,
-      className: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+      className: 'bg-secondary text-muted-foreground',
     }
   }
   return {
     text: `Prueba: vence en ${trial.days_left} días`,
-    className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+    className: 'bg-primary/10 text-primary',
   }
 }
 
@@ -54,9 +54,9 @@ export function TrialExpiryBanner({ trials, canContract }: TrialExpiryBannerProp
   if (trials.length === 0) return null
 
   return (
-    <Card className='border-amber-200 bg-amber-50/40 dark:border-amber-800/40 dark:bg-amber-900/10'>
+    <Card className='rounded-none border-border bg-card'>
       <CardHeader className='pb-3'>
-        <CardTitle className='flex items-center gap-2 text-base text-amber-900 dark:text-amber-300'>
+        <CardTitle className='flex items-center gap-2 text-base text-foreground'>
           <Clock className='h-4 w-4 shrink-0' />
           Tu periodo de prueba
         </CardTitle>
@@ -68,18 +68,18 @@ export function TrialExpiryBanner({ trials, canContract }: TrialExpiryBannerProp
             return (
               <li
                 key={trial.module_key}
-                className='flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200/80 bg-white p-3 dark:border-amber-800/30 dark:bg-background'
+                className='flex flex-wrap items-center justify-between gap-3 border border-border bg-background p-3'
               >
                 <div className='flex flex-col gap-1.5'>
                   <span className='text-sm font-medium'>{trial.module_name}</span>
                   <div className='flex flex-wrap items-center gap-2'>
                     <span
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${expiry.className}`}
+                      className={`inline-flex items-center rounded-none px-2 py-0.5 text-xs font-semibold ${expiry.className}`}
                     >
                       {expiry.text}
                     </span>
                     {trial.expires_at && (
-                      <span className='text-xs text-muted-foreground'>
+                      <span className='font-mono text-xs tabular-nums text-muted-foreground'>
                         ({displayFormatDate(trial.expires_at, 'mediumDate')})
                       </span>
                     )}

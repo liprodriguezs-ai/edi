@@ -2,12 +2,15 @@ import { Button } from '@/components/ui/button'
 import { TenantProvisionForm } from '@/modules/tenant/TenantProvisionForm'
 import type { ITenant } from '@/modules/tenant/schema'
 import { UserForm } from '@/modules/user/UserForm'
+import { PageHeader } from '@/shared/components/atoms/PageHeader'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
+import { Panel } from '@/shared/components/molecules/Panel'
 import { CrudMode } from '@/shared/enums/CrudMode'
 import { CatalogType, useCatalogs } from '@/shared/hooks/useCatalogs'
 import { ERoleUserSlug } from '@/shared/interfaces/Entity'
 import { useTenantStore } from '@/modules/tenant/store/tenantStore'
 import { useUserStore } from '@/modules/user/store/userStore'
-import { IconArrowLeft, IconCheck, IconUser, IconBuilding } from '@tabler/icons-react'
+import { IconCheck, IconUser, IconBuilding } from '@tabler/icons-react'
 import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -63,17 +66,11 @@ export const TenantWizardPage = () => {
 
   return (
     <div className='space-y-8'>
-      <div className='flex items-center gap-4'>
-        <Button variant='ghost' size='icon' onClick={handleCancel}>
-          <IconArrowLeft className='h-5 w-5' />
-        </Button>
-        <div>
-          <h1 className='text-2xl font-bold tracking-tight'>Nuevo Tenant</h1>
-          <p className='text-muted-foreground'>
-            Configura el espacio de trabajo y su usuario administrador
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        back={{ to: '/tenant', label: 'Volver a tenants' }}
+        title='Nuevo Tenant'
+        description='Configura el espacio de trabajo y su usuario administrador'
+      />
 
       {/* Stepper */}
       <nav aria-label='Progreso' className='mx-auto max-w-lg'>
@@ -90,7 +87,7 @@ export const TenantWizardPage = () => {
               >
                 <div className='flex flex-col items-center gap-2 text-center'>
                   <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors ${
+                    className={`flex h-10 w-10 items-center justify-center rounded-none border-2 transition-colors ${
                       isCompleted
                         ? 'border-primary bg-primary text-primary-foreground'
                         : isCurrent
@@ -130,7 +127,7 @@ export const TenantWizardPage = () => {
       </nav>
 
       {/* Step Content */}
-      <div className='mx-auto max-w-2xl rounded-lg border bg-card p-6 shadow-sm'>
+      <Panel as='div' className='mx-auto max-w-2xl'>
         {currentStep === 0 && (
           <TenantProvisionForm
             formId={TENANT_FORM_ID}
@@ -151,11 +148,9 @@ export const TenantWizardPage = () => {
         )}
 
         {currentStep === 1 && !accountOwnerRoleId && (
-          <div className='flex items-center justify-center py-12'>
-            <p className='text-muted-foreground'>Cargando configuración de roles...</p>
-          </div>
+          <InlineLoading name='tenant-wizard-roles' />
         )}
-      </div>
+      </Panel>
 
       {/* Footer Actions */}
       <div className='mx-auto flex max-w-2xl items-center justify-end gap-3'>

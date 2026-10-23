@@ -102,7 +102,7 @@ export const billingAvailablePlanSchema = z.object({
 export const billingAvailableModuleSchema = z.object({
   key: z.string(),
   name: z.string(),
-  /** Módulo base: el plan "piso" del organización. */
+  /** Módulo base: el plan "piso" de la organización. */
   is_base: z.boolean(),
 })
 
@@ -128,7 +128,7 @@ export const billingLedgerEntrySchema = z.object({
 // ---------------------------------------------------------------------------
 
 /**
- * Una línea del pago manual sugerido: un módulo PAGADO del organización con su precio
+ * Una línea del pago manual sugerido: un módulo PAGADO de la organización con su precio
  * derivado del plan. El back excluye cortesía (super_admin_free) y Stripe.
  */
 export const billingManualPaymentLineSchema = z.object({
@@ -187,7 +187,7 @@ const swapPreviewLineSchema = z
 
 /**
  * Aviso de plan-downgrade-guard (plan-downgrade-guard): presente solo cuando el
- * conteo de unidades activas del organización no cabe en el plan destino. `.optional()`
+ * conteo de unidades activas de la organización no cabe en el plan destino. `.optional()`
  * es DELIBERADO — el objeto padre NO es `.strict()`, así que Zod hace STRIP por
  * default con las claves que faltan; nunca convertir a `.strict()`/`z.strictObject`,
  * ambos consumidores (CheckoutSubscriptionResource, TenantBillingResource) comparten

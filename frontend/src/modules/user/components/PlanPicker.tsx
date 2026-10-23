@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils'
+import { SelectableCard } from '@/shared/components/molecules/SelectableCard'
 import { formatPrice } from '@/modules/checkoutSubscription/components/formatPrice'
+import { IncludedFeatures } from '@/modules/checkoutSubscription/components/IncludedFeatures'
 import {
   planBandLabel,
   planFeatures,
@@ -7,8 +8,8 @@ import {
   sharedPlanFeatures,
 } from '@/modules/checkoutSubscription/planSelection'
 import type { BillingInterval, IBillingPlan } from '@/modules/checkoutSubscription/schema'
-import { Check, ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { StatusPill } from '@/shared/components/atoms/StatusPill'
+import { Check } from 'lucide-react'
 
 /**
  * Selector de plan del dueño: de dónde parte, a qué puede cambiar y qué trae.
@@ -32,13 +33,13 @@ export function PlanPicker({
   unitCount,
   onSelect,
 }: {
-  /** Plan vigente del organización, para que el dueño sepa contra qué compara. */
+  /** Plan vigente de la organización, para que el dueño sepa contra qué compara. */
   currentPlan: IBillingPlan | null
   /** Planes a los que puede cambiar (con precio de lista, sin el actual). */
   availablePlans: IBillingPlan[]
   /** Todos los cotizables, incluido el actual: base para las funciones comunes. */
   allBillablePlans: IBillingPlan[]
-  /** Plan cuya banda cubre las unidades del organización, si alguno lo hace. */
+  /** Plan cuya banda cubre las unidades de la organización, si alguno lo hace. */
   fittingPlan: IBillingPlan | null
   selectedPlanKey: string
   interval: BillingInterval
@@ -82,9 +83,18 @@ export function PlanPicker({
         </div>
       </div>
 
+      {/* When every plan includes the same features, announce them ONCE: repeating the
+          list per plan would suggest plans differ in features, and they only change
+          band and price. */}
       <IncludedFeatures
         features={commonFeatures ?? planFeatures(selectedPlan ?? currentPlan)}
-        isSharedAcrossPlans={commonFeatures !== null}
+        title={commonFeatures !== null ? 'Esto viene en cualquier plan' : 'Todo lo que incluye este plan'}
+        description={
+          commonFeatures !== null
+            ? 'Lo único que cambia entre planes es cuántas unidades cubre y el precio. No pierdes funciones al cambiar.'
+            : undefined
+        }
+        listId='change-plan-included-features'
       />
     </>
   )
@@ -121,7 +131,7 @@ function OrganizationContext({
   const isOnFittingPlan = fittingPlan !== null && fittingPlan.key === currentPlan?.key
 
   return (
-    <div className='rounded-[10px] border border-border bg-muted/30 p-4'>
+    <div className='rounded-none border border-border bg-muted/30 p-4'>
       <div className='flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
         <div className='min-w-0'>
           <p className='text-[12px] text-muted-foreground'>Hoy pagas</p>
@@ -163,7 +173,7 @@ function OrganizationContext({
             ) : isOnFittingPlan ? (
               <>
                 {', '}
-                <Check className='mr-0.5 inline h-3.5 w-3.5 text-[var(--g)]' aria-hidden />
+                <Check className='mr-0.5 inline h-3.5 w-3.5 text-primary' aria-hidden />
                 que es justo lo que cubre tu plan actual.
               </>
             ) : (
@@ -205,23 +215,17 @@ function PlanOption({
   const price = planPriceFor(plan, interval)
 
   return (
-    <button
-      type='button'
+    <SelectableCard
       role='radio'
-      aria-checked={selected}
-      onClick={onSelect}
-      className={cn(
-        'flex items-start justify-between gap-2 rounded-xl border px-4 py-3 text-left transition-colors',
-        selected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/40'
-      )}
+      selected={selected}
+      onSelect={onSelect}
+      className='flex items-start justify-between gap-2'
     >
       <div className='min-w-0'>
         <div className='flex flex-wrap items-center gap-x-2 gap-y-1'>
           <p className='text-[13.5px] font-semibold text-foreground'>{plan.name}</p>
           {fits && (
-            <span className='rounded-full bg-[var(--g)]/12 px-2 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.04em] text-[var(--g)]'>
-              Te toca
-            </span>
+            <StatusPill tone='b'>Te toca</StatusPill>
           )}
         </div>
         {band && <p className='mt-0.5 text-[12px] text-muted-foreground'>{band}</p>}
@@ -238,67 +242,6 @@ function PlanOption({
           <span className='text-[12px] text-muted-foreground'>Sin precio de lista</span>
         )}
       </div>
-    </button>
-  )
-}
-
-/**
- * Qué trae el plan. Cuando todos los planes traen lo mismo (modelo "todo es base")
- * se anuncia UNA vez: repetir la lista por plan insinuaría que los planes se
- * diferencian en funciones, y no es cierto — sólo cambian banda y precio.
- */
-function IncludedFeatures({
-  features,
-  isSharedAcrossPlans,
-}: {
-  features: string[]
-  isSharedAcrossPlans: boolean
-}) {
-  // En móvil la lista se colapsa para no empujar el resumen de cobro fuera de pantalla.
-  const [expanded, setExpanded] = useState(false)
-
-  if (features.length === 0) {
-    return null
-  }
-
-  return (
-    <div>
-      <p className='text-[13px] font-semibold text-foreground'>
-        {isSharedAcrossPlans ? 'Esto viene en cualquier plan' : 'Todo lo que incluye este plan'}
-      </p>
-      {isSharedAcrossPlans && (
-        <p className='mt-1 text-[12.5px] text-muted-foreground'>
-          Lo único que cambia entre planes es cuántas unidades cubre y el precio. No pierdes
-          funciones al cambiar.
-        </p>
-      )}
-
-      <button
-        type='button'
-        onClick={() => setExpanded((prev) => !prev)}
-        aria-expanded={expanded}
-        aria-controls='change-plan-included-features'
-        className='mt-2 flex items-center gap-1 text-[12px] font-medium text-muted-foreground sm:hidden'
-      >
-        Ver todo ({features.length})
-        <ChevronDown
-          aria-hidden='true'
-          data-state={expanded ? 'open' : 'closed'}
-          className='h-3.5 w-3.5 transition-transform data-[state=open]:rotate-180'
-        />
-      </button>
-
-      <ul
-        id='change-plan-included-features'
-        className={cn('mt-3 grid gap-1.5 sm:grid-cols-2', !expanded && 'hidden sm:grid')}
-      >
-        {features.map((feature) => (
-          <li key={feature} className='flex items-start gap-2 text-[12.5px]'>
-            <Check aria-hidden='true' className='mt-0.5 h-3.5 w-3.5 shrink-0 text-primary' />
-            <span className='text-foreground'>{feature}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    </SelectableCard>
   )
 }

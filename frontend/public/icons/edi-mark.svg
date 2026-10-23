@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 7 48 114" role="img" aria-label="Prueba EDI">
+  <g fill="none" stroke="#12AAAA" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="43" y="10" width="42" height="108" rx="14" stroke-width="5"/>
+    <g stroke-width="4">
+      <circle cx="64" cy="29" r="12"/>
+      <circle cx="64" cy="52.3" r="12"/>
+      <circle cx="64" cy="75.7" r="12"/>
+      <circle cx="64" cy="99" r="12"/>
+    </g>
+  </g>
+</svg>

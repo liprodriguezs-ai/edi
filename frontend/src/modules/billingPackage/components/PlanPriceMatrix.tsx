@@ -1,11 +1,4 @@
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import {
@@ -23,9 +16,12 @@ import type {
   IPlanPriceMatrixModuleInput,
 } from '@/modules/billingPackage/schema'
 import { PlanPriceMatrixResource } from '@/modules/billingPackage/services/BillingPackageResource'
+import { Modal } from '@/shared/components/Modal'
+import { Callout } from '@/shared/components/atoms/Callout'
+import { InlineEmpty } from '@/shared/components/molecules/InlineEmpty'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
 import { toast } from '@/shared/hooks/useToast'
 import { CheckCircle2, Clock, Info } from 'lucide-react'
-import { Skeleton } from 'boneyard-js/react'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 
 // ─── Tipos internos del estado editable ──────────────────────────────────────
@@ -221,7 +217,7 @@ function StripeIndicator({ stripeId }: { stripeId: string | null | undefined }) 
   if (stripeId) {
     return (
       <span
-        className='inline-flex items-center gap-1 text-[11px] text-emerald-600'
+        className='inline-flex items-center gap-1 text-[11px] text-primary'
         title={`Ya existe como precio en Stripe y se puede cobrar (${stripeId})`}
       >
         <CheckCircle2 className='h-3 w-3' />
@@ -297,7 +293,7 @@ function ModuleRow({
                   value={cell.unit_amount_pesos}
                   onChange={(e) => onAmount(key, e.target.value)}
                   disabled={isSaving || isFree}
-                  className='h-8 text-sm'
+                  className='h-8 font-mono text-sm tabular-nums'
                   placeholder='0.00'
                   aria-label={`Monto ${mod.name} ${INTERVAL_LABELS[interval] ?? interval}`}
                 />
@@ -417,34 +413,46 @@ export function PlanPriceMatrix({ isOpen, plan, onClose }: PlanPriceMatrixProps)
   const singleModule = !showModuleColumn ? (matrix?.modules[0] ?? null) : null
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className='max-w-5xl p-0' aria-describedby={undefined}>
-        <DialogHeader className='shrink-0 px-6 pt-6'>
-          <DialogTitle>Precios del plan — {plan.name}</DialogTitle>
-        </DialogHeader>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={`Precios del plan — ${plan.name}`}
+      size='xl'
+      footer={
+        <>
+          <Button
+            type='button'
+            variant='outline'
+            onClick={onClose}
+            disabled={isSaving}
+            className='min-w-[80px]'
+          >
+            Cancelar
+          </Button>
+          <Button
+            type='button'
+            onClick={() => {
+              void handleSave()
+            }}
+            disabled={isLoading || !matrix}
+            loading={isSaving}
+            className='min-w-[120px]'
+          >
+            {isSaving ? 'Guardando...' : 'Guardar precios'}
+          </Button>
+        </>
+      }
+    >
+      <div className='space-y-4 pb-4'>
+        <Callout icon={Info} tone='info'>
+          Define cuánto cuesta este plan en cada intervalo de cobro. Los montos se ingresan en pesos
+          MXN (la conversión a centavos es automática al guardar) y se sincronizan a Stripe con el
+          comando <code className='font-mono font-semibold'>billing:sync-stripe</code>.
+        </Callout>
 
-        {/* Nota informativa */}
-        <div className='px-6 pt-2'>
-          <div className='flex items-start gap-2 rounded-md border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800'>
-            <Info className='h-4 w-4 shrink-0 mt-0.5' />
-            <span>
-              Define cuánto cuesta este plan en cada intervalo de cobro. Los montos se ingresan en
-              pesos MXN (la conversión a centavos es automática al guardar) y se sincronizan a
-              Stripe con el comando{' '}
-              <code className='font-mono font-semibold'>billing:sync-stripe</code>.
-            </span>
-          </div>
-        </div>
-
-        <div className='flex-1 min-h-0 overflow-y-auto px-6 py-4'>
+        <div>
           {isLoading ? (
-            <Skeleton name='price-matrix' loading>
-              <div className='space-y-2' aria-busy='true' aria-label='Cargando precios del plan'>
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className='h-14 w-full rounded-md bg-muted/30' />
-                ))}
-              </div>
-            </Skeleton>
+            <InlineLoading name='price-matrix' lines={6} />
           ) : matrix ? (
             <div className='space-y-4'>
               {singleModule && (
@@ -498,34 +506,10 @@ export function PlanPriceMatrix({ isOpen, plan, onClose }: PlanPriceMatrixProps)
               </div>
             </div>
           ) : (
-            <p className='text-muted-foreground text-sm text-center py-8'>
-              No se pudieron cargar los precios del plan.
-            </p>
+            <InlineEmpty className='justify-center py-8'>No se pudieron cargar los precios del plan.</InlineEmpty>
           )}
         </div>
-
-        <DialogFooter className='shrink-0 px-6 pb-6 border-t border-border pt-4'>
-          <Button
-            type='button'
-            variant='outline'
-            onClick={onClose}
-            disabled={isSaving}
-            className='min-w-[80px]'
-          >
-            Cancelar
-          </Button>
-          <Button
-            type='button'
-            onClick={() => {
-              void handleSave()
-            }}
-            disabled={isSaving || isLoading || !matrix}
-            className='min-w-[120px]'
-          >
-            {isSaving ? 'Guardando...' : 'Guardar precios'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </Modal>
   )
 }

@@ -30,6 +30,18 @@ interface ConfirmDialogProps {
   /** Override confirm button style; ignored when variant='delete' (uses destructive) */
   colorButtonConfirm?: string
   colorButtonCancel?: string
+  /** Extra fields (e.g. a reason textarea) rendered between the description and the footer. */
+  children?: ReactNode
+  /** Disables only the confirm button (e.g. while a required reason is empty). */
+  confirmDisabled?: boolean
+  /** Text on the confirm button while `isLoading` (defaults to "Procesando..." / "Eliminando..."). */
+  loadingLabel?: string
+  /** Destructive confirm button without the delete icon/copy (cancel, invalidate...). */
+  destructive?: boolean
+  /** Acknowledge-only dialog: a single confirm button (e.g. "Entendido"). */
+  hideCancel?: boolean
+  /** Custom media above the title (icon). Ignored for variant='delete', which has its own. */
+  media?: ReactNode
 }
 
 const DELETE_DEFAULTS = {
@@ -88,33 +100,51 @@ export const ConfirmDialog = ({
   isLoading = false,
   onConfirm,
   onCancel,
-  colorButtonConfirm = 'bg-primary hover:bg-primary/90'
+  colorButtonConfirm = 'bg-primary hover:bg-primary/90',
+  children,
+  confirmDisabled = false,
+  loadingLabel: loadingLabelOverride,
+  destructive = false,
+  hideCancel = false,
+  media
 }: ConfirmDialogProps): JSX.Element => {
   const isDelete = variant === 'delete'
-  const { title: resolvedTitle, description: resolvedDescription, confirmLabel: resolvedConfirmLabel, loadingLabel } =
+  const isDestructive = isDelete || destructive
+  const { title: resolvedTitle, description: resolvedDescription, confirmLabel: resolvedConfirmLabel, loadingLabel: defaultLoadingLabel } =
     resolveCopy(variant, { title, description, entityName, confirmLabel })
+  const loadingLabel = loadingLabelOverride ?? defaultLoadingLabel
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open: boolean) => !open && onCancel()}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          {isDelete && (
+          {isDelete ? (
             <AlertDialogMedia className="bg-destructive/10 text-destructive">
               <Trash2 className="size-8" aria-hidden />
             </AlertDialogMedia>
+          ) : (
+            media
           )}
           <AlertDialogTitle>{resolvedTitle}</AlertDialogTitle>
           <AlertDialogDescription>{resolvedDescription}</AlertDialogDescription>
         </AlertDialogHeader>
+        {children && <div className="space-y-3">{children}</div>}
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel} disabled={isLoading}>
-            {cancelLabel}
-          </AlertDialogCancel>
+          {!hideCancel && (
+            <AlertDialogCancel onClick={onCancel} disabled={isLoading}>
+              {cancelLabel}
+            </AlertDialogCancel>
+          )}
           <AlertDialogAction
-            onClick={onConfirm}
-            disabled={isLoading}
-            variant={isDelete ? 'destructive' : undefined}
-            className={!isDelete ? colorButtonConfirm : undefined}
+            onClick={(event) => {
+              // With extra fields the parent may keep the dialog open (validation, async);
+              // it closes it through onCancel/isOpen instead of the default auto-close.
+              if (children) event.preventDefault()
+              onConfirm()
+            }}
+            disabled={isLoading || confirmDisabled}
+            variant={isDestructive ? 'destructive' : undefined}
+            className={!isDestructive ? colorButtonConfirm : undefined}
           >
             {isLoading ? loadingLabel : resolvedConfirmLabel}
           </AlertDialogAction>

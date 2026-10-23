@@ -46,6 +46,8 @@ export interface CatalogPageConfig {
   description: string
   /** Sustantivo del registro, ej. 'tipo de proveedor' → "Nuevo tipo de proveedor" */
   itemLabel: string
+  /** Género del sustantivo, para concordar el botón: 'ocupación' → "Nueva ocupación". */
+  itemGender?: 'm' | 'f'
   /** Entidad de permisos y base del endpoint (snake_case), ej. 'provider_type' */
   entity: string
   withColor?: boolean
@@ -55,7 +57,7 @@ export interface CatalogPageConfig {
 }
 
 /**
- * Fábrica de páginas CRUD para los catálogos autoadministrables del organización.
+ * Fábrica de páginas CRUD para los catálogos autoadministrables de la organización.
  * Una página = una config declarativa; schema/resource/store/columnas se
  * generan aquí (DRY: nada de duplicar 10 módulos idénticos).
  */
@@ -111,7 +113,7 @@ export function createCatalogPage(config: CatalogPageConfig) {
       <CatalogCrudModule<ICatalogRow, CatalogFormValues>
         title={config.title}
         description={config.description}
-        newLabel={`Nuevo ${config.itemLabel}`}
+        newLabel={`${config.itemGender === 'f' ? 'Nueva' : 'Nuevo'} ${config.itemLabel}`}
         editLabel={`Editar ${config.itemLabel}`}
         searchPlaceholder="Buscar…"
         permissionEntity={config.entity}
@@ -147,6 +149,8 @@ export interface SimpleCatalogPageConfig {
   description: string
   /** Sustantivo del registro, ej. 'parentesco' → "Nuevo parentesco" */
   itemLabel: string
+  /** Género del sustantivo, para concordar el botón: 'ocupación' → "Nueva ocupación". */
+  itemGender?: 'm' | 'f'
   /** Entidad de permisos y base del endpoint (snake_case), ej. 'caregiver_relationship' */
   entity: string
 }
@@ -190,7 +194,7 @@ export function createSimpleCatalogPage(config: SimpleCatalogPageConfig) {
       <CatalogCrudModule<ISimpleCatalogRow, SimpleCatalogFormValues>
         title={config.title}
         description={config.description}
-        newLabel={`Nuevo ${config.itemLabel}`}
+        newLabel={`${config.itemGender === 'f' ? 'Nueva' : 'Nuevo'} ${config.itemLabel}`}
         editLabel={`Editar ${config.itemLabel}`}
         searchPlaceholder="Buscar…"
         permissionEntity={config.entity}

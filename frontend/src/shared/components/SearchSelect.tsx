@@ -79,7 +79,7 @@ function buildClassNames<T extends SearchSelectItem>(
   return {
     control: ({ isFocused, isDisabled }) =>
       cn(
-        'flex w-full items-center rounded-md border bg-card px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none min-h-9',
+        'flex w-full items-center rounded-md border bg-card px-3 py-1 text-sm transition-[color,box-shadow] outline-none min-h-9',
         isFocused ? 'border-ring ring-[3px] ring-ring/50' : 'border-input',
         invalid && 'border-destructive ring-destructive/20',
         isDisabled && 'cursor-not-allowed opacity-50'

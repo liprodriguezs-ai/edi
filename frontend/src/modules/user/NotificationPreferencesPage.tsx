@@ -16,6 +16,8 @@ import type {
   NotificationPreferences,
 } from '@/modules/user/services/UserResource'
 import { PageHeader } from '@/shared/components/atoms/PageHeader'
+import { InlineLoading } from '@/shared/components/molecules/InlineLoading'
+import { Panel } from '@/shared/components/molecules/Panel'
 import { useNotificationSoundMuted } from '@/shared/notifications/notificationSound'
 import { useState } from 'react'
 
@@ -24,7 +26,7 @@ function SoundPreferenceCard() {
   const [muted, setMuted] = useNotificationSoundMuted()
 
   return (
-    <div className="flex items-center justify-between rounded-[14px] border border-border bg-card p-5 shadow-sm">
+    <Panel as="div" className="flex items-center justify-between">
       <div>
         <p className="text-[14px] font-semibold">Sonido de notificaciones</p>
         <p className="mt-0.5 text-[12.5px] text-[var(--ink-3)]">
@@ -36,7 +38,7 @@ function SoundPreferenceCard() {
         onCheckedChange={(on) => setMuted(!on)}
         aria-label="Activar sonido de notificaciones"
       />
-    </div>
+    </Panel>
   )
 }
 
@@ -80,7 +82,7 @@ function PreferencesForm({ initial, saving, onSave }: {
 
   return (
     <div className="space-y-6">
-      <div className="overflow-hidden rounded-[14px] border border-border bg-card shadow-sm">
+      <Panel as="div" padding="none" className="overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
@@ -108,12 +110,10 @@ function PreferencesForm({ initial, saving, onSave }: {
             ))}
           </TableBody>
         </Table>
-      </div>
+      </Panel>
 
-      <div className="rounded-[14px] border border-border bg-card p-5 shadow-sm">
-        <p className="text-[14px] font-semibold">Horario de silencio</p>
-        <p className="mt-0.5 text-[12.5px] text-[var(--ink-3)]">No recibirás notificaciones push entre estas horas (opcional).</p>
-        <div className="mt-3 flex flex-wrap items-end gap-3">
+      <Panel title="Horario de silencio" description="No recibirás notificaciones push entre estas horas (opcional).">
+        <div className="flex flex-wrap items-end gap-3">
           <div className="flex flex-col">
             <label htmlFor="quiet-hours-start" className="text-[12.5px] text-[var(--ink-3)]">Desde</label>
             <Input id="quiet-hours-start" type="time" value={quietStart} onChange={(e) => setQuietStart(e.target.value)} className="mt-1 w-[140px]" disabled={saving} />
@@ -123,10 +123,10 @@ function PreferencesForm({ initial, saving, onSave }: {
             <Input id="quiet-hours-end" type="time" value={quietEnd} onChange={(e) => setQuietEnd(e.target.value)} className="mt-1 w-[140px]" disabled={saving} />
           </div>
         </div>
-      </div>
+      </Panel>
 
       <div className="flex justify-end">
-        <Button className="rounded-full" onClick={save} disabled={saving}>
+        <Button onClick={save} loading={saving}>
           {saving ? 'Guardando…' : 'Guardar preferencias'}
         </Button>
       </div>
@@ -140,10 +140,10 @@ export const NotificationPreferencesPage = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Preferencias de notificación" description="Elige cómo y cuándo recibir avisos del organización" />
+      <PageHeader title="Preferencias de notificación" description="Elige cómo y cuándo recibir avisos de la organización" />
       <SoundPreferenceCard />
       {isLoading || !preferences ? (
-        <p className="py-12 text-center text-sm text-[var(--ink-3)]">Cargando preferencias…</p>
+        <InlineLoading name="notification-preferences" lines={6} />
       ) : (
         <PreferencesForm
           initial={preferences}
