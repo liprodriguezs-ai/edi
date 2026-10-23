@@ -1,0 +1,3 @@
+- [Manual state](project_manual_state.md) — pages: portada, agenda, expediente/nino, expediente/prueba-edi; roles Admin/Recepción; build quirks
+- [Agenda page sources](agenda_page_sources.md) — code files backing /docs/agenda/citas
+- [Clinical record page sources](clinical_record_page_sources.md) — code backing expediente pages; renamed labels; menu test

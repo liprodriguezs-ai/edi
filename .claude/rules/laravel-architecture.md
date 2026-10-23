@@ -4,6 +4,8 @@ globs: "**/*.php"
 ---
 # Laravel Architecture — Complemento al skill laravel-backend-architecture
 
+> Las convenciones genéricas de PHP/Laravel 13 (requests, jobs, transacciones, casts, Pint, PHPUnit) las mantiene Boost en `backend/CLAUDE.md`; no se repiten acá.
+>
 > Este archivo es dueño de cuatro cosas concretas: la tabla de alias de middleware, la convención de migraciones (todas corren en un único `php artisan migrate`; el tenant-scope se marca con `BaseModel::columns($table, true)`, no por carpeta), la referencia de paquetes instalados, y el patrón de seeders de catálogo con constantes UUID.
 >
 > CANONICAL para modelos/controllers/relaciones/migraciones/permisos: laravel-backend-architecture y stancl-tenancy skills.
@@ -82,6 +84,12 @@ Orion devuelve su propio formato de respuesta (data, meta, etc.). **No** usar un
 
 ### 4.6 Consistencia en Form Requests
 Revisar los requests **hermanos** del módulo antes de crear uno nuevo. Si el módulo usa estilo **array** (`['required', 'string', 'max:255']`), mantener array. Si usa **string** (`'required|string|max:255'`), mantener string. Consistencia por módulo.
+
+### 4.7 Media (Spatie)
+Usar `App\Models\Media`. La lógica de adjuntar archivos (`$model->addMedia(...)->toMediaCollection(...)`) va en el **servicio** del módulo cuando hay reglas de negocio, no en el controlador.
+
+### 4.8 Excepciones
+Nunca tragar un `catch` sin registrarlo. Loggear con contexto (`Log::error('Operación X falló', ['user_id' => ..., 'error' => $e->getMessage()])`) y relanzar una excepción con mensaje apto para el usuario.
 
 ---
 
