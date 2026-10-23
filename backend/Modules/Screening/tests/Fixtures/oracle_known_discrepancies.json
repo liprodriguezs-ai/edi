@@ -1,0 +1,22 @@
+[
+    {
+        "legacy_id": 791,
+        "group_code": "G10",
+        "field": "global_color",
+        "expected": "red",
+        "computed": "yellow",
+        "reason": "legacy_unexplained",
+        "signature": "d4c48a0992427202",
+        "notes": "Reproducible only under the G2-G4 ALE+FRB escalation rule, which G9-G15 are confirmed to ignore. Pending a clinician's reading. See edi-instrument-catalog/design.md §14."
+    },
+    {
+        "legacy_id": 2452,
+        "group_code": "G10",
+        "field": "global_color",
+        "expected": "red",
+        "computed": "yellow",
+        "reason": "legacy_unexplained",
+        "signature": "e63d40e1d3c8aaa5",
+        "notes": "Reproducible only under the G2-G4 ALE+FRB escalation rule, which G9-G15 are confirmed to ignore. Pending a clinician's reading. See edi-instrument-catalog/design.md §14."
+    }
+]

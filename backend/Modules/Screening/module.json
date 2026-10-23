@@ -1,0 +1,11 @@
+{
+    "name": "Screening",
+    "alias": "screening",
+    "description": "EDI scoring engine: pure PHP interpreter for the tamiz semaphore (code-only skeleton, no persistence yet).",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Screening\\Providers\\ScreeningServiceProvider"
+    ],
+    "files": []
+}
