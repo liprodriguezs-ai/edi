@@ -1,0 +1,246 @@
+/*
+ * Agenda (react-big-calendar) con los tokens del tema EDI. Todo vive bajo
+ * .agenda-calendar para no filtrar estilos al resto de la app.
+ */
+.agenda-calendar {
+  --agenda-slot-height: 1.75rem;
+  height: min(72vh, 900px);
+  min-height: 520px;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+}
+
+.agenda-calendar .rbc-toolbar {
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.agenda-calendar .rbc-toolbar .rbc-toolbar-label {
+  font-weight: 600;
+  text-align: left;
+  order: -1;
+  flex-basis: 100%;
+}
+
+/* Phone: one row per piece (title, navigation, view) so nothing is clipped. */
+@media (max-width: 767px) {
+  .agenda-calendar .rbc-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .agenda-calendar .rbc-toolbar .rbc-toolbar-label {
+    padding: 0;
+  }
+
+  .agenda-calendar .rbc-btn-group {
+    display: flex;
+    width: 100%;
+  }
+
+  .agenda-calendar .rbc-btn-group button {
+    flex: 1 1 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .agenda-calendar .rbc-toolbar .rbc-toolbar-label {
+    order: 0;
+    flex-basis: auto;
+    text-align: center;
+  }
+}
+
+.agenda-calendar .rbc-btn-group button {
+  border-color: var(--border);
+  color: var(--foreground);
+  background: var(--card);
+  padding: 0.375rem 0.75rem;
+  border-radius: 0;
+}
+
+.agenda-calendar .rbc-btn-group button:hover,
+.agenda-calendar .rbc-btn-group button:focus-visible {
+  background: var(--secondary);
+}
+
+.agenda-calendar .rbc-btn-group button.rbc-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: none;
+}
+
+.agenda-calendar .rbc-time-view,
+.agenda-calendar .rbc-month-view {
+  border-color: var(--border);
+  background: var(--card);
+}
+
+.agenda-calendar .rbc-header,
+.agenda-calendar .rbc-time-header-content,
+.agenda-calendar .rbc-time-content,
+.agenda-calendar .rbc-timeslot-group,
+.agenda-calendar .rbc-day-slot .rbc-time-slot,
+.agenda-calendar .rbc-time-header.rbc-overflowing,
+.agenda-calendar .rbc-time-content > * + * > * {
+  border-color: var(--line-2);
+}
+
+.agenda-calendar .rbc-header {
+  padding: 0.5rem 0.25rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* Sentence case ("Martes 20 de octubre"), not Title Case on every word.
+   ::first-letter needs a block-level box. */
+.agenda-calendar .rbc-header span {
+  display: inline-block;
+}
+
+.agenda-calendar .rbc-toolbar .rbc-toolbar-label::first-letter,
+.agenda-calendar .rbc-header span::first-letter {
+  text-transform: uppercase;
+}
+
+/* The agenda has no all-day appointments: drop the empty row under the header. */
+.agenda-calendar .rbc-allday-cell {
+  display: none;
+}
+
+.agenda-calendar .rbc-time-header-content > .rbc-row.rbc-row-resource,
+.agenda-calendar .rbc-time-header-content > .rbc-row:first-child {
+  border-bottom-color: var(--line-2);
+}
+
+.agenda-calendar .rbc-timeslot-group {
+  min-height: calc(var(--agenda-slot-height) * 2);
+}
+
+.agenda-calendar .rbc-time-gutter .rbc-label {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-calendar .rbc-today {
+  background: color-mix(in oklab, var(--bbg) 45%, transparent);
+}
+
+.agenda-calendar .rbc-current-time-indicator {
+  background: var(--b);
+  height: 2px;
+}
+
+.agenda-calendar .rbc-slot-selection {
+  background: color-mix(in oklab, var(--b) 18%, transparent);
+  color: var(--foreground);
+}
+
+.agenda-calendar .rbc-day-slot .rbc-events-container {
+  margin-right: 4px;
+}
+
+/* Cita: canto vivo como el resto del sistema. */
+.agenda-calendar .rbc-event.agenda-event {
+  border-radius: 0;
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  padding: 2px 6px;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+.agenda-calendar .rbc-event.agenda-event--scheduled {
+  background: var(--card);
+  border-left-color: var(--ink-3);
+  color: var(--foreground);
+}
+
+.agenda-calendar .rbc-event.agenda-event--confirmed {
+  background: var(--bbg);
+  border-color: color-mix(in oklab, var(--b) 35%, transparent);
+  border-left-color: var(--b);
+  color: var(--foreground);
+}
+
+.agenda-calendar .rbc-event.agenda-event--arrived {
+  background: var(--b);
+  border-color: var(--b);
+  color: var(--primary-foreground);
+}
+
+.agenda-calendar .rbc-event.agenda-event--fulfilled {
+  background: var(--secondary);
+  border-left-color: var(--ink-3);
+  color: var(--ink-2);
+}
+
+.agenda-calendar .rbc-event.agenda-event--no_show {
+  background: transparent;
+  border-style: dashed;
+  border-left-style: solid;
+  border-left-color: var(--ink-3);
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+.agenda-calendar .rbc-event.agenda-event .rbc-event-label {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.agenda-calendar .rbc-event:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.agenda-calendar .rbc-addons-dnd .rbc-addons-dnd-dragged-event {
+  opacity: 0.4;
+}
+
+/* Month view: hairline grid, today marked like the rest of the app, other months muted. */
+.agenda-calendar .rbc-month-row + .rbc-month-row,
+.agenda-calendar .rbc-day-bg + .rbc-day-bg,
+.agenda-calendar .rbc-month-view .rbc-header + .rbc-header {
+  border-color: var(--line-2);
+}
+
+.agenda-calendar .rbc-off-range-bg {
+  background: var(--muted);
+}
+
+.agenda-calendar .rbc-month-view .rbc-today {
+  background: var(--bbg);
+}
+
+.agenda-calendar .rbc-date-cell {
+  padding: 0.375rem 0.5rem 0.25rem;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-calendar .rbc-date-cell .rbc-button-link {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.agenda-calendar .rbc-date-cell.rbc-off-range .rbc-button-link {
+  color: var(--ink-3);
+}
+
+.agenda-calendar .rbc-date-cell.rbc-now .rbc-button-link {
+  color: var(--b);
+}
+
+.agenda-calendar .rbc-month-view .rbc-event {
+  padding: 1px 6px;
+  font-size: 0.75rem;
+}
+
+.agenda-calendar .rbc-show-more {
+  color: var(--b);
+  font-weight: 600;
+  background: transparent;
+}

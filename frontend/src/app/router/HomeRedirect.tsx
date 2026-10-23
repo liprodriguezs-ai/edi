@@ -1,17 +1,21 @@
+import { homeDestination } from '@/app/router/homeDestination'
 import { useOnboardingChecklist } from '@/modules/onboarding/hooks/useOnboardingChecklist'
 import { sessionStore } from '@/shared/auth/sessionStore'
-import { ERoleUserSlug, roleRoutes } from '@/shared/interfaces/Entity'
+import { usePermissions } from '@/shared/hooks/usePermissions'
 import { useStore } from 'zustand'
 import { Navigate } from 'react-router-dom'
+
+const NO_ROLES: string[] = []
 
 /**
  * Smart home redirect:
  * - Admin users with incomplete onboarding → /onboarding
+ * - Clinical staff (can read the agenda) → today's agenda
  * - Everyone else → their roleRoute (or /dashboard as fallback)
  */
 export function HomeRedirect() {
-  const profile = useStore(sessionStore, (s) => s.profile)
-  const roles: string[] = profile?.roles ?? []
+  const roles = useStore(sessionStore, (s) => s.profile?.roles ?? NO_ROLES)
+  const canReadAgenda = usePermissions('read.appointment')
 
   const { checklist, isLoading, isAdmin } = useOnboardingChecklist()
 
@@ -23,11 +27,5 @@ export function HomeRedirect() {
     return <Navigate to="/onboarding" replace />
   }
 
-  // Use `roles.some` via the hook's isAdmin, but still need first matching role for destination
-  const role = (roles.find((r) =>
-    Object.values(ERoleUserSlug).includes(r as ERoleUserSlug)
-  ) ?? null) as ERoleUserSlug | null
-
-  const destination = role ? (roleRoutes[role] ?? '/dashboard') : '/dashboard'
-  return <Navigate to={destination} replace />
+  return <Navigate to={homeDestination(roles, canReadAgenda)} replace />
 }
