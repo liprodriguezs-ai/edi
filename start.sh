@@ -55,17 +55,19 @@ ENV_HINTS="COMPOSE_PROJECT_NAME=edi · DB_DATABASE=edi · DB_HOST=pgsql · DB_PO
     MAIL_MAILER=smtp · MAIL_HOST=mailpit · MAIL_PORT=1025
     FORWARD_DB_PORT/APP_PORT/VITE_PORT propios, para no chocar con otros proyectos"
 
-# Chequeos de .env propios del proyecto. Sumá `problems=1` para bloquear.
-# ── Sincronización de IP de LAN ──────────────────────────────────────────────
-# Portado de kivo7/residia (mismo scaffold). Los dev servers se atan a la IP de
-# LAN, y Sanctum ata la cookie de refresh al ORIGEN: si el front y la API no
-# comparten host, la sesión se cae a /login y parece que "el backend no levanta".
-# Antes esto se arreglaba a mano y se volvía a romper al siguiente DHCP — este
-# .env llegó a acumular una IP muerta durante días.
+# ── IP de LAN en runtime ─────────────────────────────────────────────────────
+# Los dev servers se atan a la IP de LAN, y Sanctum ata la cookie de refresh al
+# ORIGEN: si el front y la API no comparten host, la sesión se cae a /login y
+# parece que "el backend no levanta".
 #
-# OJO: .env.production NO se toca — apunta a producción a propósito.
-FRONTEND_ENV_FILES=(".env" ".env.localhost" ".env.staging")
-
+# La IP NO se escribe en ningún .env (portado de whatspapp). Antes se reescribían
+# backend/.env y los .env del frontend en cada cambio de DHCP: quedaban IPs
+# personales en archivos, y un .env llegó a arrastrar una IP muerta durante días.
+# Ahora start.sh exporta las URLs sólo a los procesos que arranca:
+#   - `sail up` las interpola en compose.yaml (environment de laravel.test), y
+#     como cambia la config, compose recrea el contenedor solo.
+#   - Vite recibe VITE_API_BASE_URL por entorno, que le gana a los .env.
+# Un `sail up` o `php artisan` a mano sigue usando los valores de backend/.env.
 detect_lan_ip() {
   local ip='' iface
   # macOS: la interfaz de la ruta por defecto, no la primera que aparezca
@@ -78,23 +80,9 @@ detect_lan_ip() {
     ip="$(ip -4 route get 1.1.1.1 2>/dev/null \
       | awk '{for(i=1;i<=NF;i++) if($i=="src"){print $(i+1); exit}}')"
   fi
+  # Loopback y APIPA (169.254.x) no sirven para entrar desde otro equipo.
+  case "$ip" in 127.*|169.254.*) ip='' ;; esac
   printf '%s' "$ip"
-}
-
-# Reemplaza (o agrega) KEY=VAL. Si la clave está repetida deja SOLO la primera:
-# Laravel se queda con la ÚLTIMA, así que un duplicado olvidado gana en silencio.
-# Con awk y archivo temporal porque `sed -i` no es portable entre BSD y GNU.
-set_env_var() {
-  local file="$1" key="$2" val="$3" tmp
-  [ -f "$file" ] || return 0
-  tmp="$(mktemp)" || return 1
-  KEY="$key" VAL="$val" awk '
-    BEGIN { k = ENVIRON["KEY"]; v = ENVIRON["VAL"]; done = 0 }
-    index($0, k "=") == 1 { if (!done) { print k "=" v; done = 1 } next }
-    { print }
-    END { if (!done) print k "=" v }
-  ' "$file" > "$tmp" && cat "$tmp" > "$file"
-  rm -f "$tmp"
 }
 
 # Puerto REAL del dev server del frontend.
@@ -114,59 +102,35 @@ detect_frontend_port() {
   printf '%s' "${port:-5173}"
 }
 
-sync_lan_ip() {
-  local ip app_port vite_port want_api changed=0 f
+prepare_runtime_env() {
+  local ip host app_port vite_port
   ip="$(detect_lan_ip)"
-  if [ -z "$ip" ]; then
-    warn "no pude detectar la IP de LAN — dejo los .env como están"
-    return 0
-  fi
-
   app_port="$(env_value APP_PORT)"; app_port="${app_port:-80}"
   vite_port="$(detect_frontend_port)"
-  want_api="http://${ip}:${app_port}/api"
 
-  # ¿Hace falta tocar algo?
-  [ "$(env_value APP_URL)" = "http://${ip}:${app_port}" ] || changed=1
-  [ "$(env_value APP_FRONTEND_URL)" = "http://${ip}:${vite_port}" ] || changed=1
-  for f in "${FRONTEND_ENV_FILES[@]}"; do
-    [ -f "$FRONTEND/$f" ] || continue
-    grep -qxF "VITE_API_BASE_URL=${want_api}" "$FRONTEND/$f" || changed=1
-  done
-
-  if [ "$changed" = "0" ]; then
-    skip "IP de LAN ya sincronizada ($ip)"
-    return 0
+  if [ -n "$ip" ]; then
+    host="$ip"
+  else
+    host="127.0.0.1"
+    warn "no pude detectar la IP de LAN — uso 127.0.0.1/localhost (sin escribir .env)"
   fi
 
-  if [ "$CHECK_ONLY" = true ]; then
-    warn "los .env apuntan a otra IP — corré ./start.sh (sin --check) para sincronizar a $ip"
-    return 0
-  fi
+  export APP_URL="http://${host}:${app_port}"
+  export APP_FRONTEND_URL="http://${host}:${vite_port}"
+  export SANCTUM_STATEFUL_DOMAINS="${host}:${vite_port},localhost,localhost:${vite_port},127.0.0.1,127.0.0.1:${vite_port}"
+  RUNTIME_VITE_API_BASE_URL="http://${host}:${app_port}/api"
 
-  set_env_var "$BACKEND/.env" APP_URL          "http://${ip}:${app_port}"
-  set_env_var "$BACKEND/.env" APP_FRONTEND_URL "http://${ip}:${vite_port}"
-  set_env_var "$BACKEND/.env" SANCTUM_STATEFUL_DOMAINS \
-    "${ip}:${vite_port},localhost,localhost:${vite_port},127.0.0.1,127.0.0.1:${vite_port}"
-
-  for f in "${FRONTEND_ENV_FILES[@]}"; do
-    [ -f "$FRONTEND/$f" ] && set_env_var "$FRONTEND/$f" VITE_API_BASE_URL "$want_api"
-  done
-
-  ok "IP de LAN sincronizada: $ip (API :$app_port · front :$vite_port)"
-
-  # Si el contenedor ya estaba arriba leyó el .env viejo al bootear.
-  if docker ps --filter "name=${PROJECT_NAME}-laravel.test" --filter status=running -q 2>/dev/null | grep -q .; then
-    docker restart "${PROJECT_NAME}-laravel.test-1" >/dev/null 2>&1 \
-      && ok "backend reiniciado para tomar la IP nueva"
-  fi
+  [ -n "$ip" ] && ok "IP de LAN: $ip — se inyecta en runtime, sin escribir .env"
+  skip "Laravel: APP_URL=$APP_URL · APP_FRONTEND_URL=$APP_FRONTEND_URL"
+  skip "Vite: VITE_API_BASE_URL=$RUNTIME_VITE_API_BASE_URL"
 }
 
-
+# Chequeos de .env propios del proyecto. Sumá `problems=1` para bloquear.
 project_env_checks() {
   local host
 
-  sync_lan_ip
+  # ANTES de `sail up` y de Vite: ambos leen las variables que exporta.
+  prepare_runtime_env
 
   host="$(env_value DB_HOST)"
   [[ "$host" == "pgsql" ]] \
@@ -186,6 +150,32 @@ project_needs_seed() {
   local tables
   tables=$(db_query "select count(*) from information_schema.tables where table_schema='public';")
   [[ "${tables:-0}" -lt 20 ]]
+}
+
+# Se llama ANTES de migrar (portado de whatspapp). Devuelve 0 si el catálogo de
+# módulos de la base quedó más viejo que modules.csv: pasa al registrar un módulo
+# nuevo (regla dura 9 de AGENTS.md) sobre una base ya poblada, que el arranque
+# normal nunca re-siembra. Sin esto el módulo nuevo no aparece en el menú.
+project_needs_permission_reset() {
+  local has_module csv csv_count db_count csv_ids_sql db_known
+
+  has_module=$(db_query "select to_regclass('public.module') is not null;")
+  [[ "$has_module" == "t" ]] || return 1
+
+  csv="$BACKEND/database/seeders/csv/modules.csv"
+  [[ -f "$csv" ]] || return 1
+
+  # NR > 1 salta la cabecera `id,name,group`. La versión de whatspapp la contaba
+  # como un módulo más y daba la base por vieja en CADA arranque.
+  csv_count=$(awk -F, 'NR > 1 && NF && $1 !~ /^#/ { c++ } END { print c + 0 }' "$csv")
+  db_count=$(db_query "select count(*) from module;")
+  [[ "${db_count:-0}" -lt "${csv_count:-0}" ]] && return 0
+
+  csv_ids_sql=$(awk -F, 'NR > 1 && NF && $1 !~ /^#/ { gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1); printf "%s'\''%s'\''", sep, $1; sep="," }' "$csv")
+  [[ -n "$csv_ids_sql" ]] || return 1
+
+  db_known=$(db_query "select count(*) from module where id::text in ($csv_ids_sql);")
+  [[ "${db_known:-0}" -lt "${csv_count:-0}" ]]
 }
 
 # Procesos en foreground. Este proyecto no tiene Reverb ni Horizon: la cola está
@@ -562,8 +552,26 @@ else
   if declare -F project_needs_seed >/dev/null && project_needs_seed; then
     NEEDS_SEED=true
   fi
+
+  PERMISSIONS_RESET=false
+  if [ "$NEEDS_SEED" != true ] && declare -F project_needs_permission_reset >/dev/null && project_needs_permission_reset; then
+    warn "Catálogo de módulos/permisos desactualizado — resembrando ResetPermissionTableSeeder antes de migrar"
+    sail artisan db:seed --class=ResetPermissionTableSeeder --force --no-interaction >/dev/null \
+      || die "Falló ResetPermissionTableSeeder"
+    PERMISSIONS_RESET=true
+    ok "Módulos/permisos sincronizados"
+  fi
+
   sail artisan migrate --force --no-interaction >/dev/null || die "Falló migrate"
   ok "Migraciones al día"
+
+  # El seeder trunca `module` y su cascade se lleva el acceso de los tenants a
+  # los sistemas: sin re-proyectarlo, el menú de cada tenant queda vacío.
+  if [ "$PERMISSIONS_RESET" = true ]; then
+    sail artisan billing:recompute-entitlements --no-interaction >/dev/null \
+      || die "Falló billing:recompute-entitlements"
+    ok "Acceso de los tenants re-proyectado"
+  fi
 fi
 
 # Los seeders no son idempotentes: re-correrlos sobre una base poblada no es seguro.
@@ -665,7 +673,7 @@ if [ "$RUN_FRONTEND" = true ]; then
       && { kill "$_stale" 2>/dev/null; skip "dev server viejo cortado (pid $_stale)"; }
   done
 
-  run vite "$FRONTEND" $FRONTEND_DEV_CMD
+  run vite "$FRONTEND" env VITE_API_BASE_URL="$RUNTIME_VITE_API_BASE_URL" $FRONTEND_DEV_CMD
 
   # Esperar a que Vite escuche ANTES de imprimir el panel de URLs. Sin esto el
   # panel lo reporta como "-- no levantado --": lee puertos reales, y en ese

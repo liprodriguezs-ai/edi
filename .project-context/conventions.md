@@ -81,6 +81,16 @@
 ### BaseModel columns
 > BaseModel::columns($table, $withTenant=false) agrega id(UUID), timestamps, soft delete y columnas de auditoría. Para tablas TENANT pasá `true` (agrega `tenant_id` NOT NULL + FK + index) y scopeá los unique por tenant: `unique(['tenant_id', 'col'])`. Canonical: laravel-backend-architecture §2.1 + stancl-tenancy skill.
 
+### Dates, times and tenant timezone
+- **Storage is UTC.** `APP_TIMEZONE=UTC` and the pgsql connection timezone is `UTC`; every `timestamp` column holds UTC. Never change the PHP/app timezone at runtime.
+- **Each tenant has an IANA zone** in `tenant.timezone` (validated against `timezone_identifiers_list()`), exposed to the client in `/auth/me` → `tenant.timezone`.
+- **Two kinds of values — never mix them**:
+  - *Instants* (`created_at`, `scored_at`, `completed_at`, `expires_at`...): API sends ISO-8601 UTC with `Z`; the frontend renders them in the tenant zone.
+  - *Civil dates* (`birth_date`, `visit_date`, `due_date`, `session_date`, `applied_at`, `enrolled_at`, `referred_at`...): `YYYY-MM-DD`, never shifted by any zone. Careful: several date-only columns end in `_at`.
+- **Backend**: every "today" / "current month" / day or month range goes through `QCH\Core\Support\TenantTime` (`today()`, `currentMonth()`, `dayBounds()`...). No `Carbon::today()`, `now()->toDateString()` or `before_or_equal:today` in tenant-facing logic.
+- **Frontend**: `@/shared/utils/tenantTime` (temporal-polyfill) + `@/shared/utils/dateHelper` are the only places that do date math. No `new Date().toISOString().slice(...)`, no `Date.now()` arithmetic in modules.
+- Pre-UTC data is converted once by the `convert ... to utc` migration using `LEGACY_STORAGE_TIMEZONE` (no-op when unset or `UTC`).
+
 ### API Client Pattern (Frontend)
 - Axios instance with interceptors for:
   - Bearer token in headers

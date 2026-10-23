@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": ".",
+    }
+  ],
+  "settings": {
+    "intelephense.environment.phpVersion": "8.4",
+    "php.version": "8.4",
+    "files.exclude": {
+      "core-ia-react": true,
+      ".engram": true
+    },
+    "search.exclude": {
+      ".engram": true,
+    }
+  }
+}
+

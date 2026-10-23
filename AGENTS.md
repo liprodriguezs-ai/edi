@@ -98,7 +98,13 @@ TanStack Query + Zustand) y `landing/` (Astro + Starlight).
    `pnpm copy-emails`. Editar el Blade a mano es un bug: se pierde en la próxima
    compilación.
 
-9. **Registrar módulos nuevos en el menú dinámico.** Checklist en orden:
+9. **Fechas en UTC, zona horaria por tenant.** Los instantes se guardan y viajan en
+   UTC (`...Z`) y el frontend los muestra en `tenant.timezone`. Las fechas civiles
+   (`birth_date`, `visit_date`, `due_date`...) son `YYYY-MM-DD` y nunca se desplazan.
+   Todo "hoy"/"mes actual" pasa por `TenantTime` (backend) y `tenantTime.ts`/
+   `dateHelper.ts` (frontend). Detalle: `.project-context/conventions.md`.
+
+10. **Registrar módulos nuevos en el menú dinámico.** Checklist en orden:
    `database/seeders/csv/modules.csv` → `permissions.csv` (6 filas) →
    `module_system.csv` → los 5 mapas de `SystemTableSeeder` →
    `RolePermissionTableSeeder` → `AngularController::$mapperSelects` (si el módulo
@@ -171,6 +177,38 @@ por la misma razón.
 **Un solo proceso de test a la vez.** `RefreshDatabase` hace `migrate:fresh`; dos
 corridas simultáneas se pisan el esquema y dan fallos no deterministas.
 `--parallel` sí es seguro (bases separadas por proceso).
+
+**Flakiness conocida bajo `--parallel` (medida 2026-08-09).** Aproximadamente 1 de
+cada 3 corridas completas termina con 1 a 18 errores. El síntoma habitual es de conexión
+(`SQLSTATE[HY000] server closed the connection unexpectedly`, `SQLSTATE[53200] out
+of shared memory`), pero **también se manifiesta como fallo de aserción**: se observó
+`SubscriptionPaymentFlowTest` fallando un assert bajo carga y pasando en serie dos
+veces seguidas. El test afectado cambia entre corridas. En serie la suite pasa al 100%.
+
+La causa es contención: Docker Desktop tiene **6 CPUs** asignados y `--processes=10`
+lanza diez procesos del host contra ese Postgres, cada uno con su `migrate:fresh`
++ seed completo. El seed del instrumento (451 reactivos × 2 versiones, ~1,700 filas
+por base) multiplicó ese costo respecto del esquema con el que se midió el 10.
+
+Ya aplicado: `max_locks_per_transaction=1024` en `compose.yaml` — el `DROP TABLE
+CASCADE` de 83 tablas excedía el default de 64 y ese sí era un error determinista al
+crecer el esquema. Bajar a `--processes=6` NO lo elimina.
+
+Antes de creerle a un fallo de la suite: reproducilo en serie. Si en serie pasa, es esto.
+
+**Escala con el esquema.** Con 83 tablas se veían 1–18 errores; con **108** se observó
+una corrida de **79**, y la siguiente limpia. Cuantos más módulos, peor.
+
+**Causa dominante, medida (2026-08-09)**: `InstrumentSeeder` tarda **12.9 s** por
+siembra —contra 5.3 s de `CatalogSeeder`— y `RefreshDatabase` lo ejecuta una vez **por
+proceso**: con 10 procesos son ~129 s de escritura concurrente pesada contra un
+Postgres al que Docker le asigna 6 CPUs.
+
+**Arreglo de fondo pendiente**: que `InstrumentSeeder` no corra en el `DatabaseSeeder`
+por defecto, o que en entorno de test siembre sólo `edi-legacy-2013` en lugar de las
+dos versiones. **No es un cambio de una línea**: los tests de `Screening` necesitan el
+instrumento en base, y existe un test de paridad entre el cargador de CSV y el de base
+de datos.
 
 Formateo: `./vendor/bin/pint --dirty`.
 

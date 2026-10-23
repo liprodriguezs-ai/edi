@@ -48,10 +48,15 @@ cliente.
 
 ### Edad
 
-La edad cronológica determina el grupo. La **edad corregida** se calcula sólo si el
-niño tiene menos de 2 años, nació con menos de 37 semanas y su edad cronológica supera
-los 59 días: `días − (40 − SDG) × 7`. Si la edad corregida cae en otro grupo, se aplica
-ese y se registra el hallazgo.
+La edad cronológica determina el grupo. La **edad corregida** se calcula siempre que el
+niño tenga menos de 2 años y haya nacido con menos de 37 semanas, sin edad mínima:
+`días − (40 − SDG) × 7` (Manual EDI 2021, p. 9 y 12; instructivo DGIS, p. 3). Si la edad
+corregida cae en otro grupo, se aplica ese y se registra el hallazgo. Si la edad
+corregida es menor a 30 días, la prueba todavía no aplica: se aplica cuando cumpla 1 mes
+corregido ("Prueba 1, un mes de edad -corregida-", DGIS).
+
+> El sistema anterior sólo corregía con más de 59 días de edad cronológica. Ninguna fuente
+> oficial tiene esa regla; se quitó el 2026-10-21.
 
 ### Autoderivados
 
