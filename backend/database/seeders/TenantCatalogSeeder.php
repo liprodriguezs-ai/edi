@@ -6,6 +6,13 @@ use Illuminate\Database\Seeder;
 use Modules\ChildRecord\Models\CaregiverRelationship;
 use Modules\ChildRecord\Models\EducationLevel;
 use Modules\ChildRecord\Models\Occupation;
+use Modules\FollowUp\Models\ReferralSpecialty;
+use Modules\Stimulation\Models\BodyZone;
+use Modules\Stimulation\Models\DidacticMaterial;
+use Modules\Stimulation\Models\MassageMovement;
+use Modules\Stimulation\Models\Song;
+use Modules\Stimulation\Models\StimulationDynamic;
+use Modules\Stimulation\Models\StimulationGroupType;
 
 /**
  * Carga inicial de los catálogos AUTOADMINISTRABLES (tenant-scoped).
@@ -59,6 +66,53 @@ class TenantCatalogSeeder extends Seeder
             ['name' => 'Estudiante'],
             ['name' => 'Desempleada/o'],
             ['name' => 'Otra'],
+        ],
+
+        // Stimulation (edi-stimulation-sessions). didactic_material y song
+        // arrancan vacíos a propósito (design §8 Q2): son catálogos de
+        // sugerencia, el admin los llena; el niño de estimulación es texto
+        // libre, nunca un FK a estos catálogos.
+        StimulationDynamic::class => [
+            ['name' => 'Mamá/bebé'],
+            ['name' => 'Bebé/bebé'],
+            ['name' => 'Grupal'],
+            ['name' => 'Circuito'],
+        ],
+        BodyZone::class => [
+            ['name' => 'Cuello'],
+            ['name' => 'Hombro/brazo'],
+            ['name' => 'Mano'],
+            ['name' => 'Tronco'],
+            ['name' => 'Pierna'],
+            ['name' => 'Pie'],
+            ['name' => 'Cara'],
+            ['name' => 'Pecho y abdomen'],
+            ['name' => 'Espalda'],
+        ],
+        MassageMovement::class => [
+            ['name' => 'Flexión'],
+            ['name' => 'Extensión'],
+            ['name' => 'Circunducción'],
+            ['name' => 'Media circunducción'],
+            ['name' => 'Arriba-abajo'],
+            ['name' => 'Abducción-aducción'],
+            ['name' => 'Amasamiento de dedos'],
+        ],
+        DidacticMaterial::class => [],
+        Song::class => [],
+        StimulationGroupType::class => [
+            ['name' => 'Grupo abierto'],
+        ],
+
+        // FollowUp (edi-followup-and-referral D6): especialidades de
+        // referencia, pura clasificación sin lógica de negocio.
+        ReferralSpecialty::class => [
+            ['name' => 'Neurología pediátrica'],
+            ['name' => 'Audiología'],
+            ['name' => 'Oftalmología'],
+            ['name' => 'Terapia de lenguaje'],
+            ['name' => 'Terapia física'],
+            ['name' => 'Psicología'],
         ],
     ];
 

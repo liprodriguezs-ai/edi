@@ -44,7 +44,8 @@ class TenantProvisionRequest extends FormRequest
             // status is NOT accepted: the service derives it from the provision mode
             // (card → pendiente_pago, everything else → activo).
             'name' => ['required', 'string', 'max:255'],
-            'timezone' => ['nullable', 'string', 'max:64'],
+            // IANA identifier: it drives every civil "today" of the organization (TenantTime).
+            'timezone' => ['nullable', 'string', 'timezone:all'],
             'currency' => ['nullable', 'string', 'size:3'],
             'type' => ['nullable', 'string', Rule::in(['horizontal', 'vertical', 'mixed'])],
             'uses_ownership_share' => ['sometimes', 'boolean'],
@@ -59,6 +60,17 @@ class TenantProvisionRequest extends FormRequest
             'modules' => ['nullable', 'array'],
             'modules.*' => ['string', 'exists:billable_module,key'],
             'notes' => ['nullable', 'string', 'max:1000'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'timezone.string' => 'La zona horaria no es válida.',
+            'timezone.timezone' => 'La zona horaria no es válida.',
         ];
     }
 

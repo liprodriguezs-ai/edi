@@ -6,10 +6,11 @@ use App\Notifications\Services\NotificationDispatcher;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Modules\Notification\Services\TemplateRenderer;
 use Modules\Notification\Models\Notification;
 use Modules\Notification\Models\NotificationUser;
 use Modules\Notification\Services\NotificationSettingService;
+use Modules\Notification\Services\TemplateRenderer;
+use QCH\Core\Support\TenantTime;
 
 /**
  * DispatchesNotifications — shared helper for sending notifications.
@@ -30,8 +31,6 @@ use Modules\Notification\Services\NotificationSettingService;
  */
 trait DispatchesNotifications
 {
-
-
     /**
      * Resolve user ids holding a given Spatie role name (e.g. 'president', 'treasurer')
      * WITHIN the current tenant. Spatie roles are global in this project, so the
@@ -58,7 +57,6 @@ trait DispatchesNotifications
         return app(NotificationDispatcher::class)
             ->tenantRoleUserIds((string) tenant()->getTenantKey(), $roleNames);
     }
-
 
     /**
      * Record an in-app Notification + NotificationUser rows AND route through the
@@ -210,7 +208,6 @@ trait DispatchesNotifications
         );
     }
 
-
     /**
      * §17.4: ad-hoc emitters get real push mirroring their in-app row. When ops
      * enable 'firebase_push' globally (config notifications.channels), append it to
@@ -272,14 +269,15 @@ trait DispatchesNotifications
             'status' => 'sent',
             'click_action' => $data['click_action'] ?? null,
             'repeat' => false,
-            'date' => now()->toDateString(),
+            // Day-precision stamp in an instant column: the start of the tenant's civil day, in UTC.
+            'date' => TenantTime::dayBounds(TenantTime::today())[0],
         ]);
 
         $now = now();
         $tenantId = tenant()?->getTenantKey();
 
         $rows = array_map(static fn (string $userId): array => [
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'notification_id' => $notification->id,
             'user_id' => $userId,
             'is_read' => false,

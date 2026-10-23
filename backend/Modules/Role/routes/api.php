@@ -15,7 +15,7 @@ use Orion\Facades\Orion;
  *
 */
 Route::middleware('throttle:api')->group(function () {
-    Orion::resource('role', RoleController::class)->withSoftDeletes()->middleware('auth:sanctum');
+    Orion::resource('role', RoleController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive']);
 
     Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive'])->group(function () {
         Route::get('role/permissions/{id}', [RoleController::class, 'getPermissions']);

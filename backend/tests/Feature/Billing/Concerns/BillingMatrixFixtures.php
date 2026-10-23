@@ -57,7 +57,7 @@ trait BillingMatrixFixtures
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create(array_merge([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Test Tenant '.Str::random(5),
                 'status' => Tenant::STATUS_ACTIVO,
             ], $attributes)),

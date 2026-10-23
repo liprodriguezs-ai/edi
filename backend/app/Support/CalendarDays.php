@@ -2,12 +2,15 @@
 
 namespace App\Support;
 
+use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
+use QCH\Core\Support\TenantTime;
 
 /**
  * CalendarDays — the ONE product-wide "days left" definition (trial-countdown-utility).
  *
- * "Days left" means whole CALENDAR days in the app timezone: the difference
+ * "Days left" means whole CALENDAR days in the TENANT's timezone (TenantTime;
+ * app timezone outside tenancy): the difference
  * between today's start-of-day and the end date's start-of-day, clamped at 0.
  * This is deliberately NOT elapsed-time rounding (e.g. rounded milliseconds) —
  * that was the frontend `daysUntil` approach this helper replaces, which could
@@ -29,6 +32,11 @@ final class CalendarDays
             return null;
         }
 
-        return max(0, now()->startOfDay()->diffInDays($end->copy()->startOfDay()));
+        $zone = TenantTime::zone();
+        // Civil labels anchored at UTC midnight: a DST day never yields a fractional count.
+        $today = CarbonImmutable::createFromFormat('!Y-m-d', TenantTime::today($zone), 'UTC');
+        $endDay = CarbonImmutable::createFromFormat('!Y-m-d', TenantTime::inTenantZone($end, $zone)->format('Y-m-d'), 'UTC');
+
+        return max(0, (int) $today->diffInDays($endDay));
     }
 }

@@ -49,7 +49,7 @@ final class NotificationCenterBulkTest extends TestCase
 
         $this->tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Bulk Center Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
@@ -85,7 +85,7 @@ final class NotificationCenterBulkTest extends TestCase
     private function makeMember(string $name): User
     {
         $user = User::withoutGlobalScopes()->create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => $name,
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),
@@ -199,7 +199,7 @@ final class NotificationCenterBulkTest extends TestCase
         $this->tenant->run(function (): void {
             NotificationUser::create([
                 'notification_id' => $this->notificationOne->id,
-                'user_id' => (string) Str::uuid(),
+                'user_id' => (string) Str::uuid7(),
                 'is_read' => false,
             ]);
         });

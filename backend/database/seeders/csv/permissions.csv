@@ -126,3 +126,160 @@ uuid,description,name,guard_name,module_id
 ,Inactivar Ocupación,delete.occupation,api,ed000001-0000-4000-8000-000000000010
 ,Activar Ocupación,restore.occupation,api,ed000001-0000-4000-8000-000000000010
 ,Reporte Ocupación,report.occupation,api,ed000001-0000-4000-8000-000000000010
+,Lectura Instrumento EDI,read.instrument,api,ed000002-0000-4000-8000-000000000001
+,Creación Instrumento EDI,create.instrument,api,ed000002-0000-4000-8000-000000000001
+,Edicion Instrumento EDI,update.instrument,api,ed000002-0000-4000-8000-000000000001
+,Inactivar Instrumento EDI,delete.instrument,api,ed000002-0000-4000-8000-000000000001
+,Activar Instrumento EDI,restore.instrument,api,ed000002-0000-4000-8000-000000000001
+,Reporte Instrumento EDI,report.instrument,api,ed000002-0000-4000-8000-000000000001
+,Lectura Prueba EDI,read.screening,api,ed000003-0000-4000-8000-000000000001
+,Creación Prueba EDI,create.screening,api,ed000003-0000-4000-8000-000000000001
+,Edicion Prueba EDI,update.screening,api,ed000003-0000-4000-8000-000000000001
+,Inactivar Prueba EDI,delete.screening,api,ed000003-0000-4000-8000-000000000001
+,Activar Prueba EDI,restore.screening,api,ed000003-0000-4000-8000-000000000001
+,Reporte Prueba EDI,report.screening,api,ed000003-0000-4000-8000-000000000001
+,Recalcular Prueba EDI,rescore.screening,api,ed000003-0000-4000-8000-000000000001
+,Lectura Prueba Confirmatoria,read.confirmatory_test,api,ed000003-0000-4000-8000-000000000002
+,Creación Prueba Confirmatoria,create.confirmatory_test,api,ed000003-0000-4000-8000-000000000002
+,Edicion Prueba Confirmatoria,update.confirmatory_test,api,ed000003-0000-4000-8000-000000000002
+,Inactivar Prueba Confirmatoria,delete.confirmatory_test,api,ed000003-0000-4000-8000-000000000002
+,Activar Prueba Confirmatoria,restore.confirmatory_test,api,ed000003-0000-4000-8000-000000000002
+,Reporte Prueba Confirmatoria,report.confirmatory_test,api,ed000003-0000-4000-8000-000000000002
+,Lectura Sesión de Estimulación,read.stimulation_session,api,ed000004-0000-4000-8000-000000000001
+,Creación Sesión de Estimulación,create.stimulation_session,api,ed000004-0000-4000-8000-000000000001
+,Edicion Sesión de Estimulación,update.stimulation_session,api,ed000004-0000-4000-8000-000000000001
+,Inactivar Sesión de Estimulación,delete.stimulation_session,api,ed000004-0000-4000-8000-000000000001
+,Activar Sesión de Estimulación,restore.stimulation_session,api,ed000004-0000-4000-8000-000000000001
+,Reporte Sesión de Estimulación,report.stimulation_session,api,ed000004-0000-4000-8000-000000000001
+,Lectura Grupo de Estimulación,read.stimulation_group,api,ed000004-0000-4000-8000-000000000002
+,Creación Grupo de Estimulación,create.stimulation_group,api,ed000004-0000-4000-8000-000000000002
+,Edicion Grupo de Estimulación,update.stimulation_group,api,ed000004-0000-4000-8000-000000000002
+,Inactivar Grupo de Estimulación,delete.stimulation_group,api,ed000004-0000-4000-8000-000000000002
+,Activar Grupo de Estimulación,restore.stimulation_group,api,ed000004-0000-4000-8000-000000000002
+,Reporte Grupo de Estimulación,report.stimulation_group,api,ed000004-0000-4000-8000-000000000002
+,Lectura Dinámica de Estimulación,read.stimulation_dynamic,api,ed000004-0000-4000-8000-000000000003
+,Creación Dinámica de Estimulación,create.stimulation_dynamic,api,ed000004-0000-4000-8000-000000000003
+,Edicion Dinámica de Estimulación,update.stimulation_dynamic,api,ed000004-0000-4000-8000-000000000003
+,Inactivar Dinámica de Estimulación,delete.stimulation_dynamic,api,ed000004-0000-4000-8000-000000000003
+,Activar Dinámica de Estimulación,restore.stimulation_dynamic,api,ed000004-0000-4000-8000-000000000003
+,Reporte Dinámica de Estimulación,report.stimulation_dynamic,api,ed000004-0000-4000-8000-000000000003
+,Lectura Zona Corporal,read.body_zone,api,ed000004-0000-4000-8000-000000000004
+,Creación Zona Corporal,create.body_zone,api,ed000004-0000-4000-8000-000000000004
+,Edicion Zona Corporal,update.body_zone,api,ed000004-0000-4000-8000-000000000004
+,Inactivar Zona Corporal,delete.body_zone,api,ed000004-0000-4000-8000-000000000004
+,Activar Zona Corporal,restore.body_zone,api,ed000004-0000-4000-8000-000000000004
+,Reporte Zona Corporal,report.body_zone,api,ed000004-0000-4000-8000-000000000004
+,Lectura Movimiento de Masaje,read.massage_movement,api,ed000004-0000-4000-8000-000000000005
+,Creación Movimiento de Masaje,create.massage_movement,api,ed000004-0000-4000-8000-000000000005
+,Edicion Movimiento de Masaje,update.massage_movement,api,ed000004-0000-4000-8000-000000000005
+,Inactivar Movimiento de Masaje,delete.massage_movement,api,ed000004-0000-4000-8000-000000000005
+,Activar Movimiento de Masaje,restore.massage_movement,api,ed000004-0000-4000-8000-000000000005
+,Reporte Movimiento de Masaje,report.massage_movement,api,ed000004-0000-4000-8000-000000000005
+,Lectura Material Didáctico,read.didactic_material,api,ed000004-0000-4000-8000-000000000006
+,Creación Material Didáctico,create.didactic_material,api,ed000004-0000-4000-8000-000000000006
+,Edicion Material Didáctico,update.didactic_material,api,ed000004-0000-4000-8000-000000000006
+,Inactivar Material Didáctico,delete.didactic_material,api,ed000004-0000-4000-8000-000000000006
+,Activar Material Didáctico,restore.didactic_material,api,ed000004-0000-4000-8000-000000000006
+,Reporte Material Didáctico,report.didactic_material,api,ed000004-0000-4000-8000-000000000006
+,Lectura Canción,read.song,api,ed000004-0000-4000-8000-000000000007
+,Creación Canción,create.song,api,ed000004-0000-4000-8000-000000000007
+,Edicion Canción,update.song,api,ed000004-0000-4000-8000-000000000007
+,Inactivar Canción,delete.song,api,ed000004-0000-4000-8000-000000000007
+,Activar Canción,restore.song,api,ed000004-0000-4000-8000-000000000007
+,Reporte Canción,report.song,api,ed000004-0000-4000-8000-000000000007
+,Lectura Tipo de Grupo,read.stimulation_group_type,api,ed000004-0000-4000-8000-000000000008
+,Creación Tipo de Grupo,create.stimulation_group_type,api,ed000004-0000-4000-8000-000000000008
+,Edicion Tipo de Grupo,update.stimulation_group_type,api,ed000004-0000-4000-8000-000000000008
+,Inactivar Tipo de Grupo,delete.stimulation_group_type,api,ed000004-0000-4000-8000-000000000008
+,Activar Tipo de Grupo,restore.stimulation_group_type,api,ed000004-0000-4000-8000-000000000008
+,Reporte Tipo de Grupo,report.stimulation_group_type,api,ed000004-0000-4000-8000-000000000008
+,Lectura Sección de Sesión,read.session_section,api,ed000004-0000-4000-8000-000000000009
+,Creación Sección de Sesión,create.session_section,api,ed000004-0000-4000-8000-000000000009
+,Edicion Sección de Sesión,update.session_section,api,ed000004-0000-4000-8000-000000000009
+,Inactivar Sección de Sesión,delete.session_section,api,ed000004-0000-4000-8000-000000000009
+,Activar Sección de Sesión,restore.session_section,api,ed000004-0000-4000-8000-000000000009
+,Reporte Sección de Sesión,report.session_section,api,ed000004-0000-4000-8000-000000000009
+,Lectura Área de Estimulación,read.stimulation_area,api,ed000004-0000-4000-8000-000000000010
+,Creación Área de Estimulación,create.stimulation_area,api,ed000004-0000-4000-8000-000000000010
+,Edicion Área de Estimulación,update.stimulation_area,api,ed000004-0000-4000-8000-000000000010
+,Inactivar Área de Estimulación,delete.stimulation_area,api,ed000004-0000-4000-8000-000000000010
+,Activar Área de Estimulación,restore.stimulation_area,api,ed000004-0000-4000-8000-000000000010
+,Reporte Área de Estimulación,report.stimulation_area,api,ed000004-0000-4000-8000-000000000010
+,Lectura Estatus de Pago de Asistencia,read.attendance_payment_status,api,ed000004-0000-4000-8000-000000000011
+,Creación Estatus de Pago de Asistencia,create.attendance_payment_status,api,ed000004-0000-4000-8000-000000000011
+,Edicion Estatus de Pago de Asistencia,update.attendance_payment_status,api,ed000004-0000-4000-8000-000000000011
+,Inactivar Estatus de Pago de Asistencia,delete.attendance_payment_status,api,ed000004-0000-4000-8000-000000000011
+,Activar Estatus de Pago de Asistencia,restore.attendance_payment_status,api,ed000004-0000-4000-8000-000000000011
+,Reporte Estatus de Pago de Asistencia,report.attendance_payment_status,api,ed000004-0000-4000-8000-000000000011
+,Lectura Seguimiento,read.follow_up,api,ed000005-0000-4000-8000-000000000001
+,Creación Seguimiento,create.follow_up,api,ed000005-0000-4000-8000-000000000001
+,Edicion Seguimiento,update.follow_up,api,ed000005-0000-4000-8000-000000000001
+,Inactivar Seguimiento,delete.follow_up,api,ed000005-0000-4000-8000-000000000001
+,Activar Seguimiento,restore.follow_up,api,ed000005-0000-4000-8000-000000000001
+,Reporte Seguimiento,report.follow_up,api,ed000005-0000-4000-8000-000000000001
+,Lectura Referencia,read.referral,api,ed000005-0000-4000-8000-000000000002
+,Creación Referencia,create.referral,api,ed000005-0000-4000-8000-000000000002
+,Edicion Referencia,update.referral,api,ed000005-0000-4000-8000-000000000002
+,Inactivar Referencia,delete.referral,api,ed000005-0000-4000-8000-000000000002
+,Activar Referencia,restore.referral,api,ed000005-0000-4000-8000-000000000002
+,Reporte Referencia,report.referral,api,ed000005-0000-4000-8000-000000000002
+,Lectura Especialidad de Referencia,read.referral_specialty,api,ed000005-0000-4000-8000-000000000003
+,Creación Especialidad de Referencia,create.referral_specialty,api,ed000005-0000-4000-8000-000000000003
+,Edicion Especialidad de Referencia,update.referral_specialty,api,ed000005-0000-4000-8000-000000000003
+,Inactivar Especialidad de Referencia,delete.referral_specialty,api,ed000005-0000-4000-8000-000000000003
+,Activar Especialidad de Referencia,restore.referral_specialty,api,ed000005-0000-4000-8000-000000000003
+,Reporte Especialidad de Referencia,report.referral_specialty,api,ed000005-0000-4000-8000-000000000003
+,Lectura Indicadores,read.screening_indicator,api,ed000006-0000-4000-8000-000000000001
+,Creación Indicadores,create.screening_indicator,api,ed000006-0000-4000-8000-000000000001
+,Edicion Indicadores,update.screening_indicator,api,ed000006-0000-4000-8000-000000000001
+,Inactivar Indicadores,delete.screening_indicator,api,ed000006-0000-4000-8000-000000000001
+,Activar Indicadores,restore.screening_indicator,api,ed000006-0000-4000-8000-000000000001
+,Reporte Indicadores,report.screening_indicator,api,ed000006-0000-4000-8000-000000000001
+,Lectura Listado nominal,read.nominal_report,api,ed000006-0000-4000-8000-000000000002
+,Creación Listado nominal,create.nominal_report,api,ed000006-0000-4000-8000-000000000002
+,Edicion Listado nominal,update.nominal_report,api,ed000006-0000-4000-8000-000000000002
+,Inactivar Listado nominal,delete.nominal_report,api,ed000006-0000-4000-8000-000000000002
+,Activar Listado nominal,restore.nominal_report,api,ed000006-0000-4000-8000-000000000002
+,Reporte Listado nominal,report.nominal_report,api,ed000006-0000-4000-8000-000000000002
+,Lectura Reportes Programados,read.scheduled_report,api,ed000007-0000-4000-8000-000000000001
+,Creación Reportes Programados,create.scheduled_report,api,ed000007-0000-4000-8000-000000000001
+,Edicion Reportes Programados,update.scheduled_report,api,ed000007-0000-4000-8000-000000000001
+,Eliminación Reportes Programados,delete.scheduled_report,api,ed000007-0000-4000-8000-000000000001
+,Restauración Reportes Programados,restore.scheduled_report,api,ed000007-0000-4000-8000-000000000001
+,Reporte Reportes Programados,report.scheduled_report,api,ed000007-0000-4000-8000-000000000001
+,Lectura Cita,read.appointment,api,ed000008-0000-4000-8000-000000000001
+,Creación Cita,create.appointment,api,ed000008-0000-4000-8000-000000000001
+,Edicion Cita,update.appointment,api,ed000008-0000-4000-8000-000000000001
+,Inactivar Cita,delete.appointment,api,ed000008-0000-4000-8000-000000000001
+,Activar Cita,restore.appointment,api,ed000008-0000-4000-8000-000000000001
+,Reporte Cita,report.appointment,api,ed000008-0000-4000-8000-000000000001
+,Lectura Concentrado EDI,read.edi_concentrate,api,ed000009-0000-4000-8000-000000000001
+,Creación Concentrado EDI,create.edi_concentrate,api,ed000009-0000-4000-8000-000000000001
+,Edicion Concentrado EDI,update.edi_concentrate,api,ed000009-0000-4000-8000-000000000001
+,Inactivar Concentrado EDI,delete.edi_concentrate,api,ed000009-0000-4000-8000-000000000001
+,Activar Concentrado EDI,restore.edi_concentrate,api,ed000009-0000-4000-8000-000000000001
+,Reporte Concentrado EDI,report.edi_concentrate,api,ed000009-0000-4000-8000-000000000001
+,Lectura Reporte general,read.general_report,api,ed000009-0000-4000-8000-000000000002
+,Creación Reporte general,create.general_report,api,ed000009-0000-4000-8000-000000000002
+,Edicion Reporte general,update.general_report,api,ed000009-0000-4000-8000-000000000002
+,Inactivar Reporte general,delete.general_report,api,ed000009-0000-4000-8000-000000000002
+,Activar Reporte general,restore.general_report,api,ed000009-0000-4000-8000-000000000002
+,Reporte Reporte general,report.general_report,api,ed000009-0000-4000-8000-000000000002
+,Lectura Edad corregida,read.corrected_age,api,ed000009-0000-4000-8000-000000000003
+,Creación Edad corregida,create.corrected_age,api,ed000009-0000-4000-8000-000000000003
+,Edicion Edad corregida,update.corrected_age,api,ed000009-0000-4000-8000-000000000003
+,Inactivar Edad corregida,delete.corrected_age,api,ed000009-0000-4000-8000-000000000003
+,Activar Edad corregida,restore.corrected_age,api,ed000009-0000-4000-8000-000000000003
+,Reporte Edad corregida,report.corrected_age,api,ed000009-0000-4000-8000-000000000003
+,Lectura Estado nutricional,read.nutritional_assessment,api,ed000009-0000-4000-8000-000000000004
+,Creación Estado nutricional,create.nutritional_assessment,api,ed000009-0000-4000-8000-000000000004
+,Edicion Estado nutricional,update.nutritional_assessment,api,ed000009-0000-4000-8000-000000000004
+,Inactivar Estado nutricional,delete.nutritional_assessment,api,ed000009-0000-4000-8000-000000000004
+,Activar Estado nutricional,restore.nutritional_assessment,api,ed000009-0000-4000-8000-000000000004
+,Reporte Estado nutricional,report.nutritional_assessment,api,ed000009-0000-4000-8000-000000000004
+,Lectura Antecedentes Perinatales,read.birth_record,api,ed000001-0000-4000-8000-000000000003
+,Creación Antecedentes Perinatales,create.birth_record,api,ed000001-0000-4000-8000-000000000003
+,Edicion Antecedentes Perinatales,update.birth_record,api,ed000001-0000-4000-8000-000000000003
+,Inactivar Antecedentes Perinatales,delete.birth_record,api,ed000001-0000-4000-8000-000000000003
+,Activar Antecedentes Perinatales,restore.birth_record,api,ed000001-0000-4000-8000-000000000003
+,Reporte Antecedentes Perinatales,report.birth_record,api,ed000001-0000-4000-8000-000000000003

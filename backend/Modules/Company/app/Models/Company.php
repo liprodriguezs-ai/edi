@@ -8,6 +8,7 @@ use QCH\Core\Models\BaseModel;
 use QCH\Core\Models\GlobalObserver;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 // use Modules\Company\Database\Factories\CompanyFactory;
 
@@ -20,6 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 #[ObservedBy([GlobalObserver::class])]
 class Company extends BaseModel implements HasMedia
 {
+    use BelongsToTenant;
     use HasFactory;
     use InteractsWithMedia;
 

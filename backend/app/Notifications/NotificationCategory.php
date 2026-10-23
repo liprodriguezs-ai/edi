@@ -28,4 +28,8 @@ final class NotificationCategory
     public const AMENITIES = 'amenities';
 
     public const COMPLAINTS = 'complaints';
+
+    public const FOLLOW_UP = 'follow_up';
+
+    public const APPOINTMENT = 'appointment';
 }

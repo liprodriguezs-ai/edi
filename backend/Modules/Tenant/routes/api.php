@@ -18,7 +18,7 @@ use Orion\Facades\Orion;
  *
 */
 Route::middleware('throttle:api')->group(function () {
-    Orion::resource('tenant', TenantController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
+    Orion::resource('tenant', TenantController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive'])->group(function () {
         // Super-admin ALTA of a organization + its billing in one step (trial / courtesy

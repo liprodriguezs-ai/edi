@@ -65,7 +65,7 @@ final class SettingReencodeMigrationTest extends TestCase
         string $type,
         bool $trashed = false,
     ): string {
-        $id = (string) Str::uuid();
+        $id = (string) Str::uuid7();
 
         DB::table('setting')->insert([
             'id' => $id,

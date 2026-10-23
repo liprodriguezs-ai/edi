@@ -33,6 +33,9 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('123abc'),
             'remember_token' => Str::random(10),
+            // Same as the column default. Set explicitly so an in-memory model
+            // (actingAs) does not read null, which EnsureUserIsActive rejects.
+            'auth_active' => true,
         ];
     }
 

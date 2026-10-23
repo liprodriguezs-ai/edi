@@ -48,7 +48,7 @@ final class TermsEnforcementTest extends TestCase
 
         $tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Terms '.Str::random(4),
                 'status' => Tenant::STATUS_ACTIVO,
             ]),

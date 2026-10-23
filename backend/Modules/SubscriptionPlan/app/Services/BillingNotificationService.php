@@ -48,7 +48,7 @@ final class BillingNotificationService
             $adminIds,
             $context,
             'Prueba de {module} vencida',
-            'La prueba de {module} venció. Contrata el plan del organización para no perder el acceso.',
+            'La prueba de {module} venció. Contrata el plan de la organización para no perder el acceso.',
             ['category' => NotificationCategory::SYSTEM],
         );
     }

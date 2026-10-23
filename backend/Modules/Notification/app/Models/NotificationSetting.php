@@ -60,5 +60,4 @@ class NotificationSetting extends BaseModel
     {
         return $this->belongsTo(NotificationEvent::class, 'notification_event_id');
     }
-
 }

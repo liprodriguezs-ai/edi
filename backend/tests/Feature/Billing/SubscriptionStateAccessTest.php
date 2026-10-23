@@ -646,7 +646,7 @@ final class SubscriptionStateAccessTest extends TestCase
     private function makeUser(): User
     {
         return User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'User '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),

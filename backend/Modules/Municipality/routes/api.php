@@ -16,5 +16,5 @@ use Orion\Facades\Orion;
 */
 
 Route::middleware('throttle:api')->group(function () {
-    Orion::resource('municipality', MunicipalityController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
+    Orion::resource('municipality', MunicipalityController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

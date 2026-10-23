@@ -27,6 +27,18 @@ class PractitionerProfile extends BaseModel
         'health_center_id',
     ];
 
+    /**
+     * The practitioner's identity: their NAME lives here, not on the profile row,
+     * so every "Profesional" dropdown and column has to eager-load this.
+     *
+     * @Relation
+     *
+     * That annotation is not decoration. The /selects query parser calls
+     * isRelation(), which reads this docblock and rejects anything without
+     * `@Relation` as an unknown relation -- even one the model plainly declares,
+     * and even one explicitly allow-listed. Without it the practitioner catalog
+     * came back empty and its dropdown was unusable.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')

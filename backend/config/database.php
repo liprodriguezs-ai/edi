@@ -44,6 +44,9 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            // Every `timestamp without time zone` column stores UTC; the session
+            // zone must match so CURRENT_TIMESTAMP / useCurrent() defaults are UTC too.
+            'timezone' => 'UTC',
         ],
 
         'sqlite' => [
@@ -97,6 +100,23 @@ return [
             ]) : [],
         ],
 
+        // Read-only source of the legacy EDI production dump (MySQL), used ONLY by
+        // the legacy migration/parity tooling. Defaults target the throwaway
+        // `edi-legacy-mysql` container (docker, port 3310). Never a runtime dep.
+        'legacy' => [
+            'driver' => 'mysql',
+            'host' => env('LEGACY_DB_HOST', '127.0.0.1'),
+            'port' => env('LEGACY_DB_PORT', '3310'),
+            'database' => env('LEGACY_DB_DATABASE', 'edi_legacy'),
+            'username' => env('LEGACY_DB_USERNAME', 'root'),
+            'password' => env('LEGACY_DB_PASSWORD', 'legacy'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
@@ -110,6 +130,7 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            'timezone' => 'UTC',
         ],
 
         'sqlsrv' => [

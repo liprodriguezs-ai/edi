@@ -24,6 +24,6 @@ Route::middleware('throttle:api')->group(function () {
     Route::post('notification_user/mark-all-read', [NotificationUserController::class, 'markAllRead'])
         ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
-    Orion::resource('notification_user', NotificationUserController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
-    Orion::resource('notification', NotificationController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
+    Orion::resource('notification_user', NotificationUserController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
+    Orion::resource('notification', NotificationController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

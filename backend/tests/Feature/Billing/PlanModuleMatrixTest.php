@@ -51,13 +51,11 @@ final class PlanModuleMatrixTest extends TestCase
         $this->assertSame(1, BillableModule::where('is_base', true)->count());
     }
 
-
     public function test_base_is_the_only_sellable_module(): void
     {
         // Paquetería y Amenidades dejaron de venderse por separado.
         $this->assertSame(['base'], BillableModule::pluck('key')->all());
     }
-
 
     public function test_reset_permission_seeder_skips_matrix_when_absent(): void
     {
@@ -145,7 +143,6 @@ final class PlanModuleMatrixTest extends TestCase
         $this->assertNull($plan->suggested_unit_max);
         $this->assertSame(0, PlanModulePrice::where('billing_package_id', $plan->id)->count());
     }
-
 
     public function test_collapse_migration_is_safe_when_the_retired_modules_are_absent(): void
     {

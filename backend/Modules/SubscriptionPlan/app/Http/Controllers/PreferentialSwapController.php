@@ -139,7 +139,7 @@ class PreferentialSwapController extends Controller
             ->all();
 
         if ($moduleKeys === []) {
-            throw new InvalidArgumentException('El organización no tiene entitlements activas para cambiar de plan.');
+            throw new InvalidArgumentException('La organización no tiene entitlements activas para cambiar de plan.');
         }
 
         $interval = $entitlements->pluck('interval')->filter()->first() ?: PlanModulePrice::INTERVAL_MONTH;
@@ -151,7 +151,7 @@ class PreferentialSwapController extends Controller
 
             if ($subscription === null) {
                 throw new InvalidArgumentException(
-                    'El organización paga con tarjeta pero no se pudo resolver una suscripción Stripe activa (owner ausente o ambiguo).'
+                    'La organización paga con tarjeta pero no se pudo resolver una suscripción Stripe activa (owner ausente o ambiguo).'
                 );
             }
         }

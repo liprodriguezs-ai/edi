@@ -154,7 +154,7 @@ class OnboardingService
                 DB::table('company')->where('id', $existing->id)->update($attributes);
             } else {
                 DB::table('company')->insert(array_merge([
-                    'id' => Str::uuid()->toString(),
+                    'id' => Str::uuid7()->toString(),
                     'slug' => Str::slug($appName),
                     'created_at' => now(),
                 ], $attributes));

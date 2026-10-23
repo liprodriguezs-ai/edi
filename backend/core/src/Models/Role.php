@@ -61,6 +61,15 @@ class Role extends BaseModel
 
     public const SLUG_ADMINISTRATOR = 'administrator';
 
+    /**
+     * Front desk ("Recepción", odd/tasks/edi-agenda.md S14): runs the agenda
+     * (book, confirm, arrival, reschedule, cancel) and the child registry, with
+     * no clinical powers -- it cannot start care (create.visit) nor screen.
+     */
+    public const ASSISTANT = '1a2b3c4d-000b-0000-0000-000000000011';
+
+    public const SLUG_ASSISTANT = 'assistant';
+
     public const PRESIDENT = '1a2b3c4d-0002-0000-0000-000000000002';
 
     public const SLUG_PRESIDENT = 'president';
@@ -105,6 +114,7 @@ class Role extends BaseModel
      */
     public const ORGANIZATION_SLUGS = [
         self::SLUG_ADMINISTRATOR,
+        self::SLUG_ASSISTANT,
         self::SLUG_PRESIDENT,
         self::SLUG_TREASURER,
         self::SLUG_SECRETARY,

@@ -5,9 +5,27 @@ namespace Database\Seeders;
 use App\Notifications\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Modules\Appointment\Models\AppointmentStatus;
+use Modules\Appointment\Models\AppointmentType;
+use Modules\Appointment\Models\WellChildInterval;
 use Modules\ChildRecord\Models\PopulationType;
 use Modules\ChildRecord\Models\Sex;
+use Modules\FollowUp\Models\FollowUpStatus;
+use Modules\FollowUp\Models\FollowUpType;
+use Modules\Instrument\Models\ApplicationPosition;
+use Modules\Instrument\Models\DevelopmentArea;
+use Modules\Instrument\Models\ResultColor;
 use Modules\Notification\Models\NotificationEvent;
+use Modules\Reports\Models\ReportFrequency;
+use Modules\Screening\Models\ConfirmatoryTestResult;
+use Modules\Screening\Models\FindingType;
+use Modules\Screening\Models\ScreeningSituation;
+use Modules\Screening\Models\ScreeningStatus;
+use Modules\Screening\Services\Scoring\Values\ScoringFinding;
+use Modules\Screening\Services\Scoring\Values\SituationKey;
+use Modules\Stimulation\Models\AttendancePaymentStatus;
+use Modules\Stimulation\Models\SessionSection;
+use Modules\Stimulation\Models\StimulationArea;
 use Modules\Tenant\Models\TenantPaymentType;
 
 /**
@@ -38,6 +56,40 @@ class CatalogSeeder extends Seeder
         // official exports branch on these fixed UUIDs.
         $this->seedSexes();
         $this->seedPopulationTypes();
+
+        // Instrument support catalogs (D2/D3): NOT versioned -- vocabulary
+        // shared by every instrument edition. instrument-catalog change.
+        $this->seedResultColors();
+        $this->seedDevelopmentAreas();
+        $this->seedApplicationPositions();
+
+        // Screening application catalogs (edi-screening-application D1):
+        // lifecycle FSM, situation states, closed finding vocabulary,
+        // confirmatory test outcomes.
+        $this->seedScreeningStatuses();
+        $this->seedScreeningSituations();
+        $this->seedFindingTypes();
+        $this->seedConfirmatoryTestResults();
+
+        // Stimulation catalogs (edi-stimulation-sessions D4): official section
+        // vocabulary, stimulation areas, attendance payment statuses.
+        $this->seedSessionSections();
+        $this->seedStimulationAreas();
+        $this->seedAttendancePaymentStatuses();
+
+        // FollowUp catalogs (edi-followup-and-referral D6): conduct type and
+        // lifecycle FSM. Both are central -- the creation matrix, auto-close
+        // logic, and overdue command branch on these fixed UUIDs.
+        $this->seedFollowUpTypes();
+        $this->seedFollowUpStatuses();
+        $this->seedReportFrequencies();
+
+        // Agenda catalogs (odd/tasks/edi-agenda.md): lifecycle FSM and
+        // appointment kinds -- the lifecycle service and the anti-overlap
+        // constraint branch on these fixed UUIDs.
+        $this->seedAppointmentStatuses();
+        $this->seedAppointmentTypes();
+        $this->seedWellChildIntervals();
     }
 
     // =========================================================================
@@ -96,6 +148,48 @@ class CatalogSeeder extends Seeder
             ['id' => PopulationType::URBAN, 'key' => 'urban', 'name' => 'Urbana', 'description' => null],
             ['id' => PopulationType::RURAL, 'key' => 'rural', 'name' => 'Rural', 'description' => null],
             ['id' => PopulationType::INDIGENOUS, 'key' => 'indigenous', 'name' => 'Indígena', 'description' => null],
+        ]);
+    }
+
+    // =========================================================================
+    // Instrument support catalogs (central, fixed UUID, D2/D3 -- NOT versioned)
+    // =========================================================================
+
+    private function seedResultColors(): void
+    {
+        $this->upsertCatalog(ResultColor::class, [
+            ['id' => ResultColor::GREEN, 'key' => 'green', 'name' => 'Verde', 'sort_order' => 1],
+            ['id' => ResultColor::YELLOW, 'key' => 'yellow', 'name' => 'Amarillo', 'sort_order' => 2],
+            ['id' => ResultColor::RED, 'key' => 'red', 'name' => 'Rojo', 'sort_order' => 3],
+        ]);
+    }
+
+    private function seedDevelopmentAreas(): void
+    {
+        $semaphore = DevelopmentArea::SCORING_KIND_SEMAPHORE;
+        $counter = DevelopmentArea::SCORING_KIND_COUNTER;
+
+        $this->upsertCatalog(DevelopmentArea::class, [
+            ['id' => DevelopmentArea::MG, 'code' => 'MG', 'name' => 'Motriz gruesa', 'scoring_kind' => $semaphore, 'is_development_axis' => true, 'sort_order' => 1],
+            ['id' => DevelopmentArea::MF, 'code' => 'MF', 'name' => 'Motriz fina', 'scoring_kind' => $semaphore, 'is_development_axis' => true, 'sort_order' => 2],
+            ['id' => DevelopmentArea::LE, 'code' => 'LE', 'name' => 'Lenguaje', 'scoring_kind' => $semaphore, 'is_development_axis' => true, 'sort_order' => 3],
+            ['id' => DevelopmentArea::SO, 'code' => 'SO', 'name' => 'Social', 'scoring_kind' => $semaphore, 'is_development_axis' => true, 'sort_order' => 4],
+            ['id' => DevelopmentArea::CO, 'code' => 'CO', 'name' => 'Conocimiento', 'scoring_kind' => $semaphore, 'is_development_axis' => true, 'sort_order' => 5],
+            ['id' => DevelopmentArea::EN, 'code' => 'EN', 'name' => 'Exploración Neurológica', 'scoring_kind' => $semaphore, 'is_development_axis' => false, 'sort_order' => 6],
+            ['id' => DevelopmentArea::ALA, 'code' => 'ALA', 'name' => 'Señales de Alarma', 'scoring_kind' => $semaphore, 'is_development_axis' => false, 'sort_order' => 7],
+            ['id' => DevelopmentArea::ALE, 'code' => 'ALE', 'name' => 'Señales de Alerta', 'scoring_kind' => $counter, 'is_development_axis' => false, 'sort_order' => 8],
+        ]);
+    }
+
+    private function seedApplicationPositions(): void
+    {
+        $this->upsertCatalog(ApplicationPosition::class, [
+            ['id' => ApplicationPosition::SUPINE, 'key' => 'supine', 'name' => 'Supina', 'legacy_id' => 1],
+            ['id' => ApplicationPosition::PRONE, 'key' => 'prone', 'name' => 'Prona', 'legacy_id' => 2],
+            ['id' => ApplicationPosition::SITTING, 'key' => 'sitting', 'name' => 'Sentado', 'legacy_id' => 3],
+            ['id' => ApplicationPosition::ON_FLOOR, 'key' => 'on_floor', 'name' => 'En piso', 'legacy_id' => 4],
+            ['id' => ApplicationPosition::STANDING, 'key' => 'standing', 'name' => 'De pie', 'legacy_id' => 5],
+            ['id' => ApplicationPosition::NOT_APPLICABLE, 'key' => 'not_applicable', 'name' => 'No aplica', 'legacy_id' => 6],
         ]);
     }
 
@@ -204,7 +298,7 @@ class CatalogSeeder extends Seeder
                 'id' => NotificationEvent::VISITOR_AT_GATE,
                 'key' => 'visitor_at_gate',
                 'name' => 'Visitante en puerta',
-                'description' => 'Se envía al billing owner cuando un visitante registrado llega al acceso del organización.',
+                'description' => 'Se envía al billing owner cuando un visitante registrado llega al acceso de la organización.',
                 'category' => NotificationCategory::ACCESS,
                 'audience' => 'resident',
                 'supports_email' => false,
@@ -252,7 +346,7 @@ class CatalogSeeder extends Seeder
                 'id' => NotificationEvent::TRIAL_EXPIRED,
                 'key' => 'trial_expired',
                 'name' => 'Prueba de módulo vencida',
-                'description' => 'Se envía al administrador del organización cuando la prueba gratuita de un módulo adicional vence y requiere ser incluida en el cobro.',
+                'description' => 'Se envía al administrador de la organización cuando la prueba gratuita de un módulo adicional vence y requiere ser incluida en el cobro.',
                 'category' => NotificationCategory::SYSTEM,
                 'audience' => 'board',
                 'supports_email' => false,
@@ -531,6 +625,199 @@ class CatalogSeeder extends Seeder
                 'is_mandatory' => false,
                 'is_hidden' => false,
             ],
+            // ── FollowUp (edi-followup-and-referral D8) ────────────────────────────
+            // Reuses the existing engine, no new channel: log + push only (v1,
+            // supports_email=false). NotificationSettingService::resolve() falls
+            // back to these default_channels when a tenant has no setting row.
+            [
+                'id' => NotificationEvent::REFERRAL_CREATED,
+                'key' => 'follow_up.referral_created',
+                'name' => 'Referencia a especialista creada',
+                'description' => 'Se envía a los administradores de la organización cuando se crea una referencia a especialista.',
+                'category' => NotificationCategory::FOLLOW_UP,
+                'audience' => 'board',
+                'supports_email' => false,
+                'supports_push' => true,
+                'supports_whatsapp' => false,
+                'default_channels' => json_encode(['log', 'firebase_push']),
+                'order' => 28,
+                'is_active' => true,
+                'is_mandatory' => false,
+                'is_hidden' => false,
+            ],
+            // ── Agenda (odd/tasks/edi-agenda.md S5) ───────────────────────────────
+            [
+                'id' => NotificationEvent::APPOINTMENT_ARRIVED,
+                'key' => 'appointment.arrived',
+                'name' => 'Paciente en espera',
+                'description' => 'Se envía al profesional cuando recepción marca que su paciente llegó.',
+                'category' => NotificationCategory::APPOINTMENT,
+                'audience' => 'board',
+                'supports_email' => false,
+                'supports_push' => true,
+                'supports_whatsapp' => false,
+                'default_channels' => json_encode(['log', 'firebase_push']),
+                'order' => 29,
+                'is_active' => true,
+                'is_mandatory' => false,
+                'is_hidden' => false,
+            ],
+        ]);
+    }
+
+    // =========================================================================
+    // Screening application catalogs (edi-screening-application D1)
+    // =========================================================================
+
+    private function seedScreeningStatuses(): void
+    {
+        $this->upsertCatalog(ScreeningStatus::class, [
+            ['id' => ScreeningStatus::DRAFT, 'key' => 'draft', 'name' => 'Borrador', 'sort_order' => 1],
+            ['id' => ScreeningStatus::SCORED, 'key' => 'scored', 'name' => 'Calificada', 'sort_order' => 2],
+            ['id' => ScreeningStatus::COMPLETED, 'key' => 'completed', 'name' => 'Cerrada', 'sort_order' => 3],
+            ['id' => ScreeningStatus::INVALIDATED, 'key' => 'invalidated', 'name' => 'Anulada', 'sort_order' => 4],
+        ]);
+    }
+
+    private function seedScreeningSituations(): void
+    {
+        $this->upsertCatalog(ScreeningSituation::class, [
+            ['id' => ScreeningSituation::FIRST_TIME_GREEN, 'key' => SituationKey::FIRST_TIME_GREEN, 'name' => 'Primera vez verde', 'sis_code' => 1, 'sort_order' => 1],
+            ['id' => ScreeningSituation::FIRST_TIME_YELLOW, 'key' => SituationKey::FIRST_TIME_YELLOW, 'name' => 'Primera vez amarillo', 'sis_code' => 2, 'sort_order' => 2],
+            ['id' => ScreeningSituation::FIRST_TIME_RED, 'key' => SituationKey::FIRST_TIME_RED, 'name' => 'Primera vez rojo', 'sis_code' => 3, 'sort_order' => 3],
+            ['id' => ScreeningSituation::RECOVERED_FROM_YELLOW, 'key' => SituationKey::RECOVERED_FROM_YELLOW, 'name' => 'Recuperado de amarillo', 'sis_code' => 4, 'sort_order' => 4],
+            ['id' => ScreeningSituation::RECOVERED_FROM_RED, 'key' => SituationKey::RECOVERED_FROM_RED, 'name' => 'Recuperado de rojo', 'sis_code' => 5, 'sort_order' => 5],
+            ['id' => ScreeningSituation::UNCHANGED, 'key' => SituationKey::UNCHANGED, 'name' => 'Sin cambio', 'sis_code' => 6, 'sort_order' => 6],
+            ['id' => ScreeningSituation::WORSENED, 'key' => SituationKey::WORSENED, 'name' => 'Empeoró', 'sis_code' => 6, 'sort_order' => 7],
+        ]);
+    }
+
+    private function seedFindingTypes(): void
+    {
+        $this->upsertCatalog(FindingType::class, [
+            ['id' => FindingType::AGE_GROUP_SUBSTITUTED_BY_CORRECTED_AGE, 'key' => ScoringFinding::AGE_GROUP_SUBSTITUTED_BY_CORRECTED_AGE, 'name' => 'Grupo de edad sustituido por edad corregida', 'sort_order' => 1],
+            ['id' => FindingType::UNKNOWN_PERINATAL_INPUT, 'key' => ScoringFinding::UNKNOWN_PERINATAL_INPUT, 'name' => 'Dato perinatal desconocido', 'sort_order' => 2],
+            ['id' => FindingType::AUTO_ANSWER_OVERRODE_MANUAL, 'key' => ScoringFinding::AUTO_ANSWER_OVERRODE_MANUAL, 'name' => 'Respuesta automática sobrescribió respuesta manual', 'sort_order' => 3],
+            ['id' => FindingType::UNANSWERED_ITEM, 'key' => ScoringFinding::UNANSWERED_ITEM, 'name' => 'Reactivo sin contestar', 'sort_order' => 4],
+            ['id' => FindingType::MISSING_PERCENTILE_REFERENCE, 'key' => ScoringFinding::MISSING_PERCENTILE_REFERENCE, 'name' => 'Referencia percentilar faltante', 'sort_order' => 5],
+        ]);
+    }
+
+    private function seedConfirmatoryTestResults(): void
+    {
+        $this->upsertCatalog(ConfirmatoryTestResult::class, [
+            ['id' => ConfirmatoryTestResult::DELAY_CONFIRMED, 'key' => 'delay_confirmed', 'name' => 'Retraso confirmado', 'sort_order' => 1],
+            ['id' => ConfirmatoryTestResult::DELAY_RULED_OUT, 'key' => 'delay_ruled_out', 'name' => 'Retraso descartado', 'sort_order' => 2],
+            ['id' => ConfirmatoryTestResult::INCONCLUSIVE, 'key' => 'inconclusive', 'name' => 'No concluyente', 'sort_order' => 3],
+        ]);
+    }
+
+    // =========================================================================
+    // Stimulation catalogs (central, fixed UUID, edi-stimulation-sessions D4)
+    // =========================================================================
+
+    private function seedSessionSections(): void
+    {
+        $this->upsertCatalog(SessionSection::class, [
+            ['id' => SessionSection::INTEGRATION, 'key' => 'integration', 'name' => 'Integración', 'sort_order' => 1],
+            ['id' => SessionSection::PREPARATION, 'key' => 'preparation', 'name' => 'Preparación', 'sort_order' => 2],
+            ['id' => SessionSection::CORE, 'key' => 'core', 'name' => 'Actividad central', 'sort_order' => 3],
+            ['id' => SessionSection::RELAXATION, 'key' => 'relaxation', 'name' => 'Relajación', 'sort_order' => 4],
+        ]);
+    }
+
+    private function seedStimulationAreas(): void
+    {
+        $this->upsertCatalog(StimulationArea::class, [
+            ['id' => StimulationArea::SENSORY, 'key' => 'sensory', 'name' => 'Sensorial', 'description' => null],
+            ['id' => StimulationArea::COGNITIVE, 'key' => 'cognitive', 'name' => 'Cognitiva', 'description' => null],
+            ['id' => StimulationArea::SOCIO_AFFECTIVE, 'key' => 'socio_affective', 'name' => 'Socioafectiva', 'description' => null],
+            ['id' => StimulationArea::LANGUAGE, 'key' => 'language', 'name' => 'Lenguaje', 'description' => null],
+            ['id' => StimulationArea::MOTOR, 'key' => 'motor', 'name' => 'Motora', 'description' => null],
+        ]);
+    }
+
+    private function seedAttendancePaymentStatuses(): void
+    {
+        $this->upsertCatalog(AttendancePaymentStatus::class, [
+            ['id' => AttendancePaymentStatus::SCHOLARSHIP, 'key' => 'scholarship', 'name' => 'Beca', 'description' => null],
+            ['id' => AttendancePaymentStatus::PAID, 'key' => 'paid', 'name' => 'Pagado', 'description' => null],
+            ['id' => AttendancePaymentStatus::UNPAID, 'key' => 'unpaid', 'name' => 'No pagado', 'description' => null],
+        ]);
+    }
+
+    // =========================================================================
+    // FollowUp catalogs (central, fixed UUID, edi-followup-and-referral D6)
+    // =========================================================================
+
+    private function seedFollowUpTypes(): void
+    {
+        $this->upsertCatalog(FollowUpType::class, [
+            ['id' => FollowUpType::REASSESS_3_MONTHS, 'key' => 'reassess_3_months', 'name' => 'Reaplicación a 3 meses', 'sort_order' => 1],
+            ['id' => FollowUpType::SPECIALIST_REFERRAL, 'key' => 'specialist_referral', 'name' => 'Referencia a especialista', 'sort_order' => 2],
+            ['id' => FollowUpType::CONFIRMATORY_TEST, 'key' => 'confirmatory_test', 'name' => 'Prueba confirmatoria', 'sort_order' => 3],
+        ]);
+    }
+
+    private function seedFollowUpStatuses(): void
+    {
+        $this->upsertCatalog(FollowUpStatus::class, [
+            ['id' => FollowUpStatus::PENDING, 'key' => 'pending', 'name' => 'Pendiente', 'sort_order' => 1],
+            ['id' => FollowUpStatus::IN_PROGRESS, 'key' => 'in_progress', 'name' => 'En proceso', 'sort_order' => 2],
+            ['id' => FollowUpStatus::COMPLETED, 'key' => 'completed', 'name' => 'Completado', 'sort_order' => 3],
+            ['id' => FollowUpStatus::OVERDUE, 'key' => 'overdue', 'name' => 'Vencido', 'sort_order' => 4],
+            ['id' => FollowUpStatus::CANCELLED, 'key' => 'cancelled', 'name' => 'Cancelado', 'sort_order' => 5],
+        ]);
+    }
+
+    /**
+     * Cadences the scheduled-report runner branches on (REQ-RPT-013). Central and
+     * fixed-UUID because the code decides "is this due tonight?" from the key.
+     */
+    private function seedReportFrequencies(): void
+    {
+        $this->upsertCatalog(ReportFrequency::class, [
+            ['id' => ReportFrequency::DAILY, 'key' => 'daily', 'name' => 'Diario', 'sort_order' => 1],
+            ['id' => ReportFrequency::WEEKLY, 'key' => 'weekly', 'name' => 'Semanal', 'sort_order' => 2],
+            ['id' => ReportFrequency::MONTHLY, 'key' => 'monthly', 'name' => 'Mensual', 'sort_order' => 3],
+        ]);
+    }
+
+    // =========================================================================
+    // Agenda catalogs (central, fixed UUID, odd/tasks/edi-agenda.md)
+    // =========================================================================
+
+    private function seedAppointmentStatuses(): void
+    {
+        $this->upsertCatalog(AppointmentStatus::class, [
+            ['id' => AppointmentStatus::SCHEDULED, 'key' => 'scheduled', 'name' => 'Agendada', 'sort_order' => 1],
+            ['id' => AppointmentStatus::CONFIRMED, 'key' => 'confirmed', 'name' => 'Confirmada', 'sort_order' => 2],
+            ['id' => AppointmentStatus::ARRIVED, 'key' => 'arrived', 'name' => 'En espera', 'sort_order' => 3],
+            ['id' => AppointmentStatus::FULFILLED, 'key' => 'fulfilled', 'name' => 'Atendida', 'sort_order' => 4],
+            ['id' => AppointmentStatus::CANCELLED, 'key' => 'cancelled', 'name' => 'Cancelada', 'sort_order' => 5],
+            ['id' => AppointmentStatus::NO_SHOW, 'key' => 'no_show', 'name' => 'No asistió', 'sort_order' => 6],
+        ]);
+    }
+
+    private function seedAppointmentTypes(): void
+    {
+        $this->upsertCatalog(AppointmentType::class, [
+            ['id' => AppointmentType::SCREENING, 'key' => 'screening', 'name' => 'Prueba EDI', 'default_duration_minutes' => 30, 'sort_order' => 1],
+            ['id' => AppointmentType::STIMULATION, 'key' => 'stimulation', 'name' => 'Estimulación temprana', 'default_duration_minutes' => 60, 'sort_order' => 2],
+            ['id' => AppointmentType::CHECK_UP, 'key' => 'check_up', 'name' => 'Consulta de control', 'default_duration_minutes' => 20, 'sort_order' => 3],
+        ]);
+    }
+
+    /**
+     * Well-child recall bands from NOM-031-SSA2-1999 (8.4.2: six visits a year
+     * under 1 year; 8.4.3: at least every 6 months from 1 to 4 years).
+     */
+    private function seedWellChildIntervals(): void
+    {
+        $this->upsertCatalog(WellChildInterval::class, [
+            ['id' => WellChildInterval::UNDER_ONE_YEAR, 'min_age_days' => 0, 'max_age_days' => 364, 'interval_days' => 60, 'source' => 'cada 2 meses en menores de 1 año (NOM-031-SSA2-1999, 8.4.2)'],
+            ['id' => WellChildInterval::ONE_TO_FOUR_YEARS, 'min_age_days' => 365, 'max_age_days' => 1824, 'interval_days' => 180, 'source' => 'cada 6 meses de 1 a 4 años (NOM-031-SSA2-1999, 8.4.3)'],
+            ['id' => WellChildInterval::FIVE_YEARS_AND_OVER, 'min_age_days' => 1825, 'max_age_days' => null, 'interval_days' => 365, 'source' => 'una vez al año a partir de los 5 años'],
         ]);
     }
 }

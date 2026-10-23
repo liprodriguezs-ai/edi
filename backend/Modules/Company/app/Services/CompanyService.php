@@ -71,7 +71,13 @@ class CompanyService
      */
     public function ensureMainCompanyForTenant(Tenant $tenant): Company
     {
+        // withoutTenancy on purpose: this is the ONE lookup that must see rows the
+        // tenant scope hides, because it adopts a main company created before the
+        // organization existed (tenant_id still null) and stamps it below. The
+        // explicit where() underneath is what keeps it from reaching another
+        // tenant's row — it is doing the scoping here, not the global scope.
         $main = Company::query()
+            ->withoutTenancy()
             ->where('main', true)
             ->where(function ($q) use ($tenant): void {
                 $q->where('tenant_id', $tenant->getTenantKey())

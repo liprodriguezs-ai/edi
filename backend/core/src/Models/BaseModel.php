@@ -36,13 +36,41 @@ abstract class BaseModel extends Model implements Auditable, ReportModel
         ];
     }
 
+    /**
+     * Civil dates (`date` / `immutable_date` casts: birth_date, visit_date,
+     * due_date, ...) leave the API as `Y-m-d`, never as a midnight-UTC instant:
+     * a client converting `2020-05-10T00:00:00Z` to a negative-offset zone would
+     * render the day before. Instants keep Laravel's ISO-8601 UTC (`...Z`).
+     * Only serialization changes; reading the attribute still yields a Carbon.
+     *
+     * @param  array<string, mixed>  $attributes
+     * @param  array<int, string>  $mutatedAttributes
+     * @return array<string, mixed>
+     */
+    protected function addCastAttributesToArray(array $attributes, array $mutatedAttributes)
+    {
+        $attributes = parent::addCastAttributesToArray($attributes, $mutatedAttributes);
+
+        foreach ($this->getCasts() as $key => $cast) {
+            if (! in_array($cast, ['date', 'immutable_date'], true)
+                || ! array_key_exists($key, $attributes)
+                || in_array($key, $mutatedAttributes, true)) {
+                continue;
+            }
+
+            $attributes[$key] = $this->getAttributeValue($key)?->format('Y-m-d');
+        }
+
+        return $attributes;
+    }
+
     public static function columns(Blueprint $table, bool $withTenant = false)
     {
         if (env('DB_CONNECTION') == 'sqlite') {
             $table->uuid('id');
         } else {
             if (env('DB_CONNECTION') === 'pgsql') {
-                $table->uuid('id')->primary()->unique()->default(\DB::raw('(uuid_generate_v4())'));
+                $table->uuid('id')->primary()->unique()->default(\DB::raw('(uuid_generate_v7())'));
             } else {
                 $table->uuid('id')->primary()->unique()->default(\DB::raw('(UUID())'));
             }

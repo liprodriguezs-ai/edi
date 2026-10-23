@@ -175,7 +175,7 @@ class ExpireManualEntitlementsCommand extends Command
                 ->exists();
 
             if ($hasAnyActiveEntitlement) {
-                $this->info("[{$label}] Entitlement no-stripe vencido: módulos del entitlement vencido apagados; el organización sigue activo por otra cobertura.");
+                $this->info("[{$label}] Entitlement no-stripe vencido: módulos del entitlement vencido apagados; la organización sigue activo por otra cobertura.");
 
                 continue;
             }

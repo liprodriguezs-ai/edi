@@ -110,4 +110,35 @@ return [
 
     'attributes' => [],
 
+    // Reglas que faltaban: el API respondia 422 con la CLAVE cruda
+    // ("validation.before_or_equal") en lugar de un mensaje legible.
+    'uuid' => 'El campo :attribute debe ser un identificador válido.',
+    'before_or_equal' => 'El campo :attribute debe ser una fecha igual o anterior a :date.',
+    'after_or_equal' => 'El campo :attribute debe ser una fecha igual o posterior a :date.',
+    'prohibited' => 'El campo :attribute no se puede enviar.',
+    'decimal' => 'El campo :attribute debe tener :decimal decimales.',
+    'gt' => [
+        'array' => 'El campo :attribute debe tener más de :value elementos.',
+        'file' => 'El campo :attribute debe pesar más de :value kilobytes.',
+        'numeric' => 'El campo :attribute debe ser mayor que :value.',
+        'string' => 'El campo :attribute debe tener más de :value caracteres.',
+    ],
+    'gte' => [
+        'array' => 'El campo :attribute debe tener :value elementos o más.',
+        'file' => 'El campo :attribute debe pesar :value kilobytes o más.',
+        'numeric' => 'El campo :attribute debe ser mayor o igual que :value.',
+        'string' => 'El campo :attribute debe tener :value caracteres o más.',
+    ],
+    'lt' => [
+        'array' => 'El campo :attribute debe tener menos de :value elementos.',
+        'file' => 'El campo :attribute debe pesar menos de :value kilobytes.',
+        'numeric' => 'El campo :attribute debe ser menor que :value.',
+        'string' => 'El campo :attribute debe tener menos de :value caracteres.',
+    ],
+    'lte' => [
+        'array' => 'El campo :attribute no debe tener más de :value elementos.',
+        'file' => 'El campo :attribute debe pesar :value kilobytes o menos.',
+        'numeric' => 'El campo :attribute debe ser menor o igual que :value.',
+        'string' => 'El campo :attribute debe tener :value caracteres o menos.',
+    ],
 ];

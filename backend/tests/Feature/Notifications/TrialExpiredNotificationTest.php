@@ -82,7 +82,7 @@ final class TrialExpiredNotificationTest extends TestCase
     private function makeCentralUser(string $name, ?string $roleSlug = null): User
     {
         $user = User::withoutGlobalScopes()->create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => $name,
             'email' => Str::random(8).'@test.com',
             'password' => bcrypt('password'),

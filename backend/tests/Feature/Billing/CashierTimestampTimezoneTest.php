@@ -202,7 +202,7 @@ final class CashierTimestampTimezoneTest extends TestCase
     private function makeStripeOwner(Tenant $tenant, string $stripeCustomerId): User
     {
         $user = User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Owner '.Str::random(5),
             'email' => 'owner.'.Str::lower(Str::random(10)).'@example.test',
             'auth_active' => true,

@@ -130,7 +130,7 @@ class Module extends Command
 
         }*/
 
-        $id = Str::uuid();
+        $id = Str::uuid7();
         $permissions = [
             [null, "Lectura {$moduleTitle}", "read.{$moduleCamel}", 'api', $id],
             [null, "Creación {$moduleTitle}", "create.{$moduleCamel}", 'api', $id],

@@ -40,7 +40,7 @@ final class SessionSecurityTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => $name.' '.Str::random(4),
                 'status' => Tenant::STATUS_ACTIVO,
             ]),

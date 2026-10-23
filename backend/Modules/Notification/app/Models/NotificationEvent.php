@@ -121,6 +121,16 @@ class NotificationEvent extends CentralCatalogModel
     /** Notification to the other party (reporter <-> assignee) when a thread message is posted. */
     public const COMPLAINT_MESSAGE = 'a9002001-0000-4000-8000-000000000004';
 
+    // ── FollowUp (edi-followup-and-referral) ──────────────────────────────────
+
+    /** Notification to organization administrators when a referral to a specialist is created. */
+    public const REFERRAL_CREATED = 'ed500003-0000-4000-8000-000000000001';
+
+    // ── Agenda (odd/tasks/edi-agenda.md) ──────────────────────────────────────
+
+    /** Notification to the practitioner when front desk marks their patient as arrived. */
+    public const APPOINTMENT_ARRIVED = 'ed600004-0000-4000-8000-000000000001';
+
     // ── Model definition ──────────────────────────────────────────────────────
 
     protected $fillable = [

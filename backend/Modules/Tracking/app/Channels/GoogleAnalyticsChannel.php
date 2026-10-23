@@ -54,7 +54,7 @@ class GoogleAnalyticsChannel implements TrackingChannelInterface
         // sites (Stripe webhook, AuthController::register) thread it through
         // user_data.client_id when they have it; otherwise a random id is used
         // so the hit is still counted (it just won't stitch to a browser session).
-        $clientId = $event->userData['client_id'] ?? (string) Str::uuid();
+        $clientId = $event->userData['client_id'] ?? (string) Str::uuid7();
 
         $params = $event->params;
         unset($params['client_id']);

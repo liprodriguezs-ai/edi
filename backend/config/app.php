@@ -70,6 +70,14 @@ return [
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
+    | Source zone of timestamps written BEFORE storage moved to UTC. Used only
+    | by the one-off conversion migration (2026_10_20_130000); leave it empty
+    | (or UTC) when the existing data is already UTC. Tenant civil time comes
+    | from tenant.timezone via QCH\Core\Support\TenantTime, never from here.
+    */
+    'legacy_storage_timezone' => env('LEGACY_STORAGE_TIMEZONE'),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------

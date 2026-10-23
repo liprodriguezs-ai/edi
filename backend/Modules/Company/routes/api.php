@@ -16,8 +16,8 @@ use Orion\Facades\Orion;
 */
 
 Route::middleware('throttle:api')->group(function () {
-    Route::middleware(['auth:sanctum', 'initializeTenancy'])->prefix('company')->group(function () {
+    Route::middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy'])->prefix('company')->group(function () {
         Route::get('me', [CompanyController::class, 'me']);
     });
-    Orion::resource('company', CompanyController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
+    Orion::resource('company', CompanyController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

@@ -29,7 +29,7 @@ final class FirebasePushChannelTest extends TestCase
     private function makeUser(?string $token = 'fcm-token'): User
     {
         return User::withoutGlobalScopes()->create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Push User',
             'email' => Str::random(8).'@test.com',
             'password' => bcrypt('secret1234'),

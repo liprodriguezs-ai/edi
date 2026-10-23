@@ -183,7 +183,7 @@ final class SubscriptionEnforcementTest extends TestCase
         $tracking = $this->tenantRequest($token, $tenant)
             ->postJson('/api/track', [
                 'event' => 'InitiateCheckout',
-                'event_id' => (string) Str::uuid(),
+                'event_id' => (string) Str::uuid7(),
             ]);
         $this->assertNotSame(403, $tracking->status(), 'tracking beacon must not be blocked');
         $this->assertNotSame('SUBSCRIPTION_INACTIVE', $tracking->json('code'));

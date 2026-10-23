@@ -69,7 +69,7 @@ final class TrackingEvent
     {
         return new self(
             name: (string) $data['name'],
-            eventId: (string) ($data['event_id'] ?? (string) Str::uuid()),
+            eventId: (string) ($data['event_id'] ?? (string) Str::uuid7()),
             eventTime: (int) ($data['event_time'] ?? now()->timestamp),
             params: is_array($data['params'] ?? null) ? $data['params'] : [],
             userData: is_array($data['user_data'] ?? null) ? $data['user_data'] : [],

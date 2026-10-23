@@ -125,7 +125,7 @@ class SubscriptionPaymentService
         // would clobber its Stripe entitlement on grant. Refuse the whole payment.
         if ($tenant->payment_method === Tenant::PAYMENT_METHOD_CARD) {
             throw new InvalidArgumentException(
-                'El organización paga con tarjeta. Cambia el método de pago a transferencia/efectivo antes de registrar un pago manual.'
+                'La organización paga con tarjeta. Cambia el método de pago a transferencia/efectivo antes de registrar un pago manual.'
             );
         }
 
@@ -211,7 +211,7 @@ class SubscriptionPaymentService
         // Stripe first (switching the organization off card does this).
         if ($isActiveEntitlement && $existing->source === TenantEntitlement::SOURCE_STRIPE) {
             throw new InvalidArgumentException(
-                "El módulo '{$module->key}' tiene una suscripción Stripe activa. Cancela la suscripción (o cambia el método de pago del organización) antes de registrar un pago manual."
+                "El módulo '{$module->key}' tiene una suscripción Stripe activa. Cancela la suscripción (o cambia el método de pago de la organización) antes de registrar un pago manual."
             );
         }
 

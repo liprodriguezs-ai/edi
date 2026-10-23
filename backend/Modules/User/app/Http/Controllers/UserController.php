@@ -137,7 +137,7 @@ class UserController extends Controller
     private function applyRoleVisibilityFilter(Builder $query): void
     {
         // EDI: la visibilidad la gobiernan el permiso read.user (ruta) y el
-        // UserTenantScope (cada actor del organización solo ve usuarios de SU tenant;
+        // UserTenantScope (cada actor de la organización solo ve usuarios de SU tenant;
         // el super admin no tiene tenant y ve todo). El filtro CRM por roles
         // RH/COMPANY_ADMIN dejaba listas vacías para account.owner — eliminado.
     }
@@ -147,7 +147,7 @@ class UserController extends Controller
      */
     protected function performStore(Request $request, Model $entity, array $attributes): void
     {
-        $created = app(UserService::class)->create($request->all());
+        $created = app(UserService::class)->create(Arr::except($request->all(), self::PROTECTED_ATTRIBUTES));
         $entity->setRawAttributes($created->getAttributes());
         $entity->syncOriginal();
         $entity->exists = true;
@@ -155,10 +155,11 @@ class UserController extends Controller
 
     /**
      * sec-input-08 — credential/verification/activation state must never be
-     * mass-assigned through the generic update endpoint: each has a dedicated
-     * flow (updatePassword, revoke-sessions, employee termination, onboarding).
+     * mass-assigned through the generic create OR update endpoint: each has a
+     * dedicated flow (updatePassword, revoke-sessions, employee termination,
+     * onboarding).
      */
-    private const UPDATE_PROTECTED_ATTRIBUTES = [
+    private const PROTECTED_ATTRIBUTES = [
         'auth_active',
         'email_verified_at',
         'verification_code',
@@ -175,7 +176,7 @@ class UserController extends Controller
 
     protected function performUpdate(Request $request, Model $entity, array $attributes): void
     {
-        parent::performUpdate($request, $entity, Arr::except($attributes, self::UPDATE_PROTECTED_ATTRIBUTES));
+        parent::performUpdate($request, $entity, Arr::except($attributes, self::PROTECTED_ATTRIBUTES));
     }
 
     /**
@@ -462,7 +463,7 @@ class UserController extends Controller
 
         if ($userService->isLastAccountOwnerOfAnyTenant($target)) {
             return response()->json([
-                'message' => 'No se puede anonimizar al último propietario de cuenta del organización.',
+                'message' => 'No se puede anonimizar al último propietario de cuenta de la organización.',
             ], 422);
         }
 

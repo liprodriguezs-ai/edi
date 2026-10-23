@@ -62,6 +62,14 @@ class Tenant extends BaseTenant implements AuditableContract, TenantWithDatabase
 
     protected $hidden = ['data'];
 
+    /** Mirrors the column default so a freshly created model resolves TenantTime correctly in memory. */
+    public const DEFAULT_TIMEZONE = 'America/Mexico_City';
+
+    /** @var array<string, mixed> */
+    protected $attributes = [
+        'timezone' => self::DEFAULT_TIMEZONE,
+    ];
+
     protected function casts(): array
     {
         return [

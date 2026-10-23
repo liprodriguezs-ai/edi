@@ -6,6 +6,8 @@ namespace Tests\Unit\Support;
 
 use App\Support\CalendarDays;
 use Carbon\Carbon;
+use Modules\Tenant\Models\Tenant;
+use Stancl\Tenancy\Contracts\Tenant as TenantContract;
 use Tests\TestCase;
 
 /**
@@ -20,6 +22,8 @@ final class CalendarDaysTest extends TestCase
     protected function tearDown(): void
     {
         Carbon::setTestNow();
+        tenancy()->initialized = false;
+        app()->forgetInstance(TenantContract::class);
 
         parent::tearDown();
     }
@@ -54,5 +58,17 @@ final class CalendarDaysTest extends TestCase
     public function test_null_end_returns_null(): void
     {
         $this->assertNull(CalendarDays::until(null));
+    }
+
+    public function test_days_left_count_the_tenant_calendar_not_the_utc_calendar(): void
+    {
+        // Stub the current tenant without touching the database.
+        app()->instance(TenantContract::class, new Tenant(['timezone' => 'America/Mexico_City']));
+        tenancy()->initialized = true;
+
+        // Aug 7 21:00 in Mexico City; the trial ends Aug 8 06:00 Mexico City: one calendar day left.
+        Carbon::setTestNow(Carbon::parse('2026-08-08T03:00:00Z'));
+
+        $this->assertSame(1, CalendarDays::until(Carbon::parse('2026-08-08T12:00:00Z')));
     }
 }

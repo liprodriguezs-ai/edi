@@ -15,9 +15,12 @@ use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Audit\Models\Audit;
+use Modules\ChildRecord\Models\Child;
 use Modules\Event\Entities\EventServicePerson;
 use Modules\Person\Entities\Person;
 use Modules\Person\Entities\PersonVisit;
+use Modules\Reports\Models\ScreeningIndicatorSnapshot;
+use Modules\Screening\Models\Screening;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -48,7 +51,27 @@ class ReportController extends BaseController
      *
      * @var array<string, array{class: class-string, with: string[]}>
      */
-    private const REPORT_MODEL_MAP = [];
+    private const REPORT_MODEL_MAP = [
+        // edi-reports-and-indicators (REQ-RPT-007). Every `with` relation is
+        // eager-loaded before reportColumns() runs — the N+1 firewall: each
+        // model's reportColumns() closures MUST read only these relations.
+        'Screening' => [
+            'class' => Screening::class,
+            'with' => [
+                'child.sex', 'visit.health_center', 'visit.practitioner',
+                'age_group', 'applied_age_group', 'result_color', 'situation', 'screening_status',
+                'area_results.development_area', 'area_results.result_color',
+            ],
+        ],
+        'Child' => [
+            'class' => Child::class,
+            'with' => ['sex', 'health_center'],
+        ],
+        'ScreeningIndicator' => [
+            'class' => ScreeningIndicatorSnapshot::class,
+            'with' => ['health_center'],
+        ],
+    ];
 
     protected function checkPermission($type)
     {

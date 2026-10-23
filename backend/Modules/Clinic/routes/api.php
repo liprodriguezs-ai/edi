@@ -8,9 +8,9 @@ use Orion\Facades\Orion;
 Route::middleware('throttle:api')->group(function () {
     Orion::resource('health_center', HealthCenterController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Orion::resource('practitioner_profile', PractitionerProfileController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

@@ -178,7 +178,7 @@ final class ModuleTrialAdminTest extends TestCase
     private function makeUser(): User
     {
         return User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Super '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),

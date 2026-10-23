@@ -67,8 +67,8 @@ class ClinicServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->nameLower);
             $this->loadJsonTranslationsFrom($langPath);
         } else {
-            $this->loadTranslationsFrom(module_path($this->name, '$PATH_LANG$'), $this->nameLower);
-            $this->loadJsonTranslationsFrom(module_path($this->name, '$PATH_LANG$'));
+            $this->loadTranslationsFrom(module_path($this->name, 'lang'), $this->nameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->name, 'lang'));
         }
     }
 
@@ -102,7 +102,7 @@ class ClinicServiceProvider extends ServiceProvider
     public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/'.$this->nameLower);
-        $sourcePath = module_path($this->name, '$PATH_VIEWS$');
+        $sourcePath = module_path($this->name, 'resources/views');
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower.'-module-views']);
 

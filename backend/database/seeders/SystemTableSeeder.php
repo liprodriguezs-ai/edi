@@ -72,7 +72,7 @@ class SystemTableSeeder extends Seeder
             }
 
             DB::table('module_system')->insert([
-                'id' => Str::uuid()->toString(),
+                'id' => Str::uuid7()->toString(),
                 'module_id' => $data['module_id'],
                 'system_id' => $data['system_id'],
                 'sort_order' => (int) $data['sort_order'],
@@ -251,11 +251,57 @@ class SystemTableSeeder extends Seeder
             'Niños' => 'child',
             'Cuidadores' => 'caregiver',
             'Visitas' => 'visit',
+            // Agenda (odd/tasks/edi-agenda.md)
+            'Agenda' => 'appointment',
             'Sexos' => 'sex',
             'Tipos de Población' => 'population_type',
             'Parentescos' => 'update:caregiver_relationship',
             'Escolaridades' => 'update:education_level',
             'Ocupaciones' => 'update:occupation',
+            // Instrument (EDI instrument catalog): read-only, super-admin-only
+            // (Core system). See RolePermissionTableSeeder $permissionsOnlySuperAdmin.
+            'Instrumento EDI' => 'instrument',
+            // Screening application (edi-screening-application D21). Tamizajes
+            // is visible since edi-screening-ui; Pruebas Confirmatorias stays
+            // hidden (see seedModuleVisibility below).
+            'Prueba EDI' => 'screening',
+            'Pruebas Confirmatorias' => 'confirmatory_test',
+            // Stimulation (edi-stimulation-sessions). The 6 tenant catalogs use
+            // 'update:' like every other autoadministrable catalog; the 3
+            // central catalogs (session_section/stimulation_area/
+            // attendance_payment_status) are plain entities, read-only for
+            // tenant roles (RolePermissionTableSeeder $centralCatalogs) and
+            // hidden module rows (seedModuleVisibility below).
+            'Sesiones de Estimulación' => 'stimulation_session',
+            'Grupos de Estimulación' => 'stimulation_group',
+            'Dinámicas de Estimulación' => 'update:stimulation_dynamic',
+            'Zonas Corporales' => 'update:body_zone',
+            'Movimientos de Masaje' => 'update:massage_movement',
+            'Materiales Didácticos' => 'update:didactic_material',
+            'Canciones' => 'update:song',
+            'Tipos de Grupo' => 'update:stimulation_group_type',
+            'Secciones de Sesión' => 'session_section',
+            'Áreas de Estimulación' => 'stimulation_area',
+            'Estatus de Pago de Asistencia' => 'attendance_payment_status',
+            // FollowUp (edi-followup-and-referral). Referencias has no
+            // standalone page (managed from the follow-up detail) and stays
+            // hidden (see seedModuleVisibility below); Especialidades de
+            // Referencia is a tenant catalog, 'update:' gate like every
+            // other autoadministrable catalog.
+            'Seguimientos' => 'follow_up',
+            'Referencias' => 'referral',
+            'Especialidades de Referencia' => 'update:referral_specialty',
+            // Reports (edi-reports-and-indicators D7/D12). Aggregate vs
+            // nominal are DIFFERENT permission entities so the menu split
+            // mirrors the PII boundary: clinical staff can see the
+            // dashboard without ever seeing the nominal/PII page.
+            'Indicadores' => 'screening_indicator',
+            'Listado nominal' => 'nominal_report',
+            // EDI legacy parity (odd/tasks/edi-legacy-parity.md)
+            'Concentrado EDI' => 'edi_concentrate',
+            'Reporte general' => 'general_report',
+            'Edad corregida' => 'corrected_age',
+            'Estado nutricional' => 'nutritional_assessment',
         ];
 
         foreach ($mapping as $moduleName => $entity) {
@@ -366,9 +412,37 @@ class SystemTableSeeder extends Seeder
             'Profesionales de Salud' => '/practitioner',
             'Niños' => '/child',
             'Visitas' => '/visit',
+            'Agenda' => '/agenda',
             'Parentescos' => '/caregiver-relationship',
             'Escolaridades' => '/education-level',
             'Ocupaciones' => '/occupation',
+            // Instrument (EDI instrument catalog)
+            'Instrumento EDI' => '/instrument',
+            // Screening application (D21) — Pruebas Confirmatorias has no route:
+            // hidden module, managed from the screening detail (edi-screening-ui).
+            'Prueba EDI' => '/screening',
+            // Stimulation (edi-stimulation-sessions). Hidden modules (Secciones
+            // de Sesión, Áreas de Estimulación, Estatus de Pago de Asistencia)
+            // need no route.
+            'Sesiones de Estimulación' => '/stimulation-session',
+            'Grupos de Estimulación' => '/stimulation-group',
+            'Dinámicas de Estimulación' => '/stimulation-dynamic',
+            'Zonas Corporales' => '/body-zone',
+            'Movimientos de Masaje' => '/massage-movement',
+            'Materiales Didácticos' => '/didactic-material',
+            'Canciones' => '/song',
+            'Tipos de Grupo' => '/stimulation-group-type',
+            // FollowUp (edi-followup-and-referral). Referencias has no route
+            // (hidden module, managed from the follow-up detail).
+            'Seguimientos' => '/follow-up',
+            'Especialidades de Referencia' => '/referral-specialty',
+            // Reports (edi-reports-and-indicators)
+            'Indicadores' => '/reports/indicators',
+            'Listado nominal' => '/reports/nominal',
+            // EDI legacy parity — Estado nutricional lives in the child record (hidden row).
+            'Concentrado EDI' => '/reports/edi-concentrate',
+            'Reporte general' => '/reports/general',
+            'Edad corregida' => '/corrected-age',
         ];
 
         foreach ($routes as $moduleName => $route) {
@@ -441,6 +515,25 @@ class SystemTableSeeder extends Seeder
             'Cuidadores',
             'Sexos',
             'Tipos de Población',
+            // Screening application (D21). Tamizajes shipped its frontend in
+            // edi-screening-ui (REQ-SCR-013 delta) — no longer hidden.
+            // Pruebas Confirmatorias has no standalone page (managed from the
+            // screening detail, REQ-SUI-010) and stays hidden.
+            'Pruebas Confirmatorias',
+            // Stimulation (edi-stimulation-sessions). The 3 central catalogs
+            // are read-only for tenant roles — hidden module rows, same as
+            // Sex/PopulationType above.
+            'Secciones de Sesión',
+            'Áreas de Estimulación',
+            'Estatus de Pago de Asistencia',
+            // FollowUp (edi-followup-and-referral). Referrals live inside
+            // the follow-up detail page — a menu row would 404.
+            'Referencias',
+            // EDI legacy parity: Estado nutricional is a tab of the child record.
+            'Estado nutricional',
+            // Clinical record (odd/tasks/edi-clinical-record.md S5): visits are
+            // worked from the child record; the /visit route stays reachable.
+            'Visitas',
         ];
 
         DB::table('module')->whereIn('name', $hidden)->update(['visible' => false]);
@@ -571,11 +664,40 @@ class SystemTableSeeder extends Seeder
             'Niños' => 'IconUsers',
             'Cuidadores' => 'IconUsers',
             'Visitas' => 'IconCalendarEvent',
+            'Agenda' => 'IconCalendar',
             'Sexos' => 'IconCategory',
             'Tipos de Población' => 'IconCategory',
             'Parentescos' => 'IconUsers',
             'Escolaridades' => 'IconCategory',
             'Ocupaciones' => 'IconBriefcase',
+            // Instrument (EDI instrument catalog)
+            'Instrumento EDI' => 'IconClipboardHeart',
+            // Screening application (D21)
+            'Prueba EDI' => 'IconReportMedical',
+            'Pruebas Confirmatorias' => 'IconChecklist',
+            // Stimulation (edi-stimulation-sessions)
+            'Sesiones de Estimulación' => 'IconHeartHandshake',
+            'Grupos de Estimulación' => 'IconUsersGroup',
+            'Dinámicas de Estimulación' => 'IconCategory',
+            'Zonas Corporales' => 'IconBodyScan',
+            'Movimientos de Masaje' => 'IconMassage',
+            'Materiales Didácticos' => 'IconPackage',
+            'Canciones' => 'IconMusic',
+            'Tipos de Grupo' => 'IconCategory',
+            'Secciones de Sesión' => 'IconCategory',
+            'Áreas de Estimulación' => 'IconCategory',
+            'Estatus de Pago de Asistencia' => 'IconCategory',
+            // FollowUp (edi-followup-and-referral)
+            'Seguimientos' => 'IconClipboardList',
+            'Referencias' => 'IconUserPlus',
+            'Especialidades de Referencia' => 'IconCategory',
+            // Reports (edi-reports-and-indicators)
+            'Indicadores' => 'IconChartBar',
+            'Listado nominal' => 'IconReportMedical',
+            'Concentrado EDI' => 'IconTable',
+            'Reporte general' => 'IconFileSpreadsheet',
+            'Edad corregida' => 'IconCalendarStats',
+            'Estado nutricional' => 'IconScale',
         ];
 
         foreach ($icons as $moduleName => $icon) {

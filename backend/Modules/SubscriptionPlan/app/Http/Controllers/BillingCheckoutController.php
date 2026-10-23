@@ -56,7 +56,7 @@ class BillingCheckoutController extends Controller
         if (! $owner) {
             // Owner unresolved (missing or ambiguous) → unprocessable, not forbidden.
             return response()->json([
-                'message' => 'No se encontró el propietario de la cuenta para este organización.',
+                'message' => 'No se encontró el propietario de la cuenta para esta organización.',
                 'code' => 'owner_unresolved',
             ], 422);
         }
@@ -82,7 +82,7 @@ class BillingCheckoutController extends Controller
 
         if (! $lock->get()) {
             return response()->json([
-                'message' => 'Ya hay un pago en proceso para este organización. Espera unos segundos e intenta de nuevo.',
+                'message' => 'Ya hay un pago en proceso para esta organización. Espera unos segundos e intenta de nuevo.',
                 'code' => 'checkout_in_progress',
             ], 409);
         }

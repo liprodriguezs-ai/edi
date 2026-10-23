@@ -203,7 +203,7 @@ class PreferentialSwapService
             }
 
             if ($last === null) {
-                throw new InvalidArgumentException('El organización no tiene entitlements activas para cambiar de plan.');
+                throw new InvalidArgumentException('La organización no tiene entitlements activas para cambiar de plan.');
             }
 
             $tenant->update(['billing_package_id' => $toPlan->id]);

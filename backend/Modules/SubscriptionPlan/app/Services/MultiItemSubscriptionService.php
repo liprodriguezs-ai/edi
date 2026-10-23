@@ -82,7 +82,7 @@ class MultiItemSubscriptionService
             'interval' => $interval,
             'units' => $units !== null ? (string) $units : null,
             // Tracking dedup (Purchase): consumed by StripeWebhookListener.
-            'event_id' => $eventId ?? (string) Str::uuid(),
+            'event_id' => $eventId ?? (string) Str::uuid7(),
             'ga_client_id' => $gaClientId,
         ];
 

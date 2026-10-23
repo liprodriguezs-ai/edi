@@ -161,13 +161,13 @@ class SubscriptionPaymentController extends Controller
                 // pick which owner's subscription to cancel, so completing the switch
                 // would leave Stripe billing the organization after it "moved" to manual.
                 // Refuse instead of silently orphaning the charge.
-                Log::warning('No se pudo resolver la suscripción Stripe del organización para cancelarla: account owner ambiguo.', [
+                Log::warning('No se pudo resolver la suscripción Stripe de la organización para cancelarla: account owner ambiguo.', [
                     'tenant_id' => $tenant->id,
                     'target_payment_method' => $validated['payment_method'],
                 ]);
 
                 return response()->json([
-                    'message' => 'No se puede resolver la suscripción Stripe del organización para cancelarla; resuelve el owner de la cuenta primero.',
+                    'message' => 'No se puede resolver la suscripción Stripe de la organización para cancelarla; resuelve el owner de la cuenta primero.',
                 ], 422);
             }
         }

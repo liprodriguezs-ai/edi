@@ -823,7 +823,7 @@ final class SubscriptionPaymentFlowTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create(array_merge([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Test Tenant '.Str::random(5),
                 'status' => Tenant::STATUS_ACTIVO,
                 'currency' => 'MXN',
@@ -836,7 +836,7 @@ final class SubscriptionPaymentFlowTest extends TestCase
     private function makeUser(): User
     {
         return User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Super '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),

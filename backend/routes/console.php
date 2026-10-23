@@ -25,3 +25,7 @@ Schedule::command('media-library:clean')->weekly();
 // (landing + app) with no per-tenant scope; bounded like every other log above
 // instead of growing forever on the shared Postgres DB. Retention: tracking.retention_days.
 Schedule::command('model:prune', ['--model' => TrackingEvent::class])->daily();
+// follow_up.follow_up_status_id converges pending<->overdue vs due_date, per
+// tenant, both directions (design D7, REQ-FUP-005). Idempotent. Hourly because
+// "today" is each tenant's civil day (TenantTime): every tenant midnight is covered.
+Schedule::command('follow-up:refresh-overdue')->hourlyAt(15);

@@ -8,7 +8,7 @@ a8bf21f8-c77c-4e8e-8870-3cce32a7f97b,Usuarios,Core
 4f082083-5388-4dfb-bd65-ece0656830f1,Auditoría,Core
 90258619-8251-450c-b25f-510216be2c9d,Correos,Core
 019601fa-954b-725d-b422-4cbad86b4e16,Notificaciones,Core
-b1c2d3e4-f5a6-7890-abcd-ef1234567890,Perfil de Residente,Organización
+b1c2d3e4-f5a6-7890-abcd-ef1234567890,Perfil de Usuario,Organización
 b4001001-0000-4000-8000-000000000001,Planes y Precios,Core
 ed000001-0000-4000-8000-000000000001,Centros de Salud,Evaluación
 ed000001-0000-4000-8000-000000000002,Profesionales de Salud,Evaluación
@@ -20,3 +20,28 @@ ed000001-0000-4000-8000-000000000007,Tipos de Población,Evaluación
 ed000001-0000-4000-8000-000000000008,Parentescos,Evaluación
 ed000001-0000-4000-8000-000000000009,Escolaridades,Evaluación
 ed000001-0000-4000-8000-000000000010,Ocupaciones,Evaluación
+ed000002-0000-4000-8000-000000000001,Instrumento EDI,Core
+ed000003-0000-4000-8000-000000000001,Prueba EDI,Evaluación
+ed000003-0000-4000-8000-000000000002,Pruebas Confirmatorias,Evaluación
+ed000004-0000-4000-8000-000000000001,Sesiones de Estimulación,Evaluación
+ed000004-0000-4000-8000-000000000002,Grupos de Estimulación,Evaluación
+ed000004-0000-4000-8000-000000000003,Dinámicas de Estimulación,Evaluación
+ed000004-0000-4000-8000-000000000004,Zonas Corporales,Evaluación
+ed000004-0000-4000-8000-000000000005,Movimientos de Masaje,Evaluación
+ed000004-0000-4000-8000-000000000006,Materiales Didácticos,Evaluación
+ed000004-0000-4000-8000-000000000007,Canciones,Evaluación
+ed000004-0000-4000-8000-000000000008,Tipos de Grupo,Evaluación
+ed000004-0000-4000-8000-000000000009,Secciones de Sesión,Evaluación
+ed000004-0000-4000-8000-000000000010,Áreas de Estimulación,Evaluación
+ed000004-0000-4000-8000-000000000011,Estatus de Pago de Asistencia,Evaluación
+ed000005-0000-4000-8000-000000000001,Seguimientos,Evaluación
+ed000005-0000-4000-8000-000000000002,Referencias,Evaluación
+ed000005-0000-4000-8000-000000000003,Especialidades de Referencia,Evaluación
+ed000006-0000-4000-8000-000000000001,Indicadores,Evaluación
+ed000006-0000-4000-8000-000000000002,Listado nominal,Evaluación
+ed000007-0000-4000-8000-000000000001,Reportes Programados,Evaluación
+ed000008-0000-4000-8000-000000000001,Agenda,Evaluación
+ed000009-0000-4000-8000-000000000001,Concentrado EDI,Evaluación
+ed000009-0000-4000-8000-000000000002,Reporte general,Evaluación
+ed000009-0000-4000-8000-000000000003,Edad corregida,Evaluación
+ed000009-0000-4000-8000-000000000004,Estado nutricional,Evaluación

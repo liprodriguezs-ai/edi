@@ -28,7 +28,7 @@ final class TrackingEventPruningTest extends TestCase
     {
         $event = TrackingEvent::create([
             'event_name' => 'Lead',
-            'event_id' => (string) Str::uuid(),
+            'event_id' => (string) Str::uuid7(),
             'channel' => 'log',
             'status' => TrackingEvent::STATUS_SENT,
         ]);

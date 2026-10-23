@@ -3,3 +3,4 @@ uuid,description,name,guard_name
 47c151b4-1cf7-4e97-b7f6-5539b8b3f379,Propietario,account.owner,api
 fa5789eb-a28a-40d4-aeba-20fdd7b0a941,Admin Empresa,company.admin,api
 1a2b3c4d-0001-0000-0000-000000000001,Administrador,administrator,api
+1a2b3c4d-000b-0000-0000-000000000011,Recepción,assistant,api

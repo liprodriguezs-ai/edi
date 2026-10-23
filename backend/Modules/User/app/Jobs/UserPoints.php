@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Gamification\Models\Gamification;
 use Modules\Gamification\Models\GamificationLevel;
 use Modules\Gamification\Models\GamificationPointsHistory;
+use QCH\Core\Support\TenantTime;
 
 class UserPoints implements ShouldQueue
 {
@@ -57,8 +58,8 @@ class UserPoints implements ShouldQueue
             'model_id' => $entity->id,
             'model_type' => get_class($entity),
             'points' => $points,
-            'month' => now()->month,
-            'year' => now()->year,
+            'month' => TenantTime::inTenantZone(now())->month,
+            'year' => TenantTime::inTenantZone(now())->year,
             'gamification_level_id' => $gamification->gamification_level_id,
             'points_before' => $gamification->points,
             'points_after' => $gamification->points + $points,

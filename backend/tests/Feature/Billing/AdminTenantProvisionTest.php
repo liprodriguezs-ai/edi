@@ -337,7 +337,7 @@ final class AdminTenantProvisionTest extends TestCase
     public function test_provision_narrative_reflects_the_new_organizations_own_state_even_with_a_real_super_admin_actor(): void
     {
         $realSuperAdmin = User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Real Super '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),
@@ -368,7 +368,7 @@ final class AdminTenantProvisionTest extends TestCase
     public function test_provision_requires_super_admin_ability(): void
     {
         $user = User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Plain '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),
@@ -425,7 +425,7 @@ final class AdminTenantProvisionTest extends TestCase
     private function superAdminToken(): string
     {
         $user = User::create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Super '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),

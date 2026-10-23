@@ -48,6 +48,20 @@ class RolePermissionTableSeeder extends Seeder
             // (D4 in edi-clinic-and-child-registry design) — CURP cross-check and the
             // future Secretaría export branch on them, so writes stay super-admin only.
             'sex', 'population_type',
+            // Screening application (edi-screening-application D1): the 4 new
+            // central catalogs (FSM/behavior-branching rows) — mutations become
+            // super-admin exclusives, tenant roles keep read via $commonPermissions.
+            'screening_status', 'screening_situation', 'finding_type', 'confirmatory_test_result',
+            // Stimulation (edi-stimulation-sessions REQ-XC-002): the 3 central
+            // catalogs — mutations become super-admin exclusives, tenant roles
+            // keep read via $commonPermissions.
+            'session_section', 'stimulation_area', 'attendance_payment_status',
+            // FollowUp (edi-followup-and-referral D6): the 2 central catalogs
+            // (conduct type + lifecycle FSM) — mutations become super-admin
+            // exclusives, tenant roles keep read via $commonPermissions.
+            'follow_up_type', 'follow_up_status',
+            // Agenda (odd/tasks/edi-agenda.md): lifecycle FSM + appointment kinds.
+            'appointment_status', 'appointment_type',
         ];
 
         $centralCatalogWrites = [];
@@ -69,6 +83,14 @@ class RolePermissionTableSeeder extends Seeder
             // The audit log is append-only for tenant roles (spec §18.2.1): they may
             // read/report it, never write it.
             'create.audit', 'update.audit', 'delete.audit', 'restore.audit',
+            // Instrument (EDI instrument catalog, D22/D23): platform content,
+            // read-only API (index/show only), super-admin-exclusive. Content
+            // enters ONLY via InstrumentSeeder -- no tenant role gets ANY verb,
+            // including read, because the inspector is a super-admin tool; the
+            // Screening module will serve tenant-facing reads through its own
+            // endpoints, never by browsing the raw instrument. MUST NOT be added
+            // to $mapperSelects/CatalogType (D22) -- deliberately absent.
+            'read.instrument', 'create.instrument', 'update.instrument', 'delete.instrument', 'restore.instrument', 'report.instrument',
         ], $centralCatalogWrites);
 
         // Base permission catalog consumed ONLY by the super-admin grant below
@@ -172,6 +194,8 @@ class RolePermissionTableSeeder extends Seeder
             'read.health_center', 'update.health_center', 'delete.health_center', 'create.health_center', 'restore.health_center', 'report.health_center',
             'read.practitioner_profile', 'update.practitioner_profile', 'delete.practitioner_profile', 'create.practitioner_profile', 'restore.practitioner_profile', 'report.practitioner_profile',
             'read.child', 'update.child', 'delete.child', 'create.child', 'restore.child', 'report.child',
+            // Perinatal history has its own permission (odd/tasks/edi-agenda.md S16).
+            'read.birth_record', 'update.birth_record', 'delete.birth_record', 'create.birth_record', 'restore.birth_record', 'report.birth_record',
             'read.caregiver', 'update.caregiver', 'delete.caregiver', 'create.caregiver', 'restore.caregiver', 'report.caregiver',
             'read.visit', 'update.visit', 'delete.visit', 'create.visit', 'restore.visit', 'report.visit',
             'read.sex', 'update.sex', 'delete.sex', 'create.sex', 'restore.sex', 'report.sex',
@@ -179,6 +203,53 @@ class RolePermissionTableSeeder extends Seeder
             'read.caregiver_relationship', 'update.caregiver_relationship', 'delete.caregiver_relationship', 'create.caregiver_relationship', 'restore.caregiver_relationship', 'report.caregiver_relationship',
             'read.education_level', 'update.education_level', 'delete.education_level', 'create.education_level', 'restore.education_level', 'report.education_level',
             'read.occupation', 'update.occupation', 'delete.occupation', 'create.occupation', 'restore.occupation', 'report.occupation',
+            // Screening application (edi-screening-application). rescore.screening
+            // is a 13th standalone ability (D21/Q7) — common for now (tenant roles
+            // receive it), tighten with product input in a later permissions pass.
+            'read.screening', 'update.screening', 'delete.screening', 'create.screening', 'restore.screening', 'report.screening',
+            'rescore.screening',
+            'read.confirmatory_test', 'update.confirmatory_test', 'delete.confirmatory_test', 'create.confirmatory_test', 'restore.confirmatory_test', 'report.confirmatory_test',
+            'read.screening_status', 'update.screening_status', 'delete.screening_status', 'create.screening_status', 'restore.screening_status', 'report.screening_status',
+            'read.screening_situation', 'update.screening_situation', 'delete.screening_situation', 'create.screening_situation', 'restore.screening_situation', 'report.screening_situation',
+            'read.finding_type', 'update.finding_type', 'delete.finding_type', 'create.finding_type', 'restore.finding_type', 'report.finding_type',
+            'read.confirmatory_test_result', 'update.confirmatory_test_result', 'delete.confirmatory_test_result', 'create.confirmatory_test_result', 'restore.confirmatory_test_result', 'report.confirmatory_test_result',
+            // Stimulation (edi-stimulation-sessions)
+            'read.stimulation_session', 'update.stimulation_session', 'delete.stimulation_session', 'create.stimulation_session', 'restore.stimulation_session', 'report.stimulation_session',
+            'read.stimulation_group', 'update.stimulation_group', 'delete.stimulation_group', 'create.stimulation_group', 'restore.stimulation_group', 'report.stimulation_group',
+            'read.stimulation_dynamic', 'update.stimulation_dynamic', 'delete.stimulation_dynamic', 'create.stimulation_dynamic', 'restore.stimulation_dynamic', 'report.stimulation_dynamic',
+            'read.body_zone', 'update.body_zone', 'delete.body_zone', 'create.body_zone', 'restore.body_zone', 'report.body_zone',
+            'read.massage_movement', 'update.massage_movement', 'delete.massage_movement', 'create.massage_movement', 'restore.massage_movement', 'report.massage_movement',
+            'read.didactic_material', 'update.didactic_material', 'delete.didactic_material', 'create.didactic_material', 'restore.didactic_material', 'report.didactic_material',
+            'read.song', 'update.song', 'delete.song', 'create.song', 'restore.song', 'report.song',
+            'read.stimulation_group_type', 'update.stimulation_group_type', 'delete.stimulation_group_type', 'create.stimulation_group_type', 'restore.stimulation_group_type', 'report.stimulation_group_type',
+            'read.session_section', 'update.session_section', 'delete.session_section', 'create.session_section', 'restore.session_section', 'report.session_section',
+            'read.stimulation_area', 'update.stimulation_area', 'delete.stimulation_area', 'create.stimulation_area', 'restore.stimulation_area', 'report.stimulation_area',
+            'read.attendance_payment_status', 'update.attendance_payment_status', 'delete.attendance_payment_status', 'create.attendance_payment_status', 'restore.attendance_payment_status', 'report.attendance_payment_status',
+            // FollowUp (edi-followup-and-referral)
+            'read.follow_up', 'update.follow_up', 'delete.follow_up', 'create.follow_up', 'restore.follow_up', 'report.follow_up',
+            'read.referral', 'update.referral', 'delete.referral', 'create.referral', 'restore.referral', 'report.referral',
+            'read.referral_specialty', 'update.referral_specialty', 'delete.referral_specialty', 'create.referral_specialty', 'restore.referral_specialty', 'report.referral_specialty',
+            'read.follow_up_type', 'update.follow_up_type', 'delete.follow_up_type', 'create.follow_up_type', 'restore.follow_up_type', 'report.follow_up_type',
+            'read.follow_up_status', 'update.follow_up_status', 'delete.follow_up_status', 'create.follow_up_status', 'restore.follow_up_status', 'report.follow_up_status',
+            // Agenda (odd/tasks/edi-agenda.md)
+            'read.appointment', 'update.appointment', 'delete.appointment', 'create.appointment', 'restore.appointment', 'report.appointment',
+            'read.appointment_status', 'update.appointment_status', 'delete.appointment_status', 'create.appointment_status', 'restore.appointment_status', 'report.appointment_status',
+            'read.appointment_type', 'update.appointment_type', 'delete.appointment_type', 'create.appointment_type', 'restore.appointment_type', 'report.appointment_type',
+            // Reports (edi-reports-and-indicators, REQ-RPT-008). Both entities
+            // are common permissions here because this codebase's ONLY
+            // non-super-admin tenant role is Role::ADMINISTRATOR
+            // (seedEDIRolePermissions below) -- there is no separate
+            // "clinical-only" tenant role to withhold the nominal/export
+            // abilities from. The permission-boundary tests build a
+            // purpose-built role holding ONLY read.screening_indicator to
+            // prove the nominal surface stays gated independently.
+            'read.screening_indicator', 'update.screening_indicator', 'delete.screening_indicator', 'create.screening_indicator', 'restore.screening_indicator', 'report.screening_indicator',
+            'read.nominal_report', 'update.nominal_report', 'delete.nominal_report', 'create.nominal_report', 'restore.nominal_report', 'report.nominal_report',
+            // EDI legacy parity (odd/tasks/edi-legacy-parity.md)
+            'read.edi_concentrate', 'create.edi_concentrate', 'update.edi_concentrate', 'delete.edi_concentrate', 'restore.edi_concentrate', 'report.edi_concentrate',
+            'read.general_report', 'create.general_report', 'update.general_report', 'delete.general_report', 'restore.general_report', 'report.general_report',
+            'read.corrected_age', 'create.corrected_age', 'update.corrected_age', 'delete.corrected_age', 'restore.corrected_age', 'report.corrected_age',
+            'read.nutritional_assessment', 'create.nutritional_assessment', 'update.nutritional_assessment', 'delete.nutritional_assessment', 'restore.nutritional_assessment', 'report.nutritional_assessment',
         ];
 
         // Super admin: only their exclusive permissions + common ones.
@@ -238,6 +309,43 @@ class RolePermissionTableSeeder extends Seeder
 
         // RH: RRHH operational — no billing, audit, roles, email, company, tenants, or users.
         $this->seedEDIRolePermissions($permissionsOnlySuperAdmin);
+        $this->seedAssistantPermissions();
+    }
+
+    /**
+     * Front desk (Role::ASSISTANT, odd/tasks/edi-agenda.md S14). An explicit
+     * allow-list, never "everything minus": new modules stay closed to the role
+     * until someone decides otherwise. Deliberately absent: create.visit (starting
+     * care creates the visit and its folio), every screening/follow-up ability,
+     * writes to the perinatal history, every delete, and the dashboard plus the
+     * health-center / practitioner screens (S17: the menu shows only what the
+     * front desk operates; the agenda reads those catalogs through /selects).
+     */
+    private function seedAssistantPermissions(): void
+    {
+        $allowed = [
+            'read.notification', 'update.notification',
+            'read.user_profile', 'update.user_profile',
+            'read.appointment', 'create.appointment', 'update.appointment',
+            'read.appointment_status', 'read.appointment_type',
+            'read.child', 'create.child', 'update.child',
+            'read.caregiver', 'create.caregiver', 'update.caregiver',
+            // Perinatal history is clinical: read-only for the front desk (S16).
+            'read.birth_record',
+            'read.visit',
+            'read.sex', 'read.population_type', 'read.caregiver_relationship',
+            'read.education_level', 'read.occupation',
+        ];
+
+        $rows = DB::table('permissions')
+            ->whereIn('name', $allowed)
+            ->pluck('uuid')
+            ->map(fn (string $permissionId): array => ['permission_id' => $permissionId, 'role_id' => Role::ASSISTANT])
+            ->all();
+
+        if ($rows !== []) {
+            DB::table('role_has_permissions')->insert($rows);
+        }
     }
 
     /**

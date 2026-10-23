@@ -31,7 +31,7 @@ final class LifecycleTransitionTest extends TestCase
     {
         $tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'test-lifecycle-'.bin2hex(random_bytes(4)),
                 'tenancy_db_name' => 'tenant_test_'.bin2hex(random_bytes(4)),
                 'status' => Tenant::STATUS_ACTIVO,

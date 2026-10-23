@@ -97,7 +97,7 @@ final class StripeWebhookTrackingTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'WH Tracking Tenant '.Str::random(5),
                 'status' => $status,
             ]),

@@ -15,5 +15,5 @@ use Orion\Facades\Orion;
  *
 */
 Route::middleware('throttle:api')->group(function () {
-    Orion::resource('email', EmailController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'initializeTenancy']);
+    Orion::resource('email', EmailController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

@@ -70,7 +70,7 @@ final class HealthCenterApiTest extends TestCase
         $this->tenantRequest($token, $tenant)
             ->postJson('/api/health_center', [
                 'name' => 'Centro Falso',
-                'municipality_id' => (string) Str::uuid(),
+                'municipality_id' => (string) Str::uuid7(),
                 'address' => 'Calle Falsa 123',
             ])
             ->assertStatus(422);

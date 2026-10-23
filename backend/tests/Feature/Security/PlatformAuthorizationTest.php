@@ -42,7 +42,7 @@ final class PlatformAuthorizationTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Platform Authz Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),

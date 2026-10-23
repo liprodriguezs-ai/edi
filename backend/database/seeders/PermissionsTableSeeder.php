@@ -13,7 +13,7 @@ class PermissionsTableSeeder extends CsvSeeder
         $this->foreignKeyCheck = true;
         $this->file = base_path('database/seeders/csv/permissions.csv');
         $this->parsers = ['uuid' => function () {
-            return Str::uuid();
+            return Str::uuid7();
         }];
         $this->delimiter = ',';
         $this->table = 'permissions';

@@ -95,7 +95,7 @@ return new class extends Migration
 
         DB::table('billable_module_system_module')->insert(
             $moduleIds->map(fn (string $moduleId): array => [
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'billable_module_id' => $baseId,
                 'module_id' => $moduleId,
                 'created_at' => $now,

@@ -43,7 +43,7 @@ final class NotificationPreferenceTest extends TestCase
     private function makeUser(string $name = 'Pref User'): User
     {
         return User::withoutGlobalScopes()->create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => $name,
             'email' => Str::random(8).'@test.com',
             'password' => Hash::make('secret1234'),
@@ -56,7 +56,7 @@ final class NotificationPreferenceTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Quiet Hours Organization',
                 'status' => Tenant::STATUS_ACTIVO,
                 'timezone' => $timezone,

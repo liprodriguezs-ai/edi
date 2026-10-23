@@ -83,7 +83,13 @@ class OnboardingChecklistService
                 title: 'Identidad legal y branding',
                 description: 'Configura los datos legales y visuales de tu organización.',
                 details: 'Registra la razón social y el RFC para emitir documentos oficiales.',
-                route: '/configuration?tab=general',
+                // /company/me is the screen that actually edits legal_name and rfc.
+                // This pointed at /configuration, a screen removed along with the
+                // template's own domain: the router fell through to its catch-all,
+                // which bounced back here, so the only onboarding step looped and no
+                // organization could finish setup. Nothing catches this at build
+                // time -- the route travels to the client as a plain string.
+                route: '/company/me',
                 required: true,
                 completed: Company::query()
                     ->main()

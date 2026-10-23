@@ -18,6 +18,11 @@ services:
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            # start.sh exports the current LAN IP at runtime. A manual `sail up`
+            # falls back to backend/.env (compose interpolates it), then to localhost.
+            APP_URL: '${APP_URL:-http://127.0.0.1:8090}'
+            APP_FRONTEND_URL: '${APP_FRONTEND_URL:-http://127.0.0.1:5190}'
+            SANCTUM_STATEFUL_DOMAINS: '${SANCTUM_STATEFUL_DOMAINS:-127.0.0.1,127.0.0.1:5190,localhost,localhost:5190}'
         volumes:
             - '.:/var/www/html'
             # OPcache for CLI. The project root above is a macOS bind mount and is
@@ -130,6 +135,21 @@ services:
             - 'shared_buffers=512MB'
             - '-c'
             - 'work_mem=32MB'
+            # `migrate:fresh` (RefreshDatabase, una vez por proceso de paratest) hace
+            # UN SOLO `DROP TABLE ... CASCADE` con TODAS las tablas, y Postgres toma
+            # un lock por objeto — tablas, índices y constraints incluidos. El default
+            # de 64 alcanzaba con el esquema podado; al sumar los módulos de dominio
+            # pasamos de 83 tablas y empezó a fallar con `SQLSTATE[53200] out of
+            # shared memory ... max_locks_per_transaction`. Falla NO determinista: se
+            # rompe el proceso que pierde la carrera por la tabla de locks compartida,
+            # así que la cantidad de tests rotos cambia entre corridas y parece
+            # flakiness. No lo es: es el esquema creciendo. Cada slot cuesta ~270
+            # bytes de shared memory, así que 1024 es barato. OJO: la tabla de locks es COMPARTIDA (se dimensiona como
+            # max_locks_per_transaction x max_connections), y paratest corre 10 procesos
+            # dropeando el esquema entero a la vez, así que el margen tiene que ser amplio:
+            # con 256 todavía fallaba 1 de 609.
+            - '-c'
+            - 'max_locks_per_transaction=1024'
             # Statistics are worthless for a database that is dropped continuously.
             # (Se probó encenderlo el 2026-08-08 creyendo que el "No space left on
             # device" era bloat de tuplas muertas: NO lo era — el espacio se lo

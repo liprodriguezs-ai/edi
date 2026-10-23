@@ -194,7 +194,7 @@ class EntitlementService
             : null;
 
         if ($plan === null) {
-            throw new InvalidArgumentException('El organización no tiene un plan asignado para iniciar una prueba.');
+            throw new InvalidArgumentException('La organización no tiene un plan asignado para iniciar una prueba.');
         }
 
         $module = BillableModule::query()
@@ -251,7 +251,7 @@ class EntitlementService
                 ->exists();
 
             if (! $baseActive) {
-                throw new InvalidArgumentException('El organización debe tener su plan activo antes de iniciar una prueba.');
+                throw new InvalidArgumentException('La organización debe tener su plan activo antes de iniciar una prueba.');
             }
         }
 

@@ -15,6 +15,19 @@ class TenantUpdateRequest extends FormRequest
     {
         return [
             'status' => ['sometimes', 'string', Rule::in(Tenant::STATUSES)],
+            // IANA identifier: it drives every civil "today" of the organization (TenantTime).
+            'timezone' => ['sometimes', 'string', 'timezone:all'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'timezone.string' => 'La zona horaria no es válida.',
+            'timezone.timezone' => 'La zona horaria no es válida.',
         ];
     }
 

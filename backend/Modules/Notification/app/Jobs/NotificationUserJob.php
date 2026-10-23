@@ -111,7 +111,7 @@ class NotificationUserJob implements ShouldQueue
         $tenantId = tenant()?->getTenantKey();
 
         $rows = $userIds->map(fn ($userId): array => [
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'notification_id' => $this->notification->id,
             'user_id' => $userId,
             'is_read' => false,

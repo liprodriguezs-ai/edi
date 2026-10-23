@@ -27,7 +27,7 @@ Route::middleware('throttle:api')->group(function () {
     // (billing_package reused as a plan). Central — no initializeTenancy, mirroring
     // subscription_plan. The super-admin gate is automatic via
     // $keyForPermission='billing_package' (TraitController::authorize + tokenCan).
-    Orion::resource('billing_package', BillingPackageController::class)->withSoftDeletes()->middleware('auth:sanctum');
+    Orion::resource('billing_package', BillingPackageController::class)->withSoftDeletes()->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive']);
 
     // Billing v2 price-matrix editor (super admin, S4). Custom (non-Orion) routes
     // for the plan × module price cells (plan_module_price). Central, super-admin

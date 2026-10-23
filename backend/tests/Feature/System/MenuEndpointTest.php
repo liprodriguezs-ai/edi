@@ -47,7 +47,7 @@ final class MenuEndpointTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Test Tenant',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
@@ -64,7 +64,7 @@ final class MenuEndpointTest extends TestCase
         // firstOrCreate: the E2E suite commits seeded systems (shared scenario),
         // so under full-suite order these slugs may already exist.
         System::firstOrCreate(['slug' => 'core'], [
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Core',
             'description' => 'Administracion de la plataforma (solo super admin)',
             'icon' => 'IconSettings',

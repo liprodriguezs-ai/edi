@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use QCH\Core\Models\BaseModel;
 use QCH\Core\Models\GlobalObserver;
+use QCH\Core\Support\TenantTime;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
@@ -81,7 +82,7 @@ class NotificationPreference extends BaseModel
      * Supports windows that cross midnight (e.g. 22:00 → 07:00).
      *
      * Quiet hours are wall-clock times in the user's organization (§17.3), so "now" is
-     * evaluated in the current tenant's timezone, falling back to the app timezone.
+     * evaluated in the current tenant's timezone (TenantTime), falling back to the app timezone.
      */
     public function isWithinQuietHours(?string $now = null): bool
     {
@@ -89,7 +90,7 @@ class NotificationPreference extends BaseModel
             return false;
         }
 
-        $current = $now ?? now($this->quietHoursTimezone())->format('H:i:s');
+        $current = $now ?? TenantTime::inTenantZone(now())->format('H:i:s');
         $start = $this->normalizeTime($this->quiet_hours_start);
         $end = $this->normalizeTime($this->quiet_hours_end);
         $current = $this->normalizeTime($current);
@@ -100,13 +101,6 @@ class NotificationPreference extends BaseModel
 
         // Window crosses midnight.
         return $current >= $start || $current < $end;
-    }
-
-    private function quietHoursTimezone(): string
-    {
-        $tenantTimezone = tenancy()->initialized && tenant() ? (string) tenant('timezone') : '';
-
-        return $tenantTimezone !== '' ? $tenantTimezone : (string) config('app.timezone', 'UTC');
     }
 
     private function normalizeTime(string $time): string

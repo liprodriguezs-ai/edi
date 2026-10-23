@@ -40,7 +40,7 @@ final class NotificationDeliveryTest extends TestCase
     private function makeUser(array $overrides = []): User
     {
         return User::withoutGlobalScopes()->create(array_merge([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Delivery User '.Str::random(4),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),

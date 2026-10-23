@@ -38,7 +38,7 @@ final class TenantModuleControllerTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Test Tenant',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
@@ -136,7 +136,7 @@ final class TenantModuleControllerTest extends TestCase
         $tenant = $this->makeTenant();
         $module = Module::factory()->create();
 
-        $unknownId = (string) Str::uuid();
+        $unknownId = (string) Str::uuid7();
 
         $this->withoutMiddleware(InitializeTenancyFromUser::class)
             ->patchJson("/api/tenant/{$unknownId}/modules/{$module->id}", ['enabled' => false])
@@ -177,7 +177,7 @@ final class TenantModuleControllerTest extends TestCase
         $this->withoutMiddleware(InitializeTenancyFromUser::class)
             ->postJson("/api/tenant/{$tenant->id}/modules/sync", [
                 'modules' => [
-                    ['module_id' => (string) Str::uuid(), 'enabled' => false],
+                    ['module_id' => (string) Str::uuid7(), 'enabled' => false],
                 ],
             ])
             ->assertStatus(422)

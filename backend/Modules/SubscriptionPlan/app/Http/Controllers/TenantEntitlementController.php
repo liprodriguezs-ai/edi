@@ -73,7 +73,7 @@ class TenantEntitlementController extends Controller
         );
 
         return response()->json([
-            'message' => 'Acceso gratuito activado para el organización.',
+            'message' => 'Acceso gratuito activado para la organización.',
             'data' => $entitlement->load(['billable_module:id,key,name', 'billing_package:id,key,name']),
         ], 201);
     }
@@ -101,7 +101,7 @@ class TenantEntitlementController extends Controller
         }
 
         return response()->json([
-            'message' => 'Prueba gratuita activada para el organización.',
+            'message' => 'Prueba gratuita activada para la organización.',
             'data' => $entitlement->load(['billable_module:id,key,name', 'billing_package:id,key,name']),
         ], 201);
     }
@@ -126,7 +126,7 @@ class TenantEntitlementController extends Controller
 
         if ($entitlement === null) {
             return response()->json([
-                'message' => 'El organización no tiene una entitlement para este módulo.',
+                'message' => 'La organización no tiene una entitlement para este módulo.',
             ], 422);
         }
 
@@ -140,7 +140,7 @@ class TenantEntitlementController extends Controller
         // its own. Mirrors the recordManual / grant() clobber guard.
         if ($isActive && $entitlement->source === TenantEntitlement::SOURCE_STRIPE) {
             return response()->json([
-                'message' => 'Este módulo tiene una suscripción Stripe activa. Cancela la suscripción en Stripe (o cambia el método de pago del organización) antes de revocar el acceso; de lo contrario la próxima factura lo reactivaría.',
+                'message' => 'Este módulo tiene una suscripción Stripe activa. Cancela la suscripción en Stripe (o cambia el método de pago de la organización) antes de revocar el acceso; de lo contrario la próxima factura lo reactivaría.',
             ], 422);
         }
 

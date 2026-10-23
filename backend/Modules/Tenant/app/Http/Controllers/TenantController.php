@@ -3,6 +3,7 @@
 namespace Modules\Tenant\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Tenant\Http\Requests\TenantUpdateRequest;
 use Modules\Tenant\Models\Tenant;
 use Modules\Tenant\Services\TenantService;
 use Orion\Http\Requests\Request;
@@ -57,6 +58,8 @@ class TenantController extends Controller
      */
     protected function performUpdate(Request $request, Model $entity, array $attributes): void
     {
+        app(TenantUpdateRequest::class)->validated();
+
         app(TenantService::class)->update($request->all(), $entity->getKey());
     }
 }

@@ -62,7 +62,7 @@ final class NotificationFanOutTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => $name,
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
@@ -73,7 +73,7 @@ final class NotificationFanOutTest extends TestCase
     private function makeMember(Tenant $tenant, ?string $roleSlug = null): User
     {
         $user = User::withoutGlobalScopes()->create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'FanOut '.Str::random(5),
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),

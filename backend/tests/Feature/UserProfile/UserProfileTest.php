@@ -41,7 +41,7 @@ final class UserProfileTest extends TestCase
     {
         return Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => $name,
                 'status' => Tenant::STATUS_ACTIVO,
             ]),

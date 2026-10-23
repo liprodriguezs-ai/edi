@@ -6,10 +6,12 @@ namespace Tests\Feature\Notifications;
 
 use App\Models\User;
 use App\Notifications\Concerns\DispatchesNotifications;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Modules\Notification\Models\Notification;
 use Modules\Notification\Models\NotificationUser;
 use Modules\Tenant\Models\Tenant;
 use Tests\Support\WithTenantSetup;
@@ -105,5 +107,24 @@ final class RecordInAppBulkTest extends TestCase
 
             $this->assertSame(2, NotificationUser::count(), 'Duplicate recipient ids must not duplicate rows');
         });
+    }
+
+    public function test_notification_date_is_the_tenant_civil_day_start_in_utc(): void
+    {
+        $tenant = $this->makeTenant();
+        $tenant->update(['timezone' => 'America/Mexico_City']);
+        $userId = $this->makeUser($tenant)->id;
+        $harness = $this->harness();
+
+        // Oct 20 21:00 in Mexico City: the tenant day began at 2026-10-20T06:00Z.
+        $this->travelTo(Carbon::parse('2026-10-21T03:00:00Z'));
+
+        $date = $tenant->run(function () use ($harness, $userId) {
+            $harness->go([$userId]);
+
+            return Notification::query()->latest('created_at')->value('date');
+        });
+
+        $this->assertSame('2026-10-20 06:00:00', $date);
     }
 }

@@ -16,5 +16,12 @@
     "UserProfile": true,
     "Tracking": true,
     "Clinic": true,
-    "ChildRecord": true
+    "ChildRecord": true,
+    "Instrument": true,
+    "Screening": true,
+    "Stimulation": true,
+    "FollowUp": true,
+    "Reports": true,
+    "Appointment": true,
+    "Nutrition": true
 }

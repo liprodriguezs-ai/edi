@@ -6,7 +6,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Modules\Country\Models\Country;
+use Modules\Instrument\Database\Seeders\InstrumentSeeder;
 use Modules\Municipality\Database\Seeders\MunicipalityDatabaseSeeder;
+use Modules\Nutrition\Database\Seeders\NutritionSeeder;
 use Modules\SubscriptionPlan\Database\Seeders\PlanModuleMatrixSeeder;
 use Modules\SubscriptionPlan\Database\Seeders\PlanQuotaSeeder;
 use Modules\Tenant\Database\Seeders\TenantDatabaseSeeder;
@@ -29,6 +31,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MaritalStatusTableSeeder::class);
         $this->call(MunicipalityDatabaseSeeder::class);
         $this->call(CatalogSeeder::class);
+        $this->call(InstrumentSeeder::class);
+        $this->call(NutritionSeeder::class);
 
         $this->call(ModuleTableSeeder::class);
         $this->call(SystemTableSeeder::class);

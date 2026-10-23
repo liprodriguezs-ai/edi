@@ -45,7 +45,7 @@ final class NotificationQueueingTest extends TestCase
     private function makeUser(array $overrides = []): User
     {
         return User::withoutGlobalScopes()->create(array_merge([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => 'Queue User '.Str::random(4),
             'email' => Str::random(8).'@test.com',
             'password' => bcrypt('secret1234'),
@@ -87,7 +87,7 @@ final class NotificationQueueingTest extends TestCase
 
         $tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Queue Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),

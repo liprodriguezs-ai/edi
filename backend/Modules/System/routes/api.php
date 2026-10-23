@@ -14,8 +14,8 @@ use Orion\Facades\Orion;
 Route::middleware('throttle:api')->group(function () {
     Orion::resource('system', SystemController::class)
         ->withSoftDeletes()
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 
     Route::get('menu', MenuController::class)
-        ->middleware(['auth:sanctum', 'initializeTenancy']);
+        ->middleware(['auth:sanctum', 'rejectRefreshToken', 'authActive', 'initializeTenancy']);
 });

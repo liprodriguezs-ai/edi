@@ -48,7 +48,7 @@ final class NotificationCenterScopingTest extends TestCase
 
         $this->tenant = Event::fakeFor(
             static fn (): Tenant => Tenant::create([
-                'id' => (string) Str::uuid(),
+                'id' => (string) Str::uuid7(),
                 'name' => 'Center Scoping Organization',
                 'status' => Tenant::STATUS_ACTIVO,
             ]),
@@ -95,7 +95,7 @@ final class NotificationCenterScopingTest extends TestCase
     private function makeMember(string $name): User
     {
         $user = User::withoutGlobalScopes()->create([
-            'id' => (string) Str::uuid(),
+            'id' => (string) Str::uuid7(),
             'name' => $name,
             'email' => Str::random(10).'@test.com',
             'password' => Hash::make('secret1234'),
@@ -289,7 +289,7 @@ final class NotificationCenterScopingTest extends TestCase
 
     public function test_store_notification_ignores_client_supplied_primary_key(): void
     {
-        $chosenId = (string) Str::uuid();
+        $chosenId = (string) Str::uuid7();
 
         $response = $this->actingRequest($this->userA, ['*'])
             ->postJson('/api/notification', [
