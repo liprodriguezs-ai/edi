@@ -1,0 +1,11 @@
+{
+    "name": "Nutrition",
+    "alias": "nutrition",
+    "description": "Nutritional status of children 0-60 months: WHO weight-for-height, weight-for-age and height-for-age classification, computed server-side.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Nutrition\\Providers\\NutritionServiceProvider"
+    ],
+    "files": []
+}

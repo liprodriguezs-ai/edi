@@ -1,0 +1,29 @@
+{
+    "name": "nwidart/nutrition",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Nutrition\\": "app/",
+            "Modules\\Nutrition\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Nutrition\\Tests\\": "tests/"
+        }
+    }
+}
